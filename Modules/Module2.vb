@@ -337,7 +337,7 @@ Lblx:
         End Select
     End Sub
     Function RemoveExtension(strFlnm As String)
-        Dim strExt As String = ""
+        strExt = ""
         strExt = LCase(Microsoft.VisualBasic.Right(strFlnm, 5))
         If strExt = ".docx" Or strExt = ".xlsx" Or strExt = ".pptx" Then
             strFlnm = Microsoft.VisualBasic.Left(strFlnm, Len(strFlnm) - 5)

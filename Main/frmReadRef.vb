@@ -1,7 +1,10 @@
 ﻿Imports System.IO
+Imports DocumentFormat.OpenXml.Wordprocessing
+Imports System.Net.Mail
 
 Public Class frmReadRef
     Private Sub frmReadRef_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'MsgBox("id: " & intRef.ToString & " /Type: " & strRefType & " /Title: " & strRef & " /Note: " & strRefNote)
         Try
             DS.Tables("tblRefPaths").Clear()
             Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
@@ -46,13 +49,6 @@ Public Class frmReadRef
             Case 27 : Menu_Cancel_Click(sender, e)
             Case Else  'nothing
         End Select
-        'If e.KeyCode = Keys.Enter Then
-        '    Select Case e.KeyCode
-        '        Case 13 : Menu_Read_Click(sender, e)
-        '        Case 27 : Menu_Cancel_Click(sender, e)
-        '    End Select
-        '    e.SuppressKeyPress = True
-        'End If
     End Sub
 
     'MENU
@@ -66,18 +62,64 @@ Public Class frmReadRef
         Me.Dispose()
     End Sub
     Private Sub Menu_Edit_Click(sender As Object, e As EventArgs) Handles Menu_Edit.Click
-        '//Ref Name
-        '//Ref Assignments {1,2,3,4,...}
-        '//Ref Type
-        '//Set Request Type {0:Import new Ref | 1:Edit a Ref}
-        '//Get dialog result
-        '//SEND them to dialog:
-        frmImportRefs.ShowDialog()
+        If ListPaths.SelectedIndex = -1 Then
+            ListPaths.Focus()
+            Exit Sub
+        End If
+        strPath = ListPaths.Text
+        Retval3 = 1 'flag for Edit Ref (not NewImport!)
+        Try
+            strExt = Microsoft.VisualBasic.Right(strPath, 4)
+            If Microsoft.VisualBasic.Left(strExt, 1) <> "." Then strExt = "." & strExt
+            My.Computer.FileSystem.MoveFile(strPath, Microsoft.VisualBasic.Left(strPath, 3) & strRef & strExt, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.ThrowException)
+            Try '//Delete thisPath from tbl_Paths
+                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Case "SqlServer"
+                        Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                            CnnSS.Open()
+                            strSQL = "DELETE FROM Paths WHERE FilePath='" & strPath & "'"
+                            Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
+                            cmdx.CommandType = CommandType.Text
+                            Dim ix As Integer = cmdx.ExecuteNonQuery()
+                            CnnSS.Dispose()
+                        End Using
+                       '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
+                    Case "SqlServerCE"
+                        Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                            CnnSC.Open()
+                            strSQL = "DELETE FROM Paths WHERE FilePath='" & strPath & "'"
+                            Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                            cmdx.CommandType = CommandType.Text
+                            Dim ix As Integer = cmdx.ExecuteNonQuery()
+                            CnnSC.Close()
+                        End Using
+                       '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
+                    Case "Access"
+                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                            CnnAC.Open()
+                            strSQL = "DELETE FROM Paths WHERE FilePath='" & strPath & "'"
+                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
+                            cmdx.CommandType = CommandType.Text
+                            Dim ix As Integer = cmdx.ExecuteNonQuery()
+                            CnnAC.Close()
+                        End Using
+                End Select
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+            End Try
+            strPath = Microsoft.VisualBasic.Left(strPath, 3) & strRef & strExt 'Path of the Ref in Root Directory
+            Me.Dispose()
+            frmImportRefs.ShowDialog()
+        Catch ex As Exception
+            MsgBox("Selected Ref is NOT Accessible! Close teh Ref and Try Again", vbOKOnly, "eLib")
+            Exit Sub
+        End Try
     End Sub
     Private Sub Menu_Delete_Click(sender As Object, e As EventArgs) Handles Menu_Delete.Click
-        'Waiting
+        '//Waiting ...
+        '//check assignments to this Ref (all users)
+        '//Only the Admin caould delete a Ref?
     End Sub
-
     Private Sub Menu_Locate_Click(sender As Object, e As EventArgs) Handles Menu_Locate.Click
         '//Locate
         If ListPaths.SelectedIndex = -1 Then Exit Sub
@@ -93,19 +135,42 @@ lblNextBackslash:
         strPath = Microsoft.VisualBasic.Left(strPath, Len(strPath) - Len(strTitle) - 1)
         Shell("explorer " & strPath, AppWinStyle.NormalFocus)
     End Sub
-
     Private Sub Menu_SaveACopy_Click(sender As Object, e As EventArgs) Handles Menu_SaveACopy.Click
         '//SaveACopy
+        If ListPaths.SelectedIndex = -1 Then Exit Sub
+        strFolderSaveACopy = DS.Tables("tblSettings").Rows(6).Item(3)
+        strPath = ListPaths.Text
+        '//Extract Filename
+        Dim strTitle As String = strPath
+lblNextBackslash:
+        Dim intPosBackslash As Integer = 0
+        intPosBackslash = InStr(1, strTitle, "\")
+        If intPosBackslash <> 0 Then
+            strTitle = Mid(strTitle, intPosBackslash + 1)
+            GoTo lblNextBackslash
+        End If
+        'MsgBox(strPath & vbCrLf & strTitle & vbCrLf & strFolderSaveACopy)
+        My.Computer.FileSystem.CopyFile(strPath, strFolderSaveACopy & "\" & strTitle, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.ThrowException)
+        Dim myansw As DialogResult = MsgBox("A Copy of Ref:" & vbCrLf & strTitle & vbCrLf & "Copied to:" & vbCrLf & strFolderSaveACopy & vbCrLf & vbCrLf & "Open Folder?", vbYesNo + vbQuestion + vbDefaultButton2, "eLib")
+        Select Case myansw
+            Case vbYes
+                Menu_OpenSaveFolder_Click(sender, e)
+            Case vbNo
+        End Select
     End Sub
-
     Private Sub Menu_OpenSaveFolder_Click(sender As Object, e As EventArgs) Handles Menu_OpenSaveFolder.Click
         '//OpenSaveFolder
         strFolderSaveACopy = DS.Tables("tblSettings").Rows(6).Item(3)
         Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strFolderSaveACopy, vbNormalFocus)
     End Sub
-
     Private Sub Menu_Email_Click(sender As Object, e As EventArgs) Handles Menu_Email.Click
+        '//WAINTING ...
         '//Email
+        'Dim strTo As String = "msht.ir@outlook.com"
+        'Dim strSubject As String = "My Subject"
+        'Dim strBody As String = "The Body of the message goes here"
+        'Dim strMessage As String = "mailto:" & strTo & "?subject=" & strSubject & "&body=" & strBody
+        'System.Diagnostics.Process.Start(strMessage)
     End Sub
     Private Sub Menu_Cancel_Click(sender As Object, e As EventArgs) Handles Menu_Cancel.Click
         Me.Dispose()

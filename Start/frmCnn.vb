@@ -140,7 +140,7 @@ lbl_Read:
         Next
         '//Append Original connections / for Existing Databases in Application Folder
         Try
-            tblConnection.Rows.Add("SQLServer Database Remote Connection", "eLib Database on Remote Server (needs active internet)")
+            tblConnection.Rows.Add("SQLServer Database Remote Connection", "eLib Database on Remote Server")
             tblConnection.Rows.Add("SQLServer Database Connection", "Server=.\SQLExpress; Initial Catalog=eLib1; Integrated Security = SSPI;", "", "")
             Dim strFile As String
             Dim strDir As String = Application.StartupPath

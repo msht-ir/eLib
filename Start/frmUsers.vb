@@ -31,7 +31,6 @@
             Case Else  'nothing
         End Select
     End Sub
-
     Private Sub GridUsers_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles GridUsers.CellDoubleClick
         Dim boolON As Integer = -1
         Dim boolOFF As Integer = 0
@@ -117,26 +116,11 @@
                 End Using
         End Select
     End Sub
+
+    '//MENU
     Private Sub Menu_AddNewUser_Click(sender As Object, e As EventArgs) Handles Menu_AddNewUser.Click
         AddNewUser()
         frmUsers_Load(sender, e)
-    End Sub
-    Private Sub Menu_Login_Click(sender As Object, e As EventArgs) Handles Menu_Login.Click
-        Dim r As Integer = GridUsers.SelectedCells(0).RowIndex 'count from 0
-        Dim c As Integer = GridUsers.SelectedCells(0).ColumnIndex 'count from 0
-        If (r < 0) Or (c < 0) Then Exit Sub
-        intUser = DS.Tables("tblusrs").Rows(r).Item(0)
-        UserType = "User"
-        strUser = DS.Tables("tblusrs").Rows(r).Item(1)
-        strUserPass = DS.Tables("tblusrs").Rows(r).Item(2)
-        '//SetUserAccessControls()
-        Dim UACregister As Integer
-        For i As Integer = 0 To 15
-            If DS.Tables("tblusrs").Rows(r).Item(5 + i) = True Then UACregister = UACregister Or (2 ^ i)
-        Next
-        UserAccessControls = UACregister
-        Me.Dispose()
-        frmAssign.ShowDialog()
     End Sub
     Private Sub Menu_DeleteUser_Click(sender As Object, e As EventArgs) Handles Menu_DeleteUser.Click
         If GridUsers.Rows.Count = 0 Then Exit Sub
@@ -223,9 +207,30 @@
         DS.Tables("tblProject").Clear()
         frmUsers_Load(sender, e)
     End Sub
+    Private Sub Menu_Login_Click(sender As Object, e As EventArgs) Handles Menu_Login.Click
+        Dim r As Integer = GridUsers.SelectedCells(0).RowIndex 'count from 0
+        Dim c As Integer = GridUsers.SelectedCells(0).ColumnIndex 'count from 0
+        If (r < 0) Or (c < 0) Then Exit Sub
+        intUser = DS.Tables("tblusrs").Rows(r).Item(0)
+        UserType = "User"
+        strUser = DS.Tables("tblusrs").Rows(r).Item(1)
+        strUserPass = DS.Tables("tblusrs").Rows(r).Item(2)
+        '//SetUserAccessControls()
+        Dim UACregister As Integer
+        For i As Integer = 0 To 15
+            If DS.Tables("tblusrs").Rows(r).Item(5 + i) = True Then UACregister = UACregister Or (2 ^ i)
+        Next
+        UserAccessControls = UACregister
+        Me.Dispose()
+        frmAssign.ShowDialog()
+    End Sub
+    Private Sub Menu_Settings_Click(sender As Object, e As EventArgs) Handles Menu_Settings.Click
+        frmSettings.ShowDialog()
+    End Sub
     Private Sub Menu_Exit_Click(sender As Object, e As EventArgs) Handles Menu_Exit.Click
         ReadSettingsAndUsers()
         Me.Dispose()
         frmAssign.ShowDialog()
     End Sub
+
 End Class

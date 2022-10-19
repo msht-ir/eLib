@@ -7,10 +7,8 @@ Imports DocumentFormat.OpenXml.Spreadsheet
 Imports DocumentFormat.OpenXml.Vml
 
 Public Class frmImportRefs
-    Dim strPath As String
     Dim strTitleA As String
     Dim strTitleB As String
-    Dim strExt As String
     '//formLOAD
     Private Sub frmImportRefs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ReadSettingsAndUsers()
@@ -18,6 +16,29 @@ Public Class frmImportRefs
         ListProduct.DataSource = DS.Tables("tblProd_tmp2")
         ListProduct.ValueMember = "ProdId"
         ListProduct.DisplayMember = "ProdName"
+        Select Case Retval3
+            Case 0 'Import a ref (regularly)
+            Case 1 'Edit Ref Mode : Disable SelectRef / Paste / AssignList : Just Move with new {type/title/note} w/o any change in assignments!
+                txtTitle.Text = strRef
+                txtNote.Text = strRefNote
+                strFilename = strPath
+                Select Case Trim(strRefType)
+                    Case "Paper" : radioPaper.Checked = True
+                    Case "Book" : radioBook.Checked = True
+                    Case "Manual" : radioManual.Checked = True
+                    Case "Lecture" : radioLecture.Checked = True
+                End Select
+                For i As Integer = 0 To DS.Tables("tblAssignments").Rows.Count - 1
+                    '//tblProd_tmp2 Cols: {ProdId, ProdName}
+                    intProd = DS.Tables("tblAssignments").Rows(i).Item(2)
+                    strProductName = DS.Tables("tblAssignments").Rows(i).Item(3)
+                    DS.Tables("tblProd_tmp2").Rows.Add(intProd, strProductName)
+                Next i
+                Menu1_Select.Enabled = False
+                Menu1_Paste.Enabled = False
+                ListProduct.Enabled = False
+                Retval4 = 1 'A Ref is Ready to Move
+        End Select
     End Sub
 
     '//MENU_2 (Select Assignments)
@@ -310,9 +331,8 @@ lblPARSE:
     End Function
     '//MENU_1 -MOVE
     Private Sub Menu1_Move_Click(sender As Object, e As EventArgs) Handles Menu1_Move.Click
-        '//Move the Ref ans Assignments to eLib
+        '//Move the Ref (and Assignments?) to eLib
         If (Retval4 = 0) Or Microsoft.VisualBasic.Left(Trim(txtTitle.Text), 2) = "//" Then
-            'MsgBox("Select a Ref", vbOKOnly + vbInformation, "eLib")
             Menu1_Select_Click(sender, e)
             Exit Sub
         End If
@@ -330,7 +350,9 @@ lblPARSE:
             Case 4 : DestinationFolder = strFolderLectures 'from tblSettings
             Case Else : Exit Sub
         End Select
-        'MsgBox(DestinationFolder)
+        strExt = Microsoft.VisualBasic.Right(strPath, 4)
+        If Microsoft.VisualBasic.Left(strExt, 1) <> "." Then strExt = "." & strExt
+
         FolderBrowserDialog1.SelectedPath = DestinationFolder & "\"  'OR Environment.SpecialFolder.Desktop
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             DestinationFolder = FolderBrowserDialog1.SelectedPath
@@ -340,108 +362,177 @@ lblPARSE:
         Try
             My.Computer.FileSystem.MoveFile(strFilename, DestinationFolder & "\" & strTitle & strExt, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.ThrowException)
             '//Add data to elib Tables
-            Dim boolIsPaper As Boolean = radioPaper.Checked
-            Dim boolIsBook As Boolean = radioBook.Checked
-            Dim boolIsManual As Boolean = radioManual.Checked
-            Dim boolIsLecture As Boolean = radioLecture.Checked
+            Dim boolIsPaper As Boolean = 0
+            Dim boolIsBook As Boolean = 0
+            Dim boolIsManual As Boolean = 0
+            Dim boolIsLecture As Boolean = 0
+            Select Case Radiox
+                Case 1 : boolIsPaper = 1
+                Case 2 : boolIsBook = 1
+                Case 3 : boolIsManual = 1
+                Case 4 : boolIsLecture = 1
+                Case Else : Exit Sub
+            End Select
+
             Dim strPaperNote As String = txtNote.Text
             If strPaperNote = "" Then strPaperNote = "-"
-            '//Add Title to tblPapers
-            Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
-                Case "SqlServer"
-                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                        CnnSS.Open()
-                        strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
-                        Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@papername", strTitle)
-                    cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
-                    cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
-                    cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
-                    cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
-                    cmd.Parameters.AddWithValue("@notes", strPaperNote)
-                    Try
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                    End Try
-                        CNNSS.Dispose()
-                    End Using
-                Case "SqlServerCE"
-                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                        CnnSC.Open()
-                        If boolIsPaper = 1 Then boolIsPaper = -1
-                        If boolIsBook = 1 Then boolIsBook = -1
-                    If boolIsManual = 1 Then boolIsManual = -1
-                    If boolIsLecture = 1 Then boolIsLecture = -1
-                    strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
-                    Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@papername", strTitle)
-                    cmd.Parameters.AddWithValue("@ispaper", boolIsPaper)
-                    cmd.Parameters.AddWithValue("@isbook", boolIsBook)
-                    cmd.Parameters.AddWithValue("@ismanual", boolIsManual)
-                    cmd.Parameters.AddWithValue("@islecture", boolIsLecture)
-                    cmd.Parameters.AddWithValue("@notes", strPaperNote)
-                    Try
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                    End Try
-                        CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        If boolIsPaper = 1 Then boolIsPaper = -1
-                        If boolIsBook = 1 Then boolIsBook = -1
-                    If boolIsManual = 1 Then boolIsManual = -1
-                    If boolIsLecture = 1 Then boolIsLecture = -1
-                    strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
-                    Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@papername", strTitle)
-                    cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
-                    cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
-                    cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
-                    cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
-                    cmd.Parameters.AddWithValue("@notes", strPaperNote)
-                    Try
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox("Error Saving new paper's data into eLib; Try 'SCAN' command to Update eLib DataTables!" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                    End Try
-                        CnnAC.Close()
-                    End Using
+            Select Case Retval3
+                Case 0 '//------------------------------------------------------------------------------- Import Ref Mode: Add Title to tblPapers
+                    Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                        Case "SqlServer"
+                            Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                                CnnSS.Open()
+                                strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
+                                Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
+                                cmd.CommandType = CommandType.Text
+                                cmd.Parameters.AddWithValue("@papername", strTitle)
+                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
+                                cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
+                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
+                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
+                                cmd.Parameters.AddWithValue("@notes", strPaperNote)
+                                Try
+                                    Dim i As Integer = cmd.ExecuteNonQuery()
+                                Catch ex As Exception
+                                    MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                                End Try
+                                CnnSS.Dispose()
+                            End Using
+                        Case "SqlServerCE"
+                            Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                                CnnSC.Open()
+                                If boolIsPaper = 1 Then boolIsPaper = -1
+                                If boolIsBook = 1 Then boolIsBook = -1
+                                If boolIsManual = 1 Then boolIsManual = -1
+                                If boolIsLecture = 1 Then boolIsLecture = -1
+                                strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
+                                Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                                cmd.CommandType = CommandType.Text
+                                cmd.Parameters.AddWithValue("@papername", strTitle)
+                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper)
+                                cmd.Parameters.AddWithValue("@isbook", boolIsBook)
+                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual)
+                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture)
+                                cmd.Parameters.AddWithValue("@notes", strPaperNote)
+                                Try
+                                    Dim i As Integer = cmd.ExecuteNonQuery()
+                                Catch ex As Exception
+                                    MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                                End Try
+                                CnnSC.Close()
+                            End Using
+                        Case "Access"
+                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                                CnnAC.Open()
+                                If boolIsPaper = 1 Then boolIsPaper = -1
+                                If boolIsBook = 1 Then boolIsBook = -1
+                                If boolIsManual = 1 Then boolIsManual = -1
+                                If boolIsLecture = 1 Then boolIsLecture = -1
+                                strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
+                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
+                                cmd.CommandType = CommandType.Text
+                                cmd.Parameters.AddWithValue("@papername", strTitle)
+                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
+                                cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
+                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
+                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
+                                cmd.Parameters.AddWithValue("@notes", strPaperNote)
+                                Try
+                                    Dim i As Integer = cmd.ExecuteNonQuery()
+                                Catch ex As Exception
+                                    MsgBox("Error Saving new paper's data into eLib; Try 'SCAN' command to Update eLib DataTables!" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                                End Try
+                                CnnAC.Close()
+                            End Using
+                    End Select
+                Case 1 '//------------------------------------------------------------------------------- Edit Ref Mode: Update Title in tblPapers
+                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                        Case "SqlServer"
+                            Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                                CnnSS.Open()
+                                strSQL = "UPDATE Papers SET PaperName=@papername, IsPaper=@ispaper, IsBook=@isbook, IsManual=@ismanual, IsLecture=@islecture, [Note]=@note WHERE ID=@id;"
+                                Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
+                                cmd.CommandType = CommandType.Text
+                                cmd.Parameters.AddWithValue("@papername", strTitle)
+                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
+                                cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
+                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
+                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
+                                cmd.Parameters.AddWithValue("@note", strPaperNote)
+                                cmd.Parameters.AddWithValue("@id", intRef.ToString)
+                                Dim i As Integer = cmd.ExecuteNonQuery()
+                                CnnSS.Dispose()
+                            End Using
+                        Case "SqlServerCE"
+                            Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                                CnnSC.Open()
+                                If boolIsPaper = 1 Then boolIsPaper = -1
+                                If boolIsBook = 1 Then boolIsBook = -1
+                                If boolIsManual = 1 Then boolIsManual = -1
+                                If boolIsLecture = 1 Then boolIsLecture = -1
+                                strSQL = "UPDATE Papers SET PaperName=@papername, IsPaper=@ispaper, IsBook=@isbook, IsManual=@ismanual, IsLecture=@islecture, [Note]=@note WHERE ID=@id"
+                                Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                                cmd.CommandType = CommandType.Text
+                                cmd.Parameters.AddWithValue("@papername", strTitle)
+                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
+                                cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
+                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
+                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
+                                cmd.Parameters.AddWithValue("@notes", strPaperNote)
+                                cmd.Parameters.AddWithValue("@id", intRef.ToString)
+                                Dim i As Integer = cmd.ExecuteNonQuery()
+                                CnnSC.Close()
+                            End Using
+                        Case "Access"
+                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                                CnnAC.Open()
+                                If boolIsPaper = 1 Then boolIsPaper = -1
+                                If boolIsBook = 1 Then boolIsBook = -1
+                                If boolIsManual = 1 Then boolIsManual = -1
+                                If boolIsLecture = 1 Then boolIsLecture = -1
+                                strSQL = "UPDATE Papers SET PaperName=@papername, IsPaper=@ispaper, IsBook=@isbook, IsManual=@ismanual, IsLecture=@islecture, [Note]=@note WHERE ID=@id"
+                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
+                                cmd.CommandType = CommandType.Text
+                                cmd.Parameters.AddWithValue("@papername", strTitle)
+                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
+                                cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
+                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
+                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
+                                cmd.Parameters.AddWithValue("@notes", strPaperNote)
+                                cmd.Parameters.AddWithValue("@id", intRef.ToString)
+                                Dim i As Integer = cmd.ExecuteNonQuery()
+                                CnnAC.Close()
+                            End Using
+                    End Select
             End Select
-            '//Add strPath (of new Ref) into tblPaths
+            '//Add strPath (of new Ref) into tblPaths **************************************************************************************
             Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
                         strSQL = "INSERT INTO Paths (FilePath) VALUES (@filepath)"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
-                    Try
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                    End Try
-                        CNNSS.Dispose()
+                        cmd.CommandType = CommandType.Text
+                        cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
+                        Try
+                            Dim i As Integer = cmd.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                        End Try
+                        CnnSS.Dispose()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
                         strSQL = "INSERT INTO Paths (FilePath) VALUES (@filepath)"
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
-                    Try
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                    End Try
+                        cmd.CommandType = CommandType.Text
+                        cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
+                        Try
+                            Dim i As Integer = cmd.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                        End Try
                         CnnSC.Close()
                     End Using
                 Case "Access"
@@ -449,104 +540,114 @@ lblPARSE:
                         CnnAC.Open()
                         strSQL = "INSERT INTO Paths (FilePath) VALUES (@filepath)"
                         Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
-                    Try
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                    End Try
+                        cmd.CommandType = CommandType.Text
+                        cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
+                        Try
+                            Dim i As Integer = cmd.ExecuteNonQuery()
+                        Catch ex As Exception
+                            MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                        End Try
                         CnnAC.Close()
                     End Using
             End Select
-            '//Find ID of the new Ref in tblPapers
-            DS.Tables("tblRefs1").Clear()
-            Dim Fltr As String = "PaperName='" & strTitle & "'"
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
-                Case "SqlServer"
-                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                        CnnSS.Open()
-                        DASS = New SqlClient.SqlDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnSS)
-                        DASS.Fill(DS, "tblRefs1")
-                        CNNSS.Dispose()
-                    End Using
-                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
-                Case "SqlServerCE"
-                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                        CnnSC.Open()
-                        DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnSC)
-                        DASC.Fill(DS, "tblRefs1")
-                        CnnSC.Close()
-                    End Using
-                '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnAC)
-                        DAAC.Fill(DS, "tblRefs1")
-                        CnnAC.Close()
-                    End Using
+            Select Case Retval3
+                Case 0 'Import Ref Mode
+                    '//Find ID of the new Ref in tblPapers (Import Mode Only)
+                    DS.Tables("tblRefs1").Clear()
+                    Dim Fltr As String = "PaperName='" & strTitle & "'"
+                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                        Case "SqlServer"
+                            Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                                CnnSS.Open()
+                                DASS = New SqlClient.SqlDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnSS)
+                                DASS.Fill(DS, "tblRefs1")
+                                CnnSS.Dispose()
+                            End Using
+                       '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
+                        Case "SqlServerCE"
+                            Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                                CnnSC.Open()
+                                DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnSC)
+                                DASC.Fill(DS, "tblRefs1")
+                                CnnSC.Close()
+                            End Using
+                       '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
+                        Case "Access"
+                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                                CnnAC.Open()
+                                DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnAC)
+                                DAAC.Fill(DS, "tblRefs1")
+                                CnnAC.Close()
+                            End Using
+                    End Select
+                    Dim idx As Integer = DS.Tables("tblRefs1").Rows(0).Item(0)
+                    Dim idy As Integer = 0
+                    '//Add Assignments (of the new Ref) to tblPaper_Product (Import Mode Only)
+                    For k As Integer = 0 To DS.Tables("tblProd_tmp2").Rows.Count - 1
+                        idy = DS.Tables("tblProd_tmp2").Rows(k).Item(0)
+                        Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                            Case "SqlServer"
+                                Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                                    CnnSS.Open()
+                                    strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
+                                    Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
+                                    cmd.CommandType = CommandType.Text
+                                    cmd.Parameters.AddWithValue("@paperid", idx)
+                                    cmd.Parameters.AddWithValue("@productid", idy)
+                                    Try
+                                        Dim i As Integer = cmd.ExecuteNonQuery()
+                                    Catch ex As Exception
+                                        MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                                    End Try
+                                    CnnSS.Dispose()
+                                End Using
+                            Case "SqlServerCE"
+                                Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                                    CnnSC.Open()
+                                    strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
+                                    Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                                    cmd.CommandType = CommandType.Text
+                                    cmd.Parameters.AddWithValue("@paperid", idx)
+                                    cmd.Parameters.AddWithValue("@productid", idy)
+                                    Try
+                                        Dim i As Integer = cmd.ExecuteNonQuery()
+                                    Catch ex As Exception
+                                        MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                                    End Try
+                                    CnnSC.Close()
+                                End Using
+                            Case "Access"
+                                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                                    CnnAC.Open()
+                                    strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
+                                    Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
+                                    cmd.CommandType = CommandType.Text
+                                    cmd.Parameters.AddWithValue("@paperid", idx)
+                                    cmd.Parameters.AddWithValue("@productid", idy)
+                                    Try
+                                        Dim i As Integer = cmd.ExecuteNonQuery()
+                                    Catch ex As Exception
+                                        MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                                    End Try
+                                    CnnAC.Close()
+                                End Using
+                        End Select
+                    Next k
+                Case 1 ' Edit Ref Mode
+                    'Do nothing, keep existing Assignments if any
             End Select
-            Dim idx As Integer = DS.Tables("tblRefs1").Rows(0).Item(0)
-            Dim idy As Integer = 0
-            '//Add Assignments (of the new Ref) to tblPaper_Product
-            For k As Integer = 0 To DS.Tables("tblProd_tmp2").Rows.Count - 1
-                idy = DS.Tables("tblProd_tmp2").Rows(k).Item(0)
-                Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
-                    Case "SqlServer"
-                        Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                            CnnSS.Open()
-                            strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                            Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                        cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@paperid", idx)
-                        cmd.Parameters.AddWithValue("@productid", idy)
-                        Try
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                        End Try
-                            CNNSS.Dispose()
-                        End Using
-                    Case "SqlServerCE"
-                        Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                            CnnSC.Open()
-                            strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                            Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                        cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@paperid", idx)
-                        cmd.Parameters.AddWithValue("@productid", idy)
-                        Try
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                        End Try
-                            CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                            Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@paperid", idx)
-                        cmd.Parameters.AddWithValue("@productid", idy)
-                        Try
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                        End Try
-                            CnnAC.Close()
-                        End Using
-                End Select
-            Next k
+            '//Finish Up
             Retval4 = 0 'Ready for 'Selecting' another Ref
-            txtTitle.Text = "//imported: " & strTitle & vbCrLf & "//assigned to: " & DS.Tables("tblProd_tmp2").Rows.Count.ToString & " items(s)   //ref note: " & txtNote.Text & vbCrLf & "--"
-            txtNote.Text = ""
+            Select Case Retval3
+                Case 0
+                    txtTitle.Text = "//imported: " & strTitle & vbCrLf & "//assigned to: " & DS.Tables("tblProd_tmp2").Rows.Count.ToString & " items(s)   //ref note: " & txtNote.Text & vbCrLf & "--"
+                    txtNote.Text = ""
+                Case 1
+                    Menu1_Exit_Click(sender, e)
+            End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
-
     End Sub
     Private Sub Menu1_Exit_Click(sender As Object, e As EventArgs) Handles Menu1_Exit.Click
         Me.Dispose()

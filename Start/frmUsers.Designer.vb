@@ -32,46 +32,47 @@ Partial Class frmUsers
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu_Exit = New System.Windows.Forms.ToolStripMenuItem()
         Me.GridUsers = New System.Windows.Forms.DataGridView()
+        Me.Menu_Settings = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip1.SuspendLayout()
         CType(Me.GridUsers, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_AddNewUser, Me.Menu_DeleteUser, Me.Menu_Login, Me.ToolStripMenuItem2, Me.Menu_Exit})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_AddNewUser, Me.Menu_DeleteUser, Me.Menu_Login, Me.Menu_Settings, Me.ToolStripMenuItem2, Me.Menu_Exit})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(149, 98)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 142)
         '
         'Menu_AddNewUser
         '
         Me.Menu_AddNewUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
         Me.Menu_AddNewUser.ForeColor = System.Drawing.Color.DarkGoldenrod
         Me.Menu_AddNewUser.Name = "Menu_AddNewUser"
-        Me.Menu_AddNewUser.Size = New System.Drawing.Size(148, 22)
+        Me.Menu_AddNewUser.Size = New System.Drawing.Size(180, 22)
         Me.Menu_AddNewUser.Text = "Add new user"
         '
         'Menu_DeleteUser
         '
         Me.Menu_DeleteUser.Name = "Menu_DeleteUser"
-        Me.Menu_DeleteUser.Size = New System.Drawing.Size(148, 22)
+        Me.Menu_DeleteUser.Size = New System.Drawing.Size(180, 22)
         Me.Menu_DeleteUser.Text = "Delete"
         '
         'Menu_Login
         '
         Me.Menu_Login.Name = "Menu_Login"
-        Me.Menu_Login.Size = New System.Drawing.Size(148, 22)
+        Me.Menu_Login.Size = New System.Drawing.Size(180, 22)
         Me.Menu_Login.Text = "Login"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(145, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(177, 6)
         '
         'Menu_Exit
         '
         Me.Menu_Exit.ForeColor = System.Drawing.Color.IndianRed
         Me.Menu_Exit.Name = "Menu_Exit"
-        Me.Menu_Exit.Size = New System.Drawing.Size(148, 22)
+        Me.Menu_Exit.Size = New System.Drawing.Size(180, 22)
         Me.Menu_Exit.Text = "Exit"
         '
         'GridUsers
@@ -104,6 +105,12 @@ Partial Class frmUsers
         Me.GridUsers.TabIndex = 0
         Me.GridUsers.TabStop = False
         '
+        'Menu_Settings
+        '
+        Me.Menu_Settings.Name = "Menu_Settings"
+        Me.Menu_Settings.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Settings.Text = "Settings"
+        '
         'frmUsers
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -133,4 +140,5 @@ Partial Class frmUsers
     Friend WithEvents Menu_DeleteUser As ToolStripMenuItem
     Friend WithEvents Menu_Login As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
+    Friend WithEvents Menu_Settings As ToolStripMenuItem
 End Class

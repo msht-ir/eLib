@@ -78,7 +78,6 @@ Public Class frmAssign
         If (i And &H20) = &H20 Then lblAssignNote2.Text = ""
         If (i And &H40) = &H40 Then lblProdNote.Text = ""
     End Sub
-
     'Main Menu
     Private Sub Menu_user_Click(sender As Object, e As EventArgs) Handles Menu_user.Click
         Me.Dispose()
@@ -237,6 +236,7 @@ Public Class frmAssign
     End Sub
     'Tools
     Private Sub Menu_Import_Click(sender As Object, e As EventArgs) Handles Menu_Import.Click
+        Retval3 = 0 'flag for NewImport (not Edit Ref)
         frmImportRefs.ShowDialog()
     End Sub
     Private Sub Menu_Scan_Click_1(sender As Object, e As EventArgs) Handles Menu_Scan.Click
@@ -437,12 +437,12 @@ Public Class frmAssign
     End Sub
     Private Sub FindRefs(searchString As String)
         txtSearch.Focus()
-        Dim RefType As Integer = 0
-        If txtSearchP.Checked = True Then RefType = RefType Or &H1 '0b0001 for papers
-        If txtSearchB.Checked = True Then RefType = RefType Or &H2 '0b0010 for books
-        If txtSearchM.Checked = True Then RefType = RefType Or &H4 '0b0100 for manuals
-        If txtSearchL.Checked = True Then RefType = RefType Or &H8 '0b1000 for lectures
-        If RefType = 0 Then
+        intRefType = 0
+        If txtSearchP.Checked = True Then intRefType = intRefType Or &H1 '0b0001 for papers
+        If txtSearchB.Checked = True Then intRefType = intRefType Or &H2 '0b0010 for books
+        If txtSearchM.Checked = True Then intRefType = intRefType Or &H4 '0b0100 for manuals
+        If txtSearchL.Checked = True Then intRefType = intRefType Or &H8 '0b1000 for lectures
+        If intRefType = 0 Then
             MsgBox("Select some Ref types to search, and try again", vbOKOnly, "eLib")
             Exit Sub
         End If
@@ -487,11 +487,11 @@ Public Class frmAssign
                 Fltr = Fltr & "(Papers.PaperName Like '%" & Keyx4 & "%' OR Papers.Note Like '%" & Keyx4 & "%')"
         End Select
         'Search in which Ref types?   [0b 1111 bits:LMBP]
-        If RefType <> 15 Then '15: 0b1111 : All types are selected
-            Fltr = Fltr & " AND (" '----------start filter on reftype
+        If intRefType <> 15 Then '15: 0b1111 : All types are selected
+            Fltr = Fltr & " AND (" '----------start filter on intreftype
             Select Case DatabaseType
                 Case "SqlServer" '----------------------------------------------------- sqlserver
-                    Select Case RefType
+                    Select Case intRefType
                         Case 1  ' ---P
                             Fltr = Fltr & "IsPaper=1"
                         Case 2   ' --B-
@@ -522,7 +522,7 @@ Public Class frmAssign
                             Fltr = Fltr & "IsPaper=0"
                     End Select
                 Case "Access", "SqlServerCE" '----------------------------------------------------- accdb
-                    Select Case RefType
+                    Select Case intRefType
                         Case 1  ' ---P
                             Fltr = Fltr & "IsPaper=-1"
                         Case 2   ' --B-
@@ -553,7 +553,7 @@ Public Class frmAssign
                             Fltr = Fltr & "IsPaper=0"
                     End Select
             End Select
-            Fltr = Fltr & ")" '----------finish filter on reftype
+            Fltr = Fltr & ")" '----------finish filter on intReftype
         End If
         '//Do Query
         Try
@@ -604,6 +604,9 @@ Public Class frmAssign
     End Sub
 
     'List 1 (Refs1)
+    Private Sub Menu1_Import_Click(sender As Object, e As EventArgs) Handles Menu1_Import.Click
+        Menu_Import_Click(sender, e)
+    End Sub
     Private Sub Menu1_Read_Click(sender As Object, e As EventArgs) Handles Menu1_Read.Click
         If List1.SelectedIndex >= 0 Then
             strRef = Trim(List1.Text)
@@ -611,22 +614,23 @@ Public Class frmAssign
         End If
     End Sub
     Private Sub List1_Click(sender As Object, e As EventArgs) Handles List1.Click
+        If List1.SelectedIndex = -1 Then Exit Sub
         ClearLabels(3) '3:&B00000011 : clear lblRefStatus1, lblRefNote1
-        Dim refidx As Integer = 0
-        refidx = List1.SelectedValue
-        GetAssignments1(refidx)
+        intRef = List1.SelectedValue
+        GetAssignments1(intRef)
         List2.DataSource = DS.Tables("tblAssignments")
         List2.DisplayMember = "ProductName"
         List2.ValueMember = "Product_ID"
         List2.SelectedValue = -1
         Try
-            Dim lblCaption As String = ""
-            If DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(2) = True Then lblCaption = lblCaption & "P. "
-            If DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(3) = True Then lblCaption = lblCaption & "B. "
-            If DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(4) = True Then lblCaption = lblCaption & "M. "
-            If DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(5) = True Then lblCaption = lblCaption & "L. "
-            lblRefStatus1.Text = lblCaption
-            lblRefNote1.Text = DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(6)
+            strRefType = ""
+            If DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(2) = True Then strRefType = strRefType & "Paper  "
+            If DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(3) = True Then strRefType = strRefType & "Book  "
+            If DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(4) = True Then strRefType = strRefType & "Manual  "
+            If DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(5) = True Then strRefType = strRefType & "Lecture  "
+            lblRefStatus1.Text = strRefType
+            strRefNote = DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(6)
+            lblRefNote1.Text = strRefNote
             ClearLabels(4) '4:&B00000100 : clear lblAssignNote1
         Catch ex As Exception
             'MsgBox(ex.ToString)
@@ -1805,19 +1809,22 @@ Public Class frmAssign
         If List5.SelectedIndex = -1 Then Exit Sub
         If List6.SelectedIndex = -1 Then ' if one row of list6 is selected, it is in /subProject_Notes MODE/
             Try
-                intRef = List5.SelectedIndex
+                intRef = List5.SelectedValue
+                Dim Refid As Integer = List5.SelectedIndex
+                strRefType = ""
                 Dim lblCaption As String = ""
-                If DS.Tables("tblRefs2").Rows(intRef).Item(2) = True Then lblCaption = lblCaption & "P. "
-                If DS.Tables("tblRefs2").Rows(intRef).Item(3) = True Then lblCaption = lblCaption & "B. "
-                If DS.Tables("tblRefs2").Rows(intRef).Item(4) = True Then lblCaption = lblCaption & "M. "
-                If DS.Tables("tblRefs2").Rows(intRef).Item(5) = True Then lblCaption = lblCaption & "L. "
-                If DS.Tables("tblRefs2").Rows(intRef).Item(10) = True Then lblCaption = lblCaption & "Imp1. "
-                If DS.Tables("tblRefs2").Rows(intRef).Item(11) = True Then lblCaption = lblCaption & "Imp2. "
-                If DS.Tables("tblRefs2").Rows(intRef).Item(12) = True Then lblCaption = lblCaption & "Imp3. "
-                If DS.Tables("tblRefs2").Rows(intRef).Item(13) = True Then lblCaption = lblCaption & "ImR. "
+                If DS.Tables("tblRefs2").Rows(Refid).Item(2) = True Then lblCaption = lblCaption & "P. " : strRefType = strRefType & "Paper  "
+                If DS.Tables("tblRefs2").Rows(Refid).Item(3) = True Then lblCaption = lblCaption & "B. " : strRefType = strRefType & "Book  "
+                If DS.Tables("tblRefs2").Rows(Refid).Item(4) = True Then lblCaption = lblCaption & "M. " : strRefType = strRefType & "Manual  "
+                If DS.Tables("tblRefs2").Rows(Refid).Item(5) = True Then lblCaption = lblCaption & "L. " : strRefType = strRefType & "Lecture  "
+                If DS.Tables("tblRefs2").Rows(Refid).Item(10) = True Then lblCaption = lblCaption & "Imp1. "
+                If DS.Tables("tblRefs2").Rows(Refid).Item(11) = True Then lblCaption = lblCaption & "Imp2. "
+                If DS.Tables("tblRefs2").Rows(Refid).Item(12) = True Then lblCaption = lblCaption & "Imp3. "
+                If DS.Tables("tblRefs2").Rows(Refid).Item(13) = True Then lblCaption = lblCaption & "ImR. "
                 lblRefStatus2.Text = lblCaption
-                lblAssignNote2.Text = DS.Tables("tblRefs2").Rows(intRef).Item(8) '8:Paper_Product.Note
-                lblRefNote2.Text = DS.Tables("tblRefs2").Rows(intRef).Item(6) '6:Papers.Note
+                lblAssignNote2.Text = DS.Tables("tblRefs2").Rows(Refid).Item(8) '8:Paper_Product.Note
+                strRefNote = DS.Tables("tblRefs2").Rows(Refid).Item(6) '6:Papers.Note
+                lblRefNote2.Text = strRefNote                          '6:Papers.Note
             Catch ex As Exception
                 'MsgBox(ex.ToString)
             End Try
@@ -2182,24 +2189,23 @@ Public Class frmAssign
         '//Open Collection to read
         Dim strLine As String = ""
         Try
-            FileOpen(1, Application.StartupPath & "elibCollect", OpenMode.Input)
-            FileOpen(2, Application.StartupPath & "elibCollect.html", OpenMode.Output)
-            PrintLine(2, "<head><title>eLib Collect</title><style>table, th, td {border: 1px solid;}</style></head>")
-            PrintLine(2, "<body>")
-            PrintLine(2, "<p style='color:blue; font-family:tahoma; font-size:12px; text-align: center'>eLib Collected Notes - by: " & strUser & " - " & Now().ToString("yyyy.MM.dd - HH:mm") & "</p><hr>")
-            While Not EOF(1)
-                strLine = LineInput(1)
+            FileOpen(1, Application.StartupPath & "elibCollect.html", OpenMode.Output)
+            FileOpen(2, Application.StartupPath & "elibCollect", OpenMode.Input)
+            PrintLine(1, "<head><title>eLib Collect</title><style>table, th, td {border: 1px solid;}</style></head>")
+            PrintLine(1, "<body>")
+            '//header
+            AddHeader2Report("Collected Notes by User: ")
+            While Not EOF(2)
+                strLine = LineInput(2)
                 Select Case Microsoft.VisualBasic.Left(strLine, 1)
                     Case "."
-                        PrintLine(2, "<p style='color:Green; font-family:tahoma; font-size:14px'>" & strLine & "</p>")
+                        PrintLine(1, "<p style='color:Green; font-family:tahoma; font-size:14px'>" & strLine & "</p>")
                     Case Else
-                        PrintLine(2, "<p style='color:Black; font-family:tahoma; font-size:14px'>" & strLine & "</p>")
+                        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:14px'>" & strLine & "</p>")
                 End Select
             End While
             ' //footer
-            PrintLine(2, "<p style='font-family:tahoma; font-size:12px'><br></p><br>")
-            PrintLine(2, "<p style='font-family:tahoma; font-size:10px; text-align: center'>" & "www.msht.ir" & "</p>")
-            PrintLine(2, "</body></html>")
+            AddFooter2Report()
             FileClose(1)
             FileClose(2)
             Shell("explorer.exe " & Application.StartupPath & "elibCollect.html")
@@ -2346,6 +2352,8 @@ Public Class frmAssign
                         End Using
                 End Select
                 List4_Click(sender, e) 'refresh list5,6
+                List6.SelectedIndex = 0
+                List6_Click(sender, e)
             Else
                 'MsgBox("Canceled", vbOKOnly, "eLib")
             End If
@@ -2504,12 +2512,12 @@ Public Class frmAssign
     Private Sub AddHeader2Report(strTitle As String)
         PrintLine(1, "<head><title>eLib Report</title><style>table, th, td {border: 1px solid;}</style></head>")
         PrintLine(1, "<body>")
-        'PrintLine(1, "<p style='color:blue; font-family:tahoma; font-size:12px; text-align: center'>eLib - <span style='color:Red; font-family:tahoma; font-size:10px'>" & strTitle & "</span> " & strUser & " - [" & Now().ToString("yyyy.MM.dd - HH:mm") & "]</p><hr>")
-        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>eLib - " & strTitle & " " & strUser & " - [" & Now().ToString("yyyy.MM.dd - HH:mm") & "]</p><hr>")
+        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>Date/Time: [" & Now().ToString("yyyy.MM.dd - HH:mm") & "]</p>")
+        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>eLib - " & strTitle & " " & strUser & "</p>")
+        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>DB: " & strCaption & " - BE: " & strDbBackEnd & "</p><hr>")
     End Sub
     Private Sub AddFooter2Report()
         PrintLine(1, "<p style='font-family:tahoma; font-size:12px'></p><br>")
-        'PrintLine(1, "<center><a href='http://www.msht.ir'><style='font-family:tahoma; font-size:8px'>www.msht.ir</a></center>")
         PrintLine(1, "<center><input type=button onclick=location.href='http://www.msht.ir' value='visit support page'</button></center>")
         PrintLine(1, "</body></html>")
     End Sub

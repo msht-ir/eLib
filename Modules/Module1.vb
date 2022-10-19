@@ -31,39 +31,42 @@ Module Module1
     Public ReportSettings As Integer = &H3 ' &H2C = &B000000011 = 3 
     '//Vars
     Public Retval1, Retval2, Retval3, Retval4 As Integer
-    Public UserNickName As String
-    Public strAdminPass As String
-    Public strUserPass As String
-    Public UserType As String             'ADMIN | USER 
-    Public UserAccessControls As Integer  'acc1-acc15 (user access controls)
-    Public intUser As Integer
-    Public strUser As String
+    Public UserNickName As String = ""
+    Public strAdminPass As String = ""
+    Public strUserPass As String = ""
+    Public UserType As String = ""             'ADMIN | USER 
+    Public UserAccessControls As Integer = 0  'acc1-acc15 (user access controls)
+    Public intUser As Integer = 0
+    Public strUser As String = ""
     Public strFolderPapers As String = ""
     Public strFolderBooks As String = ""
     Public strFolderManuals As String = ""
     Public strFolderLectures As String = ""
     Public strFolderTemp As String = ""
     Public strFolderSaveACopy As String = ""
-    Public intProj As Integer
+    Public intProj As Integer = 0
     Public strProjectName As String = ""
     Public strProjectNote As String = ""
-    Public intProd As Integer
+    Public intProd As Integer = 0
     Public strProductName As String = ""
-    Public intProdNote As Integer
+    Public intProdNote As Integer = 0
     Public strProdNote As String = ""
     Public strDateTime As String = ""
-    Public intRef As Integer
+    Public intRef As Integer = 0
+    Public intRefType As Integer = 0
+    Public strRefType As String = ""
     Public strRef As String = ""
     Public strRefNote As String = ""
-    Public intAssign As Integer
+    Public intAssign As Integer = 0
     Public strAssignNote As String = ""
     Public strPath As String = ""
-    Public strFilename As String             ' // path of text file for backend.path, user.id, pass strings
-    Public strCaption As String
+    Public strFilename As String = ""             ' // path of text file for backend.path, user.id, pass strings
+    Public strExt As String = ""
+    Public strCaption As String = ""
     Public strReportsFooter As String = "eLib Desktop App [ www.msht.ir ],  by: Dr. Majid Sharifi-Tehrani, Faculty of Science (SKU), 2022"
 
     '//TABLES//
-    '//eLib
+    Public tblusrs As New System.Data.DataTable
     Public tblRefs1 As New System.Data.DataTable
     Public tblAssignments As New System.Data.DataTable
     Public tblProject As New System.Data.DataTable
@@ -74,6 +77,7 @@ Module Module1
     Public tblProj_tmp As New System.Data.DataTable
     Public tblProd_tmp As New System.Data.DataTable
     Public tblProd_tmp2 As New System.Data.DataTable
+    Public tblAssign_tmp As New System.Data.DataTable 'for Editting a Ref using frmImport 
     '--
     Public tblTEMPeLibSaveAs As New System.Data.DataTable
 
