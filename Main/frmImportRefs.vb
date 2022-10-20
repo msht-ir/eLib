@@ -332,7 +332,7 @@ lblPARSE:
     '//MENU_1 -MOVE
     Private Sub Menu1_Move_Click(sender As Object, e As EventArgs) Handles Menu1_Move.Click
         '//Move the Ref (and Assignments?) to eLib
-        If (Retval4 = 0) Or Microsoft.VisualBasic.Left(Trim(txtTitle.Text), 2) = "//" Then
+        If (Retval4 = 0) Or (Microsoft.VisualBasic.Left(Trim(txtTitle.Text), 2) = "//") Then
             Menu1_Select_Click(sender, e)
             Exit Sub
         End If
@@ -350,9 +350,8 @@ lblPARSE:
             Case 4 : DestinationFolder = strFolderLectures 'from tblSettings
             Case Else : Exit Sub
         End Select
-        strExt = Microsoft.VisualBasic.Right(strPath, 4)
+        strExt = Microsoft.VisualBasic.Right(strFilename, 4)
         If Microsoft.VisualBasic.Left(strExt, 1) <> "." Then strExt = "." & strExt
-
         FolderBrowserDialog1.SelectedPath = DestinationFolder & "\"  'OR Environment.SpecialFolder.Desktop
         If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
             DestinationFolder = FolderBrowserDialog1.SelectedPath
@@ -373,7 +372,6 @@ lblPARSE:
                 Case 4 : boolIsLecture = 1
                 Case Else : Exit Sub
             End Select
-
             Dim strPaperNote As String = txtNote.Text
             If strPaperNote = "" Then strPaperNote = "-"
             Select Case Retval3
@@ -428,14 +426,14 @@ lblPARSE:
                                 If boolIsBook = 1 Then boolIsBook = -1
                                 If boolIsManual = 1 Then boolIsManual = -1
                                 If boolIsLecture = 1 Then boolIsLecture = -1
-                                strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
+                                strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, [Note]) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
                                 Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
                                 cmd.CommandType = CommandType.Text
                                 cmd.Parameters.AddWithValue("@papername", strTitle)
-                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
-                                cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
-                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
-                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
+                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper)
+                                cmd.Parameters.AddWithValue("@isbook", boolIsBook)
+                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual)
+                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture)
                                 cmd.Parameters.AddWithValue("@notes", strPaperNote)
                                 Try
                                     Dim i As Integer = cmd.ExecuteNonQuery()

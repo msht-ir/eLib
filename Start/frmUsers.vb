@@ -16,7 +16,7 @@
             GridUsers.Columns.Item(i).SortMode = DataGridViewColumnSortMode.Programmatic
         Next i
         GridUsers.Refresh()
-        GridUsers.Rows(0).Cells(1).Selected = True
+        If GridUsers.Rows.Count > 1 Then GridUsers.Rows(0).Cells(1).Selected = True
         GridUsers.Focus()
     End Sub
     Private Sub GridUsers_KeyDown(sender As Object, e As KeyEventArgs) Handles GridUsers.KeyDown
@@ -160,6 +160,7 @@
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
+        '//Check user's activity (Number of existing projects for this User)
         If DS.Tables("tblProject").Rows.Count > 0 Then
             MsgBox("Selected User has " & DS.Tables("tblProject").Rows.Count.ToString & " Projects. You can not delete this User!", vbOKOnly, "eLib")
             '//reload users table at buttom of this sub
@@ -207,7 +208,16 @@
         DS.Tables("tblProject").Clear()
         frmUsers_Load(sender, e)
     End Sub
-    Private Sub Menu_Login_Click(sender As Object, e As EventArgs) Handles Menu_Login.Click
+    Private Sub Menu_Settings_Click(sender As Object, e As EventArgs) Handles Menu_Settings.Click
+        frmSettings.ShowDialog()
+    End Sub
+    Private Sub Menu_LoginAsAdmin_Click(sender As Object, e As EventArgs) Handles Menu_LoginAsAdmin.Click
+        ReadSettingsAndUsers()
+        Me.Dispose()
+        frmAssign.ShowDialog()
+    End Sub
+    Private Sub Menu_LoginAsUser_Click(sender As Object, e As EventArgs) Handles Menu_LoginAsUser.Click
+        If GridUsers.Rows.Count = 0 Then Exit Sub
         Dim r As Integer = GridUsers.SelectedCells(0).RowIndex 'count from 0
         Dim c As Integer = GridUsers.SelectedCells(0).ColumnIndex 'count from 0
         If (r < 0) Or (c < 0) Then Exit Sub
@@ -224,13 +234,9 @@
         Me.Dispose()
         frmAssign.ShowDialog()
     End Sub
-    Private Sub Menu_Settings_Click(sender As Object, e As EventArgs) Handles Menu_Settings.Click
-        frmSettings.ShowDialog()
-    End Sub
-    Private Sub Menu_Exit_Click(sender As Object, e As EventArgs) Handles Menu_Exit.Click
-        ReadSettingsAndUsers()
+    Private Sub Menu_LogOut_Click(sender As Object, e As EventArgs) Handles Menu_LogOut.Click
+        DeleteHtmlFiles() 'Remove possible existing Data related to other users (now, and also when logging-in via frmCNN as new user )
         Me.Dispose()
-        frmAssign.ShowDialog()
+        frmCNN.ShowDialog()
     End Sub
-
 End Class

@@ -1748,7 +1748,55 @@ Public Class frmAssign
         End If
 
     End Sub
-    Private Sub Menu4_Report_Click(sender As Object, e As EventArgs) Handles Menu4_Report.Click
+    Private Sub Menu4_ReportThis_Click(sender As Object, e As EventArgs) Handles Menu4_ReportThis.Click
+        If List3.SelectedIndex = -1 Then Exit Sub
+        If List4.SelectedIndex = -1 Then Exit Sub
+        '//Report a Product (subProject)
+        Dim iProj, iProd, iRef, iNote As Integer
+        Dim strLine As String = ""
+        Try
+            FileOpen(1, Application.StartupPath & "elibReport.html", OpenMode.Output)
+            '//header
+            AddHeader2Report("Report subProject: '" & List4.Text & "' of Project: '" & List3.Text & "' of User: ")
+            '//data
+            List5.DataSource = Nothing
+            List6.DataSource = Nothing
+            iProd = List4.SelectedIndex '/not selectedValue!
+            PrintLine(1, "<p style='color:Blue; font-family:tahoma; font-size:16px'>Project: " & DS.Tables("tblProduct").Rows(iProd).Item(1) & " ")
+            PrintLine(1, "<span style='color:Black; font-family:tahoma; font-size:12px'> [ " & DS.Tables("tblProduct").Rows(iProd).Item(2) & " ]</span>")
+            '//Read Data
+            GetProductNotes(DS.Tables("tblProduct").Rows(iProd).Item(0))
+            GetRefs(DS.Tables("tblProduct").Rows(iProd).Item(0))
+            PrintLine(1, "<p style='color:Blue; font-family:tahoma; font-size:14px'>Refs: </p>")
+            Try
+                '//A: Report Refs
+                For iRef = 0 To DS.Tables("tblRefs2").Rows.Count - 1
+                    PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px'> - " & DS.Tables("tblRefs2").Rows(iRef).Item(1) & " ")
+                    PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:10px'> ///" & DS.Tables("tblRefs2").Rows(iRef).Item(6) & "</span>")
+                Next iRef
+            Catch ex As Exception
+                End Try
+            '//B: Report Notes
+            PrintLine(1, "<p style='color:Blue; font-family:tahoma; font-size:12px'>Notes: </p>")
+            Try
+                For iNote = 0 To DS.Tables("tblProductNotes").Rows.Count - 1
+                    PrintLine(1, "<p style='color:SlateGray; font-family:tahoma; font-size:12px'> - " & DS.Tables("tblProductNotes").Rows(iNote).Item(1) & " ")
+                    PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:10px'> ///" & DS.Tables("tblProductNotes").Rows(iNote).Item(2) & "</span>")
+                Next iNote
+                PrintLine(1, "<hr>")
+            Catch ex As Exception
+            End Try
+            ' //footer
+            AddFooter2Report()
+            FileClose(1)
+            Shell("explorer.exe " & Application.StartupPath & "elibreport.html")
+        Catch ex As Exception
+            MsgBox(iProj.ToString & " / " & iProd.ToString & " / " & ex.ToString)
+            FileClose(1)
+            Exit Sub
+        End Try
+    End Sub
+    Private Sub Menu4_ReportAll_Click(sender As Object, e As EventArgs) Handles Menu4_ReportAll.Click
         If List3.SelectedIndex = -1 Then Exit Sub
         '//Report a Product (subProject)
         Dim iProj, iProd, iRef, iNote As Integer
@@ -1756,7 +1804,7 @@ Public Class frmAssign
         Try
             FileOpen(1, Application.StartupPath & "elibReport.html", OpenMode.Output)
             '//header
-            AddHeader2Report("Report for Project: " & List3.Text & " of User: ")
+            AddHeader2Report("Report Project: '" & List3.Text & "' of User: ")
             '//data
             List5.DataSource = Nothing
             List6.DataSource = Nothing
@@ -1766,8 +1814,8 @@ Public Class frmAssign
                 '//Read Data
                 GetProductNotes(DS.Tables("tblProduct").Rows(iProd).Item(0))
                 GetRefs(DS.Tables("tblProduct").Rows(iProd).Item(0))
-                '//Report Refs
-                PrintLine(1, "<p style='color:Blue; font-family:tahoma; font-size:12px'>Refs: </p>")
+                '//A: Report Refs
+                PrintLine(1, "<p style='color:Blue; font-family:tahoma; font-size:14px'>Refs: </p>")
                 Try
                     For iRef = 0 To DS.Tables("tblRefs2").Rows.Count - 1
                         PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px'> - " & DS.Tables("tblRefs2").Rows(iRef).Item(1) & " ")
@@ -1775,7 +1823,7 @@ Public Class frmAssign
                     Next iRef
                 Catch ex As Exception
                 End Try
-                '//Report Notes
+                '//B: Report Notes
                 PrintLine(1, "<p style='color:Blue; font-family:tahoma; font-size:12px'>Notes: </p>")
                 Try
                     For iNote = 0 To DS.Tables("tblProductNotes").Rows.Count - 1
@@ -1795,7 +1843,6 @@ Public Class frmAssign
             FileClose(1)
             Exit Sub
         End Try
-
     End Sub
 
     'List 5 (Refs2)
@@ -2512,13 +2559,13 @@ Public Class frmAssign
     Private Sub AddHeader2Report(strTitle As String)
         PrintLine(1, "<head><title>eLib Report</title><style>table, th, td {border: 1px solid;}</style></head>")
         PrintLine(1, "<body>")
-        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>Date/Time: [" & Now().ToString("yyyy.MM.dd - HH:mm") & "]</p>")
+        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>[" & Now().ToString("yyyy.MM.dd - HH:mm") & "]</p>")
         PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>eLib - " & strTitle & " " & strUser & "</p>")
-        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>DB: " & strCaption & " - BE: " & strDbBackEnd & "</p><hr>")
+        PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px; text-align: center'>DB Type: " & strCaption & " - BackEnd: " & strDbBackEnd & "</p><hr>")
     End Sub
     Private Sub AddFooter2Report()
         PrintLine(1, "<p style='font-family:tahoma; font-size:12px'></p><br>")
-        PrintLine(1, "<center><input type=button onclick=location.href='http://www.msht.ir' value='visit support page'</button></center>")
+        PrintLine(1, "<center><input type=button onclick=location.href='http://www.msht.ir' value='eLib'</button></center>")
         PrintLine(1, "</body></html>")
     End Sub
 

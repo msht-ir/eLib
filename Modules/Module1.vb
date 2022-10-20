@@ -257,7 +257,7 @@ Module Module1
             'If Not System.IO.Directory.Exists(strFolderSaveACopy) Then Retval1 = (Retval1 Or 16)
             'If Not System.IO.Directory.Exists(strFolderTemp) Then Retval1 = (Retval1 Or 32)
             If Retval1 > 0 Then
-                Dim myansw As DialogResult = MsgBox("Missing lib Folders:" & vbCrLf & Errmsg & vbCrLf & "(YES): Create Folders  /  (NO): Select Existing Folders", vbYesNo + vbDefaultButton2 + vbExclamation, "eLib")
+                Dim myansw As DialogResult = MsgBox("Missing lib Folders:" & vbCrLf & Errmsg & vbCrLf & "(YES): Create Folders  /  (NO): Select from Existing Folders", vbYesNo + vbDefaultButton2 + vbExclamation, "eLib")
                 Select Case myansw
                     Case vbYes
                         Try 'Create Missing Folders

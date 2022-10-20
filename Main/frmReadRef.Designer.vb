@@ -26,14 +26,14 @@ Partial Class frmReadRef
         Me.ListPaths = New System.Windows.Forms.ListBox()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Menu_Read = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Edit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Delete = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu_Locate = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Menu_Edit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu_SaveACopy = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_OpenSaveFolder = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_Email = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.Menu_Delete = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_Cancel = New System.Windows.Forms.ToolStripMenuItem()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -50,12 +50,12 @@ Partial Class frmReadRef
         Me.ListPaths.ItemHeight = 17
         Me.ListPaths.Location = New System.Drawing.Point(0, 0)
         Me.ListPaths.Name = "ListPaths"
-        Me.ListPaths.Size = New System.Drawing.Size(1134, 83)
+        Me.ListPaths.Size = New System.Drawing.Size(1130, 79)
         Me.ListPaths.TabIndex = 0
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_Read, Me.Menu_Locate, Me.Menu_Edit, Me.ToolStripMenuItem1, Me.Menu_SaveACopy, Me.Menu_OpenSaveFolder, Me.Menu_Email, Me.ToolStripMenuItem3, Me.Menu_Delete, Me.Menu_Cancel})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_Read, Me.Menu_Edit, Me.Menu_Locate, Me.ToolStripMenuItem1, Me.Menu_SaveACopy, Me.Menu_OpenSaveFolder, Me.Menu_Email, Me.ToolStripMenuItem3, Me.Menu_Delete, Me.Menu_Cancel})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 214)
         '
@@ -67,32 +67,24 @@ Partial Class frmReadRef
         Me.Menu_Read.Size = New System.Drawing.Size(180, 22)
         Me.Menu_Read.Text = "Read ..."
         '
-        'Menu_Edit
-        '
-        Me.Menu_Edit.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_Edit.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Menu_Edit.Name = "Menu_Edit"
-        Me.Menu_Edit.Size = New System.Drawing.Size(180, 22)
-        Me.Menu_Edit.Text = "Edit ..."
-        '
-        'Menu_Delete
-        '
-        Me.Menu_Delete.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_Delete.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Delete.Name = "Menu_Delete"
-        Me.Menu_Delete.Size = New System.Drawing.Size(180, 22)
-        Me.Menu_Delete.Text = "Delete"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(177, 6)
-        '
         'Menu_Locate
         '
         Me.Menu_Locate.Name = "Menu_Locate"
         Me.Menu_Locate.Size = New System.Drawing.Size(180, 22)
         Me.Menu_Locate.Text = "Locate"
+        '
+        'Menu_Edit
+        '
+        Me.Menu_Edit.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
+        Me.Menu_Edit.ForeColor = System.Drawing.SystemColors.ControlDarkDark
+        Me.Menu_Edit.Name = "Menu_Edit"
+        Me.Menu_Edit.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Edit.Text = "Edit ..."
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(177, 6)
         '
         'Menu_SaveACopy
         '
@@ -104,7 +96,7 @@ Partial Class frmReadRef
         '
         Me.Menu_OpenSaveFolder.Name = "Menu_OpenSaveFolder"
         Me.Menu_OpenSaveFolder.Size = New System.Drawing.Size(180, 22)
-        Me.Menu_OpenSaveFolder.Text = "Open Save Folder"
+        Me.Menu_OpenSaveFolder.Text = "SaveAs Folder"
         '
         'Menu_Email
         '
@@ -118,6 +110,14 @@ Partial Class frmReadRef
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
         Me.ToolStripMenuItem3.Size = New System.Drawing.Size(177, 6)
         '
+        'Menu_Delete
+        '
+        Me.Menu_Delete.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.Menu_Delete.ForeColor = System.Drawing.Color.IndianRed
+        Me.Menu_Delete.Name = "Menu_Delete"
+        Me.Menu_Delete.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Delete.Text = "Delete"
+        '
         'Menu_Cancel
         '
         Me.Menu_Cancel.ForeColor = System.Drawing.Color.IndianRed
@@ -130,7 +130,7 @@ Partial Class frmReadRef
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(1134, 83)
+        Me.ClientSize = New System.Drawing.Size(1130, 79)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.ListPaths)
