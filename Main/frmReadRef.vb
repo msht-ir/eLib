@@ -5,6 +5,10 @@ Imports System.Net.Mail
 Public Class frmReadRef
     Private Sub frmReadRef_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'MsgBox("id: " & intRef.ToString & " /Type: " & strRefType & " /Title: " & strRef & " /Note: " & strRefNote)
+        If UserType <> "Admin" Then Menu_Delete.Enabled = False Else Menu_Delete.Enabled = True
+        RefreshPathTable()
+    End Sub
+    Private Sub RefreshPathTable()
         Try
             DS.Tables("tblRefPaths").Clear()
             Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
@@ -39,6 +43,7 @@ Public Class frmReadRef
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
+
     End Sub
     Private Sub ListPaths_DoubleClick(sender As Object, e As EventArgs) Handles ListPaths.DoubleClick
         Menu_Read_Click(sender, e)
@@ -117,8 +122,61 @@ Public Class frmReadRef
     End Sub
     Private Sub Menu_Delete_Click(sender As Object, e As EventArgs) Handles Menu_Delete.Click
         '//Waiting ...
-        '//check assignments to this Ref (all users)
-        '//Only the Admin caould delete a Ref?
+        If UserType <> "Admin" Then Exit Sub '//OK, already was disabled by Me.Load
+        If ListPaths.SelectedIndex = -1 Then Exit Sub
+        Dim myansw As DialogResult = MsgBox("NOTICE: Delete Ref from Depository ? SURE ?", vbYesNo + vbDefaultButton2, "eLib")
+        Select Case myansw
+            Case vbNo
+                Exit Sub
+            Case vbYes
+                Randomize()
+                Dim strRndNumber As Integer = Trim(Str(CInt(Int((10000 * Rnd()) + 1001))))
+                Dim strAnsw As String = InputBox("Enter this Code: " & strRndNumber, "Enter Code below to Proceed with Delete", "")
+                If strAnsw <> strRndNumber Then
+                    Exit Sub
+                Else
+                    '//Delete Ref!
+                    strPath = ListPaths.Text
+                    My.Computer.FileSystem.DeleteFile(strPath, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
+                    Try '//Delete thisPath from tbl_Paths
+                        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                            Case "SqlServer"
+                                Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                                    CnnSS.Open()
+                                    strSQL = "DELETE FROM Paths WHERE FilePath='" & strPath & "'"
+                                    Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
+                                    cmdx.CommandType = CommandType.Text
+                                    Dim ix As Integer = cmdx.ExecuteNonQuery()
+                                    CnnSS.Dispose()
+                                End Using
+                           '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
+                            Case "SqlServerCE"
+                                Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                                    CnnSC.Open()
+                                    strSQL = "DELETE FROM Paths WHERE FilePath='" & strPath & "'"
+                                    Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                                    cmdx.CommandType = CommandType.Text
+                                    Dim ix As Integer = cmdx.ExecuteNonQuery()
+                                    CnnSC.Close()
+                                End Using
+                           '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
+                            Case "Access"
+                                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                                    CnnAC.Open()
+                                    strSQL = "DELETE FROM Paths WHERE FilePath='" & strPath & "'"
+                                    Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
+                                    cmdx.CommandType = CommandType.Text
+                                    Dim ix As Integer = cmdx.ExecuteNonQuery()
+                                    CnnAC.Close()
+                                End Using
+                        End Select
+                    Catch ex As Exception
+                        MsgBox(ex.ToString)
+                    End Try
+                    'MsgBox(strPath & vbCrLf & vbCrLf & "Deleted!", vbOKOnly + vbInformation, "eLib")
+                    RefreshPathTable()
+                End If
+        End Select
     End Sub
     Private Sub Menu_Locate_Click(sender As Object, e As EventArgs) Handles Menu_Locate.Click
         '//Locate

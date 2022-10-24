@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports ClosedXML.Excel
 Imports DocumentFormat.OpenXml.Office
 
 Public Class frmAssign
@@ -32,7 +33,7 @@ Public Class frmAssign
             DS.Tables("tblProductNotes").Clear()
             DS.Tables("tblRefs1").Clear()
             DS.Tables("tblRefs2").Clear()
-            ClearLabels(127) 'ie clear all seven lables
+            ClearLabels(255) 'ie clear all 0-7 lables
             Menu3_Active_Click(sender, e)
             '//Preload Tables Ref1, ProdNote
             DS.Tables("tblProductNotes").Clear()
@@ -70,18 +71,34 @@ Public Class frmAssign
         End Try
     End Sub
     Private Sub ClearLabels(i As Integer)
-        If (i And &H1) = &H1 Then lblRefStatus1.Text = ""
-        If (i And &H2) = &H2 Then lblRefNote1.Text = ""
-        If (i And &H4) = &H4 Then lblAssignNote1.Text = ""
-        If (i And &H8) = &H8 Then lblRefStatus2.Text = ""
-        If (i And &H10) = &H10 Then lblRefNote2.Text = ""
-        If (i And &H20) = &H20 Then lblAssignNote2.Text = ""
-        If (i And &H40) = &H40 Then lblProdNote.Text = ""
+        If (i And &H1) = &H1 Then lblRefStatus1.Text = ""      '0:1   0000'0001  RefStatus1 
+        If (i And &H2) = &H2 Then lblRefNote1.Text = ""        '1:2   0000'0010  RefNote1
+        If (i And &H4) = &H4 Then lblAssignInfo.Text = ""      '2:4   0000'0100  AssignInfo
+        If (i And &H4) = &H4 Then lblAssignNote1.Text = ""     '3:8   0000'0100  AssignNote1
+        If (i And &H8) = &H8 Then lblProdNote.Text = ""        '4:16  0000'1000  ProdNote
+        If (i And &H10) = &H10 Then lblRefStatus2.Text = ""    '5:32  0001'0000  RefStatus2
+        If (i And &H20) = &H20 Then lblRefNote2.Text = ""      '6:64  0010'0000  RefNote2
+        If (i And &H40) = &H40 Then lblAssignNote2.Text = ""   '7:128 0100'0000  AssignNote2
     End Sub
     'Main Menu
     Private Sub Menu_user_Click(sender As Object, e As EventArgs) Handles Menu_user.Click
         Me.Dispose()
         frmCNN.ShowDialog()
+    End Sub
+    Private Sub Menu_AddUser_Click(sender As Object, e As EventArgs) Handles Menu_AddUser.Click
+        'If UserType <> "Admin" Then
+        '    Dim myansw As DialogResult = MsgBox("Login as 'Admin' and Try Again", vbOKCancel + vbDefaultButton2, "eLib")
+        '    If myansw = vbOK Then
+        '        Menu_user_Click(sender, e)
+        '        Exit Sub
+        '    Else 'Cancel
+        '        Exit Sub
+        '    End If
+        'End If
+        '//OK, Admin! Call: +USER
+        AddNewUser()
+        '//Now, login!
+        Menu_user_Click(sender, e)
     End Sub
     Private Sub Menu_UsersSpecs_Click(sender As Object, e As EventArgs) Handles Menu_UsersSpecs.Click
         If UserType <> "Admin" Then
@@ -219,32 +236,75 @@ Public Class frmAssign
         End Try
 
     End Sub
-    Private Sub Menu_AddUser_Click(sender As Object, e As EventArgs) Handles Menu_AddUser.Click
-        'If UserType <> "Admin" Then
-        '    Dim myansw As DialogResult = MsgBox("Login as 'Admin' and Try Again", vbOKCancel + vbDefaultButton2, "eLib")
-        '    If myansw = vbOK Then
-        '        Menu_user_Click(sender, e)
-        '        Exit Sub
-        '    Else 'Cancel
-        '        Exit Sub
-        '    End If
-        'End If
-        '//OK, Admin! Call: +USER
-        AddNewUser()
-        '//Now, login!
-        Menu_user_Click(sender, e)
-    End Sub
     'Tools
     Private Sub Menu_Import_Click(sender As Object, e As EventArgs) Handles Menu_Import.Click
         Retval3 = 0 'flag for NewImport (not Edit Ref)
         frmImportRefs.ShowDialog()
+    End Sub
+    Private Sub Menu_CreateWord_Click(sender As Object, e As EventArgs) Handles Menu_CreateWord.Click
+        '//Create New Document as Ref
+        CreateNewRef(".docx")
+    End Sub
+    Private Sub Menu_CreatePowepoint_Click(sender As Object, e As EventArgs) Handles Menu_CreatePowepoint.Click
+        '//Create New Powerpoint as Ref
+        CreateNewRef(".pptx")
+    End Sub
+    Private Sub Menu_CreateTextFile_Click(sender As Object, e As EventArgs) Handles Menu_CreateTextFile.Click
+        '//Create New textfile as Ref
+        CreateNewRef(".txt")
+    End Sub
+    Private Sub Menu_CreateExcel_Click(sender As Object, e As EventArgs) Handles Menu_CreateExcel.Click
+        '//Create New Excel spreadsheet as Ref
+        CreateNewRef(".xlsx")
+    End Sub
+    Private Sub CreateNewRef(strRefExt As String)
+        Dim myansw As DialogResult = MsgBox("Open New Ref", vbYesNoCancel + vbQuestion + vbDefaultButton2, "eLib")
+        If myansw = vbCancel Then Exit Sub
+        Try
+            Select Case strRefExt
+                Case ".docx"
+                    strRef = "New Word Document Ref " & Now().ToString("yyyy-MM-dd HH-mm")
+                    strPath = Application.StartupPath & strRef & ".docx"
+                    FileOpen(1, strPath, OpenMode.Output)
+                    FileClose(1)
+                Case ".pptx"
+                    strRef = "New Powerpoint Ref " & Now().ToString("yyyy-MM-dd HH-mm")
+                    strPath = Application.StartupPath & strRef & ".pptx"
+                    FileOpen(1, strPath, OpenMode.Output)
+                    FileClose(1)
+                Case ".txt"
+                    strRef = "New Text Document Ref " & Now().ToString("yyyy-MM-dd HH-mm")
+                    strPath = Application.StartupPath & strRef & ".txt"
+                    FileOpen(1, strPath, OpenMode.Output)
+                    FileClose(1)
+                Case ".xlsx"
+                    Using WB As IXLWorkbook = New XLWorkbook
+                        Dim WS0 As IXLWorksheet = WB.Worksheets.Add("eLib_NewExcelRef")
+                        WS0.Cell(1, 1).Value = "eLib Col1"
+                        WS0.Cell(1, 2).Value = "eLib Col2"
+                        WS0.Cell(1, 3).Value = "eLib Col3"
+                        '//Save Excel
+                        strRef = "New Excel Ref " & Now().ToString("yyyy-MM-dd HH-mm")
+                        strPath = Application.StartupPath & strRef & ".xlsx"
+                        WB.SaveAs(strPath)
+                    End Using
+            End Select
+            Retval3 = 2 'flag for New Ref Document (not EditRef nor NewImport!)
+            strExt = strRefExt
+            strRefNote = "Newly created Ref by user"
+            strRefType = "Manual"
+            frmImportRefs.ShowDialog()
+            If myansw = vbYes Then Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strPath, vbNormalFocus)
+        Catch ex As Exception
+            MsgBox("Error Creating New Ref" & vbCrLf & ex.ToString)
+        End Try
     End Sub
     Private Sub Menu_Scan_Click_1(sender As Object, e As EventArgs) Handles Menu_Scan.Click
         If DatabaseType = "Access" Then 'BulkInser works with sqlserver, (not accdb)
             'MsgBox("SCAN Folders using Access database", vbOKOnly, "eLib")
             Exit Sub
         End If
-        Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "- - -" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & " - - -" & vbCrLf & vbCrLf & "Scan Current Folders? (YES)" & vbCrLf & vbCrLf & "Click: (NO) to 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
+        Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
         Select Case myansw
             Case vbNo
                 Menu_Settings_Click(sender, e)
@@ -375,6 +435,39 @@ Public Class frmAssign
         frmAbout.ShowDialog()
     End Sub
     'txtSearch
+    Private Sub lblSearch_Click(sender As Object, e As EventArgs) Handles lblSearch.Click
+        '//CUT-and-PASTE
+        Dim strTempText As String = ""
+        '//Step 1
+        If Trim(txtSearch.Text) <> "" Then
+            strTempText = Trim(txtSearch.Text)
+        Else
+            strTempText = ""
+        End If
+        '//Step 2
+        Try
+            If My.Computer.Clipboard.ContainsText() Then txtSearch.Text = My.Computer.Clipboard.GetText()
+        Catch ex As Exception
+            My.Computer.Clipboard.SetText("")
+            txtSearch.Text = ""
+        End Try
+        '//Step 3
+        If Trim(strTempText) <> "" Then
+            My.Computer.Clipboard.Clear()
+            My.Computer.Clipboard.SetText(strTempText)
+        End If
+        txtSearch.SelectionStart = Len(txtSearch.Text)
+    End Sub
+    Private Sub lblSearch_DoubleClick(sender As Object, e As EventArgs) Handles lblSearch.DoubleClick
+        If Trim(txtSearch.Text) <> "" Then
+            Try
+                My.Computer.Clipboard.Clear()
+                My.Computer.Clipboard.SetText(Trim(txtSearch.Text)) '1 Copy to ClipBoard from textBox
+                txtSearch.Text = ""
+            Catch ex As Exception
+            End Try
+        End If
+    End Sub
     Private Sub txtSearchP_Click(sender As Object, e As EventArgs) Handles txtSearchP.Click
         If txtSearchP.Checked = True Then txtSearchP.Checked = False Else txtSearchP.Checked = True
         txtSearch.Focus()
@@ -431,7 +524,8 @@ Public Class frmAssign
                 FindRefs(searchString)
                 List1.SelectedValue = -1
                 DS.Tables("tblAssignments").Clear()
-                ClearLabels(7) '7:&B00000111 labels above the form
+                '//Clear labels in top of the form
+                ClearLabels(15) '15:&B00001111
             End If
         End If
     End Sub
@@ -615,7 +709,8 @@ Public Class frmAssign
     End Sub
     Private Sub List1_Click(sender As Object, e As EventArgs) Handles List1.Click
         If List1.SelectedIndex = -1 Then Exit Sub
-        ClearLabels(3) '3:&B00000011 : clear lblRefStatus1, lblRefNote1
+        '//Clear labels in top of form 
+        ClearLabels(15) '15:&B00001111
         intRef = List1.SelectedValue
         GetAssignments1(intRef)
         List2.DataSource = DS.Tables("tblAssignments")
@@ -631,18 +726,23 @@ Public Class frmAssign
             lblRefStatus1.Text = strRefType
             strRefNote = DS.Tables("tblRefs1").Rows(List1.SelectedIndex).Item(6)
             lblRefNote1.Text = strRefNote
-            ClearLabels(4) '4:&B00000100 : clear lblAssignNote1
         Catch ex As Exception
             'MsgBox(ex.ToString)
         End Try
     End Sub
     Private Sub GetAssignments1(refid As Integer)
+        Select Case UserType
+            Case "Admin"
+                strSQL = "SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " ORDER BY ProductName;"
+            Case "User", "Guest"
+                strSQL = "SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " AND user_ID= " & intUser & " ORDER BY ProductName;"
+        End Select
         DS.Tables("tblAssignments").Clear()
         Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
-                    DASS = New SqlClient.SqlDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " AND user_ID= " & intUser & " ORDER BY ProductName;", CnnSS)
+                    DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                     DASS.Fill(DS, "tblAssignments")
                     CnnSS.Dispose()
                 End Using
@@ -650,7 +750,7 @@ Public Class frmAssign
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
-                    DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " AND user_ID= " & intUser & " ORDER BY ProductName;", CnnSC)
+                    DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
                     DASC.Fill(DS, "tblAssignments")
                     CnnSC.Close()
                 End Using
@@ -658,7 +758,7 @@ Public Class frmAssign
             Case "Access"
                 Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                     CnnAC.Open()
-                    DAAC = New OleDb.OleDbDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " AND user_ID= " & intUser & " ORDER BY ProductName;", CnnAC)
+                    DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
                     DAAC.Fill(DS, "tblAssignments")
                     CnnAC.Close()
                 End Using
@@ -671,6 +771,29 @@ Public Class frmAssign
         intRef = List1.SelectedValue
         intProd = List4.SelectedValue
         If intRef < 1 Or intProd < 1 Then Exit Sub
+        Dim i As Boolean = DoAssignRef2Prod(intRef, intProd)
+        If i = True Then
+            List1_Click(sender, e) 'refresh list2
+            List4_Click(sender, e) 'refresh list5
+        Else
+            MsgBox("Error Assigning Ref to Product!", vbOKOnly, "eLib")
+        End If
+    End Sub
+    Private Sub Menu_1AssignTo_Click(sender As Object, e As EventArgs) Handles Menu_1AssignTo.Click
+        intRef = List1.SelectedValue
+        frmChooseProject.ShowDialog()
+        If Retval1 = 2 Then '//1: A Product is selected from dialog //intProd=id of the selected Product
+            If intRef < 1 Or intProd < 1 Then Exit Sub
+            Dim i As Boolean = DoAssignRef2Prod(intRef, intProd)
+            If i = True Then
+                List1_Click(sender, e) 'refresh list2
+                List4_Click(sender, e) 'refresh list5
+            Else
+                MsgBox("Error Assigning Ref to Product!", vbOKOnly, "eLib")
+            End If
+        End If
+    End Sub
+    Private Function DoAssignRef2Prod(iRef As Integer, iProd As Integer) As Boolean
         Try
             Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
                 Case "SqlServer"
@@ -707,12 +830,11 @@ Public Class frmAssign
                         CnnAC.Close()
                     End Using
             End Select
-            List1_Click(sender, e) 'refresh list2
-            List4_Click(sender, e) 'refresh list5
+            DoAssignRef2Prod = True
         Catch ex As Exception
-            MsgBox(ex.ToString) 'Do Nothing!
+            DoAssignRef2Prod = False
         End Try
-    End Sub
+    End Function
     Private Sub Menu1_GetList_Click(sender As Object, e As EventArgs) Handles Menu1_ListSubProject.Click
         frmChooseProject.ShowDialog()
         Select Case Retval1
@@ -779,7 +901,64 @@ Public Class frmAssign
         List1.DisplayMember = "Papername"
         List1.ValueMember = "Papers.ID"
         DS.Tables("tblAssignments").Clear()
-        ClearLabels(7) '7: &B000111 (top row labels)
+        ClearLabels(15) '15: &B00001111
+    End Sub
+    Private Sub Menu1_RefNote_Click(sender As Object, e As EventArgs) Handles Menu1_RefNote.Click
+        '//Note for Ref
+        If List1.SelectedIndex = -1 Then Exit Sub
+        Dim i As Integer = List1.SelectedIndex
+        strRefNote = DS.Tables("tblRefs1").Rows(i).Item(6)
+        Dim intID As Integer = DS.Tables("tblRefs1").Rows(i).Item(0)
+        strRefNote = InputBox("Edit Ref-Note:", "eLib", strRefNote)
+        If Trim(strRefNote) = "" Then
+            Dim myansw As DialogResult = MsgBox("clear Note ?", vbOKCancel + vbDefaultButton2, "eLib")
+            If myansw = vbCancel Then Exit Sub
+        End If
+        '//Do change the Note
+        Try
+            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Case "SqlServer"
+                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                        CnnSS.Open()
+                        strSQL = "UPDATE Papers SET Papers.Note=@note WHERE ID=@id"
+                        Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@note", strRefNote)
+                        cmdx.Parameters.AddWithValue("@id", intID.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnSS.Dispose()
+                    End Using
+                Case "SqlServerCE"
+                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                        CnnSC.Open()
+                        strSQL = "UPDATE Papers SET Papers.Note=@note WHERE ID=@id"
+                        Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@note", strRefNote)
+                        cmdx.Parameters.AddWithValue("@id", intID.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnSC.Close()
+                    End Using
+                Case "Access"
+                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                        CnnAC.Open()
+                        strSQL = "UPDATE Papers SET Papers.Note=@note WHERE ID=@id"
+                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@note", strRefNote)
+                        cmdx.Parameters.AddWithValue("@id", intID.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnAC.Close()
+                    End Using
+            End Select
+            DS.Tables("tblRefs1").Rows(i).Item(6) = strRefNote
+        Catch ex As Exception
+            MsgBox(ex.ToString) 'Do Nothing!
+        End Try
+        List1_Click(sender, e)
+    End Sub
+    Private Sub lblRefNote1_DoubleClick(sender As Object, e As EventArgs) Handles lblRefNote1.DoubleClick
+        Menu1_RefNote_Click(sender, e)
     End Sub
     Private Sub Menu1_Copy_Click(sender As Object, e As EventArgs) Handles Menu1_Copy.Click
         If List1.SelectedIndex >= 0 Then
@@ -919,9 +1098,20 @@ Public Class frmAssign
         End Select
     End Sub
     Private Sub List2_Click(sender As Object, e As EventArgs) Handles List2.Click
+        If List2.SelectedIndex = -1 Then Exit Sub
         Try
             lblAssignNote1.Text = DS.Tables("tblAssignments").Rows(List2.SelectedIndex).Item(4)
+            Dim intKarbar As Integer = DS.Tables("tblAssignments").Rows(List2.SelectedIndex).Item(5)
+            For i = 0 To DS.Tables("tblUsrs").Rows.Count - 1
+                'MsgBox("intKarbar: " & intKarbar.ToString & " /  " & i.ToString & ":i  / id: " & DS.Tables("tblUsrs").Rows(i).Item(0) & " / user: " & DS.Tables("tblUsrs").Rows(i).Item(1))
+                If DS.Tables("tblUsrs").Rows(i).Item(0) = intKarbar Then
+                    lblAssignInfo.Text = "usr: " & DS.Tables("tblUsrs").Rows(i).Item(1)
+                    Exit Sub
+                End If
+            Next i
+            lblAssignInfo.Text = "" '//in case no matching user-id was found
         Catch ex As Exception
+            MsgBox("Error: " & ex.ToString)
         End Try
     End Sub
     Private Sub List2_DoubleClick(sender As Object, e As EventArgs) Handles List2.DoubleClick
@@ -978,7 +1168,11 @@ Public Class frmAssign
         Catch ex As Exception
             MsgBox(ex.ToString) 'Do Nothing!
         End Try
-        List1_Click(sender, e)
+        DS.Tables("tblAssignments").Rows(i).Item(4) = strPPNote
+        List2_Click(sender, e)
+    End Sub
+    Private Sub lblAssignNote1_DoubleClick(sender As Object, e As EventArgs) Handles lblAssignNote1.DoubleClick
+        Menu2_Note_Click(sender, e)
     End Sub
     Private Sub Menu2_Filter_Click(sender As Object, e As EventArgs) Handles Menu2_Filter.Click
         If List2.SelectedIndex >= 0 Then
@@ -1015,7 +1209,7 @@ Public Class frmAssign
             List1.ValueMember = "Papers.ID"
             List1.SelectedIndex = -1
             DS.Tables("tblAssignments").Clear()
-            ClearLabels(7) '7: &B000111 (top row labels)
+            ClearLabels(15) '15: &B00001111 (clra lbls in top of from)
         End If
     End Sub
     Private Sub Menu2_Remove_Click(sender As Object, e As EventArgs) Handles Menu2_Remove.Click
@@ -1290,15 +1484,34 @@ Public Class frmAssign
         Menu3_InActive.Checked = False
         Menu3_All.Checked = True
     End Sub
+    Private Sub txtSearchProduct_TextChanged(sender As Object, e As EventArgs) Handles txtSearchProject.TextChanged
+        GetProjects(intUser, 3) '0:active 1:inactive 2:all
+        List3.DataSource = DS.Tables("tblProject")
+        List3.DisplayMember = "ProjectName"
+        List3.ValueMember = "ID"
+        Menu3_Active.Checked = False
+        Menu3_InActive.Checked = False
+        Menu3_All.Checked = True 'but filter by strSearchProject
+    End Sub
+    Private Sub lblSearchProject_Click(sender As Object, e As EventArgs) Handles lblSearchProject.Click
+        txtSearchProject.Text = ""
+    End Sub
     Private Sub GetProjects(usrid As Integer, activex As Integer)
         'activex {0:active 1:inactive 2:all}
+        Dim strSearchProj As String = Trim(txtSearchProject.Text)
         DS.Tables("tblProject").Clear()
         Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
             Case "SqlServer"
                 Select Case activex
                     Case 0 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active= 1 Order By ProjectName"
-                    Case 1 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active = 0 Order By ProjectName"
+                    Case 1 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active= 0 Order By ProjectName"
                     Case 2 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
+                    Case 3
+                        If strSearchProj = "" Then
+                            strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
+                        Else
+                            strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND ProjectName LIKE '%" & strSearchProj & "%' Order By ProjectName"
+                        End If
                 End Select
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
@@ -1312,6 +1525,12 @@ Public Class frmAssign
                     Case 0 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active= 1 Order By ProjectName"
                     Case 1 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active = 0 Order By ProjectName"
                     Case 2 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
+                    Case 3
+                        If strSearchProj = "" Then
+                            strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
+                        Else
+                            strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND ProjectName LIKE '%" & strSearchProj & "%' Order By ProjectName"
+                        End If
                 End Select
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
@@ -1325,6 +1544,12 @@ Public Class frmAssign
                     Case 0 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active= -1 Order By ProjectName"
                     Case 1 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active = 0 Order By ProjectName"
                     Case 2 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
+                    Case 3
+                        If strSearchProj = "" Then
+                            strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
+                        Else
+                            strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND ProjectName LIKE '%" & strSearchProj & "%' Order By ProjectName"
+                        End If
                 End Select
                 Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                     CnnAC.Open()
@@ -1333,6 +1558,7 @@ Public Class frmAssign
                     CnnAC.Close()
                 End Using
         End Select
+        'MsgBox(strSearchProj & vbCrLf & strSQL)
         DS.Tables("tblProduct").Clear()
     End Sub
     Private Sub List3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles List3.SelectedIndexChanged
@@ -1349,7 +1575,7 @@ Public Class frmAssign
             List4.SelectedValue = -1
             DS.Tables("tblRefs2").Clear()
             DS.Tables("tblProductNotes").Clear()
-            ClearLabels(120) '120:&B01111000 labels below the form
+            ClearLabels(240) '240:&B11110000 clear labels in below of the form
         Catch ex As Exception
             'MsgBox(ex.ToString)
         End Try
@@ -1446,7 +1672,7 @@ Public Class frmAssign
             List6.SelectedIndex = -1
         Catch ex As Exception
         End Try
-        ClearLabels(56) '56:&B00111000 labels below the form except for bit64
+        ClearLabels(240) '240:&B11110000 clear labels in below of the form
         lblProdNote.Text = DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(2)
     End Sub
     Private Sub GetRefs(Productid)
@@ -1639,6 +1865,9 @@ Public Class frmAssign
             MsgBox(ex.ToString) 'Do Nothing!
         End Try
     End Sub
+    Private Sub lblProdNote_DoubleClick(sender As Object, e As EventArgs) Handles lblProdNote.DoubleClick
+        Menu4_Edit_Click(sender, e)
+    End Sub
     Private Sub List4_DoubleClick(sender As Object, e As EventArgs) Handles List4.DoubleClick
         Menu4_Edit_Click(sender, e)
     End Sub
@@ -1775,7 +2004,7 @@ Public Class frmAssign
                     PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:10px'> ///" & DS.Tables("tblRefs2").Rows(iRef).Item(6) & "</span>")
                 Next iRef
             Catch ex As Exception
-                End Try
+            End Try
             '//B: Report Notes
             PrintLine(1, "<p style='color:Blue; font-family:tahoma; font-size:12px'>Notes: </p>")
             Try
@@ -1890,6 +2119,7 @@ Public Class frmAssign
     End Sub
     Private Sub Menu5_RefAttributes_Click(sender As Object, e As EventArgs) Handles Menu5_RefAttributes.Click
         If List5.SelectedIndex = -1 Then Exit Sub
+        'If List6.SelectedIndex <> -1 Then Exit Sub
         intProd = DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(0)     '0:Product.ID
         intAssign = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(9)     '9:Paper_Product.ID
         strRef = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(1)        '1:PaperName
@@ -1912,7 +2142,6 @@ Public Class frmAssign
             SetRefAttributes(Retval2, strProdNote, strAssignNote, strRefNote)
             List5_Click(sender, e) 'refresh labels
         End If
-
     End Sub
     Private Sub SetRefAttributes(Attr As Integer, strProdNote As String, strAssignNote As String, strRefNote As String)
         'intAssign
@@ -2055,6 +2284,12 @@ Public Class frmAssign
             MsgBox(ex.ToString) 'Do Nothing!
         End Try
 
+    End Sub
+    Private Sub lblAssignNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblAssignNote2.DoubleClick
+        Menu5_RefAttributes_Click(sender, e)
+    End Sub
+    Private Sub lblRefNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblRefNote2.DoubleClick
+        Menu5_RefAttributes_Click(sender, e)
     End Sub
     Private Sub Menu5_Replace_Click(sender As Object, e As EventArgs) Handles Menu5_Replace.Click
         If List5.SelectedIndex = -1 Then Exit Sub
@@ -2203,6 +2438,7 @@ Public Class frmAssign
         '//WAITING
         If List5.SelectedIndex = -1 Then Exit Sub
         If List6.SelectedIndex = -1 Then 'Check if list 5 is showing a ref / not a note!
+            lblSearch_Click(sender, e)
             txtSearch.Text = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(1) + " "
         End If
     End Sub
@@ -2286,7 +2522,7 @@ Public Class frmAssign
             List5.DisplayMember = "Note"
             List5.ValueMember = "ID"
             List5.SelectedIndex = -1
-            ClearLabels(56) '56:&B00111000 labels below the form except for bit64
+            ClearLabels(224) '224:&B1110'0000 labels below the form except for lblProdNotes
         Catch ex As Exception
         End Try
     End Sub

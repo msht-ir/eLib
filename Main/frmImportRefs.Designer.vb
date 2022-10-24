@@ -57,7 +57,7 @@ Partial Class frmImportRefs
         Me.txtTitle.Location = New System.Drawing.Point(0, 0)
         Me.txtTitle.Multiline = True
         Me.txtTitle.Name = "txtTitle"
-        Me.txtTitle.Size = New System.Drawing.Size(906, 69)
+        Me.txtTitle.Size = New System.Drawing.Size(902, 69)
         Me.txtTitle.TabIndex = 0
         '
         'ListProduct
@@ -165,7 +165,7 @@ Partial Class frmImportRefs
         '
         'Menu1_Select
         '
-        Me.Menu1_Select.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
+        Me.Menu1_Select.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Select.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Menu1_Select.Name = "Menu1_Select"
         Me.Menu1_Select.Size = New System.Drawing.Size(180, 22)
@@ -173,16 +173,16 @@ Partial Class frmImportRefs
         '
         'Menu1_Paste
         '
-        Me.Menu1_Paste.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu1_Paste.ForeColor = System.Drawing.SystemColors.ControlDarkDark
+        Me.Menu1_Paste.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.Menu1_Paste.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Menu1_Paste.Name = "Menu1_Paste"
         Me.Menu1_Paste.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_Paste.Text = "2- Paste Title"
         '
         'Menu1_Move
         '
-        Me.Menu1_Move.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu1_Move.ForeColor = System.Drawing.SystemColors.ControlDarkDark
+        Me.Menu1_Move.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.Menu1_Move.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Menu1_Move.Name = "Menu1_Move"
         Me.Menu1_Move.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_Move.Text = "3- Move to eLib"
@@ -209,7 +209,7 @@ Partial Class frmImportRefs
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Left
         Me.Panel1.Location = New System.Drawing.Point(0, 69)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(112, 132)
+        Me.Panel1.Size = New System.Drawing.Size(112, 128)
         Me.Panel1.TabIndex = 7
         '
         'frmImportRefs
@@ -217,7 +217,7 @@ Partial Class frmImportRefs
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(906, 201)
+        Me.ClientSize = New System.Drawing.Size(902, 197)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.Panel1)

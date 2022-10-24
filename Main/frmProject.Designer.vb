@@ -36,21 +36,22 @@ Partial Class frmProject
         '
         'Panel1
         '
-        Me.Panel1.BackColor = System.Drawing.Color.CadetBlue
+        Me.Panel1.BackColor = System.Drawing.SystemColors.Control
         Me.Panel1.Controls.Add(Me.txtProjectNote)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 77)
+        Me.Panel1.Location = New System.Drawing.Point(0, 69)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(557, 68)
+        Me.Panel1.Size = New System.Drawing.Size(549, 68)
         Me.Panel1.TabIndex = 0
         Me.Panel1.TabStop = True
         '
         'txtProjectNote
         '
         Me.txtProjectNote.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.txtProjectNote.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtProjectNote.Location = New System.Drawing.Point(23, 21)
         Me.txtProjectNote.Name = "txtProjectNote"
-        Me.txtProjectNote.Size = New System.Drawing.Size(447, 23)
+        Me.txtProjectNote.Size = New System.Drawing.Size(447, 16)
         Me.txtProjectNote.TabIndex = 1
         Me.txtProjectNote.Text = "-"
         '
@@ -70,9 +71,10 @@ Partial Class frmProject
         'txtProjectName
         '
         Me.txtProjectName.BackColor = System.Drawing.SystemColors.Control
+        Me.txtProjectName.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtProjectName.Location = New System.Drawing.Point(23, 15)
         Me.txtProjectName.Name = "txtProjectName"
-        Me.txtProjectName.Size = New System.Drawing.Size(216, 23)
+        Me.txtProjectName.Size = New System.Drawing.Size(216, 16)
         Me.txtProjectName.TabIndex = 0
         '
         'ContextMenuStrip1
@@ -99,7 +101,7 @@ Partial Class frmProject
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(557, 145)
+        Me.ClientSize = New System.Drawing.Size(549, 137)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.CheckBoxActive)

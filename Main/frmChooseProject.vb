@@ -12,21 +12,19 @@
 
     'List1 Search Project
     Private Sub TextSearchProj_TextChanged(sender As Object, e As EventArgs) Handles txtSearchProj.TextChanged
-        If Microsoft.VisualBasic.Right(txtSearchProj.Text, 1) = " " Then
-            DS.Tables("tblProj_tmp").Clear()
-            DS.Tables("tblProd_tmp").Clear()
-            If Trim(txtSearchProj.Text) = "" Then
-                txtSearchProj.Text = ""
-            Else
-                Dim searchString As String = Trim(txtSearchProj.Text)
-                FindProject(searchString)
-                ListProj.SelectedValue = -1
-                Menu1_Active.Checked = False
-                Menu1_Inactive.Checked = False
-                Menu1_All.Checked = False
-                DS.Tables("tblprod_tmp").Clear()
-                txtSearchProd.Text = Trim(txtSearchProd.Text)
-            End If
+        DS.Tables("tblProj_tmp").Clear()
+        DS.Tables("tblProd_tmp").Clear()
+        If Trim(txtSearchProj.Text) = "" Then
+            txtSearchProj.Text = ""
+        Else
+            Dim searchString As String = Trim(txtSearchProj.Text)
+            FindProject(searchString)
+            ListProj.SelectedValue = -1
+            Menu1_Active.Checked = False
+            Menu1_Inactive.Checked = False
+            Menu1_All.Checked = False
+            DS.Tables("tblprod_tmp").Clear()
+            txtSearchProd.Text = Trim(txtSearchProd.Text)
         End If
     End Sub
     Private Sub FindProject(searchString As String)
@@ -178,20 +176,18 @@
     'List2 Search Product
     Private Sub txtSearchProd_TextChanged(sender As Object, e As EventArgs) Handles txtSearchProd.TextChanged
         Try
-            If Microsoft.VisualBasic.Right(txtSearchProd.Text, 1) = " " Then
-                DS.Tables("tblProd_tmp").Clear()
-                If Trim(txtSearchProd.Text) = "" Then
-                    txtSearchProd.Text = ""
-                Else
-                    Dim searchString As String = Trim(txtSearchProd.Text)
-                    FindProduct(searchString)
-                    ListProd.SelectedValue = -1
-                    Menu1_Active.Checked = False
-                    Menu1_Inactive.Checked = False
-                    Menu1_All.Checked = False
-                    DS.Tables("tblproj_tmp").Clear()
-                    txtSearchProj.Text = Trim(txtSearchProj.Text)
-                End If
+            DS.Tables("tblProd_tmp").Clear()
+            If Trim(txtSearchProd.Text) = "" Then
+                txtSearchProd.Text = ""
+            Else
+                Dim searchString As String = Trim(txtSearchProd.Text)
+                FindProduct(searchString)
+                ListProd.SelectedValue = -1
+                Menu1_Active.Checked = False
+                Menu1_Inactive.Checked = False
+                Menu1_All.Checked = False
+                DS.Tables("tblproj_tmp").Clear()
+                txtSearchProj.Text = Trim(txtSearchProj.Text)
             End If
         Catch ex As Exception
             MsgBox("1" & ex.ToString)

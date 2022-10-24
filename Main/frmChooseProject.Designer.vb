@@ -162,7 +162,7 @@ Partial Class frmChooseProject
         '
         Me.txtSearchProj.BackColor = System.Drawing.SystemColors.Control
         Me.txtSearchProj.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtSearchProj.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.txtSearchProj.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.txtSearchProj.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtSearchProj.Location = New System.Drawing.Point(12, 461)
         Me.txtSearchProj.Margin = New System.Windows.Forms.Padding(4)
@@ -174,7 +174,7 @@ Partial Class frmChooseProject
         '
         Me.txtSearchProd.BackColor = System.Drawing.SystemColors.Control
         Me.txtSearchProd.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtSearchProd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.txtSearchProd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.txtSearchProd.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtSearchProd.Location = New System.Drawing.Point(324, 461)
         Me.txtSearchProd.Margin = New System.Windows.Forms.Padding(4)
@@ -187,7 +187,7 @@ Partial Class frmChooseProject
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(637, 480)
+        Me.ClientSize = New System.Drawing.Size(633, 483)
         Me.ControlBox = False
         Me.Controls.Add(Me.txtSearchProd)
         Me.Controls.Add(Me.txtSearchProj)

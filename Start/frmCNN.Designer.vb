@@ -77,7 +77,7 @@ Partial Class frmCNN
         '
         'MenuStripCNN
         '
-        Me.MenuStripCNN.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_SelectBE, Me.ToolStripMenuItem2, Me.Menu_AddCNN, Me.Menu_Edit, Me.Menu_FindDB, Me.Menu_Remove, Me.Menu_ResetCnns, Me.Menu_Guide, Me.ToolStripMenuItem3, Me.Menu_Exit})
+        Me.MenuStripCNN.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_SelectBE, Me.ToolStripMenuItem2, Me.Menu_AddCNN, Me.Menu_FindDB, Me.Menu_ResetCnns, Me.Menu_Edit, Me.Menu_Remove, Me.Menu_Guide, Me.ToolStripMenuItem3, Me.Menu_Exit})
         Me.MenuStripCNN.Name = "MenuStripCNN"
         Me.MenuStripCNN.Size = New System.Drawing.Size(133, 192)
         '
@@ -87,7 +87,7 @@ Partial Class frmCNN
         Me.Menu_SelectBE.ForeColor = System.Drawing.Color.DarkGoldenrod
         Me.Menu_SelectBE.Name = "Menu_SelectBE"
         Me.Menu_SelectBE.Size = New System.Drawing.Size(132, 22)
-        Me.Menu_SelectBE.Text = "Connect ..."
+        Me.Menu_SelectBE.Text = "Connect"
         '
         'ToolStripMenuItem2
         '
@@ -122,16 +122,16 @@ Partial Class frmCNN
         'Menu_ResetCnns
         '
         Me.Menu_ResetCnns.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_ResetCnns.ForeColor = System.Drawing.Color.OliveDrab
+        Me.Menu_ResetCnns.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Menu_ResetCnns.Name = "Menu_ResetCnns"
         Me.Menu_ResetCnns.Size = New System.Drawing.Size(132, 22)
-        Me.Menu_ResetCnns.Text = "Reset"
+        Me.Menu_ResetCnns.Text = "Find (auto)"
         '
         'Menu_Guide
         '
         Me.Menu_Guide.Name = "Menu_Guide"
         Me.Menu_Guide.Size = New System.Drawing.Size(132, 22)
-        Me.Menu_Guide.Text = "Guide"
+        Me.Menu_Guide.Text = "Help"
         '
         'ToolStripMenuItem3
         '

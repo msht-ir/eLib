@@ -18,7 +18,7 @@ Public Class frmImportRefs
         ListProduct.DisplayMember = "ProdName"
         Select Case Retval3
             Case 0 'Import a ref (regularly)
-            Case 1 'Edit Ref Mode : Disable SelectRef / Paste / AssignList : Just Move with new {type/title/note} w/o any change in assignments!
+            Case 1, 2 'EditRef / NewRef Mode : Disable SelectRef / Paste / AssignList : Just Move with new {type/title/note} w/o any change in assignments!
                 txtTitle.Text = strRef
                 txtNote.Text = strRefNote
                 strFilename = strPath
@@ -34,11 +34,13 @@ Public Class frmImportRefs
                     strProductName = DS.Tables("tblAssignments").Rows(i).Item(3)
                     DS.Tables("tblProd_tmp2").Rows.Add(intProd, strProductName)
                 Next i
-                Menu1_Select.Enabled = False
-                Menu1_Paste.Enabled = False
-                ListProduct.Enabled = False
                 Retval4 = 1 'A Ref is Ready to Move
         End Select
+        If Retval3 = 1 Then
+            Menu1_Select.Enabled = False
+            Menu1_Paste.Enabled = False
+            ListProduct.Enabled = False
+        End If
     End Sub
 
     '//MENU_2 (Select Assignments)
@@ -375,7 +377,7 @@ lblPARSE:
             Dim strPaperNote As String = txtNote.Text
             If strPaperNote = "" Then strPaperNote = "-"
             Select Case Retval3
-                Case 0 '//------------------------------------------------------------------------------- Import Ref Mode: Add Title to tblPapers
+                Case 0, 2 '//------------------------------------------------------------------------------- ImportRef /NewRefDoc Mode: Add Title to tblPapers
                     Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
                         Case "SqlServer"
                             Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
@@ -504,6 +506,7 @@ lblPARSE:
                     End Select
             End Select
             '//Add strPath (of new Ref) into tblPaths **************************************************************************************
+            strPath = DestinationFolder & "\" & strTitle & strExt
             Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
@@ -511,7 +514,7 @@ lblPARSE:
                         strSQL = "INSERT INTO Paths (FilePath) VALUES (@filepath)"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
                         cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
+                        cmd.Parameters.AddWithValue("@filepath", strPath)
                         Try
                             Dim i As Integer = cmd.ExecuteNonQuery()
                         Catch ex As Exception
@@ -525,7 +528,7 @@ lblPARSE:
                         strSQL = "INSERT INTO Paths (FilePath) VALUES (@filepath)"
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
+                        cmd.Parameters.AddWithValue("@filepath", strPath)
                         Try
                             Dim i As Integer = cmd.ExecuteNonQuery()
                         Catch ex As Exception
@@ -539,7 +542,7 @@ lblPARSE:
                         strSQL = "INSERT INTO Paths (FilePath) VALUES (@filepath)"
                         Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
                         cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@filepath", DestinationFolder & "\" & strTitle & strExt)
+                        cmd.Parameters.AddWithValue("@filepath", strPath)
                         Try
                             Dim i As Integer = cmd.ExecuteNonQuery()
                         Catch ex As Exception
@@ -549,7 +552,7 @@ lblPARSE:
                     End Using
             End Select
             Select Case Retval3
-                Case 0 'Import Ref Mode
+                Case 0, 2 'Import Ref Mode
                     '//Find ID of the new Ref in tblPapers (Import Mode Only)
                     DS.Tables("tblRefs1").Clear()
                     Dim Fltr As String = "PaperName='" & strTitle & "'"
@@ -637,10 +640,12 @@ lblPARSE:
             '//Finish Up
             Retval4 = 0 'Ready for 'Selecting' another Ref
             Select Case Retval3
-                Case 0
+                Case 0 'ImportRefMode
                     txtTitle.Text = "//imported: " & strTitle & vbCrLf & "//assigned to: " & DS.Tables("tblProd_tmp2").Rows.Count.ToString & " items(s)   //ref note: " & txtNote.Text & vbCrLf & "--"
                     txtNote.Text = ""
-                Case 1
+                Case 1 'EditRefMode
+                    Menu1_Exit_Click(sender, e)
+                Case 2 'CreateNewRefMode
                     Menu1_Exit_Click(sender, e)
             End Select
         Catch ex As Exception

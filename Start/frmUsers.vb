@@ -21,13 +21,13 @@
     End Sub
     Private Sub GridUsers_KeyDown(sender As Object, e As KeyEventArgs) Handles GridUsers.KeyDown
         Select Case e.KeyCode
-            Case 27 : Menu_Exit_Click(sender, e)
+            Case 27 : Menu_LoginAsAdmin_Click(sender, e)
             Case Else  'nothing
         End Select
     End Sub
     Private Sub frmUsers_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         Select Case e.KeyCode
-            Case 27 : Menu_Exit_Click(sender, e)
+            Case 27 : Menu_LoginAsAdmin_Click(sender, e)
             Case Else  'nothing
         End Select
     End Sub

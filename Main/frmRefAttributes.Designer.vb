@@ -170,9 +170,10 @@ Partial Class frmRefAttributes
         '
         'TextBoxRefNote
         '
+        Me.TextBoxRefNote.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBoxRefNote.Location = New System.Drawing.Point(16, 36)
         Me.TextBoxRefNote.Name = "TextBoxRefNote"
-        Me.TextBoxRefNote.Size = New System.Drawing.Size(334, 23)
+        Me.TextBoxRefNote.Size = New System.Drawing.Size(334, 16)
         Me.TextBoxRefNote.TabIndex = 1
         '
         'Label1
@@ -195,9 +196,10 @@ Partial Class frmRefAttributes
         '
         'TextBoxAssignmentNote
         '
+        Me.TextBoxAssignmentNote.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBoxAssignmentNote.Location = New System.Drawing.Point(16, 111)
         Me.TextBoxAssignmentNote.Name = "TextBoxAssignmentNote"
-        Me.TextBoxAssignmentNote.Size = New System.Drawing.Size(334, 23)
+        Me.TextBoxAssignmentNote.Size = New System.Drawing.Size(334, 16)
         Me.TextBoxAssignmentNote.TabIndex = 0
         '
         'Panel2
@@ -226,9 +228,10 @@ Partial Class frmRefAttributes
         '
         'TextBoxProductNote
         '
+        Me.TextBoxProductNote.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.TextBoxProductNote.Location = New System.Drawing.Point(16, 186)
         Me.TextBoxProductNote.Name = "TextBoxProductNote"
-        Me.TextBoxProductNote.Size = New System.Drawing.Size(334, 23)
+        Me.TextBoxProductNote.Size = New System.Drawing.Size(334, 16)
         Me.TextBoxProductNote.TabIndex = 2
         '
         'ContextMenuStrip1
@@ -263,7 +266,7 @@ Partial Class frmRefAttributes
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(520, 290)
+        Me.ClientSize = New System.Drawing.Size(516, 286)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.LabelRefTitle)

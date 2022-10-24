@@ -73,14 +73,28 @@
         End Select
     End Sub
     Private Sub txtProjectName_KeyDown(sender As Object, e As KeyEventArgs) Handles txtProjectName.KeyDown
-        If e.KeyCode = 13 Then Menu_Save_Click(sender, e)
+        If e.KeyCode = 13 Then
+            If Trim(txtProjectNote.Text) = "[password:type here]" Then
+                txtProjectNote.Focus()
+                e.SuppressKeyPress = True
+                Exit Sub
+            End If
+            Menu_Save_Click(sender, e)
+        End If
     End Sub
     Private Sub txtProjectNote_KeyDown(sender As Object, e As KeyEventArgs) Handles txtProjectNote.KeyDown
         Select Case Retval1
-            Case 0, 1 '0:Project 1:Produvt
+            Case 0, 1 '0:Project 1:Product
                 If e.KeyCode = 13 Then txtProjectName.Focus()
             Case 2 '2:USER-Password
-                If e.KeyCode = 13 Then Menu_Save_Click(sender, e)
+                If e.KeyCode = 13 Then
+                    If Trim(txtProjectNote.Text) = "[password:type here]" Then
+                        e.SuppressKeyPress = True
+                        Exit Sub
+                    End If
+                    Menu_Save_Click(sender, e)
+                End If
+
         End Select
     End Sub
     Private Sub Menu_Save_Click(sender As Object, e As EventArgs) Handles Menu_Save.Click
