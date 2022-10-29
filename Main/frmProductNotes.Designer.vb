@@ -23,28 +23,15 @@ Partial Class frmProductNotes
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.txtDatum = New System.Windows.Forms.TextBox()
         Me.txtNote = New System.Windows.Forms.TextBox()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Menu_UpdateDateTime = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_Save = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu_Cancel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.txtDatum = New System.Windows.Forms.MaskedTextBox()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
-        '
-        'txtDatum
-        '
-        Me.txtDatum.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.txtDatum.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtDatum.Font = New System.Drawing.Font("Courier New", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtDatum.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtDatum.Location = New System.Drawing.Point(18, 12)
-        Me.txtDatum.Name = "txtDatum"
-        Me.txtDatum.PlaceholderText = "----.--.-- --:--"
-        Me.txtDatum.Size = New System.Drawing.Size(171, 17)
-        Me.txtDatum.TabIndex = 0
-        Me.txtDatum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'txtNote
         '
@@ -86,12 +73,25 @@ Partial Class frmProductNotes
         Me.Menu_Cancel.Size = New System.Drawing.Size(170, 22)
         Me.Menu_Cancel.Text = "Cancel"
         '
+        'txtDatum
+        '
+        Me.txtDatum.BackColor = System.Drawing.SystemColors.Control
+        Me.txtDatum.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtDatum.Font = New System.Drawing.Font("Courier New", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.txtDatum.ForeColor = System.Drawing.Color.IndianRed
+        Me.txtDatum.Location = New System.Drawing.Point(18, 12)
+        Me.txtDatum.Mask = "0000-00-00 . 00-00"
+        Me.txtDatum.Name = "txtDatum"
+        Me.txtDatum.Size = New System.Drawing.Size(200, 17)
+        Me.txtDatum.TabIndex = 2
+        Me.txtDatum.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'frmProductNotes
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(976, 94)
+        Me.ClientSize = New System.Drawing.Size(968, 103)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.txtDatum)
@@ -110,12 +110,11 @@ Partial Class frmProductNotes
         Me.PerformLayout()
 
     End Sub
-
-    Friend WithEvents txtDatum As TextBox
     Friend WithEvents txtNote As TextBox
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
     Friend WithEvents Menu_Save As ToolStripMenuItem
     Friend WithEvents Menu_Cancel As ToolStripMenuItem
     Friend WithEvents Menu_UpdateDateTime As ToolStripMenuItem
+    Friend WithEvents txtDatum As MaskedTextBox
 End Class

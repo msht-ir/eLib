@@ -1,6 +1,4 @@
-﻿Imports System.IO
-Imports ClosedXML.Excel
-Imports DocumentFormat.OpenXml.Office
+﻿Imports ClosedXML.Excel
 
 Public Class frmAssign
     Private Sub frmAssign_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -17,16 +15,10 @@ Public Class frmAssign
                 CnnAC.Dispose()
         End Select
         Dim boolEnbl As Boolean = False
-        If UserType = "User" Or UserType = "Guest" Then boolEnbl = False Else boolEnbl = True
-        Menu_UsersSpecs.Enabled = boolEnbl
-        'Menu_AddUser.Enabled = boolEnbl
-        Menu_WipeOutData.Enabled = boolEnbl
-        Menu_Backup.Enabled = boolEnbl
-        Menu_Restore.Enabled = boolEnbl
-        Menu_Settings.Enabled = boolEnbl
-        'Menu_Scan.Enabled = boolEnbl
+        If UserType = "User" Then Menu_ChangePass.Enabled = True Else Menu_ChangePass.Enabled = False
+        If UserType = "User" Or UserType = "Guest" Then Menu_Scan.Enabled = False Else Menu_Scan.Enabled = True
         Try
-            Me.Text = "eLib     |     USR: " & strUser & "     |     LIB: " & strCaption & "     |     BE: " & strDbBackEnd
+            Me.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
             DS.Tables("tblProject").Clear()
             DS.Tables("tblProduct").Clear()
             DS.Tables("tblAssignments").Clear()
@@ -63,8 +55,6 @@ Public Class frmAssign
                         DAAC.Fill(DS, "tblProducNotes")
                         CnnAC.Close()
                     End Using
-                    Menu_Scan.Enabled = False
-                    Menu_Restore.Enabled = False
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
@@ -74,11 +64,11 @@ Public Class frmAssign
         If (i And &H1) = &H1 Then lblRefStatus1.Text = ""      '0:1   0000'0001  RefStatus1 
         If (i And &H2) = &H2 Then lblRefNote1.Text = ""        '1:2   0000'0010  RefNote1
         If (i And &H4) = &H4 Then lblAssignInfo.Text = ""      '2:4   0000'0100  AssignInfo
-        If (i And &H4) = &H4 Then lblAssignNote1.Text = ""     '3:8   0000'0100  AssignNote1
-        If (i And &H8) = &H8 Then lblProdNote.Text = ""        '4:16  0000'1000  ProdNote
-        If (i And &H10) = &H10 Then lblRefStatus2.Text = ""    '5:32  0001'0000  RefStatus2
-        If (i And &H20) = &H20 Then lblRefNote2.Text = ""      '6:64  0010'0000  RefNote2
-        If (i And &H40) = &H40 Then lblAssignNote2.Text = ""   '7:128 0100'0000  AssignNote2
+        If (i And &H8) = &H8 Then lblAssignNote1.Text = ""     '3:8   0000'1000  AssignNote1
+        If (i And &H10) = &H10 Then lblProdNote.Text = ""      '4:16  0001'0000  ProdNote
+        If (i And &H20) = &H20 Then lblRefStatus2.Text = ""    '5:32  0010'0000  RefStatus2
+        If (i And &H40) = &H40 Then lblRefNote2.Text = ""      '6:64  0100'0000  RefNote2
+        If (i And &H80) = &H80 Then lblAssignNote2.Text = ""   '7:128 1000'0000  AssignNote2
     End Sub
     'Main Menu
     Private Sub Menu_user_Click(sender As Object, e As EventArgs) Handles Menu_user.Click
@@ -102,30 +92,13 @@ Public Class frmAssign
     End Sub
     Private Sub Menu_UsersSpecs_Click(sender As Object, e As EventArgs) Handles Menu_UsersSpecs.Click
         If UserType <> "Admin" Then
-            Dim myansw As DialogResult = MsgBox("Login as 'Admin' and Try Again", vbOKCancel + vbDefaultButton2, "eLib")
-            If myansw = vbOK Then
-                Menu_user_Click(sender, e)
-                Exit Sub
-            Else 'Cancel
-                Exit Sub
-            End If
+            Menu_user_Click(sender, e)
         Else 'OK, Admin! continue...
             Me.Dispose()
             frmUsers.ShowDialog()
         End If
     End Sub
     Private Sub Menu_ChangePass_Click(sender As Object, e As EventArgs) Handles Menu_ChangePass.Click
-        Select Case UserType
-            Case "Guest"
-                MsgBox("You have logged in as eLibGuest !", vbOKOnly, "eLib")
-                Exit Sub
-            Case "Admin"
-                Menu_Settings_Click(sender, e)
-                Exit Sub
-            Case "User"
-                'Continue with codes below
-        End Select
-        'MsgBox("intUser: " & intUser.ToString)
         Dim strOldPass As String = ""
         Dim strNewPass As String = ""
         Dim strCheckPass As String = ""
@@ -302,20 +275,23 @@ Public Class frmAssign
     Private Sub Menu_Scan_Click_1(sender As Object, e As EventArgs) Handles Menu_Scan.Click
         If DatabaseType = "Access" Then 'BulkInser works with sqlserver, (not accdb)
             'MsgBox("SCAN Folders using Access database", vbOKOnly, "eLib")
+            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
             Exit Sub
         End If
         Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
         Select Case myansw
             Case vbNo
-                Menu_Settings_Click(sender, e)
+                frmSettings.ShowDialog()
                 ReadSettingsAndUsers()
                 ValidateFolders()
             Case vbYes
                 List1.DataSource = Nothing
                 List2.DataSource = Nothing
-                lblRefNote1.Text = "Step 1/2 : Please  Wait . . ."
+                lblRefNote1.Text = "Step 1/3 : Clear current file Paths . . ."
+                Clear_eLibPapersInfo("Paths")
+                lblRefNote1.Text = "Step 2/3 : Scan eLib Folders . . ."
                 eLibScanNames() 'eLibTitles in old eLib versions
-                lblRefNote1.Text = "Step 2/2 : Please  Wait . . . . . ."
+                lblRefNote1.Text = "Step 3/3 : Constructing new file Paths  . . ."
                 eLibScanPaths() 'eLibPaths in old eLib versions
                 lblRefNote1.Text = "SCAN finished successfully!"
                 txtSearch.Text = ""
@@ -323,102 +299,6 @@ Public Class frmAssign
             Case vbCancel
                 'do nothing
         End Select
-    End Sub
-    Private Sub Menu_Backup_Click(sender As Object, e As EventArgs) Handles Menu_Backup.Click
-        List1.DataSource = Nothing
-        List2.DataSource = Nothing
-        List3.DataSource = Nothing
-        List4.DataSource = Nothing
-        List5.DataSource = Nothing
-        List6.DataSource = Nothing
-        lblRefNote1.Text = "Backup ... Please wait!"
-        eLib_Backup()
-        If Retval1 = 1 Then lblRefNote1.Text = "Backup finished successfully!" Else lblRefNote1.Text = "Backup Error!"
-        txtSearch.Focus()
-    End Sub
-    Private Sub Menu_Restore_Click(sender As Object, e As EventArgs) Handles Menu_Restore.Click
-        If DatabaseType = "Access" Then 'BulkInser works with sqlserver, (not accdb)
-            MsgBox("To Restore a Library, Connect using SqlServer database", vbOKOnly, "eLib")
-            Exit Sub
-        End If
-        List1.DataSource = Nothing
-        List2.DataSource = Nothing
-        List3.DataSource = Nothing
-        List4.DataSource = Nothing
-        List5.DataSource = Nothing
-        List6.DataSource = Nothing
-        'Dim myansw As DialogResult = MsgBox("Notice: 'Restore' will ERASE current data in library", vbOKCancel + vbDefaultButton2 + vbExclamation, "eLib")
-        'If myansw = vbCancel Then Exit Sub
-        lblRefNote1.Text = "Restoring ... Please wait!"
-        eLib_Restore()
-        If Retval1 = 1 Then
-            lblRefNote1.Text = "Restore Finished Successfully !"
-            MsgBox("Restore Finished Successfully !", vbOKOnly, "eLib")
-        Else
-            lblRefNote1.Text = "Error Restoring a Library!"
-        End If
-        Menu_user_Click(sender, e)
-    End Sub
-    Private Sub Menu_WipeOutData_Click(sender As Object, e As EventArgs) Handles Menu_WipeOutData.Click
-        Dim myansw As DialogResult
-        If UserType <> "Admin" Then
-            myansw = MsgBox("Login as 'Admin' and Try Again", vbOKCancel + vbDefaultButton2, "eLib")
-            If myansw = vbOK Then
-                Menu_user_Click(sender, e)
-                Exit Sub
-            Else 'Cancel
-                Exit Sub
-            End If
-        Else 'OK, Admin! continue...
-            myansw = MsgBox("This will 'CLEAR' all Data from Current Database" & vbCrLf & "Continue ?", vbOKCancel + vbDefaultButton2, "eLib")
-            If myansw = vbCancel Then
-                Exit Sub
-            Else
-                myansw = MsgBox("Are you Sure ?" & vbCrLf & "Continue ?", vbYesNo + vbDefaultButton2 + vbExclamation, "eLib")
-                If myansw = vbYes Then '-----------------------------------------------------------------///
-                    '//OPEN A CONNECTION for this SUB
-                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
-                        Case "SqlServer"
-                            CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                            CnnSS.Open()
-                        Case "SqlServerCE"
-                            CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                            CnnSC.Open()
-                        Case "Access"
-                            CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                    End Select
-                    '//WIPE-OUT!
-                    WipeOutAndResetCurrentDatabase()
-                    '//CLOSE ALL Connections
-                    Select Case DatabaseType
-                        Case "SqlServer"
-                            CnnSS.Dispose()
-                            CnnSS.Dispose()
-                        Case "SqlServerCE"
-                            CnnSC.Close()
-                            CnnSC.Dispose()
-                        Case "Access"
-                            CnnAC.Close()
-                            CnnAC.Dispose()
-                    End Select
-                End If '----------------------------------------------------------------------------------///
-                lblRefNote1.Text = "Database Cleared !"
-            End If
-        End If
-    End Sub
-    Private Sub Menu_Settings_Click(sender As Object, e As EventArgs) Handles Menu_Settings.Click
-        If UserType <> "Admin" Then
-            Dim myansw As DialogResult = MsgBox("Login as 'Admin' and Try Again", vbOKCancel + vbDefaultButton2, "eLib")
-            If myansw = vbOK Then
-                Menu_user_Click(sender, e)
-                Exit Sub
-            Else 'Cancel
-                Exit Sub
-            End If
-        Else 'OK, Admin! continue...
-            frmSettings.ShowDialog()
-        End If
     End Sub
     'Help
     Private Sub Menu_Guide_Click(sender As Object, e As EventArgs) Handles Menu_Guide.Click
@@ -537,7 +417,7 @@ Public Class frmAssign
         If txtSearchM.Checked = True Then intRefType = intRefType Or &H4 '0b0100 for manuals
         If txtSearchL.Checked = True Then intRefType = intRefType Or &H8 '0b1000 for lectures
         If intRefType = 0 Then
-            MsgBox("Select some Ref types to search, and try again", vbOKOnly, "eLib")
+            MsgBox("Select Ref type(s) for Search", vbOKOnly, "eLib")
             Exit Sub
         End If
         Dim KeyxA As String = "", Keyx1 As String = "", Keyx2 As String = "", Keyx3 As String = "", Keyx4 As String = "", Fltr As String = ""
@@ -583,72 +463,45 @@ Public Class frmAssign
         'Search in which Ref types?   [0b 1111 bits:LMBP]
         If intRefType <> 15 Then '15: 0b1111 : All types are selected
             Fltr = Fltr & " AND (" '----------start filter on intreftype
+            Dim strTRUE As String = ""
             Select Case DatabaseType
-                Case "SqlServer" '----------------------------------------------------- sqlserver
-                    Select Case intRefType
-                        Case 1  ' ---P
-                            Fltr = Fltr & "IsPaper=1"
-                        Case 2   ' --B-
-                            Fltr = Fltr & "IsBook=1"
-                        Case 3   ' --BP
-                            Fltr = Fltr & "IsPaper=1 AND IsBook=1"
-                        Case 4   ' -M--
-                            Fltr = Fltr & "IsManual=1"
-                        Case 5   ' -M-P
-                            Fltr = Fltr & "IsPaper=1 AND IsManual=1"
-                        Case 6   ' -MB-
-                            Fltr = Fltr & "IsBook=1 AND IsManual=1"
-                        Case 7   ' -MBP
-                            Fltr = Fltr & "IsLecture=0"
-                        Case 8   ' L---
-                            Fltr = Fltr & "IsLecture=1"
-                        Case 9   ' L--P
-                            Fltr = Fltr & "IsLecture=1 AND IsPaper=1"
-                        Case 10  ' L-B-
-                            Fltr = Fltr & "IsLecture=1 AND IsBook=1"
-                        Case 11  ' L-BP
-                            Fltr = Fltr & "IsManual=0"
-                        Case 12  ' LM--
-                            Fltr = Fltr & "IsLecture=1 AND IsManual=1"
-                        Case 13  ' LM-P
-                            Fltr = Fltr & "IsBook=0"
-                        Case 14  ' LMB-
-                            Fltr = Fltr & "IsPaper=0"
-                    End Select
-                Case "Access", "SqlServerCE" '----------------------------------------------------- accdb
-                    Select Case intRefType
-                        Case 1  ' ---P
-                            Fltr = Fltr & "IsPaper=-1"
-                        Case 2   ' --B-
-                            Fltr = Fltr & "IsBook=-1"
-                        Case 3   ' --BP
-                            Fltr = Fltr & "IsPaper=-1 AND IsBook=-1"
-                        Case 4   ' -M--
-                            Fltr = Fltr & "IsManual=-1"
-                        Case 5   ' -M-P
-                            Fltr = Fltr & "IsPaper=-1 AND IsManual=-1"
-                        Case 6   ' -MB-
-                            Fltr = Fltr & "IsBook=-1 AND IsManual=-1"
-                        Case 7   ' -MBP
-                            Fltr = Fltr & "IsLecture=0"
-                        Case 8   ' L---
-                            Fltr = Fltr & "IsLecture=-1"
-                        Case 9   ' L--P
-                            Fltr = Fltr & "IsLecture=-1 AND IsPaper=-1"
-                        Case 10  ' L-B-
-                            Fltr = Fltr & "IsLecture=-1 AND IsBook=-1"
-                        Case 11  ' L-BP
-                            Fltr = Fltr & "IsManual=0"
-                        Case 12  ' LM--
-                            Fltr = Fltr & "IsLecture=-1 AND IsManual=-1"
-                        Case 13  ' LM-P
-                            Fltr = Fltr & "IsBook=0"
-                        Case 14  ' LMB-
-                            Fltr = Fltr & "IsPaper=0"
-                    End Select
+                Case "SqlServer" : strTRUE = "1"
+                Case "SqlServerCE" : strTRUE = "1"
+                Case "Access" : strTRUE = "-1"
+            End Select
+            Select Case intRefType
+                Case 1  ' ---P
+                    Fltr = Fltr & "IsPaper=" & strTRUE
+                Case 2   ' --B-
+                    Fltr = Fltr & "IsBook=" & strTRUE
+                Case 3   ' --BP
+                    Fltr = Fltr & "IsPaper=" & strTRUE & " OR IsBook=" & strTRUE
+                Case 4   ' -M--
+                    Fltr = Fltr & "IsManual=" & strTRUE
+                Case 5   ' -M-P
+                    Fltr = Fltr & "IsPaper=" & strTRUE & " OR IsManual=" & strTRUE
+                Case 6   ' -MB-
+                    Fltr = Fltr & "IsBook=" & strTRUE & " OR IsManual=" & strTRUE
+                Case 7   ' -MBP
+                    Fltr = Fltr & "IsLecture=0"
+                Case 8   ' L---
+                    Fltr = Fltr & "IsLecture=" & strTRUE
+                Case 9   ' L--P
+                    Fltr = Fltr & "IsLecture=" & strTRUE & " OR IsPaper=" & strTRUE
+                Case 10  ' L-B-
+                    Fltr = Fltr & "IsLecture=" & strTRUE & " OR IsBook=" & strTRUE
+                Case 11  ' L-BP
+                    Fltr = Fltr & "IsManual=0"
+                Case 12  ' LM--
+                    Fltr = Fltr & "IsLecture=" & strTRUE & " OR IsManual=" & strTRUE
+                Case 13  ' LM-P
+                    Fltr = Fltr & "IsBook=0"
+                Case 14  ' LMB-
+                    Fltr = Fltr & "IsPaper=0"
             End Select
             Fltr = Fltr & ")" '----------finish filter on intReftype
         End If
+        strSQL = "SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.PaperName DESC;"
         '//Do Query
         Try
             DS.Tables("tblRefs1").Clear()
@@ -656,7 +509,7 @@ Public Class frmAssign
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
-                        DASS = New SqlClient.SqlDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.PaperName DESC;", CnnSS)
+                        DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                         DASS.Fill(DS, "tblRefs1")
                         CnnSS.Dispose()
                     End Using
@@ -664,7 +517,7 @@ Public Class frmAssign
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
-                        DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.PaperName DESC;", CnnSC)
+                        DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
                         DASC.Fill(DS, "tblRefs1")
                         CnnSC.Close()
                     End Using
@@ -672,12 +525,11 @@ Public Class frmAssign
                 Case "Access"
                     Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                         CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.PaperName DESC;", CnnAC)
+                        DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
                         DAAC.Fill(DS, "tblRefs1")
                         CnnAC.Close()
                     End Using
             End Select
-            '--------- end select --------- end select --------- end select --------- end select --------- end select --------- end select --------- end select
             List1.DataSource = DS.Tables("tblRefs1")
             List1.DisplayMember = "PaperName"
             List1.ValueMember = "Papers.ID"
@@ -698,10 +550,46 @@ Public Class frmAssign
     End Sub
 
     'List 1 (Refs1)
-    Private Sub Menu1_Import_Click(sender As Object, e As EventArgs) Handles Menu1_Import.Click
-        Menu_Import_Click(sender, e)
+    Private Sub Menu1_CheckMarckSet(i As Integer)
+        Menu1_Read.Checked = False
+        Menu1_Assign.Checked = False
+        Menu1_AssignTo.Checked = False
+        Menu1_RefNote.Checked = False
+        Menu1_QRCode.Checked = False
+        Menu1_GoogleScholar.Checked = False
+        Menu1_Delete.Checked = False
+        Select Case i
+            Case 1 : Menu1_Read.Checked = True
+            Case 2 : Menu1_Assign.Checked = True
+            Case 3 : Menu1_AssignTo.Checked = True
+            Case 4 : Menu1_RefNote.Checked = True
+            Case 5 : Menu1_QRCode.Checked = True
+            Case 6 : Menu1_GoogleScholar.Checked = True
+            Case 7 : Menu1_Delete.Checked = True
+        End Select
+    End Sub
+    Private Sub List1_KeyDown(sender As Object, e As KeyEventArgs) Handles List1.KeyDown
+        Select Case e.KeyCode
+            Case 13
+                Menu1_Read_Click(sender, e)
+                e.SuppressKeyPress = True
+            Case 37
+                txtSearch.Focus() '<-
+                e.SuppressKeyPress = True
+            Case 39
+                List2.Focus()
+                e.SuppressKeyPress = True
+        End Select
+    End Sub
+    Private Sub List1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles List1.SelectedIndexChanged
+        'Try
+        '    List1_Click(sender, e)
+        'Catch ex As Exception
+        '    'Do nothing
+        'End Try
     End Sub
     Private Sub Menu1_Read_Click(sender As Object, e As EventArgs) Handles Menu1_Read.Click
+        Menu1_CheckMarckSet(1)
         If List1.SelectedIndex >= 0 Then
             strRef = Trim(List1.Text)
             If strRef <> "" Then frmReadRef.ShowDialog()
@@ -765,9 +653,16 @@ Public Class frmAssign
         End Select
     End Sub
     Private Sub List1_DoubleClick(sender As Object, e As EventArgs) Handles List1.DoubleClick
-        Menu1_Read_Click(sender, e)
+        If Menu1_Read.Checked = True Then Menu1_Read_Click(sender, e) : Exit Sub
+        If Menu1_Assign.Checked = True Then Menu1_Assign_Click(sender, e) : Exit Sub
+        If Menu1_AssignTo.Checked = True Then Menu1_AssignTo_Click(sender, e) : Exit Sub
+        If Menu1_RefNote.Checked = True Then Menu1_RefNote_Click(sender, e) : Exit Sub
+        If Menu1_QRCode.Checked = True Then Menu1_QRCode_Click(sender, e) : Exit Sub
+        If Menu1_GoogleScholar.Checked = True Then Menu1_GoogleScholar_Click(sender, e) : Exit Sub
+        If Menu1_Delete.Checked = True Then Menu1_Delete_Click(sender, e) : Exit Sub
     End Sub
     Private Sub Menu1_Assign_Click(sender As Object, e As EventArgs) Handles Menu1_Assign.Click
+        Menu1_CheckMarckSet(2)
         intRef = List1.SelectedValue
         intProd = List4.SelectedValue
         If intRef < 1 Or intProd < 1 Then Exit Sub
@@ -779,7 +674,8 @@ Public Class frmAssign
             MsgBox("Error Assigning Ref to Product!", vbOKOnly, "eLib")
         End If
     End Sub
-    Private Sub Menu_1AssignTo_Click(sender As Object, e As EventArgs) Handles Menu_1AssignTo.Click
+    Private Sub Menu1_AssignTo_Click(sender As Object, e As EventArgs) Handles Menu1_AssignTo.Click
+        Menu1_CheckMarckSet(3)
         intRef = List1.SelectedValue
         frmChooseProject.ShowDialog()
         If Retval1 = 2 Then '//1: A Product is selected from dialog //intProd=id of the selected Product
@@ -905,6 +801,7 @@ Public Class frmAssign
     End Sub
     Private Sub Menu1_RefNote_Click(sender As Object, e As EventArgs) Handles Menu1_RefNote.Click
         '//Note for Ref
+        Menu1_CheckMarckSet(4)
         If List1.SelectedIndex = -1 Then Exit Sub
         Dim i As Integer = List1.SelectedIndex
         strRefNote = DS.Tables("tblRefs1").Rows(i).Item(6)
@@ -942,7 +839,7 @@ Public Class frmAssign
                 Case "Access"
                     Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                         CnnAC.Open()
-                        strSQL = "UPDATE Papers SET Papers.Note=@note WHERE ID=@id"
+                        strSQL = "UPDATE Papers SET Papers.[Note]=@note WHERE ID=@id"
                         Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
                         cmdx.CommandType = CommandType.Text
                         cmdx.Parameters.AddWithValue("@note", strRefNote)
@@ -968,9 +865,11 @@ Public Class frmAssign
     End Sub
     Private Sub Menu1_QRCode_Click(sender As Object, e As EventArgs) Handles Menu1_QRCode.Click
         '//check if tbl.Settings allows QRCODEGen ?
+        Menu1_CheckMarckSet(5)
         If List1.SelectedIndex >= 0 Then Call QRCodeGen(List1.Text)
     End Sub
     Private Sub Menu1_GoogleScholar_Click(sender As Object, e As EventArgs) Handles Menu1_GoogleScholar.Click
+        Menu1_CheckMarckSet(6)
         If List1.SelectedIndex >= 0 Then
             Dim strSearchScholar As String = List1.Text
             SearchScholar(strSearchScholar)
@@ -1038,6 +937,7 @@ Public Class frmAssign
         List1.ValueMember = "Papers.ID"
     End Sub
     Private Sub Menu1_Delete_Click(sender As Object, e As EventArgs) Handles Menu1_Delete.Click
+        Menu1_CheckMarckSet(7)
         If List1.SelectedIndex = -1 Then Exit Sub
         intRef = List1.SelectedValue
         If intRef < 1 Then Exit Sub
@@ -1097,21 +997,24 @@ Public Class frmAssign
             Case 39 : List3.Focus()
         End Select
     End Sub
+    Private Sub List2_SelectedIndexChanged(sender As Object, e As EventArgs) Handles List2.SelectedIndexChanged
+        List2_Click(sender, e)
+    End Sub
     Private Sub List2_Click(sender As Object, e As EventArgs) Handles List2.Click
         If List2.SelectedIndex = -1 Then Exit Sub
         Try
-            lblAssignNote1.Text = DS.Tables("tblAssignments").Rows(List2.SelectedIndex).Item(4)
+            lblAssignInfo.Text = "" '//in case no matching user-id was found
             Dim intKarbar As Integer = DS.Tables("tblAssignments").Rows(List2.SelectedIndex).Item(5)
             For i = 0 To DS.Tables("tblUsrs").Rows.Count - 1
                 'MsgBox("intKarbar: " & intKarbar.ToString & " /  " & i.ToString & ":i  / id: " & DS.Tables("tblUsrs").Rows(i).Item(0) & " / user: " & DS.Tables("tblUsrs").Rows(i).Item(1))
                 If DS.Tables("tblUsrs").Rows(i).Item(0) = intKarbar Then
                     lblAssignInfo.Text = "usr: " & DS.Tables("tblUsrs").Rows(i).Item(1)
-                    Exit Sub
+                    Exit For
                 End If
             Next i
-            lblAssignInfo.Text = "" '//in case no matching user-id was found
+            lblAssignNote1.Text = DS.Tables("tblAssignments").Rows(List2.SelectedIndex).Item(4)
         Catch ex As Exception
-            MsgBox("Error: " & ex.ToString)
+            'MsgBox("Error: " & ex.ToString)
         End Try
     End Sub
     Private Sub List2_DoubleClick(sender As Object, e As EventArgs) Handles List2.DoubleClick
@@ -1156,7 +1059,7 @@ Public Class frmAssign
                 Case "Access"
                     Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                         CnnAC.Open()
-                        strSQL = "UPDATE Paper_Product SET Paper_Product.Note=@note WHERE ID=@id"
+                        strSQL = "UPDATE Paper_Product SET Paper_Product.[Note]=@note WHERE ID=@id"
                         Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
                         cmdx.CommandType = CommandType.Text
                         cmdx.Parameters.AddWithValue("@note", strPPNote)
@@ -1267,9 +1170,15 @@ Public Class frmAssign
     'List 3 (Projects)
     Private Sub List3_KeyDown(sender As Object, e As KeyEventArgs) Handles List3.KeyDown
         Select Case e.KeyCode
-            Case 37 : txtSearch.Focus() '<-
-            Case 39 : List4.Focus() '->
+            Case 13, 39 '-> Right
+                List3_Click(sender, e)
+                If List4.Items.Count > 0 Then List4.Focus()
+                e.SuppressKeyPress = True
+            Case 37 : txtSearchProject.Focus() '<- Left
         End Select
+    End Sub
+    Private Sub List3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles List3.SelectedIndexChanged
+        'List3_Click(sender, e)
     End Sub
     Private Sub Menu3_Add_Click(sender As Object, e As EventArgs) Handles Menu3_Add.Click
         If (UserType = "Guest") Or (UserType = "Admin") Then Exit Sub
@@ -1370,11 +1279,11 @@ Public Class frmAssign
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                             CnnSC.Open()
                             strSQL = "UPDATE Project SET ProjectName=@projectname, Notes=@notes, Active=@active WHERE ID=@id"
-                            Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
+                            Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@projectname", strProjectName)
                             cmdx.Parameters.AddWithValue("@notes", strProjectNote)
-                            cmdx.Parameters.AddWithValue("@active", Retval3.ToString)
+                            cmdx.Parameters.AddWithValue("@active", Retval3)
                             cmdx.Parameters.AddWithValue("@id", intProj.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
@@ -1493,6 +1402,14 @@ Public Class frmAssign
         Menu3_InActive.Checked = False
         Menu3_All.Checked = True 'but filter by strSearchProject
     End Sub
+    Private Sub txtSearchProject_KeyDown(sender As Object, e As KeyEventArgs) Handles txtSearchProject.KeyDown
+        'MsgBox(Str(e.KeyCode))
+        Select Case e.KeyCode
+            Case 13 : List3_Click(sender, e)
+            Case 38, 40 ' Up and Down
+                List3.Focus()
+        End Select
+    End Sub
     Private Sub lblSearchProject_Click(sender As Object, e As EventArgs) Handles lblSearchProject.Click
         txtSearchProject.Text = ""
     End Sub
@@ -1560,9 +1477,6 @@ Public Class frmAssign
         End Select
         'MsgBox(strSearchProj & vbCrLf & strSQL)
         DS.Tables("tblProduct").Clear()
-    End Sub
-    Private Sub List3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles List3.SelectedIndexChanged
-        List3_Click(sender, e)
     End Sub
     Private Sub List3_Click(sender As Object, e As EventArgs) Handles List3.Click
         If List3.SelectedIndex = -1 Then Exit Sub
@@ -1649,9 +1563,15 @@ Public Class frmAssign
     'List 4 (sub-Projects)
     Private Sub List4_KeyDown(sender As Object, e As KeyEventArgs) Handles List4.KeyDown
         Select Case e.KeyCode
+            Case 13, 39 '-> Right
+                List4_Click(sender, e)
+                If List5.Items.Count > 0 Then List5.Focus()
+                e.SuppressKeyPress = True
             Case 37 : List3.Focus() '<-
-            Case 39 : List5.Focus() '->
         End Select
+    End Sub
+    Private Sub List4_SelectedIndexChanged(sender As Object, e As EventArgs) Handles List4.SelectedIndexChanged
+        'List4_Click(sender, e)
     End Sub
     Private Sub List4_Click(sender As Object, e As EventArgs) Handles List4.Click
         If List4.SelectedIndex = -1 Then Exit Sub
@@ -1663,17 +1583,20 @@ Public Class frmAssign
             List5.ValueMember = "Papers.ID"
             List5.SelectedIndex = -1
         Catch ex As Exception
+            'MsgBox(ex.ToString)
         End Try
         Try
             GetProductNotes(intProduct)
             List6.DataSource = DS.Tables("tblProductNotes")
             List6.DisplayMember = "NoteDatum"
-            List6.ValueMember = "ID"
+            List6.ValueMember = "ProductNotes.ID"
             List6.SelectedIndex = -1
+            ClearLabels(240) '240:&B11110000 clear labels in below of the form
+            lblProdNote.Text = DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(2)
         Catch ex As Exception
+            'Raises an error when DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(2) = NULL!  
+            'MsgBox("Error!" & vbCrLf & ex.ToString)
         End Try
-        ClearLabels(240) '240:&B11110000 clear labels in below of the form
-        lblProdNote.Text = DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(2)
     End Sub
     Private Sub GetRefs(Productid)
         Try
@@ -2075,49 +1998,253 @@ Public Class frmAssign
     End Sub
 
     'List 5 (Refs2)
+    Private Sub Menu5_CheckMarckSet(i As Integer)
+        Menu5_Read.Checked = False
+        Menu5_Replace.Checked = False
+        Menu5_AddTo.Checked = False
+        Menu5_Delete.Checked = False
+        Menu5_RefAttributes.Checked = False
+        Menu5_ShowAbove.Checked = False
+        Menu5_GoogleScholar.Checked = False
+        Menu5_QRCode.Checked = False
+        Menu5_Collect.Checked = False
+        Select Case i
+            Case 1 : Menu5_Read.Checked = True
+            Case 2 : Menu5_Replace.Checked = True
+            Case 3 : Menu5_AddTo.Checked = True
+            Case 4 : Menu5_Delete.Checked = True
+            Case 5 : Menu5_RefAttributes.Checked = True
+            Case 6 : Menu5_ShowAbove.Checked = True
+            Case 7 : Menu5_GoogleScholar.Checked = True
+            Case 8 : Menu5_QRCode.Checked = True
+            Case 9 : Menu5_Collect.Checked = True
+        End Select
+    End Sub
     Private Sub List5_KeyDown(sender As Object, e As KeyEventArgs) Handles List5.KeyDown
         Select Case e.KeyCode
+            Case 13
+                List5_DoubleClick(sender, e) 'Menu5_Read_Click(sender, e)
+                e.SuppressKeyPress = True
             Case 37 : List4.Focus() '<-
-            Case 39 : txtSearch.Focus() '->
+            Case 39 : List6.Focus() '->
         End Select
     End Sub
     Private Sub List5_Click(sender As Object, e As EventArgs) Handles List5.Click
         If List5.SelectedIndex = -1 Then Exit Sub
-        If List6.SelectedIndex = -1 Then ' if one row of list6 is selected, it is in /subProject_Notes MODE/
-            Try
-                intRef = List5.SelectedValue
-                Dim Refid As Integer = List5.SelectedIndex
-                strRefType = ""
-                Dim lblCaption As String = ""
-                If DS.Tables("tblRefs2").Rows(Refid).Item(2) = True Then lblCaption = lblCaption & "P. " : strRefType = strRefType & "Paper  "
-                If DS.Tables("tblRefs2").Rows(Refid).Item(3) = True Then lblCaption = lblCaption & "B. " : strRefType = strRefType & "Book  "
-                If DS.Tables("tblRefs2").Rows(Refid).Item(4) = True Then lblCaption = lblCaption & "M. " : strRefType = strRefType & "Manual  "
-                If DS.Tables("tblRefs2").Rows(Refid).Item(5) = True Then lblCaption = lblCaption & "L. " : strRefType = strRefType & "Lecture  "
-                If DS.Tables("tblRefs2").Rows(Refid).Item(10) = True Then lblCaption = lblCaption & "Imp1. "
-                If DS.Tables("tblRefs2").Rows(Refid).Item(11) = True Then lblCaption = lblCaption & "Imp2. "
-                If DS.Tables("tblRefs2").Rows(Refid).Item(12) = True Then lblCaption = lblCaption & "Imp3. "
-                If DS.Tables("tblRefs2").Rows(Refid).Item(13) = True Then lblCaption = lblCaption & "ImR. "
-                lblRefStatus2.Text = lblCaption
-                lblAssignNote2.Text = DS.Tables("tblRefs2").Rows(Refid).Item(8) '8:Paper_Product.Note
-                strRefNote = DS.Tables("tblRefs2").Rows(Refid).Item(6) '6:Papers.Note
-                lblRefNote2.Text = strRefNote                          '6:Papers.Note
-            Catch ex As Exception
-                'MsgBox(ex.ToString)
-            End Try
-        End If
+        Try
+            Dim tmpL6 As Integer = List6.SelectedItems.Count
+            If tmpL6 > 0 Then Exit Sub ' if a row of list6 is selected, it is in /subProject_Notes MODE/
+            intRef = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(0)
+            If intRef < 1 Then Exit Sub
+            Dim Refid As Integer = List5.SelectedIndex
+            strRefType = ""
+            Dim lblCaption As String = ""
+            Select Case DatabaseType
+                Case "SqlServer"
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(2) = True Then lblCaption = lblCaption & "Paper " : strRefType = strRefType & "Paper  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(3) = True Then lblCaption = lblCaption & "Book " : strRefType = strRefType & "Book  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(4) = True Then lblCaption = lblCaption & "Manual " : strRefType = strRefType & "Manual  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(5) = True Then lblCaption = lblCaption & "Lecture " : strRefType = strRefType & "Lecture  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(10) = True Then lblCaption = lblCaption & "Imp1 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(11) = True Then lblCaption = lblCaption & "Imp2 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(12) = True Then lblCaption = lblCaption & "Imp3 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(13) = True Then lblCaption = lblCaption & "ImR "
+                Case "SqlServerCE"
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(2) = -1 Then lblCaption = lblCaption & "Paper " : strRefType = strRefType & "Paper  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(3) = -1 Then lblCaption = lblCaption & "Book " : strRefType = strRefType & "Book  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(4) = -1 Then lblCaption = lblCaption & "Manual " : strRefType = strRefType & "Manual  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(5) = -1 Then lblCaption = lblCaption & "Lecture " : strRefType = strRefType & "Lecture  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(10) = -1 Then lblCaption = lblCaption & "Imp1 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(11) = -1 Then lblCaption = lblCaption & "Imp2 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(12) = -1 Then lblCaption = lblCaption & "Imp3 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(13) = -1 Then lblCaption = lblCaption & "ImR "
+                Case "Access"
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(2) = -1 Then lblCaption = lblCaption & "Paper " : strRefType = strRefType & "Paper  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(3) = -1 Then lblCaption = lblCaption & "Book " : strRefType = strRefType & "Book  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(4) = -1 Then lblCaption = lblCaption & "Manual " : strRefType = strRefType & "Manual  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(5) = -1 Then lblCaption = lblCaption & "Lecture " : strRefType = strRefType & "Lecture  "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(10) = -1 Then lblCaption = lblCaption & "Imp1 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(11) = -1 Then lblCaption = lblCaption & "Imp2 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(12) = -1 Then lblCaption = lblCaption & "Imp3 "
+                    If DS.Tables("tblRefs2").Rows(Refid).Item(13) = -1 Then lblCaption = lblCaption & "ImR "
+            End Select
+            lblRefStatus2.Text = lblCaption
+            lblAssignNote2.Text = DS.Tables("tblRefs2").Rows(Refid).Item(8) '8:Paper_Product.Note
+            strRefNote = DS.Tables("tblRefs2").Rows(Refid).Item(6) '6:Papers.Note
+            lblRefNote2.Text = strRefNote                          '6:Papers.Note
+        Catch ex As Exception
+            MsgBox("111 / " & ex.ToString)
+        End Try
     End Sub
     Private Sub List5_DoubleClick(sender As Object, e As EventArgs) Handles List5.DoubleClick
         If List6.SelectedIndex >= 0 Then
             List6_DoubleClick(sender, e)
             Exit Sub
         End If
-        Menu5_Read_Click(sender, e)
+        If Menu5_Read.Checked = True Then Menu5_Read_Click(sender, e) : Exit Sub
+        If Menu5_Read.Checked = True Then Menu5_Read_Click(sender, e) : Exit Sub
+        If Menu5_Replace.Checked = True Then Menu5_Replace_Click(sender, e) : Exit Sub
+        If Menu5_AddTo.Checked = True Then Menu5_AddTo_Click(sender, e) : Exit Sub
+        If Menu5_Delete.Checked = True Then Menu5_Delete_Click(sender, e) : Exit Sub
+        If Menu5_RefAttributes.Checked = True Then Menu5_RefAttributes_Click(sender, e) : Exit Sub
+        If Menu5_ShowAbove.Checked = True Then Menu5_ShowAbove_Click(sender, e) : Exit Sub
+        If Menu5_GoogleScholar.Checked = True Then Menu5_GoogleScholar_Click(sender, e) : Exit Sub
+        If Menu5_QRCode.Checked = True Then Menu5_QRCode_Click(sender, e) : Exit Sub
+        If Menu5_Collect.Checked = True Then Menu5_Collect_Click(sender, e) : Exit Sub
     End Sub
     Private Sub Menu5_Read_Click(sender As Object, e As EventArgs) Handles Menu5_Read.Click
+        Menu5_CheckMarckSet(1)
         strRef = List5.Text
         If strRef <> "" Then frmReadRef.ShowDialog()
     End Sub
+    Private Sub Menu5_Replace_Click(sender As Object, e As EventArgs) Handles Menu5_Replace.Click
+        Menu5_CheckMarckSet(2)
+        If List5.SelectedIndex = -1 Then Exit Sub
+        If List6.SelectedIndex >= 0 Then Exit Sub
+        frmChooseProject.ShowDialog()
+        If Retval1 = 2 Then
+            'intProd  : id from Dialog
+            'intAssign: id from List5
+            intAssign = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(9)
+            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Case "SqlServer"
+                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                        CnnSS.Open()
+                        strSQL = "UPDATE Paper_Product SET Product_ID=@prodid WHERE ID=@id"
+                        Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@prodid", intProd)
+                        cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnSS.Dispose()
+                    End Using
+                Case "SqlServerCE"
+                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                        CnnSC.Open()
+                        strSQL = "UPDATE Paper_Product SET Product_ID=@prodid WHERE ID=@id"
+                        Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@prodid", intProd)
+                        cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnSC.Close()
+                    End Using
+                Case "Access"
+                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                        CnnAC.Open()
+                        strSQL = "UPDATE Product SET Notes=@notes WHERE ID=@id"
+                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@prodid", intProd)
+                        cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnAC.Close()
+                    End Using
+            End Select
+            List4_Click(sender, e) 'refresh List5
+        End If
+    End Sub
+    Private Sub Menu5_AddTo_Click(sender As Object, e As EventArgs) Handles Menu5_AddTo.Click
+        Menu5_CheckMarckSet(3)
+        If List5.SelectedIndex = -1 Then Exit Sub
+        If List6.SelectedIndex >= 0 Then Exit Sub
+        frmChooseProject.ShowDialog()
+        If Retval1 = 2 Then
+            'intRef   : Ref id from List5
+            'intProd  : id from Dialog
+            intRef = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(0)
+            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Case "SqlServer"
+                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                        CnnSS.Open()
+                        strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
+                        Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
+                        cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnSS.Dispose()
+                    End Using
+                Case "SqlServerCE"
+                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                        CnnSC.Open()
+                        strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
+                        Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
+                        cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnSC.Close()
+                    End Using
+                Case "Access"
+                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                        CnnAC.Open()
+                        strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
+                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmdx.CommandType = CommandType.Text
+                        cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
+                        cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
+                        Dim ix As Integer = cmdx.ExecuteNonQuery()
+                        CnnAC.Close()
+                    End Using
+            End Select
+            txtSearch.Text = List5.Text & " "
+        End If
+
+    End Sub
+    Private Sub Menu5_Delete_Click(sender As Object, e As EventArgs) Handles Menu5_Delete.Click
+        Menu5_CheckMarckSet(4)
+        intAssign = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(9) 'see GetRefs above
+        If intAssign < 1 Then Exit Sub
+        Dim myansw As DialogResult = MsgBox("Delete this Assignment?", vbYesNo, "eLib")
+        If myansw = vbYes Then
+            Try
+                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Case "SqlServer"
+                        Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                            CnnSS.Open()
+                            strSQL = "DELETE FROM Paper_Product WHERE ID=@assignid"
+                            Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
+                            cmdx.CommandType = CommandType.Text
+                            cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
+                            Dim ix As Integer = cmdx.ExecuteNonQuery()
+                            CnnSS.Dispose()
+                        End Using
+                    Case "SqlServerCE"
+                        Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                            CnnSC.Open()
+                            strSQL = "DELETE FROM Paper_Product WHERE ID=@assignid"
+                            Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                            cmdx.CommandType = CommandType.Text
+                            cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
+                            Dim ix As Integer = cmdx.ExecuteNonQuery()
+                            CnnSC.Close()
+                        End Using
+                    Case "Access"
+                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                            CnnAC.Open()
+                            strSQL = "DELETE FROM Paper_Product WHERE ID=@assignid"
+                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
+                            cmdx.CommandType = CommandType.Text
+                            cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
+                            Dim ix As Integer = cmdx.ExecuteNonQuery()
+                            CnnAC.Close()
+                        End Using
+                End Select
+                intProd = List4.SelectedValue
+                GetRefs(intProd) 'refresh list5
+                If List1.SelectedIndex >= 0 Then
+                    intRef = List1.SelectedValue
+                    GetAssignments1(intRef) 'refresh list2
+                End If
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+            End Try
+        End If
+
+    End Sub
     Private Sub Menu5_RefAttributes_Click(sender As Object, e As EventArgs) Handles Menu5_RefAttributes.Click
+        Menu5_CheckMarckSet(5)
         If List5.SelectedIndex = -1 Then Exit Sub
         'If List6.SelectedIndex <> -1 Then Exit Sub
         intProd = DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(0)     '0:Product.ID
@@ -2187,7 +2314,7 @@ Public Class frmAssign
                         If (Retval2 And 32) = 32 Then strAttrx = (strAttrx & "Imp2=-1, ") Else strAttrx = (strAttrx & "Imp2=0, ")
                         If (Retval2 And 64) = 64 Then strAttrx = (strAttrx & "Imp3=-1, ") Else strAttrx = (strAttrx & "Imp3=0, ")
                         If (Retval2 And 128) = 128 Then strAttrx = (strAttrx & "ImR=-1, ") Else strAttrx = (strAttrx & "ImR=0, ")
-                        strSQL = "UPDATE Paper_Product SET " & strAttrx & "Paper_Product.Note=@paperproductnote WHERE ID=@id"
+                        strSQL = "UPDATE Paper_Product SET " & strAttrx & "Paper_Product.[Note]=@paperproductnote WHERE ID=@id"
                         Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
                         cmdx.CommandType = CommandType.Text
                         cmdx.Parameters.AddWithValue("@paperproductnote", strAssignNote)
@@ -2233,7 +2360,7 @@ Public Class frmAssign
                     If (Retval2 And 2) = 2 Then strAttrx = strAttrx & "IsBook=-1, " Else strAttrx = strAttrx & "IsBook=0, "
                     If (Retval2 And 4) = 4 Then strAttrx = strAttrx & "IsManual=-1, " Else strAttrx = strAttrx & "IsManual=0, "
                     If (Retval2 And 8) = 8 Then strAttrx = strAttrx & "IsLecture=-1, " Else strAttrx = strAttrx & "IsLecture=0, "
-                    strSQL = "UPDATE Papers SET " & strAttrx & "Papers.Note=@papersnote WHERE ID=@id"
+                    strSQL = "UPDATE Papers SET " & strAttrx & "Papers.[Note]=@papersnote WHERE ID=@id"
                     Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                         CnnAC.Open()
                         Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
@@ -2285,181 +2412,28 @@ Public Class frmAssign
         End Try
 
     End Sub
-    Private Sub lblAssignNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblAssignNote2.DoubleClick
-        Menu5_RefAttributes_Click(sender, e)
-    End Sub
-    Private Sub lblRefNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblRefNote2.DoubleClick
-        Menu5_RefAttributes_Click(sender, e)
-    End Sub
-    Private Sub Menu5_Replace_Click(sender As Object, e As EventArgs) Handles Menu5_Replace.Click
-        If List5.SelectedIndex = -1 Then Exit Sub
-        If List6.SelectedIndex >= 0 Then Exit Sub
-        frmChooseProject.ShowDialog()
-        If Retval1 = 2 Then
-            'intProd  : id from Dialog
-            'intAssign: id from List5
-            intAssign = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(9)
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
-                Case "SqlServer"
-                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                        CnnSS.Open()
-                        strSQL = "UPDATE Paper_Product SET Product_ID=@prodid WHERE ID=@id"
-                        Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@prodid", intProd)
-                        cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
-                    End Using
-                Case "SqlServerCE"
-                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                        CnnSC.Open()
-                        strSQL = "UPDATE Paper_Product SET Product_ID=@prodid WHERE ID=@id"
-                        Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@prodid", intProd)
-                        cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "UPDATE Product SET Notes=@notes WHERE ID=@id"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@prodid", intProd)
-                        cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
-                    End Using
-            End Select
-            List4_Click(sender, e) 'refresh List5
-        End If
-    End Sub
-    Private Sub Menu5_AddTo_Click(sender As Object, e As EventArgs) Handles Menu5_AddTo.Click
-        If List5.SelectedIndex = -1 Then Exit Sub
-        If List6.SelectedIndex >= 0 Then Exit Sub
-        frmChooseProject.ShowDialog()
-        If Retval1 = 2 Then
-            'intRef   : Ref id from List5
-            'intProd  : id from Dialog
-            intRef = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(0)
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
-                Case "SqlServer"
-                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                        CnnSS.Open()
-                        strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                        Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
-                        cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
-                    End Using
-                Case "SqlServerCE"
-                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                        CnnSC.Open()
-                        strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                        Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
-                        cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
-                        cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
-                    End Using
-            End Select
-            txtSearch.Text = List5.Text & " "
-        End If
-
-    End Sub
-    Private Sub Menu5_Delete_Click(sender As Object, e As EventArgs) Handles Menu5_Delete.Click
-        intAssign = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(9) 'see GetRefs above
-        If intAssign < 1 Then Exit Sub
-        Dim myansw As DialogResult = MsgBox("Delete this Assignment?", vbYesNo, "eLib")
-        If myansw = vbYes Then
-            Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
-                    Case "SqlServer"
-                        Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                            CnnSS.Open()
-                            strSQL = "DELETE FROM Paper_Product WHERE ID=@assignid"
-                            Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
-                        End Using
-                    Case "SqlServerCE"
-                        Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                            CnnSC.Open()
-                            strSQL = "DELETE FROM Paper_Product WHERE ID=@assignid"
-                            Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM Paper_Product WHERE ID=@assignid"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
-                        End Using
-                End Select
-                intProd = List4.SelectedValue
-                GetRefs(intProd) 'refresh list5
-                If List1.SelectedIndex >= 0 Then
-                    intRef = List1.SelectedValue
-                    GetAssignments1(intRef) 'refresh list2
-                End If
-            Catch ex As Exception
-                MsgBox(ex.ToString)
-            End Try
-        End If
-
-    End Sub
     Private Sub Menu5_ShowAbove_Click(sender As Object, e As EventArgs) Handles Menu5_ShowAbove.Click
-        '//WAITING
+        Menu5_CheckMarckSet(6)
         If List5.SelectedIndex = -1 Then Exit Sub
         If List6.SelectedIndex = -1 Then 'Check if list 5 is showing a ref / not a note!
             lblSearch_Click(sender, e)
             txtSearch.Text = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(1) + " "
         End If
     End Sub
-    Private Sub Menu5_Copy_Click(sender As Object, e As EventArgs) Handles Menu5_Copy.Click
-        'Copy to clipboard
-        If List5.SelectedIndex >= 0 Then
-            My.Computer.Clipboard.SetText(List5.Text)
-            lblRefStatus2.Text = "'Title' coppied to clipboard"
-        End If
-    End Sub
-    Private Sub Menu5_QRCode_Click(sender As Object, e As EventArgs) Handles Menu5_QRCode.Click
-        '//check if tbl.Settings allows QRCODEGen ?
-        If List5.SelectedIndex >= 0 Then Call QRCodeGen(List5.Text)
-    End Sub
     Private Sub Menu5_GoogleScholar_Click(sender As Object, e As EventArgs) Handles Menu5_GoogleScholar.Click
+        Menu5_CheckMarckSet(7)
         If List5.SelectedIndex >= 0 Then
             Dim strSearchScholar As String = List5.Text
             SearchScholar(strSearchScholar)
         End If
     End Sub
+    Private Sub Menu5_QRCode_Click(sender As Object, e As EventArgs) Handles Menu5_QRCode.Click
+        '//check if tbl.Settings allows QRCODEGen ?
+        Menu5_CheckMarckSet(8)
+        If List5.SelectedIndex >= 0 Then Call QRCodeGen(List5.Text)
+    End Sub
     Private Sub Menu5_Collect_Click(sender As Object, e As EventArgs) Handles Menu5_Collect.Click
+        Menu5_CheckMarckSet(9)
         If List5.SelectedIndex = -1 Then Exit Sub
         FileOpen(1, Application.StartupPath & "elibCollect", OpenMode.Append)
         PrintLine(1, ". " & List3.Text & " . " & List4.Text & " . " & List6.Text)
@@ -2467,6 +2441,19 @@ Public Class frmAssign
         PrintLine(1, "")
         FileClose(1)
         lblRefStatus2.Text = "Collected <  " & List5.Text
+    End Sub
+    Private Sub lblAssignNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblAssignNote2.DoubleClick
+        Menu5_RefAttributes_Click(sender, e)
+    End Sub
+    Private Sub lblRefNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblRefNote2.DoubleClick
+        Menu5_RefAttributes_Click(sender, e)
+    End Sub
+    Private Sub Menu5_Copy_Click(sender As Object, e As EventArgs) Handles Menu5_Copy.Click
+        'Copy to clipboard
+        If List5.SelectedIndex >= 0 Then
+            My.Computer.Clipboard.SetText(List5.Text)
+            lblRefStatus2.Text = "'Title' coppied to clipboard"
+        End If
     End Sub
     Private Sub Menu5_Show_Click(sender As Object, e As EventArgs) Handles Menu5_Show.Click
         '//Open Collection to read
@@ -2510,6 +2497,9 @@ Public Class frmAssign
     'List 6 (Notes of a sub)
     Private Sub List6_KeyDown(sender As Object, e As KeyEventArgs) Handles List6.KeyDown
         Select Case e.KeyCode
+            Case 13
+                List5_DoubleClick(sender, e)
+                e.SuppressKeyPress = True
             Case 37 : List3.Focus()
             Case 39 : List5.Focus()
         End Select
@@ -2533,7 +2523,7 @@ Public Class frmAssign
         intProd = List4.SelectedValue
         If intProd < 1 Then Exit Sub
         strProductName = List4.Text
-        strDateTime = System.DateTime.Now.ToString("yyyy.MM.dd HH:mm")
+        strDateTime = System.DateTime.Now.ToString("yyyy.MM.dd-HH:mm")
         Retval1 = 0 'new note
         frmProductNotes.ShowDialog()
         Try
@@ -2585,6 +2575,7 @@ Public Class frmAssign
         End Try
     End Sub
     Private Sub Menu6_Edit_Click(sender As Object, e As EventArgs) Handles Menu6_Edit.Click
+        If List4.SelectedIndex = -1 Then Exit Sub
         intProd = List4.SelectedValue
         If intProd < 1 Then Exit Sub
         strProductName = List4.Text
@@ -2624,7 +2615,7 @@ Public Class frmAssign
                     Case "Access"
                         Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                             CnnAC.Open()
-                            strSQL = "UPDATE ProductNotes SET NoteDatum=@notedatum, Note=@note WHERE ID=@noteid"
+                            strSQL = "UPDATE ProductNotes SET NoteDatum=@notedatum, [Note]=@note WHERE ID=@noteid"
                             Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@notedatum", strDateTime)

@@ -26,10 +26,10 @@ Partial Class frmProject
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.txtProjectNote = New System.Windows.Forms.TextBox()
         Me.CheckBoxActive = New System.Windows.Forms.CheckBox()
-        Me.txtProjectName = New System.Windows.Forms.TextBox()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Menu_Save = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_Cancel = New System.Windows.Forms.ToolStripMenuItem()
+        Me.txtProjectName = New System.Windows.Forms.MaskedTextBox()
         Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -39,9 +39,9 @@ Partial Class frmProject
         Me.Panel1.BackColor = System.Drawing.SystemColors.Control
         Me.Panel1.Controls.Add(Me.txtProjectNote)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 69)
+        Me.Panel1.Location = New System.Drawing.Point(0, 67)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(549, 68)
+        Me.Panel1.Size = New System.Drawing.Size(525, 68)
         Me.Panel1.TabIndex = 0
         Me.Panel1.TabStop = True
         '
@@ -68,15 +68,6 @@ Partial Class frmProject
         Me.CheckBoxActive.Text = "Active"
         Me.CheckBoxActive.UseVisualStyleBackColor = True
         '
-        'txtProjectName
-        '
-        Me.txtProjectName.BackColor = System.Drawing.SystemColors.Control
-        Me.txtProjectName.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtProjectName.Location = New System.Drawing.Point(23, 15)
-        Me.txtProjectName.Name = "txtProjectName"
-        Me.txtProjectName.Size = New System.Drawing.Size(216, 16)
-        Me.txtProjectName.TabIndex = 0
-        '
         'ContextMenuStrip1
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_Save, Me.Menu_Cancel})
@@ -96,16 +87,27 @@ Partial Class frmProject
         Me.Menu_Cancel.Size = New System.Drawing.Size(110, 22)
         Me.Menu_Cancel.Text = "Cancel"
         '
+        'txtProjectName
+        '
+        Me.txtProjectName.BackColor = System.Drawing.SystemColors.Control
+        Me.txtProjectName.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtProjectName.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.txtProjectName.ForeColor = System.Drawing.SystemColors.ControlText
+        Me.txtProjectName.Location = New System.Drawing.Point(23, 13)
+        Me.txtProjectName.Name = "txtProjectName"
+        Me.txtProjectName.Size = New System.Drawing.Size(247, 20)
+        Me.txtProjectName.TabIndex = 1
+        '
         'frmProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(549, 137)
+        Me.ClientSize = New System.Drawing.Size(525, 135)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
-        Me.Controls.Add(Me.CheckBoxActive)
         Me.Controls.Add(Me.txtProjectName)
+        Me.Controls.Add(Me.CheckBoxActive)
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MaximizeBox = False
@@ -126,8 +128,8 @@ Partial Class frmProject
     Friend WithEvents Panel1 As Panel
     Friend WithEvents txtProjectNote As TextBox
     Friend WithEvents CheckBoxActive As CheckBox
-    Friend WithEvents txtProjectName As TextBox
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents Menu_Save As ToolStripMenuItem
     Friend WithEvents Menu_Cancel As ToolStripMenuItem
+    Friend WithEvents txtProjectName As MaskedTextBox
 End Class

@@ -1,6 +1,6 @@
 ﻿Public Class frmProject
     Private Sub frmProject_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Retval1 {0:Project 1:subProject}
+        'Retval1 {0:Project 1:subProject 2:User Add/Edit}
         'Retval2 {MODE 0:new 1:edit}
         'Retval3 {0:InActive -1:Active}
 
@@ -9,7 +9,7 @@
                 Select Case Retval2 'MODE {new|edit}
                     Case 0 'new project
                         Me.Text = "NOTE: New Project:"
-                        txtProjectName.Text = "Prj " & System.DateTime.Now.ToString("yyyy.MM.dd HH:mm") & "- EDIT me!"
+                        txtProjectName.Text = "Prj " & System.DateTime.Now.ToString("yyyy.MM.dd-HH:mm") & "- EDIT me!"
                         txtProjectNote.Text = "new project"
                         CheckBoxActive.Checked = True
                     Case 1 'edit mode
@@ -25,7 +25,7 @@
                 Select Case Retval2 'MODE {new|edit}
                     Case 0 'new subproject
                         Me.Text = "New subProject:"
-                        txtProjectName.Text = "Prd " & System.DateTime.Now.ToString("yyyy.MM.dd HH:mm") & "- EDIT me!"
+                        txtProjectName.Text = "Prd " & System.DateTime.Now.ToString("yyyy.MM.dd-HH:mm") & "- EDIT me!"
                         txtProjectNote.Text = "[NOTE: new subproject"
                     Case 1 'edit mode
                         Me.Text = "Edit subProject:"

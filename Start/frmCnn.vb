@@ -140,15 +140,15 @@ lbl_Read:
         Next
         '//Append Original connections / for Existing Databases in Application Folder
         Try
-            tblConnection.Rows.Add("SQLServer Database Remote Connection", "eLib Database on Remote Server")
-            tblConnection.Rows.Add("SQLServer Database Connection", "Server=.\SQLExpress; Initial Catalog=eLib1; Integrated Security = SSPI;", "", "")
+            tblConnection.Rows.Add("SQLServer Remote", "eLib Database on Remote Server")
+            tblConnection.Rows.Add("SQLServer", "Server=.\SQLExpress; Initial Catalog=eLib1; Integrated Security = SSPI;", "", "")
             Dim strFile As String
             Dim strDir As String = Application.StartupPath
             For Each strFile In Directory.GetFiles(strDir, "*.sdf")
-                tblConnection.Rows.Add("SqlServer CE Database Connection", strFile, "", "")
+                tblConnection.Rows.Add("SqlServer CE", strFile, "", "")
             Next
             For Each strFile In Directory.GetFiles(strDir, "*.accdb")
-                tblConnection.Rows.Add("MSAccess Database Connection", strFile, "", "")
+                tblConnection.Rows.Add("ACCDB", strFile, "", "")
             Next
         Catch ex As Exception
         End Try
@@ -232,26 +232,26 @@ lbl_Read:
     Public Function Connect2Database(Server2Connect As String) As Integer
         Try
             Select Case Server2Connect
-                Case "SQLServer Database Remote Connection" '------------------------------------ remote server
+                Case "SQLServer Remote" '------------------------------------ remote server
                     strDatabaseCNNstring = "Server=setareh.r1host.com\sqlserver2019; Initial Catalog=mshtir_eLib; User ID=mshtir_eLib1user; Password=eLiB_dRmShT2733;"
                     CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
                     DatabaseType = "SqlServer"
 
                     Connect2Database = 1
-                Case "SQLServer Database Connection" '------------------------------------------- local sqlserver
+                Case "SQLServer" '------------------------------------------- local sqlserver
                     strDatabaseCNNstring = strDbBackEnd
                     CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
                     DatabaseType = "SqlServer"
                     Connect2Database = 1
-                Case "SqlServer CE Database Connection" '----------------------------------------- local sqlserver CE
+                Case "SqlServer CE" '----------------------------------------- local sqlserver CE
                     strDatabaseCNNstring = "Data Source=" & strDbBackEnd & ";Password=" & BackEndPass & ";"
                     CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
                     DatabaseType = "SqlServerCE"
                     Connect2Database = 1
-                Case "MSAccess Database Connection" '--------------------------------------------- accdb
+                Case "ACCDB" '--------------------------------------------- accdb
                     strDatabaseCNNstring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & strDbBackEnd & ";Jet OLEDB:Database Password=" & BackEndPass & ";"
                     CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                     CnnAC.Open()

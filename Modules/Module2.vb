@@ -3,20 +3,6 @@ Imports ClosedXML.Excel
 Imports ErikEJ.SqlCe
 
 Module Module2
-    Public Sub DeleteHtmlFiles()
-        Dim strFilex As String = ""
-        Dim strDirx As String = Application.StartupPath
-        Try
-            For Each strFilex In Directory.GetFiles(strDirx, "*.html")
-                File.Delete(strFilex)
-            Next
-            '//Alternative Code:
-            'My.Computer.FileSystem.DeleteFile(Application.StartupPath & "eLibReport.html", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
-            'My.Computer.FileSystem.DeleteFile(Application.StartupPath & "eLibCollect.html", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
-        Catch ex As Exception
-        End Try
-    End Sub
-
     'ADMIN Add_User
     Public Sub AddNewUser()
         Retval1 = 2 'User
@@ -75,6 +61,184 @@ Module Module2
             End Try
         End If
     End Sub
+
+    '//Admin WipeOutData
+    Public Sub Clear_eLibPapersInfo(tblName As String)
+        '//Assuming an OPEN CNN for this SUB
+        Retval1 = 0
+        '//Clear DataTables 
+        DS.Tables("tblUsrs").Clear()
+        DS.Tables("tblRefs1").Clear()
+        DS.Tables("tblProject").Clear()
+        DS.Tables("tblProduct").Clear()
+        DS.Tables("tblAssignments").Clear()
+        DS.Tables("tblRefs2").Clear() 'not necessary
+        DS.Tables("tblProductNotes").Clear()
+        '//Del Database Tables Rows 
+        Try
+            For Each strTableName In {tblName}
+                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Case "SqlServer"
+                        strSQL = "DELETE FROM " & strTableName & ";"
+                        Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                    Case "SqlServerCE"
+                        strSQL = "DELETE FROM " & strTableName & ";"
+                        Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                    Case "Access" '//Codes (for accdb) Are ABANDONED (restore from within Access)
+                        strSQL = "DELETE * FROM " & strTableName & ";"
+                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                End Select
+            Next
+            Retval1 = 1
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            Exit Sub
+        End Try
+        '//ReSeed Table IDs to 1
+        Retval2 = 0
+        Try
+            For Each strTableName In {tblName}
+                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Case "SqlServer"
+                        strSQL = "DBCC CHECKIDENT (" & strTableName & ", RESEED, 1)"
+                        Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                    Case "SqlServerCE"
+                        strSQL = "ALTER TABLE " & strTableName & " ALTER COLUMN [Id] IDENTITY (1, 1)"
+                        Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                    Case "Access" 'Different method of reseting ID for accdb //Codes (for accdb) Are ABANDONED (restore from within Access)
+                        'Copy a Table
+                        strSQL = "SELECT * INTO " & strTableName & "_new FROM " & strTableName & ";"
+                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                        'Del Old Table
+                        strSQL = "DROP TABLE " & strTableName & ";"
+                        Dim cmd2 As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd2.CommandType = CommandType.Text
+                        i = cmd2.ExecuteNonQuery()
+                        'Copy back the Table
+                        strSQL = "SELECT * INTO " & strTableName & " FROM " & strTableName & "_new;"
+                        Dim cmd3 As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd3.CommandType = CommandType.Text
+                        i = cmd3.ExecuteNonQuery()
+                        'Del middle Table
+                        strSQL = "DROP TABLE " & strTableName & "_new;"
+                        Dim cmd4 As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd4.CommandType = CommandType.Text
+                        i = cmd4.ExecuteNonQuery()
+                End Select
+            Next
+            Retval2 = 1
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            Exit Sub
+        End Try
+    End Sub
+    Public Sub Clear_eLibProjectsInfo()
+        '//Assuming an OPEN CNN for this SUB
+        Retval1 = 0
+        '//Clear DataTables 
+        DS.Tables("tblUsrs").Clear()
+        DS.Tables("tblRefs1").Clear()
+        DS.Tables("tblProject").Clear()
+        DS.Tables("tblProduct").Clear()
+        DS.Tables("tblAssignments").Clear()
+        DS.Tables("tblRefs2").Clear() 'not necessary
+        DS.Tables("tblProductNotes").Clear()
+        '//Del Database Tables Rows 
+        Try
+            For Each strTableName In {"usrs", "Project", "Product", "Paper_Product", "ProductNotes"}
+                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Case "SqlServer"
+                        strSQL = "DELETE FROM " & strTableName & ";"
+                        Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                    Case "SqlServerCE"
+                        strSQL = "DELETE FROM " & strTableName & ";"
+                        Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                    Case "Access" '//Codes (for accdb) Are ABANDONED (restore from within Access)
+                        strSQL = "DELETE * FROM " & strTableName & ";"
+                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                End Select
+            Next
+            Retval1 = 1
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            Exit Sub
+        End Try
+        '//ReSeed Table IDs to 1
+        Retval2 = 0
+        Try
+            For Each strTableName In {"usrs", "Project", "Product", "Paper_Product", "ProductNotes"}
+                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Case "SqlServer"
+                        strSQL = "DBCC CHECKIDENT (" & strTableName & ", RESEED, 1)"
+                        Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                    Case "SqlServerCE"
+                        strSQL = "ALTER TABLE " & strTableName & " ALTER COLUMN [Id] IDENTITY (1, 1)"
+                        Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                    Case "Access" 'Different method of reseting ID for accdb //Codes (for accdb) Are ABANDONED (restore from within Access)
+                        'Copy a Table
+                        strSQL = "SELECT * INTO " & strTableName & "_new FROM " & strTableName & ";"
+                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd.CommandType = CommandType.Text
+                        Dim i As Integer = cmd.ExecuteNonQuery()
+                        'Del Old Table
+                        strSQL = "DROP TABLE " & strTableName & ";"
+                        Dim cmd2 As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd2.CommandType = CommandType.Text
+                        i = cmd2.ExecuteNonQuery()
+                        'Copy back the Table
+                        strSQL = "SELECT * INTO " & strTableName & " FROM " & strTableName & "_new;"
+                        Dim cmd3 As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd3.CommandType = CommandType.Text
+                        i = cmd3.ExecuteNonQuery()
+                        'Del middle Table
+                        strSQL = "DROP TABLE " & strTableName & "_new;"
+                        Dim cmd4 As New OleDb.OleDbCommand(strSQL, CnnAC)
+                        cmd4.CommandType = CommandType.Text
+                        i = cmd4.ExecuteNonQuery()
+                End Select
+            Next
+            Retval2 = 1
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            Exit Sub
+        End Try
+    End Sub
+    Public Sub DeleteHtmlFiles()
+        Dim strFilex As String = ""
+        Dim strDirx As String = Application.StartupPath
+        Try
+            For Each strFilex In Directory.GetFiles(strDirx, "*.html")
+                File.Delete(strFilex)
+            Next
+            '//Alternative Code:
+            'My.Computer.FileSystem.DeleteFile(Application.StartupPath & "eLibReport.html", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
+            'My.Computer.FileSystem.DeleteFile(Application.StartupPath & "eLibCollect.html", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
+        Catch ex As Exception
+        End Try
+    End Sub
+
     '//Admin SCAN_Folders
     Public Sub eLibScanNames()
         Dim resultx As String = ValidateFolders()
@@ -116,7 +280,7 @@ Lblx:
         '//Prepare Table cols for Import
         Try
             DS.Tables("tblRefs1").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -124,21 +288,12 @@ Lblx:
                         DASS.Fill(DS, "tblRefs1")
                         CnnSS.Close()
                     End Using
-                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE Papers.ID =1;", CnnSC)
                         DASC.Fill(DS, "tblRefs1")
                         CnnSC.Close()
-                    End Using
-                '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE Papers.ID =1;", CnnAC)
-                        DAAC.Fill(DS, "tblRefs1")
-                        CnnAC.Close()
                     End Using
             End Select
         Catch ex As Exception
@@ -149,6 +304,7 @@ Lblx:
         Dim Trux As Integer = 0
         Select Case DatabaseType
             Case "SqlServer" : Trux = 1
+            Case "SqlServerCE" : Trux = -1
             Case "Access" : Trux = -1
         End Select
         '//IMPORT into tblPapers
@@ -166,9 +322,6 @@ Lblx:
             FileClose(1)
             Application.DoEvents()
         Next flnm
-        '//Remove Duplicates
-        '//
-
         '//BULK-COPY
         BulkCopyPaperNames()
         '//Delete temporary files
@@ -201,35 +354,11 @@ Lblx:
                     bCopy.WriteToServer(DS.Tables("tblRefs1"))
                     CnnSC.Close()
                 End Using
-            Case "Access"
-                '//Notice: no solution yet!   //work around:
-                'Save data to a temp Excel file
-                On Error GoTo 0
-                Using WB As IXLWorkbook = New XLWorkbook
-                    DS.Tables("tblRefs1").Clear()
-                    DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID ORDER BY Papers.ID;", CnnAC)
-                    DAAC.Fill(DS, "tblRefs1")
-                    Dim WS1 As IXLWorksheet = WB.Worksheets.Add("Papers")
-                    WS1.Cell(1, 1).Value = "ID"
-                    WS1.Cell(1, 2).Value = "PaperName"
-                    WS1.Cell(1, 3).Value = "IsPaper"
-                    WS1.Cell(1, 4).Value = "IsBook"
-                    WS1.Cell(1, 5).Value = "IsManual"
-                    WS1.Cell(1, 6).Value = "IsLecture"
-                    WS1.Cell(1, 7).Value = "Notes"
-                    For iRow As Integer = 1 To DS.Tables("tblRefs1").Rows.Count
-                        For iCol = 1 To 7
-                            WS1.Cell(iRow + 1, iCol).Value = DS.Tables("tblRefs1").Rows(iRow - 1).Item(iCol - 1)
-                        Next iCol
-                    Next iRow
-                End Using
-                '//Then, import from that excel file
-                '//
         End Select
     End Sub
     Public Sub eLibScanPaths()
         '//OPEN A CONNECTION for this SUB
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                 CnnSS.Open()
@@ -240,8 +369,8 @@ Lblx:
                 CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
                 CnnAC.Open()
         End Select
-        Try '//Delete TABLE Paths - (formerly: TMPeLibPapers)
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Try '//Delete TABLE Paths
+            Select Case DatabaseType
                 Case "SqlServer"
                     strSQL = "DELETE FROM Paths"
                     Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -267,18 +396,13 @@ Lblx:
         Process.Start("cmd.exe", "/C Dir " & strFolderLectures & " /s /b > " & Application.StartupPath & "eLibLz.txt").WaitForExit()
         Try
             DS.Tables("tblRefPaths").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     DASS = New SqlClient.SqlDataAdapter("SELECT ID, FilePath FROM Paths  WHERE ID =1;", CnnSS)
                     DASS.Fill(DS, "tblRefPaths")
-               '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, FilePath FROM Paths  WHERE ID =1;", CnnSC)
                     DASC.Fill(DS, "tblRefPaths")
-               '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    DAAC = New OleDb.OleDbDataAdapter("SELECT ID, FilePath FROM Paths  WHERE ID =1;", CnnAC)
-                    DAAC.Fill(DS, "tblRefPaths")
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
@@ -300,21 +424,17 @@ Lblx:
         Next flnm
         '//SqlServer-BulkCopy
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Dim bCopy As New SqlClient.SqlBulkCopy(CnnSS)
                     bCopy.DestinationTableName = "Paths"
                     bCopy.BatchSize = DS.Tables("tblRefPaths").Rows.Count
                     bCopy.WriteToServer(DS.Tables("tblRefPaths"))
-               '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Dim bCopy As New ErikEJ.SqlCe.SqlCeBulkCopy(CnnSC, 0)
                     bCopy.DestinationTableName = "Paths"
                     bCopy.BatchSize = DS.Tables("tblRefPaths").Rows.Count
                     bCopy.WriteToServer(DS.Tables("tblRefPaths"))
-               '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    '//do workaround!
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
@@ -351,6 +471,7 @@ Lblx:
 lblReturn:
         RemoveExtension = strFlnm
     End Function
+
     '//Admin DB_Backup-Restore
     Public Sub eLib_Backup()
         '//OPEN A CONNECTION for this SUB
@@ -605,128 +726,98 @@ lblReturn:
         End Using
         '//Initiate tbls (ensure cols are constructed) -------------------------------------------------------------- B  B  B  B  B  B  B  B  B  B  B
         'Notice: Codes (for accdb) Are ABANDONED (restore from within Access)
-        'tblUsrs
         '//OPEN A CONNECTION for this SUB
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                 CnnSS.Open()
             Case "SqlServerCE"
                 CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                 CnnSC.Open()
-            Case "Access"
-                CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                CnnAC.Open()
         End Select
+        'tblUsrs
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     DASS = New SqlClient.SqlDataAdapter("Select ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs WHERE ID =1;", CnnSS)
                     DASS.Fill(DS, "tblUsrs")
-               '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     DASC = New SqlServerCe.SqlCeDataAdapter("Select ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs WHERE ID =1;", CnnSC)
                     DASC.Fill(DS, "tblUsrs")
-                        '--------- access --------- access --------- access --------- access --------- access --------- access --------- access 
-                Case "Access"
-                    DAAC = New OleDb.OleDbDataAdapter("Select ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs WHERE ID =1;", CnnAC)
-                    DAAC.Fill(DS, "tblUsrs")
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
         'tblRefs1        
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     DASS = New SqlClient.SqlDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Papers.ID =1;", CnnSS)
                     DASS.Fill(DS, "tblRefs1")
-               '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     DASC = New SqlServerCe.SqlCeDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Papers.ID =1;", CnnSC)
                     DASC.Fill(DS, "tblRefs1")
-               '--------- access --------- access --------- access --------- access --------- access --------- access --------- access 
-                Case "Access"
-                    DAAC = New OleDb.OleDbDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Papers.ID =1;", CnnAC)
-                    DAAC.Fill(DS, "tblRefs1")
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
         'tblProject      
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     DASS = New SqlClient.SqlDataAdapter("Select ID, ProjectName, Notes, Active, user_ID FROM Project WHERE ID =1;", CnnSS)
                     DASS.Fill(DS, "tblProject")
-               '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     DASC = New SqlServerCe.SqlCeDataAdapter("Select ID, ProjectName, Notes, Active, user_ID FROM Project WHERE ID =1;", CnnSC)
                     DASC.Fill(DS, "tblProject")
-                    '--------- access --------- access --------- access --------- access --------- access --------- access --------- access 
-                Case "Access"
-                    DAAC = New OleDb.OleDbDataAdapter("Select ID, ProjectName, Notes, Active, user_ID FROM Project WHERE ID =1;", CnnAC)
-                    DAAC.Fill(DS, "tblProject")
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
         'tblProduct      
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     DASS = New SqlClient.SqlDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product WHERE ID =1;", CnnSS)
                     DASS.Fill(DS, "tblProduct")
-              '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     DASC = New SqlServerCe.SqlCeDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product WHERE ID =1;", CnnSC)
                     DASC.Fill(DS, "tblProduct")
-               '--------- access --------- access --------- access --------- access --------- access --------- access --------- access 
-                Case "Access"
-                    DAAC = New OleDb.OleDbDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product WHERE ID =1;", CnnAC)
-                    DAAC.Fill(DS, "tblProduct")
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
         'tblAssignments  
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     DASS = New SqlClient.SqlDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_Product.ID =1;", CnnSS)
                     DASS.Fill(DS, "tblAssignments")
-                    '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE ---------
                 Case "SqlServerCE"
                     DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_Product.ID =1;", CnnSC)
                     DASC.Fill(DS, "tblAssignments")
-               '--------- access --------- access --------- access --------- access --------- access --------- access --------- access 
-                Case "Access"
-                    DAAC = New OleDb.OleDbDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_Product.ID =1;", CnnAC)
-                    DAAC.Fill(DS, "tblAssignments")
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
         'tblProductNotes 
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     DASS = New SqlClient.SqlDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes WHERE ID =1;", CnnSS)
                     DASS.Fill(DS, "tblProductNotes")
-               '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes WHERE ID =1;", CnnSC)
                     DASC.Fill(DS, "tblProductNotes")
-               '--------- access --------- access --------- access --------- access --------- access --------- access --------- access 
-                Case "Access"
-                    DAAC = New OleDb.OleDbDataAdapter("SELECT ID, NoteDatum, [Note], Product_ID FROM ProductNotes WHERE ID =1;", CnnAC)
-                    DAAC.Fill(DS, "tblProductNotes")
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
-        '//Del Database Tables Rows ----------------------------------------------------------------------------- C  C  C  C  C  C  C  C  C  C  C
-        WipeOutAndResetCurrentDatabase()
+        '//Del Database Tables Rows --------------------------------------------------------------------------------- C  C  C  C  C  C  C  C  C  C
+        '//WipeOut:
+        Clear_eLibPapersInfo("Papers")
+        Clear_eLibPapersInfo("Paths")
+        Clear_eLibProjectsInfo() 'in: Module2
         If (Retval1 = 0) Or (Retval2 = 0) Then
             Exit Sub
         End If
@@ -735,7 +826,7 @@ lblReturn:
         Using WB As IXLWorkbook = New XLWorkbook(strFilename)
             '//-----Restore--------Restore----------Restore--------Restore---------Restore---------Restore-------- 0 users
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT usrs ON"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -746,8 +837,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -766,7 +855,7 @@ lblReturn:
                         strUserPass = WS0.Cell(iRow, 3).Value
                         If WS0.Cell(iRow, 4).Value = "TRUE" Then boolUserActive = 1 Else boolUserActive = 0
                         strUserNote = WS0.Cell(iRow, 5).Value
-                        Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                        Select Case DatabaseType
                             Case "SqlServer"
                                 strSQL = "INSERT INTO usrs (ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15) VALUES (@id, @usrname, @usrpass, @usractive, @usrnote,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)"
                                 Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -796,21 +885,6 @@ lblReturn:
                                 Catch ex As Exception
                                     MsgBox("Error creating new user" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                 End Try
-                            Case "Access"
-                                If boolUserActive = 1 Then boolUserActive = -1
-                                strSQL = "INSERT INTO usrs (ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15) VALUES (@id, @usrname, @usrpass, @usractive, @usrnote,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)"
-                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmd.CommandType = CommandType.Text
-                                cmd.Parameters.AddWithValue("@id", intUser)
-                                cmd.Parameters.AddWithValue("@usrname", strUser)
-                                cmd.Parameters.AddWithValue("@usrpass", strUserPass)
-                                cmd.Parameters.AddWithValue("@usractive", boolUserActive.ToString)
-                                cmd.Parameters.AddWithValue("@usrnote", strUserNote)
-                                Try
-                                    Dim i As Integer = cmd.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error creating new user " & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                                End Try
                         End Select
                     End If
                 Next
@@ -819,7 +893,7 @@ lblReturn:
                 Exit Sub
             End Try
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT usrs OFF"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -830,8 +904,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -839,7 +911,7 @@ lblReturn:
             End Try
             '//-----Restore--------Restore----------Restore--------Restore---------Restore---------Restore-------- 1 Papers
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT Papers ON"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -850,8 +922,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -877,7 +947,7 @@ lblReturn:
                         If WS1.Cell(iRow, 5).Value = "TRUE" Then boolIsManual = 1 Else boolIsManual = 0
                         If WS1.Cell(iRow, 6).Value = "TRUE" Then boolIsLecture = 1 Else boolIsLecture = 0
                         strPaperNote = WS1.Cell(iRow, 7).Value
-                        Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                        Select Case DatabaseType
                             Case "SqlServer"
                                 strSQL = "INSERT INTO Papers (ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@id, @papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
                                 Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -892,7 +962,7 @@ lblReturn:
                                 Try
                                     Dim i As Integer = cmd.ExecuteNonQuery()
                                 Catch ex As Exception
-                                    MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                                    'MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                 End Try
                             Case "SqlServerCE"
                                 If boolIsPaper = 1 Then boolIsPaper = -1
@@ -912,27 +982,7 @@ lblReturn:
                                 Try
                                     Dim i As Integer = cmd.ExecuteNonQuery()
                                 Catch ex As Exception
-                                    MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                                End Try
-                            Case "Access"
-                                If boolIsPaper = 1 Then boolIsPaper = -1
-                                If boolIsBook = 1 Then boolIsBook = -1
-                                If boolIsManual = 1 Then boolIsManual = -1
-                                If boolIsLecture = 1 Then boolIsLecture = -1
-                                strSQL = "INSERT INTO Papers (ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) VALUES (@id, @papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
-                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmd.CommandType = CommandType.Text
-                                cmd.Parameters.AddWithValue("@id", intPaperID)
-                                cmd.Parameters.AddWithValue("@papername", strPaperName)
-                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
-                                cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
-                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
-                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
-                                cmd.Parameters.AddWithValue("@notes", strPaperNote)
-                                Try
-                                    Dim i As Integer = cmd.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error creating new paper " & iRow.ToString & "  /  " & strPaperName & vbCrLf & ex.ToString, vbOKOnly, "eLib")
+                                    'MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                 End Try
                         End Select
                     End If
@@ -942,7 +992,7 @@ lblReturn:
                 Exit Sub
             End Try
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT Papers OFF"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -953,8 +1003,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -962,7 +1010,7 @@ lblReturn:
             End Try
             '//-----Restore--------Restore----------Restore--------Restore---------Restore---------Restore-------- 2 Projects
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT Project ON"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -973,8 +1021,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -996,7 +1042,7 @@ lblReturn:
                         strProjectNotes = WS2.Cell(iRow, 3).Value
                         If WS2.Cell(iRow, 4).Value = "TRUE" Then boolProjectActive = 1 Else boolProjectActive = 0
                         intUserID = Int(WS2.Cell(iRow, 5).Value)
-                        Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                        Select Case DatabaseType
                             Case "SqlServer"
                                 strSQL = "INSERT INTO Project (ID, ProjectName, Notes, Active, user_ID) VALUES (@id, @projectname, @notes, @active, @userid)"
                                 Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1026,21 +1072,6 @@ lblReturn:
                                 Catch ex As Exception
                                     MsgBox("Error creating new project" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                 End Try
-                            Case "Access"
-                                If boolProjectActive = 1 Then boolProjectActive = -1
-                                strSQL = "INSERT INTO Project (ID, ProjectName, Notes, Active, user_ID) VALUES (@id, @projectname, @notes, @active, @userid)"
-                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmd.CommandType = CommandType.Text
-                                cmd.Parameters.AddWithValue("@id", intProjectID)
-                                cmd.Parameters.AddWithValue("@projectname", strProjectName)
-                                cmd.Parameters.AddWithValue("@notes", strProjectNotes)
-                                cmd.Parameters.AddWithValue("@active", boolProjectActive.ToString)
-                                cmd.Parameters.AddWithValue("@userid", intUserID.ToString)
-                                Try
-                                    Dim i As Integer = cmd.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error creating new project " & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                                End Try
                         End Select
                     End If
                 Next
@@ -1049,7 +1080,7 @@ lblReturn:
                 Exit Sub
             End Try
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT Project OFF"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1060,8 +1091,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -1069,7 +1098,7 @@ lblReturn:
             End Try
             '//-----Restore--------Restore----------Restore--------Restore---------Restore---------Restore-------- 3 Products
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT Product ON"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1080,8 +1109,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -1101,7 +1128,7 @@ lblReturn:
                         strProductName = WS3.Cell(iRow, 2).Value
                         strProductNotes = WS3.Cell(iRow, 3).Value
                         intProjectID = Int(WS3.Cell(iRow, 4).Value)
-                        Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                        Select Case DatabaseType
                             Case "SqlServer"
                                 strSQL = "INSERT INTO Product (ID, ProductName, Notes, Project_ID) VALUES (@id, @productname, @notes, @projectid)"
                                 Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1128,19 +1155,6 @@ lblReturn:
                                 Catch ex As Exception
                                     MsgBox("Error creating new product" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                 End Try
-                            Case "Access"
-                                strSQL = "INSERT INTO Product (ID, ProductName, Notes, Project_ID) VALUES (@id, @productname, @notes, @projectid)"
-                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmd.CommandType = CommandType.Text
-                                cmd.Parameters.AddWithValue("@id", intProductID)
-                                cmd.Parameters.AddWithValue("@productname", strProductName)
-                                cmd.Parameters.AddWithValue("@notes", strProductNotes)
-                                cmd.Parameters.AddWithValue("@projectid", intProjectID.ToString)
-                                Try
-                                    Dim i As Integer = cmd.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error creating new project " & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                                End Try
                         End Select
                     End If
                 Next
@@ -1149,7 +1163,7 @@ lblReturn:
                 Exit Sub
             End Try
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT Product OFF"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1160,8 +1174,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -1169,7 +1181,7 @@ lblReturn:
             End Try
             '//-----Restore--------Restore----------Restore--------Restore---------Restore---------Restore-------- 4 Assignments
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT Paper_Product ON"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1180,8 +1192,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -1209,7 +1219,7 @@ lblReturn:
                         If WS4.Cell(iRow, 6).Value = "TRUE" Then boolImp2 = 1 Else boolImp2 = 0
                         If WS4.Cell(iRow, 7).Value = "TRUE" Then boolImp3 = 1 Else boolImp3 = 0
                         If WS4.Cell(iRow, 8).Value = "TRUE" Then boolImR = 1 Else boolImR = 0
-                        Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                        Select Case DatabaseType
                             Case "SqlServer"
                                 strSQL = "INSERT INTO Paper_Product (ID, Paper_ID, Product_ID, Note, Imp1, Imp2, Imp3, ImR) VALUES (@id, @paperid, @productid, @note, @imp1, @imp2, @imp3, @imr)"
                                 Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1248,27 +1258,6 @@ lblReturn:
                                 Catch ex As Exception
                                     MsgBox("Error creating new Assignments" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                 End Try
-                            Case "Access"
-                                If boolImp1 = 1 Then boolImp1 = -1
-                                If boolImp2 = 1 Then boolImp2 = -1
-                                If boolImp3 = 1 Then boolImp3 = -1
-                                If boolImR = 1 Then boolImR = -1
-                                strSQL = "INSERT INTO Paper_Product (ID, Paper_ID, Product_ID, Note, Imp1, Imp2, Imp3, ImR) VALUES (@id, @paperid, @productid, @note, @imp1, @imp2, @imp3, @imr)"
-                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmd.CommandType = CommandType.Text
-                                cmd.Parameters.AddWithValue("@id", intPaperProduct)
-                                cmd.Parameters.AddWithValue("@paperid", intPaperID.ToString)
-                                cmd.Parameters.AddWithValue("@productid", intProductID.ToString)
-                                cmd.Parameters.AddWithValue("@note", strPaperProductNote)
-                                cmd.Parameters.AddWithValue("@imp1", boolImp1.ToString)
-                                cmd.Parameters.AddWithValue("@imp2", boolImp2.ToString)
-                                cmd.Parameters.AddWithValue("@imp3", boolImp3.ToString)
-                                cmd.Parameters.AddWithValue("@imr", boolImR.ToString)
-                                Try
-                                    Dim i As Integer = cmd.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error creating new Assignments " & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                                End Try
                         End Select
                     End If
                 Next
@@ -1277,7 +1266,7 @@ lblReturn:
                 Exit Sub
             End Try
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT Paper_Product OFF"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1288,8 +1277,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -1297,7 +1284,7 @@ lblReturn:
             End Try
             '//-----Restore--------Restore----------Restore--------Restore---------Restore---------Restore-------- 5 ProductNotes
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT ProductNotes ON"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1308,8 +1295,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -1329,7 +1314,7 @@ lblReturn:
                         strNoteDatum = WS5.Cell(iRow, 2).Value
                         strNotes = WS5.Cell(iRow, 3).Value
                         intProductID = Int(WS5.Cell(iRow, 4).Value)
-                        Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                        Select Case DatabaseType
                             Case "SqlServer"
                                 strSQL = "INSERT INTO ProductNotes (ID, NoteDatum, Note, Product_ID) VALUES (@id, @datum, @note, @productid)"
                                 Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1356,19 +1341,6 @@ lblReturn:
                                 Catch ex As Exception
                                     MsgBox("Error creating new ProductNotes" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                 End Try
-                            Case "Access"
-                                strSQL = "INSERT INTO ProductNotes (ID, NoteDatum, [Note], Product_ID) VALUES (@id, @datum, @note, @productid)"
-                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmd.CommandType = CommandType.Text
-                                cmd.Parameters.AddWithValue("@id", intProductNote)
-                                cmd.Parameters.AddWithValue("@datum", strNoteDatum)
-                                cmd.Parameters.AddWithValue("@note", strNotes)
-                                cmd.Parameters.AddWithValue("@productid", intProductID.ToString)
-                                Try
-                                    Dim i As Integer = cmd.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error creating new ProductNotes " & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                                End Try
                         End Select
                     End If
                 Next
@@ -1377,7 +1349,7 @@ lblReturn:
                 Exit Sub
             End Try
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "SET IDENTITY_INSERT ProductNotes OFF"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -1388,8 +1360,6 @@ lblReturn:
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access"
-                        '    'no solution for accdb! 
                 End Select
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -1411,89 +1381,6 @@ lblReturn:
                 CnnAC.Dispose()
         End Select
     End Sub
-    Public Sub WipeOutAndResetCurrentDatabase()
-        '//Assuming that A CONNECTION is Already OPEN for this SUB
-        Retval1 = 0
-        '//Clear DataTables 
-        DS.Tables("tblUsrs").Clear()
-        DS.Tables("tblRefs1").Clear()
-        DS.Tables("tblProject").Clear()
-        DS.Tables("tblProduct").Clear()
-        DS.Tables("tblAssignments").Clear()
-        DS.Tables("tblRefs2").Clear() 'not necessary
-        DS.Tables("tblProductNotes").Clear()
-        '//Del Database Tables Rows 
-        Try
-            For Each strTableName In {"usrs", "Papers", "Paths", "Project", "Product", "Paper_Product", "ProductNotes"}
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
-                    Case "SqlServer"
-                        strSQL = "DELETE FROM " & strTableName & ";"
-                        Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "SqlServerCE"
-                        strSQL = "DELETE FROM " & strTableName & ";"
-                        Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access" '//Codes (for accdb) Are ABANDONED (restore from within Access)
-                        strSQL = "DELETE * FROM " & strTableName & ";"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                End Select
-            Next
-            Retval1 = 1
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            Exit Sub
-        End Try
-        '//RESEED Table IDs to 1
-        Retval2 = 0
-        Try
-            For Each strTableName In {"usrs", "Papers", "Paths", "Project", "Product", "Paper_Product", "ProductNotes"}
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
-                    Case "SqlServer"
-                        strSQL = "DBCC CHECKIDENT (" & strTableName & ", RESEED, 1)"
-                        Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "SqlServerCE"
-                        strSQL = "ALTER TABLE " & strTableName & " ALTER COLUMN [Id] IDENTITY (1, 1)"
-                        Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access" 'Different method of reseting ID for accdb //Codes (for accdb) Are ABANDONED (restore from within Access)
-                        'Copy a Table
-                        strSQL = "SELECT * INTO " & strTableName & "_new FROM " & strTableName & ";"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                        'Del Old Table
-                        strSQL = "DROP TABLE " & strTableName & ";"
-                        Dim cmd2 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd2.CommandType = CommandType.Text
-                        i = cmd2.ExecuteNonQuery()
-                        'Copy back the Table
-                        strSQL = "SELECT * INTO " & strTableName & " FROM " & strTableName & "_new;"
-                        Dim cmd3 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd3.CommandType = CommandType.Text
-                        i = cmd3.ExecuteNonQuery()
-                        'Del middle Table
-                        strSQL = "DROP TABLE " & strTableName & "_new;"
-                        Dim cmd4 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd4.CommandType = CommandType.Text
-                        i = cmd4.ExecuteNonQuery()
-                End Select
-            Next
-            Retval2 = 1
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            Exit Sub
-        End Try
-    End Sub
-
-
 
     '//QRCODE
     Sub QRCodeGen(strText2Code)
@@ -1549,11 +1436,7 @@ lblReturn:
         End Try
     End Sub
 
-
-
-
-
-    'Waiting Codes ... Journals
+    '/////Waiting Codes
     Public Sub CloseAllWordInstances()
         '        '    Dim objWordx As Object
         '        '    Do

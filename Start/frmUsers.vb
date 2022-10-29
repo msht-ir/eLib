@@ -1,5 +1,10 @@
-﻿Public Class frmUsers
+﻿Imports DocumentFormat.OpenXml.Office2010.ExcelAc
+
+Public Class frmUsers
     Private Sub frmUsers_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        RefreshGridUsers()
+    End Sub
+    Private Sub RefreshGridUsers()
         ReadSettingsAndUsers()
         GridUsers.DataSource = DS.Tables("tblUsrs")
         GridUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
@@ -15,6 +20,7 @@
         For i As Integer = 0 To GridUsers.Columns.Count - 1 'Disable sort for column_haeders
             GridUsers.Columns.Item(i).SortMode = DataGridViewColumnSortMode.Programmatic
         Next i
+        Me.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
         GridUsers.Refresh()
         If GridUsers.Rows.Count > 1 Then GridUsers.Rows(0).Cells(1).Selected = True
         GridUsers.Focus()
@@ -92,7 +98,7 @@
                     cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblUsrs").Rows(r).Item(c))
                     cmd.Parameters.AddWithValue("@ID", DS.Tables("tblUsrs").Rows(r).Item(0).ToString)
                     Dim i As Integer = cmd.ExecuteNonQuery()
-                    CNNSS.Dispose()
+                    CnnSS.Dispose()
                 End Using
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -211,6 +217,113 @@
     Private Sub Menu_Settings_Click(sender As Object, e As EventArgs) Handles Menu_Settings.Click
         frmSettings.ShowDialog()
     End Sub
+    Private Sub Menu_Scan_Click(sender As Object, e As EventArgs) Handles Menu_Scan.Click
+        If DatabaseType = "Access" Then '!BulkInsert works with sqlserver, (not accdb)
+            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
+            Exit Sub
+        End If
+        Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
+        Select Case myansw
+            Case vbNo
+                Menu_Settings_Click(sender, e)
+                ReadSettingsAndUsers()
+                ValidateFolders()
+            Case vbYes
+                lblInfo.Text = "Step 1/3 : Clear current file Paths . . ."
+                Clear_eLibPapersInfo("Paths")
+                lblInfo.Text = "Step 2/3 : Scan eLib Folders . . ."
+                eLibScanNames() 'equals eLibTitles in old eLib versions
+                lblInfo.Text = "Step 3/3 : Constructing new file Paths  . . ."
+                eLibScanPaths() 'equals eLibPaths in old eLib versions
+                lblInfo.Text = "SCAN finished successfully!"
+                MsgBox("SCAN finished successfully!", vbOKOnly + vbInformation, "eLib")
+                lblInfo.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
+            Case vbCancel
+                'do nothing
+        End Select
+    End Sub
+    Private Sub Menu_Backup_Click(sender As Object, e As EventArgs) Handles Menu_Backup.Click
+        lblInfo.Text = "Backup in progress ... Please wait!"
+        eLib_Backup()
+        lblInfo.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
+        If Retval1 = 1 Then
+            lblInfo.Text = "Backup finished successfully!"
+        Else
+            lblInfo.Text = "Backup Error!"
+        End If
+    End Sub
+    Private Sub Menu_Restore_Click(sender As Object, e As EventArgs) Handles Menu_Restore.Click
+        If DatabaseType = "Access" Then 'BulkInser works with sqlserver, (not accdb)
+            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
+            Exit Sub
+        End If
+        Dim myansw As DialogResult = MsgBox("Notice: 'Restore' will ERASE current data in library", vbOKCancel + vbDefaultButton2 + vbExclamation, "eLib")
+        If myansw = vbCancel Then Exit Sub
+        lblInfo.Text = "Restoring ... Please wait!"
+        eLib_Restore()
+        lblInfo.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
+        RefreshGridUsers()
+        If Retval1 = 1 Then
+            lblInfo.Text = "Restore Finished Successfully !"
+        Else
+            lblInfo.Text = "Restore Error!"
+        End If
+    End Sub
+    Private Sub Menu_ClearDB_Click(sender As Object, e As EventArgs) Handles Menu_ClearDB.Click
+        Dim myansw As DialogResult
+        If UserType <> "Admin" Then
+            myansw = MsgBox("Login as 'Admin' and Try Again", vbOKCancel + vbDefaultButton2, "eLib")
+            If myansw = vbOK Then
+                Menu_LogOut_Click(sender, e)
+                Exit Sub
+            Else 'Cancel
+                Exit Sub
+            End If
+        Else 'OK, Admin! continue...
+            myansw = MsgBox("This will 'CLEAR' all Data from Current Database" & vbCrLf & "Continue ?", vbOKCancel + vbDefaultButton2, "eLib")
+            If myansw = vbCancel Then
+                Exit Sub
+            Else
+                myansw = MsgBox("Are you Sure ?" & vbCrLf & "Continue ?", vbYesNo + vbDefaultButton2 + vbExclamation, "eLib")
+                If myansw = vbYes Then '-----------------------------------------------------------------///
+                    Randomize()
+                    Dim strRndNumber As Integer = Trim(Str(CInt(Int((10000 * Rnd()) + 1001))))
+                    Dim strAnsw As String = InputBox("Enter this Code: " & strRndNumber, "Enter Code below to Proceed with Delete", "")
+                    If strAnsw <> strRndNumber Then Exit Sub
+                    '//OPEN A CONNECTION for this SUB
+                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                        Case "SqlServer"
+                            CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                            CnnSS.Open()
+                        Case "SqlServerCE"
+                            CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                            CnnSC.Open()
+                        Case "Access"
+                            CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                            CnnAC.Open()
+                    End Select
+                    '//WIPE-OUT!
+                    Clear_eLibPapersInfo("Papers")
+                    Clear_eLibPapersInfo("Paths")
+                    Clear_eLibProjectsInfo()
+                    '//CLOSE ALL Connections
+                    Select Case DatabaseType
+                        Case "SqlServer"
+                            CnnSS.Dispose()
+                            CnnSS.Dispose()
+                        Case "SqlServerCE"
+                            CnnSC.Close()
+                            CnnSC.Dispose()
+                        Case "Access"
+                            CnnAC.Close()
+                            CnnAC.Dispose()
+                    End Select
+                End If '----------------------------------------------------------------------------------///
+                RefreshGridUsers()
+                lblInfo.Text = "Database Cleared !"
+            End If
+        End If
+    End Sub
     Private Sub Menu_LoginAsAdmin_Click(sender As Object, e As EventArgs) Handles Menu_LoginAsAdmin.Click
         ReadSettingsAndUsers()
         Me.Dispose()
@@ -239,4 +352,5 @@
         Me.Dispose()
         frmCNN.ShowDialog()
     End Sub
+
 End Class
