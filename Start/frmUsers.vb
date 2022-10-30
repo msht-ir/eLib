@@ -217,37 +217,12 @@ Public Class frmUsers
     Private Sub Menu_Settings_Click(sender As Object, e As EventArgs) Handles Menu_Settings.Click
         frmSettings.ShowDialog()
     End Sub
-    Private Sub Menu_Scan_Click(sender As Object, e As EventArgs) Handles Menu_Scan.Click
-        If DatabaseType = "Access" Then '!BulkInsert works with sqlserver, (not accdb)
-            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
-            Exit Sub
-        End If
-        Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
-        Select Case myansw
-            Case vbNo
-                Menu_Settings_Click(sender, e)
-                ReadSettingsAndUsers()
-                ValidateFolders()
-            Case vbYes
-                lblInfo.Text = "Step 1/3 : Clear current file Paths . . ."
-                Clear_eLibPapersInfo("Paths")
-                lblInfo.Text = "Step 2/3 : Scan eLib Folders . . ."
-                eLibScanNames() 'equals eLibTitles in old eLib versions
-                lblInfo.Text = "Step 3/3 : Constructing new file Paths  . . ."
-                eLibScanPaths() 'equals eLibPaths in old eLib versions
-                lblInfo.Text = "SCAN finished successfully!"
-                MsgBox("SCAN finished successfully!", vbOKOnly + vbInformation, "eLib")
-                lblInfo.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
-            Case vbCancel
-                'do nothing
-        End Select
-    End Sub
     Private Sub Menu_Backup_Click(sender As Object, e As EventArgs) Handles Menu_Backup.Click
         lblInfo.Text = "Backup in progress ... Please wait!"
         eLib_Backup()
         lblInfo.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
         If Retval1 = 1 Then
-            lblInfo.Text = "Backup finished successfully!"
+            lblInfo.Text = "Backup finished successfully!   [ " & strPath & " ] Saved."
         Else
             lblInfo.Text = "Backup Error!"
         End If
@@ -265,6 +240,7 @@ Public Class frmUsers
         RefreshGridUsers()
         If Retval1 = 1 Then
             lblInfo.Text = "Restore Finished Successfully !"
+            eLibScanPaths()
         Else
             lblInfo.Text = "Restore Error!"
         End If
@@ -323,6 +299,46 @@ Public Class frmUsers
                 lblInfo.Text = "Database Cleared !"
             End If
         End If
+    End Sub
+    Private Sub Menu_Scan_Click(sender As Object, e As EventArgs) Handles Menu_Scan.Click
+        If DatabaseType = "Access" Then '!BulkInsert works with sqlserver, (not accdb)
+            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
+            Exit Sub
+        End If
+        '//In Cae of SqlServer OR SqlServerCE:
+        Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
+        Select Case myansw
+            Case vbNo
+                Menu_Settings_Click(sender, e)
+                ReadSettingsAndUsers()
+                ValidateFolders()
+            Case vbYes
+                lblInfo.Text = "Step 1/3 : Clear current file Paths . . ."
+                Select Case DatabaseType
+                    Case "SqlServer"
+                        Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                            CnnSS.Open()
+                            Clear_eLibPapersInfo("Paths")
+                            CnnSS.Close()
+                        End Using
+                    Case "SqlServerCE"
+                        Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                            CnnSC.Open()
+                            Clear_eLibPapersInfo("Paths")
+                            CnnSC.Close()
+                        End Using
+                End Select
+                lblInfo.Text = "Step 2/3 : Scan eLib Folders . . ."
+                eLibScanNames() 'equals eLibTitles in old eLib versions
+                lblInfo.Text = "Step 3/3 : Constructing new file Paths  . . ."
+                eLibScanPaths() 'equals eLibPaths in old eLib versions
+                lblInfo.Text = "SCAN finished successfully!"
+                ReadSettingsAndUsers()
+                lblInfo.Text = "SCAN finished successfully!"
+                MsgBox("SCAN finished successfully!", vbOKOnly + vbInformation, "eLib")
+            Case vbCancel
+                'do nothing
+        End Select
     End Sub
     Private Sub Menu_LoginAsAdmin_Click(sender As Object, e As EventArgs) Handles Menu_LoginAsAdmin.Click
         ReadSettingsAndUsers()

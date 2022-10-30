@@ -77,22 +77,34 @@ Module Module2
         '//Del Database Tables Rows 
         Try
             For Each strTableName In {tblName}
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
-                        strSQL = "DELETE FROM " & strTableName & ";"
-                        Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
+                        Using CnnSSx = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                            CnnSSx.Open()
+                            strSQL = "DELETE FROM " & strTableName & ";"
+                            Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSSx)
+                            cmd.CommandType = CommandType.Text
+                            Dim i As Integer = cmd.ExecuteNonQuery()
+                            CnnSSx.Close()
+                        End Using
                     Case "SqlServerCE"
-                        strSQL = "DELETE FROM " & strTableName & ";"
-                        Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
+                        Using CnnSCx = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                            CnnSCx.Open()
+                            strSQL = "DELETE FROM " & strTableName & ";"
+                            Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSCx)
+                            cmd.CommandType = CommandType.Text
+                            Dim i As Integer = cmd.ExecuteNonQuery()
+                            CnnSCx.Close()
+                        End Using
                     Case "Access" '//Codes (for accdb) Are ABANDONED (restore from within Access)
-                        strSQL = "DELETE * FROM " & strTableName & ";"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
+                        Using CnnACx = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                            CnnACx.Open()
+                            strSQL = "DELETE * FROM " & strTableName & ";"
+                            Dim cmd As New OleDb.OleDbCommand(strSQL, CnnACx)
+                            cmd.CommandType = CommandType.Text
+                            Dim i As Integer = cmd.ExecuteNonQuery()
+                            CnnACx.Close()
+                        End Using
                 End Select
             Next
             Retval1 = 1
@@ -104,7 +116,7 @@ Module Module2
         Retval2 = 0
         Try
             For Each strTableName In {tblName}
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "DBCC CHECKIDENT (" & strTableName & ", RESEED, 1)"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -140,7 +152,7 @@ Module Module2
             Next
             Retval2 = 1
         Catch ex As Exception
-            MsgBox(ex.ToString)
+            'MsgBox(ex.ToString)*** *** *** *** 
             Exit Sub
         End Try
     End Sub
@@ -698,7 +710,8 @@ lblReturn:
                 Exit Sub
             End Try
             '//Save Excel
-            WB.SaveAs(Application.StartupPath & "eLibExport" & System.DateTime.Now.ToString("yyyyMMddHHmmss") & ".xlsx")
+            strPath = Application.StartupPath & "eLibBackup " & System.DateTime.Now.ToString("yyyy.MM.dd - HH.mm.ss") & ".xlsx"
+            WB.SaveAs(strPath)
             Retval1 = 1
         End Using
         '//CLOSE ALL Connections

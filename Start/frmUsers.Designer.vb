@@ -47,9 +47,9 @@ Partial Class frmUsers
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_LoginAsAdmin, Me.Menu_LoginAsUser, Me.ToolStripMenuItem1, Me.Menu_AddNewUser, Me.Menu_DeleteUser, Me.Menu_Settings, Me.ToolStripMenuItem2, Me.Menu_Scan, Me.Menu_Backup, Me.Menu_Restore, Me.Menu_ClearDB, Me.ToolStripMenuItem3, Me.Menu_LogOut})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_LoginAsAdmin, Me.Menu_LoginAsUser, Me.ToolStripMenuItem1, Me.Menu_AddNewUser, Me.Menu_DeleteUser, Me.Menu_Settings, Me.ToolStripMenuItem2, Me.Menu_Backup, Me.Menu_Restore, Me.Menu_ClearDB, Me.Menu_Scan, Me.ToolStripMenuItem3, Me.Menu_LogOut})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(192, 242)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(192, 264)
         '
         'Menu_LoginAsAdmin
         '
