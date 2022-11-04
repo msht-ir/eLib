@@ -37,7 +37,7 @@ Public Class frmAssign
                         CnnSS.Open()
                         DASS = New SqlClient.SqlDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes WHERE ID =1;", CnnSS)
                         DASS.Fill(DS, "tblProductNotes")
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
@@ -72,8 +72,14 @@ Public Class frmAssign
     End Sub
     'Main Menu
     Private Sub Menu_user_Click(sender As Object, e As EventArgs) Handles Menu_user.Click
-        Me.Dispose()
-        frmCNN.ShowDialog()
+        Select Case UserType
+            Case "Admin"
+                Me.Dispose()
+                frmUsers.ShowDialog()
+            Case Else
+                Me.Dispose()
+                frmCNN.ShowDialog()
+        End Select
     End Sub
     Private Sub Menu_AddUser_Click(sender As Object, e As EventArgs) Handles Menu_AddUser.Click
         'If UserType <> "Admin" Then
@@ -90,15 +96,18 @@ Public Class frmAssign
         '//Now, login!
         Menu_user_Click(sender, e)
     End Sub
-    Private Sub Menu_UsersSpecs_Click(sender As Object, e As EventArgs) Handles Menu_UsersSpecs.Click
-        If UserType <> "Admin" Then
-            Menu_user_Click(sender, e)
-        Else 'OK, Admin! continue...
-            Me.Dispose()
-            frmUsers.ShowDialog()
-        End If
-    End Sub
     Private Sub Menu_ChangePass_Click(sender As Object, e As EventArgs) Handles Menu_ChangePass.Click
+        If UserType = "Admin" Then
+            Dim tmpAnsw As DialogResult = MsgBox("Go to Settingsto change Admin's Password...", vbOKCancel + vbDefaultButton2, "eLib")
+            Select Case tmpAnsw
+                Case vbOK
+                    Me.Dispose()
+                    frmUsers.ShowDialog()
+                Case vbCancel
+                    'Do Nothing!
+            End Select
+            Exit Sub
+        End If
         Dim strOldPass As String = ""
         Dim strNewPass As String = ""
         Dim strCheckPass As String = ""
@@ -168,7 +177,7 @@ Public Class frmAssign
                         Catch ex As Exception
                             MsgBox("Error updating Password", vbOKOnly, "eLib")
                         End Try
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -207,9 +216,11 @@ Public Class frmAssign
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
-
     End Sub
     'Tools
+    Private Sub Menu_AssignFolder_Click(sender As Object, e As EventArgs) Handles Menu_AssignFolder.Click
+        frmFolderRefs.ShowDialog()
+    End Sub
     Private Sub Menu_Import_Click(sender As Object, e As EventArgs) Handles Menu_Import.Click
         Retval3 = 0 'flag for NewImport (not Edit Ref)
         frmImportRefs.ShowDialog()
@@ -336,7 +347,10 @@ Public Class frmAssign
             My.Computer.Clipboard.Clear()
             My.Computer.Clipboard.SetText(strTempText)
         End If
+        lblSearch.Focus()
         txtSearch.SelectionStart = Len(txtSearch.Text)
+        '//Do the Search:
+        If txtSearch.Text <> "" Then txtSearch.Text = txtSearch.Text & " "
     End Sub
     Private Sub lblSearch_DoubleClick(sender As Object, e As EventArgs) Handles lblSearch.DoubleClick
         If Trim(txtSearch.Text) <> "" Then
@@ -344,6 +358,7 @@ Public Class frmAssign
                 My.Computer.Clipboard.Clear()
                 My.Computer.Clipboard.SetText(Trim(txtSearch.Text)) '1 Copy to ClipBoard from textBox
                 txtSearch.Text = ""
+                lblSearch.Focus()
             Catch ex As Exception
             End Try
         End If
@@ -511,7 +526,7 @@ Public Class frmAssign
                         CnnSS.Open()
                         DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                         DASS.Fill(DS, "tblRefs1")
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
@@ -632,7 +647,7 @@ Public Class frmAssign
                     CnnSS.Open()
                     DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                     DASS.Fill(DS, "tblAssignments")
-                    CnnSS.Dispose()
+                    CnnSS.Close()
                 End Using
             '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
@@ -677,6 +692,7 @@ Public Class frmAssign
     Private Sub Menu1_AssignTo_Click(sender As Object, e As EventArgs) Handles Menu1_AssignTo.Click
         Menu1_CheckMarckSet(3)
         intRef = List1.SelectedValue
+        If intRef < 1 Then Exit Sub
         frmChooseProject.ShowDialog()
         If Retval1 = 2 Then '//1: A Product is selected from dialog //intProd=id of the selected Product
             If intRef < 1 Or intProd < 1 Then Exit Sub
@@ -701,7 +717,7 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
                         cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -745,7 +761,7 @@ Public Class frmAssign
                                 CnnSS.Open()
                                 DASS = New SqlClient.SqlDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Project_ID = " & intProj.ToString & " Order By PaperName DESC;", CnnSS)
                                 DASS.Fill(DS, "tblRefs1")
-                                CnnSS.Dispose()
+                                CnnSS.Close()
                             End Using
                         Case "SqlServerCE"
                             Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -773,7 +789,7 @@ Public Class frmAssign
                                 CnnSS.Open()
                                 DASS = New SqlClient.SqlDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & intProd.ToString & " Order By PaperName DESC;", CnnSS)
                                 DASS.Fill(DS, "tblRefs1")
-                                CnnSS.Dispose()
+                                CnnSS.Close()
                             End Using
                         Case "SqlServerCE"
                             Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -823,7 +839,7 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@note", strRefNote)
                         cmdx.Parameters.AddWithValue("@id", intID.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -875,43 +891,6 @@ Public Class frmAssign
             SearchScholar(strSearchScholar)
         End If
     End Sub
-    Private Sub Menu1_ImR_Click(sender As Object, e As EventArgs) Handles Menu1_ImR.Click
-        GetImportantRefs("ImR")
-        List1.DataSource = DS.Tables("tblRefs1")
-        List1.DisplayMember = "PaperName"
-        List1.ValueMember = "Papers.ID"
-    End Sub
-    Private Sub GetImportantRefs(Imx As String)
-        Try
-            DS.Tables("tblRefs1").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
-                Case "SqlServer"
-                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                        CnnSS.Open()
-                        DASS = New SqlClient.SqlDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE user_ID = " & intUser.ToString & " And " & Imx & "= 1 Order By PaperName DESC;", CnnSS)
-                        DASS.Fill(DS, "tblRefs1")
-                        CnnSS.Dispose()
-                    End Using
-                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
-                Case "SqlServerCE"
-                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                        CnnSC.Open()
-                        DASC = New SqlServerCe.SqlCeDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE user_ID = " & intUser.ToString & " And " & Imx & "= 1 Order By PaperName DESC;", CnnSC)
-                        DASC.Fill(DS, "tblRefs1")
-                        CnnSC.Close()
-                    End Using
-                '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE user_ID = " & intUser.ToString & " And " & Imx & "= -1 Order By PaperName DESC;", CnnAC)
-                        DAAC.Fill(DS, "tblRefs1")
-                        CnnAC.Close()
-                    End Using
-            End Select
-        Catch ex As Exception
-        End Try
-    End Sub
     Private Sub Menu1_Imp1_Click(sender As Object, e As EventArgs) Handles Menu1_Imp1.Click
         GetImportantRefs("Imp1")
         List1.DataSource = DS.Tables("tblRefs1")
@@ -931,10 +910,63 @@ Public Class frmAssign
         List1.ValueMember = "Papers.ID"
     End Sub
     Private Sub Menu1_ImpAll_Click(sender As Object, e As EventArgs) Handles Menu1_ImpAll.Click
-        GetImportantRefs("Imp1=True OR Imp2=True OR Imp3")
+        GetImportantRefs("ImpAll")
         List1.DataSource = DS.Tables("tblRefs1")
         List1.DisplayMember = "PaperName"
         List1.ValueMember = "Papers.ID"
+    End Sub
+    Private Sub Menu1_ImR_Click(sender As Object, e As EventArgs) Handles Menu1_ImR.Click
+        GetImportantRefs("ImR")
+        List1.DataSource = DS.Tables("tblRefs1")
+        List1.DisplayMember = "PaperName"
+        List1.ValueMember = "Papers.ID"
+    End Sub
+    Private Sub GetImportantRefs(Imx As String)
+        Dim strFilter As String = ""
+        Dim strBoolTrue As String = ""
+        Select Case DatabaseType
+            Case "SqlServer" : strBoolTrue = "1"
+            Case "SqlServerCE" : strBoolTrue = "-1"
+            Case "Access" : strBoolTrue = "-1"
+        End Select
+        Select Case Imx
+            Case "Imp1" : strFilter = "Imp1 = " & strBoolTrue
+            Case "Imp2" : strFilter = "Imp2 = " & strBoolTrue
+            Case "Imp3" : strFilter = "Imp3 = " & strBoolTrue
+            Case "ImR" : strFilter = "ImR = " & strBoolTrue
+            Case "ImpAll" : strFilter = "Imp1 = " & strBoolTrue & "OR Imp2 = " & strBoolTrue & "OR Imp3 = " & strBoolTrue
+        End Select
+        Try
+            DS.Tables("tblRefs1").Clear()
+            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Case "SqlServer"
+                    Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                        CnnSS.Open()
+                        DASS = New SqlClient.SqlDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE user_ID = " & intUser.ToString & " And " & strFilter & " Order By PaperName DESC;", CnnSS)
+                        DASS.Fill(DS, "tblRefs1")
+                        CnnSS.Close()
+                    End Using
+                Case "SqlServerCE"
+                    Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                        CnnSC.Open()
+                        DASC = New SqlServerCe.SqlCeDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE user_ID = " & intUser.ToString & " And " & strFilter & " Order By PaperName DESC;", CnnSC)
+                        DASC.Fill(DS, "tblRefs1")
+                        CnnSC.Close()
+                    End Using
+                Case "Access"
+                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
+                        CnnAC.Open()
+                        DAAC = New OleDb.OleDbDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE user_ID = " & intUser.ToString & " And " & strFilter & " Order By PaperName DESC;", CnnAC)
+                        DAAC.Fill(DS, "tblRefs1")
+                        CnnAC.Close()
+                    End Using
+            End Select
+        Catch ex As Exception
+        End Try
+    End Sub
+    Private Sub Menu1_ReportList_Click(sender As Object, e As EventArgs) Handles Menu1_ReportList.Click
+        '//Report the list as HTML
+        MsgBox("under constraction")
     End Sub
     Private Sub Menu1_Delete_Click(sender As Object, e As EventArgs) Handles Menu1_Delete.Click
         Menu1_CheckMarckSet(7)
@@ -958,7 +990,7 @@ Public Class frmAssign
                                 cmdx.CommandType = CommandType.Text
                                 cmdx.Parameters.AddWithValue("@refid", intRef.ToString)
                                 Dim ix As Integer = cmdx.ExecuteNonQuery()
-                                CnnSS.Dispose()
+                                CnnSS.Close()
                             End Using
                         Case "SqlServerCE"
                             Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1043,7 +1075,7 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@note", strPPNote)
                         cmdx.Parameters.AddWithValue("@id", intID.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1088,7 +1120,7 @@ Public Class frmAssign
                             CnnSS.Open()
                             DASS = New SqlClient.SqlDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & intProd.ToString & " Order By PaperName DESC;", CnnSS)
                             DASS.Fill(DS, "tblRefs1")
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1131,7 +1163,7 @@ Public Class frmAssign
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1203,7 +1235,7 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@active", Retval3)
                             cmdx.Parameters.AddWithValue("@userid", intUser.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1273,7 +1305,7 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@active", Retval3.ToString)
                             cmdx.Parameters.AddWithValue("@id", intProj.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1333,7 +1365,7 @@ Public Class frmAssign
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@projectid", intProj.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1434,7 +1466,7 @@ Public Class frmAssign
                     CnnSS.Open()
                     DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                     DASS.Fill(DS, "tblProject")
-                    CnnSS.Dispose()
+                    CnnSS.Close()
                 End Using
                 '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
@@ -1502,7 +1534,7 @@ Public Class frmAssign
                     CnnSS.Open()
                     DASS = New SqlClient.SqlDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Where Project_ID = " & Projectid.ToString & " Order by ProductName", CnnSS)
                     DASS.Fill(DS, "tblProduct")
-                    CnnSS.Dispose()
+                    CnnSS.Close()
                 End Using
             '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
@@ -1607,7 +1639,7 @@ Public Class frmAssign
                         CnnSS.Open()
                         DASS = New SqlClient.SqlDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note, Product_ID, Paper_Product.Note, Paper_Product.ID, Imp1, Imp2, Imp3, ImR FROM Papers INNER JOIN Paper_Product ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & Productid.ToString & " ORDER BY Papers.PaperName DESC;", CnnSS)
                         DASS.Fill(DS, "tblRefs2")
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
@@ -1639,7 +1671,7 @@ Public Class frmAssign
                         CnnSS.Open()
                         DASS = New SqlClient.SqlDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes WHERE Product_ID = " & productid.ToString & " ORDER BY NoteDatum ASC;", CnnSS)
                         DASS.Fill(DS, "tblProductNotes")
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
@@ -1694,7 +1726,7 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@notes", strProjectNote)
                             cmdx.Parameters.AddWithValue("@projectid", intProj.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1753,7 +1785,7 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@notes", strProjectNote)
                             cmdx.Parameters.AddWithValue("@id", intProd.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1812,7 +1844,7 @@ Public Class frmAssign
                         Catch ex As Exception
                             MsgBox(ex.ToString)
                         End Try
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -1870,7 +1902,7 @@ Public Class frmAssign
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2116,7 +2148,7 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@prodid", intProd)
                         cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2163,7 +2195,7 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
                         cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2208,7 +2240,7 @@ Public Class frmAssign
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2290,7 +2322,7 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@paperproductnote", strAssignNote)
                         cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2338,7 +2370,7 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@papersnote", strRefNote)
                         cmdx.Parameters.AddWithValue("@id", intRef.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     If (Retval2 And 1) = 1 Then strAttrx = strAttrx & "IsPaper=-1, " Else strAttrx = strAttrx & "IsPaper=0, "
@@ -2381,7 +2413,7 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@notes", strProdNote)
                         cmdx.Parameters.AddWithValue("@id", intProd.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2539,7 +2571,7 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@note", strProdNote)
                             cmdx.Parameters.AddWithValue("@prodid", intProd.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2598,7 +2630,7 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@note", strProdNote)
                             cmdx.Parameters.AddWithValue("@noteid", intProdNote.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2654,7 +2686,7 @@ Public Class frmAssign
                         Catch ex As Exception
                             MsgBox(ex.ToString)
                         End Try
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2704,7 +2736,7 @@ Public Class frmAssign
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@noteid", intProdNote.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2751,7 +2783,7 @@ Public Class frmAssign
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@prodid", intProd.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -2806,10 +2838,17 @@ Public Class frmAssign
     Private Sub Menu_Exit_Click(sender As Object, e As EventArgs) Handles Menu_Exit.Click
         DeleteHtmlFiles() 'Remove possible existing Data related to other users (now, and also when logging-in via frmCNN as new user )
         Me.Dispose()
-        CnnSS.Close() : CnnSS.Dispose() : CnnSS = Nothing
-        CnnSC.Close() : CnnSC.Dispose() : CnnSC = Nothing
-        CnnAC.Close() : CnnAC.Dispose() : CnnAC = Nothing
-        Application.Exit() : End
+        CnnSS.Close()
+        CnnSS.Dispose()
+        CnnSS = Nothing
+        CnnSC.Close()
+        CnnSC.Dispose()
+        CnnSC = Nothing
+        CnnAC.Close()
+        CnnAC.Dispose()
+        CnnAC = Nothing
+        Application.Exit()
+        End
     End Sub
     Private Sub frmeLibAssign_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If e.CloseReason = CloseReason.UserClosing Then

@@ -24,6 +24,33 @@
         If (Retval2 And 64) = 64 Then CheckBoxImp3.Checked = True
         If (Retval2 And 128) = 128 Then CheckBoxImR.Checked = True
     End Sub
+    Private Sub TextBoxProductNote_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBoxProductNote.KeyDown
+        Select Case e.KeyCode
+            Case 13, 40
+                TextBoxRefNote.Focus()
+                e.SuppressKeyPress = True
+        End Select
+    End Sub
+    Private Sub TextBoxRefNote_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBoxRefNote.KeyDown
+        Select Case e.KeyCode
+            Case 38
+                TextBoxProductNote.Focus()
+                e.SuppressKeyPress = True
+            Case 13, 40
+                TextBoxAssignmentNote.Focus()
+                e.SuppressKeyPress = True
+        End Select
+    End Sub
+    Private Sub TextBoxAssignmentNote_KeyDown(sender As Object, e As KeyEventArgs) Handles TextBoxAssignmentNote.KeyDown
+        Select Case e.KeyCode
+            Case 38
+                TextBoxRefNote.Focus()
+                e.SuppressKeyPress = True
+            Case 13
+                Menu_Save_Click(sender, e)
+                e.SuppressKeyPress = True
+        End Select
+    End Sub
     Private Sub Menu_Save_Click(sender As Object, e As EventArgs) Handles Menu_Save.Click
         '//show Attributes
         strProdNote = TextBoxProductNote.Text
@@ -46,5 +73,4 @@
         Retval1 = 0
         Me.Dispose()
     End Sub
-
 End Class

@@ -39,9 +39,9 @@ Partial Class frmProject
         Me.Panel1.BackColor = System.Drawing.SystemColors.Control
         Me.Panel1.Controls.Add(Me.txtProjectNote)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 67)
+        Me.Panel1.Location = New System.Drawing.Point(0, 77)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(525, 68)
+        Me.Panel1.Size = New System.Drawing.Size(517, 68)
         Me.Panel1.TabIndex = 0
         Me.Panel1.TabStop = True
         '
@@ -49,9 +49,9 @@ Partial Class frmProject
         '
         Me.txtProjectNote.BackColor = System.Drawing.SystemColors.ControlLight
         Me.txtProjectNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtProjectNote.Location = New System.Drawing.Point(23, 21)
+        Me.txtProjectNote.Location = New System.Drawing.Point(60, 24)
         Me.txtProjectNote.Name = "txtProjectNote"
-        Me.txtProjectNote.Size = New System.Drawing.Size(447, 16)
+        Me.txtProjectNote.Size = New System.Drawing.Size(456, 16)
         Me.txtProjectNote.TabIndex = 1
         Me.txtProjectNote.Text = "-"
         '
@@ -96,14 +96,14 @@ Partial Class frmProject
         Me.txtProjectName.Location = New System.Drawing.Point(23, 13)
         Me.txtProjectName.Name = "txtProjectName"
         Me.txtProjectName.Size = New System.Drawing.Size(247, 20)
-        Me.txtProjectName.TabIndex = 1
+        Me.txtProjectName.TabIndex = 0
         '
         'frmProject
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(525, 135)
+        Me.ClientSize = New System.Drawing.Size(517, 145)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.txtProjectName)

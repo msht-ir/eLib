@@ -29,11 +29,10 @@ Partial Class frmCNN
         Me.MenuStripCNN = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Menu_SelectBE = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_AddCNN = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Edit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_FindDB = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Remove = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_ResetCnns = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Menu_FindDB = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Menu_Edit = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Menu_Remove = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_Guide = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu_Exit = New System.Windows.Forms.ToolStripMenuItem()
@@ -77,72 +76,66 @@ Partial Class frmCNN
         '
         'MenuStripCNN
         '
-        Me.MenuStripCNN.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_SelectBE, Me.ToolStripMenuItem2, Me.Menu_AddCNN, Me.Menu_FindDB, Me.Menu_ResetCnns, Me.Menu_Edit, Me.Menu_Remove, Me.Menu_Guide, Me.ToolStripMenuItem3, Me.Menu_Exit})
+        Me.MenuStripCNN.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_SelectBE, Me.ToolStripMenuItem2, Me.Menu_ResetCnns, Me.Menu_FindDB, Me.Menu_Edit, Me.Menu_Remove, Me.Menu_Guide, Me.ToolStripMenuItem3, Me.Menu_Exit})
         Me.MenuStripCNN.Name = "MenuStripCNN"
-        Me.MenuStripCNN.Size = New System.Drawing.Size(133, 192)
+        Me.MenuStripCNN.Size = New System.Drawing.Size(181, 192)
         '
         'Menu_SelectBE
         '
         Me.Menu_SelectBE.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
         Me.Menu_SelectBE.ForeColor = System.Drawing.Color.DarkGoldenrod
         Me.Menu_SelectBE.Name = "Menu_SelectBE"
-        Me.Menu_SelectBE.Size = New System.Drawing.Size(132, 22)
+        Me.Menu_SelectBE.Size = New System.Drawing.Size(180, 22)
         Me.Menu_SelectBE.Text = "Connect"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(129, 6)
-        '
-        'Menu_AddCNN
-        '
-        Me.Menu_AddCNN.Name = "Menu_AddCNN"
-        Me.Menu_AddCNN.Size = New System.Drawing.Size(132, 22)
-        Me.Menu_AddCNN.Text = "Add"
-        '
-        'Menu_Edit
-        '
-        Me.Menu_Edit.Name = "Menu_Edit"
-        Me.Menu_Edit.Size = New System.Drawing.Size(132, 22)
-        Me.Menu_Edit.Text = "Edit"
-        '
-        'Menu_FindDB
-        '
-        Me.Menu_FindDB.Name = "Menu_FindDB"
-        Me.Menu_FindDB.Size = New System.Drawing.Size(132, 22)
-        Me.Menu_FindDB.Text = "Find ..."
-        '
-        'Menu_Remove
-        '
-        Me.Menu_Remove.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Remove.Name = "Menu_Remove"
-        Me.Menu_Remove.Size = New System.Drawing.Size(132, 22)
-        Me.Menu_Remove.Text = "Delete"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(177, 6)
         '
         'Menu_ResetCnns
         '
         Me.Menu_ResetCnns.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu_ResetCnns.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Menu_ResetCnns.Name = "Menu_ResetCnns"
-        Me.Menu_ResetCnns.Size = New System.Drawing.Size(132, 22)
-        Me.Menu_ResetCnns.Text = "Find (auto)"
+        Me.Menu_ResetCnns.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_ResetCnns.Text = "Find"
+        '
+        'Menu_FindDB
+        '
+        Me.Menu_FindDB.Name = "Menu_FindDB"
+        Me.Menu_FindDB.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_FindDB.Text = "Find ..."
+        '
+        'Menu_Edit
+        '
+        Me.Menu_Edit.Name = "Menu_Edit"
+        Me.Menu_Edit.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Edit.Text = "Edit"
+        '
+        'Menu_Remove
+        '
+        Me.Menu_Remove.ForeColor = System.Drawing.Color.IndianRed
+        Me.Menu_Remove.Name = "Menu_Remove"
+        Me.Menu_Remove.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Remove.Text = "Delete"
         '
         'Menu_Guide
         '
         Me.Menu_Guide.Name = "Menu_Guide"
-        Me.Menu_Guide.Size = New System.Drawing.Size(132, 22)
+        Me.Menu_Guide.Size = New System.Drawing.Size(180, 22)
         Me.Menu_Guide.Text = "Help"
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(129, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(177, 6)
         '
         'Menu_Exit
         '
-        Me.Menu_Exit.ForeColor = System.Drawing.Color.IndianRed
+        Me.Menu_Exit.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Menu_Exit.Name = "Menu_Exit"
-        Me.Menu_Exit.Size = New System.Drawing.Size(132, 22)
+        Me.Menu_Exit.Size = New System.Drawing.Size(180, 22)
         Me.Menu_Exit.Text = "Quit"
         '
         'Label2
@@ -187,11 +180,11 @@ Partial Class frmCNN
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Label1.ForeColor = System.Drawing.Color.Gold
-        Me.Label1.Location = New System.Drawing.Point(339, 212)
+        Me.Label1.Location = New System.Drawing.Point(363, 211)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(70, 19)
+        Me.Label1.Size = New System.Drawing.Size(46, 19)
         Me.Label1.TabIndex = 7
-        Me.Label1.Text = "Password:"
+        Me.Label1.Text = "Login:"
         Me.Label1.Visible = False
         '
         'frmCNN
@@ -200,7 +193,7 @@ Partial Class frmCNN
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Navy
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(839, 240)
+        Me.ClientSize = New System.Drawing.Size(839, 243)
         Me.ContextMenuStrip = Me.MenuStripCNN
         Me.ControlBox = False
         Me.Controls.Add(Me.Label1)
@@ -228,7 +221,6 @@ Partial Class frmCNN
     Friend WithEvents Menu_Exit As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
     Friend WithEvents Menu_FindDB As ToolStripMenuItem
-    Friend WithEvents Menu_AddCNN As ToolStripMenuItem
     Friend WithEvents Menu_Edit As ToolStripMenuItem
     Friend WithEvents راهنماToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Menu_Guide As ToolStripMenuItem

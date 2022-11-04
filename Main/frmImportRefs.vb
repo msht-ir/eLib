@@ -93,7 +93,7 @@ Public Class frmImportRefs
                         cmd.Parameters.AddWithValue("@sttvalue", strPath)
                         cmd.Parameters.AddWithValue("@ID", idx.ToString)
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                            CNNSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -396,7 +396,7 @@ lblPARSE:
                                 Catch ex As Exception
                                     MsgBox("Error creating new paper" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                 End Try
-                                CnnSS.Dispose()
+                                CnnSS.Close()
                             End Using
                         Case "SqlServerCE"
                             Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -461,7 +461,7 @@ lblPARSE:
                                 cmd.Parameters.AddWithValue("@note", strPaperNote)
                                 cmd.Parameters.AddWithValue("@id", intRef.ToString)
                                 Dim i As Integer = cmd.ExecuteNonQuery()
-                                CnnSS.Dispose()
+                                CnnSS.Close()
                             End Using
                         Case "SqlServerCE"
                             Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -520,7 +520,7 @@ lblPARSE:
                         Catch ex As Exception
                             MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                         End Try
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -562,7 +562,7 @@ lblPARSE:
                                 CnnSS.Open()
                                 DASS = New SqlClient.SqlDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnSS)
                                 DASS.Fill(DS, "tblRefs1")
-                                CnnSS.Dispose()
+                                CnnSS.Close()
                             End Using
                        '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                         Case "SqlServerCE"
@@ -583,7 +583,7 @@ lblPARSE:
                     End Select
                     Dim idx As Integer = DS.Tables("tblRefs1").Rows(0).Item(0)
                     Dim idy As Integer = 0
-                    '//Add Assignments (of the new Ref) to tblPaper_Product (Import Mode Only)
+
                     For k As Integer = 0 To DS.Tables("tblProd_tmp2").Rows.Count - 1
                         idy = DS.Tables("tblProd_tmp2").Rows(k).Item(0)
                         Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
@@ -600,7 +600,7 @@ lblPARSE:
                                     Catch ex As Exception
                                         MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                     End Try
-                                    CnnSS.Dispose()
+                                    CnnSS.Close()
                                 End Using
                             Case "SqlServerCE"
                                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)

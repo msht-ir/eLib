@@ -28,111 +28,106 @@ Partial Class frmUsers
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Menu_LoginAsAdmin = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_LoginAsUser = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_AddNewUser = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_DeleteUser = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Settings = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Menu_Tools = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuTools_NewUser = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuTools_DeleteUser = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuTools_Backup = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuTools_Restore = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuTools_Scan = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuTools_Clear = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuTools_Settings = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_Scan = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Backup = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Restore = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_ClearDB = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu_LogOut = New System.Windows.Forms.ToolStripMenuItem()
         Me.GridUsers = New System.Windows.Forms.DataGridView()
         Me.lblInfo = New System.Windows.Forms.Label()
+        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator()
         Me.ContextMenuStrip1.SuspendLayout()
         CType(Me.GridUsers, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_LoginAsAdmin, Me.Menu_LoginAsUser, Me.ToolStripMenuItem1, Me.Menu_AddNewUser, Me.Menu_DeleteUser, Me.Menu_Settings, Me.ToolStripMenuItem2, Me.Menu_Backup, Me.Menu_Restore, Me.Menu_ClearDB, Me.Menu_Scan, Me.ToolStripMenuItem3, Me.Menu_LogOut})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_LoginAsAdmin, Me.Menu_LoginAsUser, Me.ToolStripMenuItem2, Me.Menu_Tools, Me.Menu_LogOut})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(192, 264)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(181, 120)
         '
         'Menu_LoginAsAdmin
         '
-        Me.Menu_LoginAsAdmin.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu_LoginAsAdmin.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.Menu_LoginAsAdmin.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.Menu_LoginAsAdmin.ForeColor = System.Drawing.Color.DarkGreen
         Me.Menu_LoginAsAdmin.Name = "Menu_LoginAsAdmin"
-        Me.Menu_LoginAsAdmin.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_LoginAsAdmin.Text = "Continue as admin ..."
+        Me.Menu_LoginAsAdmin.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_LoginAsAdmin.Text = "Continue admin ..."
         '
         'Menu_LoginAsUser
         '
-        Me.Menu_LoginAsUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu_LoginAsUser.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.Menu_LoginAsUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.Menu_LoginAsUser.ForeColor = System.Drawing.Color.DarkGreen
         Me.Menu_LoginAsUser.Name = "Menu_LoginAsUser"
-        Me.Menu_LoginAsUser.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_LoginAsUser.Text = "Login as user ..."
+        Me.Menu_LoginAsUser.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_LoginAsUser.Text = "Login user ..."
         '
-        'ToolStripMenuItem1
+        'Menu_Tools
         '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(188, 6)
+        Me.Menu_Tools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuTools_NewUser, Me.MenuTools_DeleteUser, Me.ToolStripMenuItem4, Me.MenuTools_Backup, Me.MenuTools_Restore, Me.MenuTools_Scan, Me.MenuTools_Clear, Me.ToolStripMenuItem5, Me.MenuTools_Settings})
+        Me.Menu_Tools.Name = "Menu_Tools"
+        Me.Menu_Tools.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Tools.Text = "Tools"
         '
-        'Menu_AddNewUser
+        'MenuTools_NewUser
         '
-        Me.Menu_AddNewUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_AddNewUser.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Menu_AddNewUser.Name = "Menu_AddNewUser"
-        Me.Menu_AddNewUser.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_AddNewUser.Text = "New user"
+        Me.MenuTools_NewUser.Name = "MenuTools_NewUser"
+        Me.MenuTools_NewUser.Size = New System.Drawing.Size(180, 22)
+        Me.MenuTools_NewUser.Text = "New user"
         '
-        'Menu_DeleteUser
+        'MenuTools_DeleteUser
         '
-        Me.Menu_DeleteUser.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_DeleteUser.Name = "Menu_DeleteUser"
-        Me.Menu_DeleteUser.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_DeleteUser.Text = "Delete"
+        Me.MenuTools_DeleteUser.Name = "MenuTools_DeleteUser"
+        Me.MenuTools_DeleteUser.Size = New System.Drawing.Size(180, 22)
+        Me.MenuTools_DeleteUser.Text = "Delete"
         '
-        'Menu_Settings
+        'MenuTools_Backup
         '
-        Me.Menu_Settings.Name = "Menu_Settings"
-        Me.Menu_Settings.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_Settings.Text = "Settings"
+        Me.MenuTools_Backup.Name = "MenuTools_Backup"
+        Me.MenuTools_Backup.Size = New System.Drawing.Size(180, 22)
+        Me.MenuTools_Backup.Text = "Backup"
+        '
+        'MenuTools_Restore
+        '
+        Me.MenuTools_Restore.Name = "MenuTools_Restore"
+        Me.MenuTools_Restore.Size = New System.Drawing.Size(180, 22)
+        Me.MenuTools_Restore.Text = "Restore"
+        '
+        'MenuTools_Scan
+        '
+        Me.MenuTools_Scan.Name = "MenuTools_Scan"
+        Me.MenuTools_Scan.Size = New System.Drawing.Size(180, 22)
+        Me.MenuTools_Scan.Text = "Scan"
+        '
+        'MenuTools_Clear
+        '
+        Me.MenuTools_Clear.Name = "MenuTools_Clear"
+        Me.MenuTools_Clear.Size = New System.Drawing.Size(180, 22)
+        Me.MenuTools_Clear.Text = "Clear"
+        '
+        'MenuTools_Settings
+        '
+        Me.MenuTools_Settings.Name = "MenuTools_Settings"
+        Me.MenuTools_Settings.Size = New System.Drawing.Size(180, 22)
+        Me.MenuTools_Settings.Text = "Settings"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(188, 6)
-        '
-        'Menu_Scan
-        '
-        Me.Menu_Scan.Name = "Menu_Scan"
-        Me.Menu_Scan.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_Scan.Text = "Scan"
-        '
-        'Menu_Backup
-        '
-        Me.Menu_Backup.Name = "Menu_Backup"
-        Me.Menu_Backup.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_Backup.Text = "Backup"
-        '
-        'Menu_Restore
-        '
-        Me.Menu_Restore.Name = "Menu_Restore"
-        Me.Menu_Restore.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_Restore.Text = "Restore"
-        '
-        'Menu_ClearDB
-        '
-        Me.Menu_ClearDB.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_ClearDB.Name = "Menu_ClearDB"
-        Me.Menu_ClearDB.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_ClearDB.Text = "Clear"
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(188, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(177, 6)
         '
         'Menu_LogOut
         '
+        Me.Menu_LogOut.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.Menu_LogOut.Name = "Menu_LogOut"
-        Me.Menu_LogOut.Size = New System.Drawing.Size(191, 22)
-        Me.Menu_LogOut.Text = "Logout"
+        Me.Menu_LogOut.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_LogOut.Text = "Log out"
         '
         'GridUsers
         '
@@ -175,6 +170,16 @@ Partial Class frmUsers
         Me.lblInfo.TabIndex = 1
         Me.lblInfo.Text = "-"
         '
+        'ToolStripMenuItem4
+        '
+        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(177, 6)
+        '
+        'ToolStripMenuItem5
+        '
+        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(177, 6)
+        '
         'frmUsers
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
@@ -202,17 +207,18 @@ Partial Class frmUsers
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents Menu_LoginAsAdmin As ToolStripMenuItem
     Friend WithEvents GridUsers As DataGridView
-    Friend WithEvents Menu_AddNewUser As ToolStripMenuItem
-    Friend WithEvents Menu_DeleteUser As ToolStripMenuItem
     Friend WithEvents Menu_LoginAsUser As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
-    Friend WithEvents Menu_Settings As ToolStripMenuItem
     Friend WithEvents Menu_LogOut As ToolStripMenuItem
-    Friend WithEvents Menu_Backup As ToolStripMenuItem
-    Friend WithEvents Menu_Restore As ToolStripMenuItem
-    Friend WithEvents Menu_Scan As ToolStripMenuItem
-    Friend WithEvents Menu_ClearDB As ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
     Friend WithEvents lblInfo As Label
-    Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
+    Friend WithEvents Menu_Tools As ToolStripMenuItem
+    Friend WithEvents MenuTools_NewUser As ToolStripMenuItem
+    Friend WithEvents MenuTools_DeleteUser As ToolStripMenuItem
+    Friend WithEvents MenuTools_Backup As ToolStripMenuItem
+    Friend WithEvents MenuTools_Restore As ToolStripMenuItem
+    Friend WithEvents MenuTools_Scan As ToolStripMenuItem
+    Friend WithEvents MenuTools_Clear As ToolStripMenuItem
+    Friend WithEvents MenuTools_Settings As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem4 As ToolStripSeparator
+    Friend WithEvents ToolStripMenuItem5 As ToolStripSeparator
 End Class

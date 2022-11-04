@@ -37,7 +37,7 @@
                         CnnSS.Open()
                         DASS = New SqlClient.SqlDataAdapter("SELECT ID, ProjectName FROM Project  WHERE (" + searchString + ") ORDER BY ProjectName DESC;", CnnSS)
                         DASS.Fill(DS, "tblProj_tmp")
-                        CNNSS.Dispose()
+                        CnnSS.Close()
                     End Using
             '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
@@ -78,7 +78,7 @@
                     End Select
                     DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                 DASS.Fill(DS, "tblProj_tmp")
-                    CNNSS.Dispose()
+                    CnnSS.Close()
                 End Using
             '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
@@ -203,7 +203,7 @@
                         CnnSS.Open()
                         DASS = New SqlClient.SqlDataAdapter("SELECT Product.ID, ProductName, Product.Notes FROM Project INNER JOIN Product ON Project.ID = Product.Project_ID WHERE (" + searchString + ") ORDER BY ProductName DESC;", CnnSS)
                         DASS.Fill(DS, "tblProd_tmp")
-                        CNNSS.Dispose()
+                        CnnSS.Close()
                     End Using
             '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
@@ -241,7 +241,7 @@
                     strSQL = "Select ID, ProductName, Notes FROM Product Where Project_ID = " & Projid.ToString & " Order By ProductName"
                     DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                 DASS.Fill(DS, "tblProd_tmp")
-                    CNNSS.Dispose()
+                    CnnSS.Close()
                 End Using
             '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"

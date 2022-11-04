@@ -149,12 +149,12 @@ Partial Class frmChooseProject
         '
         Me.TextBoxProdNote.BackColor = System.Drawing.SystemColors.Control
         Me.TextBoxProdNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxProdNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.TextBoxProdNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
         Me.TextBoxProdNote.ForeColor = System.Drawing.Color.Teal
         Me.TextBoxProdNote.Location = New System.Drawing.Point(337, 4)
         Me.TextBoxProdNote.Margin = New System.Windows.Forms.Padding(4)
         Me.TextBoxProdNote.Name = "TextBoxProdNote"
-        Me.TextBoxProdNote.Size = New System.Drawing.Size(291, 16)
+        Me.TextBoxProdNote.Size = New System.Drawing.Size(291, 14)
         Me.TextBoxProdNote.TabIndex = 2
         Me.TextBoxProdNote.TabStop = False
         '
@@ -187,7 +187,7 @@ Partial Class frmChooseProject
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(633, 483)
+        Me.ClientSize = New System.Drawing.Size(645, 484)
         Me.ControlBox = False
         Me.Controls.Add(Me.txtSearchProd)
         Me.Controls.Add(Me.txtSearchProj)

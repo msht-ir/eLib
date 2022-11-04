@@ -52,7 +52,7 @@
                     cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblsettings").Rows(r).Item(3))
                     cmd.Parameters.AddWithValue("@ID", DS.Tables("tblSettings").Rows(r).Item(0).ToString)
                     Dim i As Integer = cmd.ExecuteNonQuery()
-                        CNNSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)

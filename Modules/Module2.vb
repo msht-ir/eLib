@@ -487,7 +487,7 @@ lblReturn:
     '//Admin DB_Backup-Restore
     Public Sub eLib_Backup()
         '//OPEN A CONNECTION for this SUB
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                 CnnSS.Open()
@@ -507,11 +507,9 @@ lblReturn:
                     Case "SqlServer"
                         DASS = New SqlClient.SqlDataAdapter("SELECT ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs ORDER BY ID;", CnnSS)
                         DASS.Fill(DS, "tblUsrs")
-                    '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs ORDER BY ID;", CnnSC)
                         DASC.Fill(DS, "tblUsrs")
-                    '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
                     Case "Access"
                         DAAC = New OleDb.OleDbDataAdapter("SELECT ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs ORDER BY ID;", CnnAC)
                         DAAC.Fill(DS, "tblUsrs")
@@ -550,17 +548,14 @@ lblReturn:
             '//-------------------------------------------------------------------------------------- 1 Papers
             Try
                 DS.Tables("tblRefs1").Clear()
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         DASS = New SqlClient.SqlDataAdapter("SELECT Distinct ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Note FROM Papers ORDER BY ID;", CnnSS)
                         DASS.Fill(DS, "tblRefs1")
-                    '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Distinct ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Note FROM Papers ORDER BY ID;", CnnSC)
                         DASC.Fill(DS, "tblRefs1")
-                    '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
                     Case "Access"
-                        'DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID ORDER BY Papers.ID;", CnnAC)
                         DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Note FROM Papers ORDER BY ID;", CnnAC)
                         DAAC.Fill(DS, "tblRefs1")
                 End Select
@@ -589,12 +584,10 @@ lblReturn:
                         strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Order By ID"
                         DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                         DASS.Fill(DS, "tblProject")
-                    '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                     Case "SqlServerCE"
                         strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Order By ID"
                         DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
                         DASC.Fill(DS, "tblProject")
-                    '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
                     Case "Access"
                         strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Order By ID"
                         DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
@@ -622,11 +615,9 @@ lblReturn:
                     Case "SqlServer"
                         DASS = New SqlClient.SqlDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Order by ID", CnnSS)
                         DASS.Fill(DS, "tblProduct")
-                    '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Order by ID", CnnSC)
                         DASC.Fill(DS, "tblProduct")
-                    '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
                     Case "Access"
                         DAAC = New OleDb.OleDbDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Order by ID", CnnAC)
                         DAAC.Fill(DS, "tblProduct")
@@ -650,28 +641,27 @@ lblReturn:
                 DS.Tables("tblAssignments").Clear()
                 Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
                     Case "SqlServer"
-                        DASS = New SqlClient.SqlDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnSS)
+                        DASS = New SqlClient.SqlDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnSS)
                         DASS.Fill(DS, "tblAssignments")
-                    '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                     Case "SqlServerCE"
-                        DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnSC)
+                        DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnSC)
                         DASC.Fill(DS, "tblAssignments")
-                    '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
                     Case "Access"
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnAC)
+                        DAAC = New OleDb.OleDbDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnAC)
                         DAAC.Fill(DS, "tblAssignments")
                 End Select
                 Dim WS4 As IXLWorksheet = WB.Worksheets.Add("Assignments")
                 WS4.Cell(1, 1).Value = "ID"
                 WS4.Cell(1, 2).Value = "Paper_ID"
                 WS4.Cell(1, 3).Value = "Product_ID"
-                WS4.Cell(1, 4).Value = "Note"
-                WS4.Cell(1, 5).Value = "Imp1"
-                WS4.Cell(1, 6).Value = "Imp2"
-                WS4.Cell(1, 7).Value = "Imp3"
-                WS4.Cell(1, 8).Value = "ImR"
+                WS4.Cell(1, 4).Value = "ProductName"
+                WS4.Cell(1, 5).Value = "Note"
+                WS4.Cell(1, 6).Value = "Imp1"
+                WS4.Cell(1, 7).Value = "Imp2"
+                WS4.Cell(1, 8).Value = "Imp3"
+                WS4.Cell(1, 9).Value = "ImR"
                 For iRow As Integer = 1 To DS.Tables("tblAssignments").Rows.Count
-                    For iCol = 1 To 8
+                    For iCol = 1 To 9
                         WS4.Cell(iRow + 1, iCol).Value = DS.Tables("tblAssignments").Rows(iRow - 1).Item(iCol - 1)
                     Next iCol
                 Next iRow
@@ -682,15 +672,13 @@ lblReturn:
             '//-------------------------------------------------------------------------------------- 5 ProductNotes
             Try
                 DS.Tables("tblProductNotes").Clear()
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         DASS = New SqlClient.SqlDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes ORDER BY ID;", CnnSS)
                         DASS.Fill(DS, "tblProductNotes")
-                    '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes ORDER BY ID;", CnnSC)
                         DASC.Fill(DS, "tblProductNotes")
-                    '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
                     Case "Access"
                         DAAC = New OleDb.OleDbDataAdapter("SELECT ID, NoteDatum, [Note], Product_ID FROM ProductNotes ORDER BY ID;", CnnAC)
                         DAAC.Fill(DS, "tblProductNotes")
@@ -1227,11 +1215,12 @@ lblReturn:
                         intPaperProduct = Int(WS4.Cell(iRow, 1).Value)
                         intPaperID = Int(WS4.Cell(iRow, 2).Value)
                         intProductID = Int(WS4.Cell(iRow, 3).Value)
-                        strPaperProductNote = WS4.Cell(iRow, 4).Value
-                        If WS4.Cell(iRow, 5).Value = "TRUE" Then boolImp1 = 1 Else boolImp1 = 0
-                        If WS4.Cell(iRow, 6).Value = "TRUE" Then boolImp2 = 1 Else boolImp2 = 0
-                        If WS4.Cell(iRow, 7).Value = "TRUE" Then boolImp3 = 1 Else boolImp3 = 0
-                        If WS4.Cell(iRow, 8).Value = "TRUE" Then boolImR = 1 Else boolImR = 0
+                        'WS4.Cell(iRow, 3)->ProductName in tblAssignments (but not in: Table.Paper_Product)
+                        strPaperProductNote = WS4.Cell(iRow, 5).Value
+                        If WS4.Cell(iRow, 6).Value = "TRUE" Then boolImp1 = 1 Else boolImp1 = 0
+                        If WS4.Cell(iRow, 7).Value = "TRUE" Then boolImp2 = 1 Else boolImp2 = 0
+                        If WS4.Cell(iRow, 8).Value = "TRUE" Then boolImp3 = 1 Else boolImp3 = 0
+                        If WS4.Cell(iRow, 9).Value = "TRUE" Then boolImR = 1 Else boolImR = 0
                         Select Case DatabaseType
                             Case "SqlServer"
                                 strSQL = "INSERT INTO Paper_Product (ID, Paper_ID, Product_ID, Note, Imp1, Imp2, Imp3, ImR) VALUES (@id, @paperid, @productid, @note, @imp1, @imp2, @imp3, @imr)"

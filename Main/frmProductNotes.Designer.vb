@@ -40,7 +40,7 @@ Partial Class frmProductNotes
         Me.txtNote.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.txtNote.Location = New System.Drawing.Point(18, 53)
         Me.txtNote.Name = "txtNote"
-        Me.txtNote.Size = New System.Drawing.Size(950, 20)
+        Me.txtNote.Size = New System.Drawing.Size(1007, 20)
         Me.txtNote.TabIndex = 1
         '
         'ContextMenuStrip1
@@ -91,7 +91,7 @@ Partial Class frmProductNotes
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(968, 103)
+        Me.ClientSize = New System.Drawing.Size(1054, 106)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.txtDatum)

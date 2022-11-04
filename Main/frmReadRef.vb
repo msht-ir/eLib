@@ -17,7 +17,7 @@ Public Class frmReadRef
                         CnnSS.Open()
                         DASS = New SqlClient.SqlDataAdapter("SELECT ID, FilePath FROM Paths WHERE FilePath Like '%" & strRef & "%' ORDER BY FilePath;", CnnSS)
                         DASS.Fill(DS, "tblRefPaths")
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
             '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
@@ -86,7 +86,7 @@ Public Class frmReadRef
                             Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
                             cmdx.CommandType = CommandType.Text
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                        '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                     Case "SqlServerCE"
@@ -147,7 +147,7 @@ Public Class frmReadRef
                                     Dim cmdx As New SqlClient.SqlCommand(strSQL, CnnSS)
                                     cmdx.CommandType = CommandType.Text
                                     Dim ix As Integer = cmdx.ExecuteNonQuery()
-                                    CnnSS.Dispose()
+                                    CnnSS.Close()
                                 End Using
                            '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                             Case "SqlServerCE"

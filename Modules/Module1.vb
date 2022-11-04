@@ -209,7 +209,7 @@ Module Module1
                     '//Settings 
                     DASS = New SqlClient.SqlDataAdapter("SELECT ID, sttHeader, sttKey, sttValue, sttNote From Settings ORDER BY sttKey", CnnSS)
                     DASS.Fill(DS, "tblSettings")
-                    CnnSS.Dispose()
+                    CnnSS.Close()
                 End Using
                 '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"

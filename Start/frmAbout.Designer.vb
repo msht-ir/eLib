@@ -35,7 +35,7 @@ Partial Class frmAbout
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Copperplate Gothic Light", 40.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Label2.ForeColor = System.Drawing.Color.Gold
-        Me.Label2.Location = New System.Drawing.Point(12, 9)
+        Me.Label2.Location = New System.Drawing.Point(260, 22)
         Me.Label2.Name = "Label2"
         Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label2.Size = New System.Drawing.Size(143, 58)
@@ -47,12 +47,12 @@ Partial Class frmAbout
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Copperplate Gothic Light", 10.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.Label3.ForeColor = System.Drawing.Color.LightSlateGray
-        Me.Label3.Location = New System.Drawing.Point(39, 79)
+        Me.Label3.Location = New System.Drawing.Point(74, 97)
         Me.Label3.Name = "Label3"
         Me.Label3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label3.Size = New System.Drawing.Size(475, 15)
+        Me.Label3.Size = New System.Drawing.Size(534, 15)
         Me.Label3.TabIndex = 3
-        Me.Label3.Text = "by Dr Majid Sharifi-Tehrany - Faculty of Science, SKU  (2022)"
+        Me.Label3.Text = "by Dr Majid Sharifi-Tehrany - Faculty of Science, SKU  (2022 Nov 04)"
         '
         'Timer1
         '
@@ -63,10 +63,10 @@ Partial Class frmAbout
         '
         Me.lblFrontEnd.Font = New System.Drawing.Font("Consolas", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.lblFrontEnd.ForeColor = System.Drawing.Color.LightSlateGray
-        Me.lblFrontEnd.Location = New System.Drawing.Point(334, 36)
+        Me.lblFrontEnd.Location = New System.Drawing.Point(442, 53)
         Me.lblFrontEnd.Name = "lblFrontEnd"
         Me.lblFrontEnd.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblFrontEnd.Size = New System.Drawing.Size(188, 27)
+        Me.lblFrontEnd.Size = New System.Drawing.Size(219, 27)
         Me.lblFrontEnd.TabIndex = 4
         Me.lblFrontEnd.Text = "FrontEnd:"
         Me.lblFrontEnd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -75,10 +75,10 @@ Partial Class frmAbout
         '
         Me.lblBackEnd.Font = New System.Drawing.Font("Consolas", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.lblBackEnd.ForeColor = System.Drawing.Color.LightSlateGray
-        Me.lblBackEnd.Location = New System.Drawing.Point(334, 9)
+        Me.lblBackEnd.Location = New System.Drawing.Point(442, 26)
         Me.lblBackEnd.Name = "lblBackEnd"
         Me.lblBackEnd.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblBackEnd.Size = New System.Drawing.Size(188, 27)
+        Me.lblBackEnd.Size = New System.Drawing.Size(219, 27)
         Me.lblBackEnd.TabIndex = 5
         Me.lblBackEnd.Text = "BackEnd:"
         Me.lblBackEnd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -88,7 +88,7 @@ Partial Class frmAbout
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Navy
-        Me.ClientSize = New System.Drawing.Size(562, 115)
+        Me.ClientSize = New System.Drawing.Size(682, 139)
         Me.ControlBox = False
         Me.Controls.Add(Me.lblBackEnd)
         Me.Controls.Add(Me.lblFrontEnd)

@@ -98,7 +98,7 @@ Public Class frmUsers
                     cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblUsrs").Rows(r).Item(c))
                     cmd.Parameters.AddWithValue("@ID", DS.Tables("tblUsrs").Rows(r).Item(0).ToString)
                     Dim i As Integer = cmd.ExecuteNonQuery()
-                    CnnSS.Dispose()
+                    CnnSS.Close()
                 End Using
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -124,11 +124,34 @@ Public Class frmUsers
     End Sub
 
     '//MENU
-    Private Sub Menu_AddNewUser_Click(sender As Object, e As EventArgs) Handles Menu_AddNewUser.Click
+    Private Sub Menu_LoginAsAdmin_Click(sender As Object, e As EventArgs) Handles Menu_LoginAsAdmin.Click
+        ReadSettingsAndUsers()
+        Me.Dispose()
+        frmAssign.ShowDialog()
+    End Sub
+    Private Sub Menu_LoginAsUser_Click(sender As Object, e As EventArgs) Handles Menu_LoginAsUser.Click
+        If GridUsers.Rows.Count = 0 Then Exit Sub
+        Dim r As Integer = GridUsers.SelectedCells(0).RowIndex 'count from 0
+        Dim c As Integer = GridUsers.SelectedCells(0).ColumnIndex 'count from 0
+        If (r < 0) Or (c < 0) Then Exit Sub
+        intUser = DS.Tables("tblusrs").Rows(r).Item(0)
+        UserType = "User"
+        strUser = DS.Tables("tblusrs").Rows(r).Item(1)
+        strUserPass = DS.Tables("tblusrs").Rows(r).Item(2)
+        '//SetUserAccessControls()
+        Dim UACregister As Integer
+        For i As Integer = 0 To 15
+            If DS.Tables("tblusrs").Rows(r).Item(5 + i) = True Then UACregister = UACregister Or (2 ^ i)
+        Next
+        UserAccessControls = UACregister
+        Me.Dispose()
+        frmAssign.ShowDialog()
+    End Sub
+    Private Sub MenuTools_NewUser_Click(sender As Object, e As EventArgs) Handles MenuTools_NewUser.Click
         AddNewUser()
         frmUsers_Load(sender, e)
     End Sub
-    Private Sub Menu_DeleteUser_Click(sender As Object, e As EventArgs) Handles Menu_DeleteUser.Click
+    Private Sub MenuTools_DeleteUser_Click(sender As Object, e As EventArgs) Handles MenuTools_DeleteUser.Click
         If GridUsers.Rows.Count = 0 Then Exit Sub
         Dim iRow As Integer = GridUsers.SelectedCells.Item(0).RowIndex
         If iRow < 0 Then Exit Sub
@@ -144,7 +167,7 @@ Public Class frmUsers
                         strSQL = "SELECT * FROM Project WHERE user_ID=" & intUser2bDel.ToString & ";"
                         DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
                         DASS.Fill(DS, "tblProject")
-                        CnnSS.Dispose()
+                        CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -183,7 +206,7 @@ Public Class frmUsers
                             cmdx.CommandType = CommandType.Text
                             cmdx.Parameters.AddWithValue("@id", intUser2bDel.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
@@ -213,11 +236,9 @@ Public Class frmUsers
         '//Reload Page
         DS.Tables("tblProject").Clear()
         frmUsers_Load(sender, e)
+
     End Sub
-    Private Sub Menu_Settings_Click(sender As Object, e As EventArgs) Handles Menu_Settings.Click
-        frmSettings.ShowDialog()
-    End Sub
-    Private Sub Menu_Backup_Click(sender As Object, e As EventArgs) Handles Menu_Backup.Click
+    Private Sub MenuTools_Backup_Click(sender As Object, e As EventArgs) Handles MenuTools_Backup.Click
         lblInfo.Text = "Backup in progress ... Please wait!"
         eLib_Backup()
         lblInfo.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
@@ -227,7 +248,7 @@ Public Class frmUsers
             lblInfo.Text = "Backup Error!"
         End If
     End Sub
-    Private Sub Menu_Restore_Click(sender As Object, e As EventArgs) Handles Menu_Restore.Click
+    Private Sub MenuTools_Restore_Click(sender As Object, e As EventArgs) Handles MenuTools_Restore.Click
         If DatabaseType = "Access" Then 'BulkInser works with sqlserver, (not accdb)
             Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
             Exit Sub
@@ -245,7 +266,7 @@ Public Class frmUsers
             lblInfo.Text = "Restore Error!"
         End If
     End Sub
-    Private Sub Menu_ClearDB_Click(sender As Object, e As EventArgs) Handles Menu_ClearDB.Click
+    Private Sub MenuTools_Clear_Click(sender As Object, e As EventArgs) Handles MenuTools_Clear.Click
         Dim myansw As DialogResult
         If UserType <> "Admin" Then
             myansw = MsgBox("Login as 'Admin' and Try Again", vbOKCancel + vbDefaultButton2, "eLib")
@@ -285,7 +306,7 @@ Public Class frmUsers
                     '//CLOSE ALL Connections
                     Select Case DatabaseType
                         Case "SqlServer"
-                            CnnSS.Dispose()
+                            CnnSS.Close()
                             CnnSS.Dispose()
                         Case "SqlServerCE"
                             CnnSC.Close()
@@ -300,7 +321,7 @@ Public Class frmUsers
             End If
         End If
     End Sub
-    Private Sub Menu_Scan_Click(sender As Object, e As EventArgs) Handles Menu_Scan.Click
+    Private Sub MenuTools_Scan_Click(sender As Object, e As EventArgs) Handles MenuTools_Scan.Click
         If DatabaseType = "Access" Then '!BulkInsert works with sqlserver, (not accdb)
             Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
             Exit Sub
@@ -309,7 +330,7 @@ Public Class frmUsers
         Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
         Select Case myansw
             Case vbNo
-                Menu_Settings_Click(sender, e)
+                MenuTools_Settings_Click(sender, e)
                 ReadSettingsAndUsers()
                 ValidateFolders()
             Case vbYes
@@ -340,33 +361,20 @@ Public Class frmUsers
                 'do nothing
         End Select
     End Sub
-    Private Sub Menu_LoginAsAdmin_Click(sender As Object, e As EventArgs) Handles Menu_LoginAsAdmin.Click
-        ReadSettingsAndUsers()
-        Me.Dispose()
-        frmAssign.ShowDialog()
-    End Sub
-    Private Sub Menu_LoginAsUser_Click(sender As Object, e As EventArgs) Handles Menu_LoginAsUser.Click
-        If GridUsers.Rows.Count = 0 Then Exit Sub
-        Dim r As Integer = GridUsers.SelectedCells(0).RowIndex 'count from 0
-        Dim c As Integer = GridUsers.SelectedCells(0).ColumnIndex 'count from 0
-        If (r < 0) Or (c < 0) Then Exit Sub
-        intUser = DS.Tables("tblusrs").Rows(r).Item(0)
-        UserType = "User"
-        strUser = DS.Tables("tblusrs").Rows(r).Item(1)
-        strUserPass = DS.Tables("tblusrs").Rows(r).Item(2)
-        '//SetUserAccessControls()
-        Dim UACregister As Integer
-        For i As Integer = 0 To 15
-            If DS.Tables("tblusrs").Rows(r).Item(5 + i) = True Then UACregister = UACregister Or (2 ^ i)
-        Next
-        UserAccessControls = UACregister
-        Me.Dispose()
-        frmAssign.ShowDialog()
+    Private Sub MenuTools_Settings_Click(sender As Object, e As EventArgs) Handles MenuTools_Settings.Click
+        frmSettings.ShowDialog()
     End Sub
     Private Sub Menu_LogOut_Click(sender As Object, e As EventArgs) Handles Menu_LogOut.Click
         DeleteHtmlFiles() 'Remove possible existing Data related to other users (now, and also when logging-in via frmCNN as new user )
         Me.Dispose()
         frmCNN.ShowDialog()
     End Sub
+
+
+
+
+
+
+
 
 End Class

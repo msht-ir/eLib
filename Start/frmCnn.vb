@@ -7,13 +7,13 @@ Public Class frmCNN
         PasswordTextBox.Enabled = False
         GetBuildInfo()
         lblBuildInfo.Text = "fe: " & strBuildInfo
-        Me.Text = "eLib "
+        Me.Text = "DblClick a Library"
         Dim strConnectionName As String = ""
         Dim strConnectionAddress As String = ""
         Dim strConnectionUsername As String = ""
         Dim strConnectionPassword As String = ""
-        tblConnection.Columns.Add("Select database", GetType(String))
-        tblConnection.Columns.Add("Specs", GetType(String))
+        tblConnection.Columns.Add("Library", GetType(String))
+        tblConnection.Columns.Add("Address", GetType(String))
         tblConnection.Columns.Add("uid", GetType(String))
         tblConnection.Columns.Add("pwd", GetType(String))
         strFilename = Application.StartupPath & "eLibcnn"
@@ -86,16 +86,13 @@ lbl_Read:
         Menu_SelectBE_Click(sender, e)
 
     End Sub
-    Private Sub Menu_AddCNN_Click(sender As Object, e As EventArgs) Handles Menu_AddCNN.Click
-        tblConnection.Rows.Add("NEW Library Connection", "Address (DblClick)", "", "")
-    End Sub
     Private Sub Menu_FindDB_Click(sender As Object, e As EventArgs) Handles Menu_FindDB.Click
         If GridCNN.RowCount < 1 Then Exit Sub
         Dim r As Integer = GridCNN.SelectedCells(0).RowIndex 'count from 0
         Dim c As Integer = GridCNN.SelectedCells(0).ColumnIndex 'count from 0
         If r < 0 Then Exit Sub
 
-        Using dialog As New OpenFileDialog With {.InitialDirectory = Application.StartupPath, .Filter = "eLib ACCDB BackEnd|eLib*.accdb|eLib SqlServerCE BackEnd|eLib*.sdf"}
+        Using dialog As New OpenFileDialog With {.InitialDirectory = Application.StartupPath, .Filter = "SqlServerCE|eLib*.sdf|ACCDB|eLib*.accdb"}
             If dialog.ShowDialog = DialogResult.OK Then
                 GridCNN(1, r).Value = dialog.FileName
             Else
