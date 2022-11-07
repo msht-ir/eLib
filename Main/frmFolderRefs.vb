@@ -140,13 +140,6 @@ Lblx:
                     DASC.Fill(DS, "tblRefs1")
                     CnnSC.Close()
                 End Using
-            Case "Access"
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnAC)
-                    DAAC.Fill(DS, "tblRefs1")
-                    CnnAC.Close()
-                End Using
         End Select
         FindRefId = DS.Tables("tblRefs1").Rows(0).Item(0)
     End Function
@@ -183,21 +176,6 @@ Lblx:
                         MsgBox(ex.ToString)
                     End Try
                     CnnSC.Close()
-                End Using
-            Case "Access"
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                    cmdx.CommandType = CommandType.Text
-                    cmdx.Parameters.AddWithValue("@paperid", iRef.ToString)
-                    cmdx.Parameters.AddWithValue("@productid", iProd.ToString)
-                    Try
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                    Catch ex As Exception
-                        DoAssignRefToProduct = 0
-                        MsgBox(ex.ToString)
-                    End Try
-                    CnnAC.Close()
                 End Using
         End Select
     End Function

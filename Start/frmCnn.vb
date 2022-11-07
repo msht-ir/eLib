@@ -248,12 +248,6 @@ lbl_Read:
                     CnnSC.Open()
                     DatabaseType = "SqlServerCE"
                     Connect2Database = 1
-                Case "ACCDB" '--------------------------------------------- accdb
-                    strDatabaseCNNstring = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & strDbBackEnd & ";Jet OLEDB:Database Password=" & BackEndPass & ";"
-                    CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    DatabaseType = "Access"
-                    Connect2Database = 1
                 Case Else
                     Connect2Database = 0
             End Select

@@ -10,9 +10,6 @@ Public Class frmAssign
             Case "SqlServerCE"
                 CnnSC.Close()
                 CnnSC.Dispose()
-            Case "Access"
-                CnnAC.Close()
-                CnnAC.Dispose()
         End Select
         Dim boolEnbl As Boolean = False
         If UserType = "User" Then Menu_ChangePass.Enabled = True Else Menu_ChangePass.Enabled = False
@@ -31,7 +28,7 @@ Public Class frmAssign
             DS.Tables("tblProductNotes").Clear()
             DS.Tables("tblRefs2").Clear()
             'tblProductNote
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -39,21 +36,12 @@ Public Class frmAssign
                         DASS.Fill(DS, "tblProductNotes")
                         CnnSS.Close()
                     End Using
-                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes WHERE ID =1;", CnnSC)
                         DASC.Fill(DS, "tblProductNotes")
                         CnnSC.Close()
-                    End Using
-                '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT ID, NoteDatum, [Note], Product_ID FROM ProductNotes WHERE ID =1;", CnnAC)
-                        DAAC.Fill(DS, "tblProducNotes")
-                        CnnAC.Close()
                     End Using
             End Select
         Catch ex As Exception
@@ -82,16 +70,6 @@ Public Class frmAssign
         End Select
     End Sub
     Private Sub Menu_AddUser_Click(sender As Object, e As EventArgs) Handles Menu_AddUser.Click
-        'If UserType <> "Admin" Then
-        '    Dim myansw As DialogResult = MsgBox("Login as 'Admin' and Try Again", vbOKCancel + vbDefaultButton2, "eLib")
-        '    If myansw = vbOK Then
-        '        Menu_user_Click(sender, e)
-        '        Exit Sub
-        '    Else 'Cancel
-        '        Exit Sub
-        '    End If
-        'End If
-        '//OK, Admin! Call: +USER
         AddNewUser()
         '//Now, login!
         Menu_user_Click(sender, e)
@@ -163,7 +141,7 @@ Public Class frmAssign
                 End If
             End If
             'Save new password
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -193,21 +171,6 @@ Public Class frmAssign
                             MsgBox("Error updating Password", vbOKOnly, "eLib")
                         End Try
                         CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "UPDATE usrs SET UsrPass=@usrpass WHERE ID=@id"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@usrpass", strNewPass)
-                        cmd.Parameters.AddWithValue("@id", intUser.ToString)
-                        Try
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error updating Password", vbOKOnly, "eLib")
-                        End Try
-                        CnnAC.Close()
                     End Using
             End Select
             strUserPass = strNewPass
@@ -284,11 +247,6 @@ Public Class frmAssign
         End Try
     End Sub
     Private Sub Menu_Scan_Click_1(sender As Object, e As EventArgs) Handles Menu_Scan.Click
-        If DatabaseType = "Access" Then 'BulkInser works with sqlserver, (not accdb)
-            'MsgBox("SCAN Folders using Access database", vbOKOnly, "eLib")
-            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
-            Exit Sub
-        End If
         Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
         Select Case myansw
             Case vbNo
@@ -482,7 +440,6 @@ Public Class frmAssign
             Select Case DatabaseType
                 Case "SqlServer" : strTRUE = "1"
                 Case "SqlServerCE" : strTRUE = "1"
-                Case "Access" : strTRUE = "-1"
             End Select
             Select Case intRefType
                 Case 1  ' ---P
@@ -520,7 +477,7 @@ Public Class frmAssign
         '//Do Query
         Try
             DS.Tables("tblRefs1").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -528,21 +485,12 @@ Public Class frmAssign
                         DASS.Fill(DS, "tblRefs1")
                         CnnSS.Close()
                     End Using
-                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
                         DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
                         DASC.Fill(DS, "tblRefs1")
                         CnnSC.Close()
-                    End Using
-                '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
-                        DAAC.Fill(DS, "tblRefs1")
-                        CnnAC.Close()
                     End Using
             End Select
             List1.DataSource = DS.Tables("tblRefs1")
@@ -641,7 +589,7 @@ Public Class frmAssign
                 strSQL = "SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " AND user_ID= " & intUser & " ORDER BY ProductName;"
         End Select
         DS.Tables("tblAssignments").Clear()
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
@@ -649,21 +597,12 @@ Public Class frmAssign
                     DASS.Fill(DS, "tblAssignments")
                     CnnSS.Close()
                 End Using
-            '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
                     DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
                     DASC.Fill(DS, "tblAssignments")
                     CnnSC.Close()
-                End Using
-            '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-            Case "Access"
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
-                    DAAC.Fill(DS, "tblAssignments")
-                    CnnAC.Close()
                 End Using
         End Select
     End Sub
@@ -707,7 +646,7 @@ Public Class frmAssign
     End Sub
     Private Function DoAssignRef2Prod(iRef As Integer, iProd As Integer) As Boolean
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -730,17 +669,6 @@ Public Class frmAssign
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
-                        cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
-                    End Using
             End Select
             DoAssignRef2Prod = True
         Catch ex As Exception
@@ -755,7 +683,7 @@ Public Class frmAssign
             Case 1 'a project is selected
                 Try
                     DS.Tables("tblRefs1").Clear()
-                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Select Case DatabaseType
                         Case "SqlServer"
                             Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                                 CnnSS.Open()
@@ -770,20 +698,13 @@ Public Class frmAssign
                                 DASC.Fill(DS, "tblRefs1")
                                 CnnSC.Close()
                             End Using
-                        Case "Access"
-                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                                CnnAC.Open()
-                                DAAC = New OleDb.OleDbDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Project_ID = " & intProj.ToString & " Order By PaperName DESC;", CnnAC)
-                                DAAC.Fill(DS, "tblRefs1")
-                                CnnAC.Close()
-                            End Using
                     End Select
                 Catch ex As Exception
                 End Try
             Case 2 'a product is selected
                 Try
                     DS.Tables("tblRefs1").Clear()
-                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Select Case DatabaseType
                         Case "SqlServer"
                             Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                                 CnnSS.Open()
@@ -797,13 +718,6 @@ Public Class frmAssign
                                 DASC = New SqlServerCe.SqlCeDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & intProd.ToString & " Order By PaperName DESC;", CnnSC)
                                 DASC.Fill(DS, "tblRefs1")
                                 CnnSC.Close()
-                            End Using
-                        Case "Access"
-                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                                CnnAC.Open()
-                                DAAC = New OleDb.OleDbDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & intProd.ToString & " Order By PaperName DESC;", CnnAC)
-                                DAAC.Fill(DS, "tblRefs1")
-                                CnnAC.Close()
                             End Using
                     End Select
                 Catch ex As Exception
@@ -829,7 +743,7 @@ Public Class frmAssign
         End If
         '//Do change the Note
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -851,17 +765,6 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@id", intID.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
                         CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "UPDATE Papers SET Papers.[Note]=@note WHERE ID=@id"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@note", strRefNote)
-                        cmdx.Parameters.AddWithValue("@id", intID.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
                     End Using
             End Select
             DS.Tables("tblRefs1").Rows(i).Item(6) = strRefNote
@@ -938,7 +841,7 @@ Public Class frmAssign
         End Select
         Try
             DS.Tables("tblRefs1").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -952,13 +855,6 @@ Public Class frmAssign
                         DASC = New SqlServerCe.SqlCeDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE user_ID = " & intUser.ToString & " And " & strFilter & " Order By PaperName DESC;", CnnSC)
                         DASC.Fill(DS, "tblRefs1")
                         CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE user_ID = " & intUser.ToString & " And " & strFilter & " Order By PaperName DESC;", CnnAC)
-                        DAAC.Fill(DS, "tblRefs1")
-                        CnnAC.Close()
                     End Using
             End Select
         Catch ex As Exception
@@ -981,7 +877,7 @@ Public Class frmAssign
             Dim myansw As DialogResult = MsgBox("Delete this Ref?", vbYesNo, "eLib")
             If myansw = vbYes Then
                 Try
-                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Select Case DatabaseType
                         Case "SqlServer"
                             Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                                 CnnSS.Open()
@@ -1001,16 +897,6 @@ Public Class frmAssign
                                 cmdx.Parameters.AddWithValue("@refid", intRef.ToString)
                                 Dim ix As Integer = cmdx.ExecuteNonQuery()
                                 CnnSC.Close()
-                            End Using
-                        Case "Access"
-                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                                CnnAC.Open()
-                                strSQL = "DELETE FROM Papers WHERE ID=@refid"
-                                Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmdx.CommandType = CommandType.Text
-                                cmdx.Parameters.AddWithValue("@refid", intRef.ToString)
-                                Dim ix As Integer = cmdx.ExecuteNonQuery()
-                                CnnAC.Close()
                             End Using
                     End Select
                     txtSearch_TextChanged(sender, e)
@@ -1065,7 +951,7 @@ Public Class frmAssign
         End If
         '//Do change the Note
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -1088,17 +974,6 @@ Public Class frmAssign
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "UPDATE Paper_Product SET Paper_Product.[Note]=@note WHERE ID=@id"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@note", strPPNote)
-                        cmdx.Parameters.AddWithValue("@id", intID.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
-                    End Using
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString) 'Do Nothing!
@@ -1114,7 +989,7 @@ Public Class frmAssign
             intProd = List2.SelectedValue
             Try
                 DS.Tables("tblRefs1").Clear()
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -1128,13 +1003,6 @@ Public Class frmAssign
                             DASC = New SqlServerCe.SqlCeDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & intProd.ToString & " Order By PaperName DESC;", CnnSC)
                             DASC.Fill(DS, "tblRefs1")
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            DAAC = New OleDb.OleDbDataAdapter("Select DISTINCT Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note From Papers INNER Join (Paper_Product INNER Join (Project INNER Join Product On Project.ID = Product.Project_ID) ON Paper_Product.Product_ID = Product.ID) ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & intProd.ToString & " Order By PaperName DESC;", CnnAC)
-                            DAAC.Fill(DS, "tblRefs1")
-                            CnnAC.Close()
                         End Using
                 End Select
             Catch ex As Exception
@@ -1154,7 +1022,7 @@ Public Class frmAssign
         Dim myansw As DialogResult = MsgBox("Delete this Assignment?", vbYesNo, "eLib")
         If myansw = vbYes Then
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -1174,16 +1042,6 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM Paper_Product WHERE ID=@assignid"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 intRef = List1.SelectedValue
@@ -1222,7 +1080,7 @@ Public Class frmAssign
         frmProject.ShowDialog()
         Try
             If Retval1 = 1 Then 'Save it
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -1250,19 +1108,6 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@userid", intUser.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "INSERT INTO Project (ProjectName, Notes, Active, user_ID) VALUES (@projectname, @notes, @active, @userid)"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@projectname", strProjectName)
-                            cmdx.Parameters.AddWithValue("@notes", strProjectNote)
-                            cmdx.Parameters.AddWithValue("@active", Retval3)
-                            cmdx.Parameters.AddWithValue("@userid", intUser.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 '//Add a subProject for this new Project
@@ -1292,7 +1137,7 @@ Public Class frmAssign
         frmProject.ShowDialog()
         Try
             If Retval1 = 1 Then 'save it
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -1320,19 +1165,6 @@ Public Class frmAssign
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
                         End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "UPDATE Project SET ProjectName=@projectname, Notes=@notes, Active=@active WHERE ID=@id"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@projectname", strProjectName)
-                            cmdx.Parameters.AddWithValue("@notes", strProjectNote)
-                            cmdx.Parameters.AddWithValue("@active", Retval3.ToString)
-                            cmdx.Parameters.AddWithValue("@id", intProj.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
-                        End Using
                 End Select
                 If Retval2 = 0 Then Menu3_InActive_Click(sender, e) Else Menu3_Active_Click(sender, e) 'refresh list4
             Else
@@ -1356,7 +1188,7 @@ Public Class frmAssign
         Dim myansw As DialogResult = MsgBox("Delete this Project?", vbYesNo, "eLib")
         If myansw = vbYes Then
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -1376,16 +1208,6 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@projectid", intProj.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM Project WHERE ID=@projectid"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@projectid", intProj.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 If Menu3_Active.Checked = True Then
@@ -1449,7 +1271,7 @@ Public Class frmAssign
         'activex {0:active 1:inactive 2:all}
         Dim strSearchProj As String = Trim(txtSearchProject.Text)
         DS.Tables("tblProject").Clear()
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 Select Case activex
                     Case 0 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active= 1 Order By ProjectName"
@@ -1468,7 +1290,6 @@ Public Class frmAssign
                     DASS.Fill(DS, "tblProject")
                     CnnSS.Close()
                 End Using
-                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
                 Select Case activex
                     Case 0 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active= 1 Order By ProjectName"
@@ -1486,25 +1307,6 @@ Public Class frmAssign
                     DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
                     DASC.Fill(DS, "tblProject")
                     CnnSC.Close()
-                End Using
-            '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-            Case "Access"
-                Select Case activex
-                    Case 0 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active= -1 Order By ProjectName"
-                    Case 1 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active = 0 Order By ProjectName"
-                    Case 2 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
-                    Case 3
-                        If strSearchProj = "" Then
-                            strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
-                        Else
-                            strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND ProjectName LIKE '%" & strSearchProj & "%' Order By ProjectName"
-                        End If
-                End Select
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
-                    DAAC.Fill(DS, "tblProject")
-                    CnnAC.Close()
                 End Using
         End Select
         'MsgBox(strSearchProj & vbCrLf & strSQL)
@@ -1528,7 +1330,7 @@ Public Class frmAssign
     End Sub
     Private Sub GetProducts(Projectid As Integer)
         DS.Tables("tblProduct").Clear()
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
@@ -1536,21 +1338,12 @@ Public Class frmAssign
                     DASS.Fill(DS, "tblProduct")
                     CnnSS.Close()
                 End Using
-            '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
                     DASC = New SqlServerCe.SqlCeDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Where Project_ID = " & Projectid.ToString & " Order by ProductName", CnnSC)
                     DASC.Fill(DS, "tblProduct")
                     CnnSC.Close()
-                End Using
-            '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-            Case "Access"
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    DAAC = New OleDb.OleDbDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Where Project_ID = " & Projectid.ToString & " Order by ProductName", CnnAC)
-                    DAAC.Fill(DS, "tblProduct")
-                    CnnAC.Close()
                 End Using
         End Select
     End Sub
@@ -1633,7 +1426,7 @@ Public Class frmAssign
     Private Sub GetRefs(Productid)
         Try
             DS.Tables("tblRefs2").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -1641,21 +1434,12 @@ Public Class frmAssign
                         DASS.Fill(DS, "tblRefs2")
                         CnnSS.Close()
                     End Using
-               '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note, Product_ID, Paper_Product.Note, Paper_Product.ID, Imp1, Imp2, Imp3, ImR FROM Papers INNER JOIN Paper_Product ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & Productid.ToString & " ORDER BY Papers.PaperName DESC;", CnnSC)
                         DASC.Fill(DS, "tblRefs2")
                         CnnSC.Close()
-                    End Using
-               '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note, Product_ID, Paper_Product.Note, Paper_Product.ID, Imp1, Imp2, Imp3, ImR FROM Papers INNER JOIN Paper_Product ON Papers.ID = Paper_Product.Paper_ID WHERE Product_ID = " & Productid.ToString & " ORDER BY Papers.PaperName DESC;", CnnAC)
-                        DAAC.Fill(DS, "tblRefs2")
-                        CnnAC.Close()
                     End Using
             End Select
         Catch ex As Exception
@@ -1665,7 +1449,7 @@ Public Class frmAssign
     Private Sub GetProductNotes(productid As Integer)
         Try
             DS.Tables("tblProductNotes").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -1673,21 +1457,12 @@ Public Class frmAssign
                         DASS.Fill(DS, "tblProductNotes")
                         CnnSS.Close()
                     End Using
-                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes WHERE Product_ID = " & productid.ToString & " ORDER BY NoteDatum ASC;", CnnSC)
                         DASC.Fill(DS, "tblProductNotes")
                         CnnSC.Close()
-                    End Using
-               '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT ID, NoteDatum, [Note], Product_ID FROM ProductNotes WHERE Product_ID = " & productid.ToString & " ORDER BY NoteDatum ASC;", CnnAC)
-                        DAAC.Fill(DS, "tblProductNotes")
-                        CnnAC.Close()
                     End Using
             End Select
         Catch ex As Exception
@@ -1715,7 +1490,7 @@ Public Class frmAssign
         End Select
         Try
             If Retval1 = 1 Then 'Save it
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -1740,18 +1515,6 @@ Public Class frmAssign
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
                         End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "INSERT INTO Product (ProductName, [Notes], Project_ID) VALUES (@productname, @notes, @projectid)"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@productname", strProjectName)
-                            cmdx.Parameters.AddWithValue("@notes", strProjectNote)
-                            cmdx.Parameters.AddWithValue("@projectid", intProj.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
-                        End Using
                 End Select
                 GetProducts(intProj) 'refresh list5
             Else
@@ -1773,7 +1536,7 @@ Public Class frmAssign
         frmProject.ShowDialog()
         Try
             If Retval1 = 1 Then 'save it
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -1799,18 +1562,6 @@ Public Class frmAssign
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
                         End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "UPDATE Product SET ProductName=@productname, Notes=@notes WHERE ID=@id"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@productname", strProjectName)
-                            cmdx.Parameters.AddWithValue("@notes", strProjectNote)
-                            cmdx.Parameters.AddWithValue("@id", intProd.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
-                        End Using
                 End Select
                 GetProducts(intProj) 'refresh list5
             Else
@@ -1832,7 +1583,7 @@ Public Class frmAssign
         '//replace current product to selected project
         If Retval1 = 1 Then '1: A Project is selected from dialog
             strSQL = "UPDATE Product SET Project_ID=@projectid WHERE ID=@id"
-            Select Case DatabaseType '---- sqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -1859,19 +1610,6 @@ Public Class frmAssign
                         End Try
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.Parameters.AddWithValue("@projectid", intProj.ToString)
-                        cmd.Parameters.AddWithValue("@id", List4.SelectedValue.ToString)
-                        Try
-                            Dim i As Integer = cmd.ExecuteNonQuery
-                        Catch ex As Exception
-                            MsgBox(ex.ToString)
-                        End Try
-                        CnnAC.Close()
-                    End Using
             End Select
             List3_Click(sender, e) 'to refresh list4
         End If
@@ -1893,7 +1631,7 @@ Public Class frmAssign
         Dim myansw As DialogResult = MsgBox("Delete this subProject?", vbYesNo, "eLib")
         If myansw = vbYes Then
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -1913,16 +1651,6 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM Product WHERE ID=@productid"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 GetProducts(intProj) 'refresh list4
@@ -2090,15 +1818,6 @@ Public Class frmAssign
                     If DS.Tables("tblRefs2").Rows(Refid).Item(11) = -1 Then lblCaption = lblCaption & "Imp2 "
                     If DS.Tables("tblRefs2").Rows(Refid).Item(12) = -1 Then lblCaption = lblCaption & "Imp3 "
                     If DS.Tables("tblRefs2").Rows(Refid).Item(13) = -1 Then lblCaption = lblCaption & "ImR "
-                Case "Access"
-                    If DS.Tables("tblRefs2").Rows(Refid).Item(2) = -1 Then lblCaption = lblCaption & "Paper " : strRefType = strRefType & "Paper  "
-                    If DS.Tables("tblRefs2").Rows(Refid).Item(3) = -1 Then lblCaption = lblCaption & "Book " : strRefType = strRefType & "Book  "
-                    If DS.Tables("tblRefs2").Rows(Refid).Item(4) = -1 Then lblCaption = lblCaption & "Manual " : strRefType = strRefType & "Manual  "
-                    If DS.Tables("tblRefs2").Rows(Refid).Item(5) = -1 Then lblCaption = lblCaption & "Lecture " : strRefType = strRefType & "Lecture  "
-                    If DS.Tables("tblRefs2").Rows(Refid).Item(10) = -1 Then lblCaption = lblCaption & "Imp1 "
-                    If DS.Tables("tblRefs2").Rows(Refid).Item(11) = -1 Then lblCaption = lblCaption & "Imp2 "
-                    If DS.Tables("tblRefs2").Rows(Refid).Item(12) = -1 Then lblCaption = lblCaption & "Imp3 "
-                    If DS.Tables("tblRefs2").Rows(Refid).Item(13) = -1 Then lblCaption = lblCaption & "ImR "
             End Select
             lblRefStatus2.Text = lblCaption
             lblAssignNote2.Text = DS.Tables("tblRefs2").Rows(Refid).Item(8) '8:Paper_Product.Note
@@ -2138,7 +1857,7 @@ Public Class frmAssign
             'intProd  : id from Dialog
             'intAssign: id from List5
             intAssign = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(9)
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -2160,17 +1879,6 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
                         CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "UPDATE Product SET Notes=@notes WHERE ID=@id"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@prodid", intProd)
-                        cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
                     End Using
             End Select
             List4_Click(sender, e) 'refresh List5
@@ -2185,7 +1893,7 @@ Public Class frmAssign
             'intRef   : Ref id from List5
             'intProd  : id from Dialog
             intRef = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(0)
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -2208,17 +1916,6 @@ Public Class frmAssign
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@paperid", intRef.ToString)
-                        cmdx.Parameters.AddWithValue("@productid", intProd.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
-                    End Using
             End Select
             txtSearch.Text = List5.Text & " "
         End If
@@ -2231,7 +1928,7 @@ Public Class frmAssign
         Dim myansw As DialogResult = MsgBox("Delete this Assignment?", vbYesNo, "eLib")
         If myansw = vbYes Then
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -2251,16 +1948,6 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM Paper_Product WHERE ID=@assignid"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@assignid", intAssign.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 intProd = List4.SelectedValue
@@ -2308,7 +1995,7 @@ Public Class frmAssign
         Dim strAttrx As String = ""
         'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp2.Lect.Man.Book.Paper}
         Try
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -2339,24 +2026,9 @@ Public Class frmAssign
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        If (Retval2 And 16) = 16 Then strAttrx = (strAttrx & "Imp1=-1, ") Else strAttrx = (strAttrx & "Imp1=0, ")
-                        If (Retval2 And 32) = 32 Then strAttrx = (strAttrx & "Imp2=-1, ") Else strAttrx = (strAttrx & "Imp2=0, ")
-                        If (Retval2 And 64) = 64 Then strAttrx = (strAttrx & "Imp3=-1, ") Else strAttrx = (strAttrx & "Imp3=0, ")
-                        If (Retval2 And 128) = 128 Then strAttrx = (strAttrx & "ImR=-1, ") Else strAttrx = (strAttrx & "ImR=0, ")
-                        strSQL = "UPDATE Paper_Product SET " & strAttrx & "Paper_Product.[Note]=@paperproductnote WHERE ID=@id"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@paperproductnote", strAssignNote)
-                        cmdx.Parameters.AddWithValue("@id", intAssign.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
-                    End Using
             End Select
             strAttrx = ""
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     If (Retval2 And 1) = 1 Then strAttrx = strAttrx & "IsPaper=1, " Else strAttrx = strAttrx & "IsPaper=0, "
                     If (Retval2 And 2) = 2 Then strAttrx = strAttrx & "IsBook=1, " Else strAttrx = strAttrx & "IsBook=0, "
@@ -2387,23 +2059,8 @@ Public Class frmAssign
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    If (Retval2 And 1) = 1 Then strAttrx = strAttrx & "IsPaper=-1, " Else strAttrx = strAttrx & "IsPaper=0, "
-                    If (Retval2 And 2) = 2 Then strAttrx = strAttrx & "IsBook=-1, " Else strAttrx = strAttrx & "IsBook=0, "
-                    If (Retval2 And 4) = 4 Then strAttrx = strAttrx & "IsManual=-1, " Else strAttrx = strAttrx & "IsManual=0, "
-                    If (Retval2 And 8) = 8 Then strAttrx = strAttrx & "IsLecture=-1, " Else strAttrx = strAttrx & "IsLecture=0, "
-                    strSQL = "UPDATE Papers SET " & strAttrx & "Papers.[Note]=@papersnote WHERE ID=@id"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@papersnote", strRefNote)
-                        cmdx.Parameters.AddWithValue("@id", intRef.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
-                    End Using
             End Select
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -2425,17 +2082,6 @@ Public Class frmAssign
                         cmdx.Parameters.AddWithValue("@id", intProd.ToString)
                         Dim ix As Integer = cmdx.ExecuteNonQuery()
                         CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "UPDATE Product SET Notes=@notes WHERE ID=@id"
-                        Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmdx.CommandType = CommandType.Text
-                        cmdx.Parameters.AddWithValue("@notes", strProdNote)
-                        cmdx.Parameters.AddWithValue("@id", intProd.ToString)
-                        Dim ix As Integer = cmdx.ExecuteNonQuery()
-                        CnnAC.Close()
                     End Using
             End Select
             List4_Click(sender:=1, e:=Nothing) 'refresh list5
@@ -2560,7 +2206,7 @@ Public Class frmAssign
         frmProductNotes.ShowDialog()
         Try
             If Retval1 = 1 Then
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -2584,18 +2230,6 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@prodid", intProd.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "INSERT INTO ProductNotes (NoteDatum, [Note], Product_ID) VALUES (@notedatum, @note, @prodid)"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@notedatum", strDateTime)
-                            cmdx.Parameters.AddWithValue("@note", strProdNote)
-                            cmdx.Parameters.AddWithValue("@prodid", intProd.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 List4_Click(sender, e) 'refresh list5,6
@@ -2619,7 +2253,7 @@ Public Class frmAssign
         frmProductNotes.ShowDialog()
         Try
             If Retval1 = 1 Then
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -2644,18 +2278,6 @@ Public Class frmAssign
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
                         End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "UPDATE ProductNotes SET NoteDatum=@notedatum, [Note]=@note WHERE ID=@noteid"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@notedatum", strDateTime)
-                            cmdx.Parameters.AddWithValue("@note", strProdNote)
-                            cmdx.Parameters.AddWithValue("@noteid", intProdNote.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
-                        End Using
                 End Select
                 List4_Click(sender, e) 'refresh list5,6
                 List6.SelectedIndex = 0
@@ -2674,7 +2296,7 @@ Public Class frmAssign
         '//replace current ProductNote to selected Product
         If Retval1 = 2 Then '2: A Product is selected from dialog
             strSQL = "UPDATE ProductNotes SET Product_ID=@productid WHERE ID=@id"
-            Select Case DatabaseType '---- sqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -2701,19 +2323,6 @@ Public Class frmAssign
                         End Try
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.Parameters.AddWithValue("@productid", intProd.ToString)
-                        cmd.Parameters.AddWithValue("@id", List6.SelectedValue.ToString)
-                        Try
-                            Dim i As Integer = cmd.ExecuteNonQuery
-                        Catch ex As Exception
-                            MsgBox(ex.ToString)
-                        End Try
-                        CnnAC.Close()
-                    End Using
             End Select
             List4_Click(sender, e) 'to refresh list6
         End If
@@ -2727,7 +2336,7 @@ Public Class frmAssign
         Dim myansw As DialogResult = MsgBox("Delete this note?", vbYesNo, "eLib")
         If myansw = vbYes Then
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -2747,16 +2356,6 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@noteid", intProdNote.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM ProductNotes WHERE ID=@noteid"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@noteid", intProdNote.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 List4_Click(sender, e) 'refresh list5,6
@@ -2774,7 +2373,7 @@ Public Class frmAssign
         Dim myansw As DialogResult = MsgBox("Delete  'ALL' notes?", vbYesNo + vbDefaultButton2, "eLib")
         If myansw = vbYes Then
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -2794,16 +2393,6 @@ Public Class frmAssign
                             cmdx.Parameters.AddWithValue("@prodid", intProd.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM ProductNotes WHERE Product_ID=@prodid"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@prodid", intProd.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 List4_Click(sender, e) 'refresh list5,6

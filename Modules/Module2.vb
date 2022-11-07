@@ -14,7 +14,7 @@ Module Module2
         If Len(strUserPass) > 20 Then strUserPass = Microsoft.VisualBasic.Left(strUserPass, 20)
         If Retval1 = 1 Then
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -40,19 +40,6 @@ Module Module2
                             cmd.Parameters.AddWithValue("@usractive", Retval3)
                             Dim i As Integer = cmd.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            If Retval3 = 1 Then Retval3 = -1
-                            strSQL = "INSERT INTO usrs (UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15) VALUES (@usrname, @usrpass, @usractive, '-',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)"
-                            Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmd.CommandType = CommandType.Text
-                            cmd.Parameters.AddWithValue("@usrname", strUser)
-                            cmd.Parameters.AddWithValue("@usrpass", strUserPass)
-                            cmd.Parameters.AddWithValue("@usractive", Retval3)
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
                 '  MsgBox("User Created !", vbInformation, "eLib")
@@ -97,15 +84,6 @@ Module Module2
                             Dim i As Integer = cmd.ExecuteNonQuery()
                             CnnSCx.Close()
                         End Using
-                    Case "Access" '//Codes (for accdb) Are ABANDONED (restore from within Access)
-                        Using CnnACx = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnACx.Open()
-                            strSQL = "DELETE * FROM " & strTableName & ";"
-                            Dim cmd As New OleDb.OleDbCommand(strSQL, CnnACx)
-                            cmd.CommandType = CommandType.Text
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                            CnnACx.Close()
-                        End Using
                 End Select
             Next
             Retval1 = 1
@@ -128,27 +106,6 @@ Module Module2
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access" 'Different method of reseting ID for accdb //Codes (for accdb) Are ABANDONED (restore from within Access)
-                        'Copy a Table
-                        strSQL = "SELECT * INTO " & strTableName & "_new FROM " & strTableName & ";"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                        'Del Old Table
-                        strSQL = "DROP TABLE " & strTableName & ";"
-                        Dim cmd2 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd2.CommandType = CommandType.Text
-                        i = cmd2.ExecuteNonQuery()
-                        'Copy back the Table
-                        strSQL = "SELECT * INTO " & strTableName & " FROM " & strTableName & "_new;"
-                        Dim cmd3 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd3.CommandType = CommandType.Text
-                        i = cmd3.ExecuteNonQuery()
-                        'Del middle Table
-                        strSQL = "DROP TABLE " & strTableName & "_new;"
-                        Dim cmd4 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd4.CommandType = CommandType.Text
-                        i = cmd4.ExecuteNonQuery()
                 End Select
             Next
             Retval2 = 1
@@ -182,11 +139,6 @@ Module Module2
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access" '//Codes (for accdb) Are ABANDONED (restore from within Access)
-                        strSQL = "DELETE * FROM " & strTableName & ";"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
                 End Select
             Next
             Retval1 = 1
@@ -198,7 +150,7 @@ Module Module2
         Retval2 = 0
         Try
             For Each strTableName In {"usrs", "Project", "Product", "Paper_Product", "ProductNotes"}
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "DBCC CHECKIDENT (" & strTableName & ", RESEED, 1)"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -209,27 +161,6 @@ Module Module2
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                         cmd.CommandType = CommandType.Text
                         Dim i As Integer = cmd.ExecuteNonQuery()
-                    Case "Access" 'Different method of reseting ID for accdb //Codes (for accdb) Are ABANDONED (restore from within Access)
-                        'Copy a Table
-                        strSQL = "SELECT * INTO " & strTableName & "_new FROM " & strTableName & ";"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                        'Del Old Table
-                        strSQL = "DROP TABLE " & strTableName & ";"
-                        Dim cmd2 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd2.CommandType = CommandType.Text
-                        i = cmd2.ExecuteNonQuery()
-                        'Copy back the Table
-                        strSQL = "SELECT * INTO " & strTableName & " FROM " & strTableName & "_new;"
-                        Dim cmd3 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd3.CommandType = CommandType.Text
-                        i = cmd3.ExecuteNonQuery()
-                        'Del middle Table
-                        strSQL = "DROP TABLE " & strTableName & "_new;"
-                        Dim cmd4 As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd4.CommandType = CommandType.Text
-                        i = cmd4.ExecuteNonQuery()
                 End Select
             Next
             Retval2 = 1
@@ -318,7 +249,6 @@ Lblx:
         Select Case DatabaseType
             Case "SqlServer" : Trux = 1
             Case "SqlServerCE" : Trux = -1
-            Case "Access" : Trux = -1
         End Select
         '//IMPORT into tblPapers
         For Each flnm As String In {"P", "B", "M", "L"}
@@ -383,9 +313,6 @@ Lblx:
             Case "SqlServerCE"
                 CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                 CnnSC.Open()
-            Case "Access"
-                CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                CnnAC.Open()
         End Select
         Try '//Delete TABLE Paths
             Select Case DatabaseType
@@ -397,11 +324,6 @@ Lblx:
                 Case "SqlServerCE"
                     strSQL = "DELETE FROM Paths"
                     Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                    cmdx.CommandType = CommandType.Text
-                    Dim ix As Integer = cmdx.ExecuteNonQuery()
-                Case "Access"
-                    strSQL = "DELETE FROM Paths"
-                    Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
                     cmdx.CommandType = CommandType.Text
                     Dim ix As Integer = cmdx.ExecuteNonQuery()
             End Select
@@ -469,9 +391,6 @@ Lblx:
             Case "SqlServerCE"
                 CnnSC.Close()
                 CnnSC.Dispose()
-            Case "Access"
-                CnnAC.Close()
-                CnnAC.Dispose()
         End Select
     End Sub
     Function RemoveExtension(strFlnm As String)
@@ -500,9 +419,6 @@ lblReturn:
             Case "SqlServerCE"
                 CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                 CnnSC.Open()
-            Case "Access"
-                CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                CnnAC.Open()
         End Select
         Using WB As IXLWorkbook = New XLWorkbook
             Retval1 = 0
@@ -516,9 +432,6 @@ lblReturn:
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs ORDER BY ID;", CnnSC)
                         DASC.Fill(DS, "tblUsrs")
-                    Case "Access"
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs ORDER BY ID;", CnnAC)
-                        DAAC.Fill(DS, "tblUsrs")
                 End Select
                 Dim WS0 As IXLWorksheet = WB.Worksheets.Add("Usrs")
                 WS0.Cell(1, 1).Value = "ID"
@@ -561,9 +474,6 @@ lblReturn:
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Distinct ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Note FROM Papers ORDER BY ID;", CnnSC)
                         DASC.Fill(DS, "tblRefs1")
-                    Case "Access"
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Note FROM Papers ORDER BY ID;", CnnAC)
-                        DAAC.Fill(DS, "tblRefs1")
                 End Select
                 Dim WS1 As IXLWorksheet = WB.Worksheets.Add("Papers")
                 WS1.Cell(1, 1).Value = "ID"
@@ -594,10 +504,6 @@ lblReturn:
                         strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Order By ID"
                         DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
                         DASC.Fill(DS, "tblProject")
-                    Case "Access"
-                        strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Order By ID"
-                        DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
-                        DAAC.Fill(DS, "tblProject")
                 End Select
                 Dim WS2 As IXLWorksheet = WB.Worksheets.Add("Projects")
                 WS2.Cell(1, 1).Value = "ID"
@@ -624,9 +530,6 @@ lblReturn:
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Order by ID", CnnSC)
                         DASC.Fill(DS, "tblProduct")
-                    Case "Access"
-                        DAAC = New OleDb.OleDbDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Order by ID", CnnAC)
-                        DAAC.Fill(DS, "tblProduct")
                 End Select
                 Dim WS3 As IXLWorksheet = WB.Worksheets.Add("Products")
                 WS3.Cell(1, 1).Value = "ID"
@@ -652,9 +555,6 @@ lblReturn:
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnSC)
                         DASC.Fill(DS, "tblAssignments")
-                    Case "Access"
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnAC)
-                        DAAC.Fill(DS, "tblAssignments")
                 End Select
                 Dim WS4 As IXLWorksheet = WB.Worksheets.Add("Assignments")
                 WS4.Cell(1, 1).Value = "ID"
@@ -685,9 +585,6 @@ lblReturn:
                     Case "SqlServerCE"
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, NoteDatum, Note, Product_ID FROM ProductNotes ORDER BY ID;", CnnSC)
                         DASC.Fill(DS, "tblProductNotes")
-                    Case "Access"
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT ID, NoteDatum, [Note], Product_ID FROM ProductNotes ORDER BY ID;", CnnAC)
-                        DAAC.Fill(DS, "tblProductNotes")
                 End Select
                 Dim WS5 As IXLWorksheet = WB.Worksheets.Add("ProductNotes")
                 WS5.Cell(1, 1).Value = "ID"
@@ -716,9 +613,6 @@ lblReturn:
             Case "SqlServerCE"
                 CnnSC.Close()
                 CnnSC.Dispose()
-            Case "Access"
-                CnnAC.Close()
-                CnnAC.Dispose()
         End Select
     End Sub
     Public Sub eLib_Restore()
@@ -732,7 +626,6 @@ lblReturn:
             End If
         End Using
         '//Initiate tbls (ensure cols are constructed) -------------------------------------------------------------- B  B  B  B  B  B  B  B  B  B  B
-        'Notice: Codes (for accdb) Are ABANDONED (restore from within Access)
         '//OPEN A CONNECTION for this SUB
         Select Case DatabaseType
             Case "SqlServer"
@@ -1384,9 +1277,6 @@ lblReturn:
             Case "SqlServerCE"
                 CnnSC.Close()
                 CnnSC.Dispose()
-            Case "Access"
-                CnnAC.Close()
-                CnnAC.Dispose()
         End Select
     End Sub
 

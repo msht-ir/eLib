@@ -31,7 +31,7 @@
         searchString = "(ProjectName Like '%" & searchString & "%' OR ProjectName Like '%" & searchString & "%') AND (user_ID = " & intUser.ToString & ")"
         Try
             DS.Tables("tblProj_tmp").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -39,21 +39,12 @@
                         DASS.Fill(DS, "tblProj_tmp")
                         CnnSS.Close()
                     End Using
-            '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, ProjectName FROM Project  WHERE (" + searchString + ") ORDER BY ProjectName DESC;", CnnSC)
                         DASC.Fill(DS, "tblProj_tmp")
                         CnnSC.Close()
-                    End Using
-            '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT ID, ProjectName FROM Project WHERE (" + searchString + ") ORDER BY ProjectName DESC;", CnnAC)
-                        DAAC.Fill(DS, "tblProj_tmp")
-                        CnnAC.Close()
                     End Using
             End Select
             ListProj.DataSource = DS.Tables("tblProj_tmp")
@@ -67,7 +58,7 @@
     Private Sub GetListProj(usrid As Integer, activex As Integer)
         'activex {0:active 1:inactive 2:all}
         DS.Tables("tblProj_tmp").Clear()
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
@@ -77,10 +68,9 @@
                         Case 2 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
                     End Select
                     DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
-                DASS.Fill(DS, "tblProj_tmp")
+                    DASS.Fill(DS, "tblProj_tmp")
                     CnnSS.Close()
                 End Using
-            '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
@@ -90,21 +80,8 @@
                         Case 2 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
                     End Select
                     DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
-                DASC.Fill(DS, "tblProj_tmp")
+                    DASC.Fill(DS, "tblProj_tmp")
                     CnnSC.Close()
-                End Using
-            '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-            Case "Access"
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    Select Case activex
-                        Case 0 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active= -1 Order By ProjectName"
-                        Case 1 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " AND Active = 0 Order By ProjectName"
-                        Case 2 : strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Where user_ID = " & usrid.ToString & " Order By ProjectName"
-                    End Select
-                    DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
-                DAAC.Fill(DS, "tblProj_tmp")
-                    CnnAC.Close()
                 End Using
         End Select
     End Sub
@@ -197,7 +174,7 @@
         searchString = "(ProductName Like '%" & searchString & "%' OR ProductName Like '%" & searchString & "%') AND (user_ID = " & intUser.ToString & ")"
         Try
             DS.Tables("tblProj_tmp").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -205,7 +182,6 @@
                         DASS.Fill(DS, "tblProd_tmp")
                         CnnSS.Close()
                     End Using
-            '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
@@ -213,16 +189,7 @@
                         DASC.Fill(DS, "tblProd_tmp")
                         CnnSC.Close()
                     End Using
-            '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT Produc.ID, ProductName, Product.Notes FROM Project INNER JOIN Product ON Project.ID = Product.Project_ID WHERE (" + searchString + ") ORDER BY ProductName DESC;", CnnAC)
-                        DAAC.Fill(DS, "tblProd_tmp")
-                        CnnAC.Close()
-                    End Using
             End Select
-            '--------- end select --------- end select --------- end select --------- end select --------- end select --------- end select --------- end select
             ListProd.DataSource = DS.Tables("tblProd_tmp")
             ListProd.DisplayMember = "ProductName"
             ListProd.ValueMember = "ID"
@@ -234,32 +201,22 @@
     Private Sub GetListProd(Projid As Integer)
         'activex {0:active 1:inactive 2:all}
         DS.Tables("tblProd_tmp").Clear()
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
                     strSQL = "Select ID, ProductName, Notes FROM Product Where Project_ID = " & Projid.ToString & " Order By ProductName"
                     DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
-                DASS.Fill(DS, "tblProd_tmp")
+                    DASS.Fill(DS, "tblProd_tmp")
                     CnnSS.Close()
                 End Using
-            '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
                     strSQL = "Select ID, ProductName, Notes FROM Product Where Project_ID = " & Projid.ToString & " Order By ProductName"
                     DASC = New SqlServerCe.SqlCeDataAdapter(strSQL, CnnSC)
-                DASC.Fill(DS, "tblProd_tmp")
+                    DASC.Fill(DS, "tblProd_tmp")
                     CnnSC.Close()
-                End Using
-            '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-            Case "Access"
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    strSQL = "Select ID, ProductName, Notes FROM Product Where Project_ID = " & Projid.ToString & " Order By ProductName"
-                    DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
-                DAAC.Fill(DS, "tblProd_tmp")
-                    CnnAC.Close()
                 End Using
         End Select
         ListProd.DataSource = DS.Tables("tblProd_tmp")

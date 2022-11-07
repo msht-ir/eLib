@@ -42,16 +42,16 @@
     End Sub
     Private Sub SaveSettings()
         For r As Integer = 0 To GridSettings.Rows.Count - 1
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
                         strSQL = "UPDATE Settings SET sttValue= @sttvalue WHERE ID = @ID"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblsettings").Rows(r).Item(3))
-                    cmd.Parameters.AddWithValue("@ID", DS.Tables("tblSettings").Rows(r).Item(0).ToString)
-                    Dim i As Integer = cmd.ExecuteNonQuery()
+                        cmd.CommandType = CommandType.Text
+                        cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblsettings").Rows(r).Item(3))
+                        cmd.Parameters.AddWithValue("@ID", DS.Tables("tblSettings").Rows(r).Item(0).ToString)
+                        Dim i As Integer = cmd.ExecuteNonQuery()
                         CnnSS.Close()
                     End Using
                 Case "SqlServerCE"
@@ -59,22 +59,11 @@
                         CnnSC.Open()
                         strSQL = "UPDATE Settings SET sttValue= @sttvalue WHERE ID = @ID"
                         Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblsettings").Rows(r).Item(3))
-                    cmd.Parameters.AddWithValue("@ID", DS.Tables("tblSettings").Rows(r).Item(0).ToString)
-                    Dim i As Integer = cmd.ExecuteNonQuery()
+                        cmd.CommandType = CommandType.Text
+                        cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblsettings").Rows(r).Item(3))
+                        cmd.Parameters.AddWithValue("@ID", DS.Tables("tblSettings").Rows(r).Item(0).ToString)
+                        Dim i As Integer = cmd.ExecuteNonQuery()
                         CnnSC.Close()
-                    End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "UPDATE Settings SET sttValue = @sttvalue WHERE ID = @ID"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblsettings").Rows(r).Item(3))
-                    cmd.Parameters.AddWithValue("@ID", DS.Tables("tblSettings").Rows(r).Item(0).ToString)
-                    Dim i As Integer = cmd.ExecuteNonQuery()
-                        CnnAC.Close()
                     End Using
             End Select
         Next r

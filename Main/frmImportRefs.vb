@@ -83,16 +83,16 @@ Public Class frmImportRefs
                         Exit For
                     End If
                 Next
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
                             strSQL = "UPDATE Settings SET sttValue= @sttvalue WHERE ID = @ID"
                             Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                        cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@sttvalue", strPath)
-                        cmd.Parameters.AddWithValue("@ID", idx.ToString)
-                        Dim i As Integer = cmd.ExecuteNonQuery()
+                            cmd.CommandType = CommandType.Text
+                            cmd.Parameters.AddWithValue("@sttvalue", strPath)
+                            cmd.Parameters.AddWithValue("@ID", idx.ToString)
+                            Dim i As Integer = cmd.ExecuteNonQuery()
                             CnnSS.Close()
                         End Using
                     Case "SqlServerCE"
@@ -100,22 +100,11 @@ Public Class frmImportRefs
                             CnnSC.Open()
                             strSQL = "UPDATE Settings SET sttValue= @sttvalue WHERE ID = @ID"
                             Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                        cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@sttvalue", strPath)
-                        cmd.Parameters.AddWithValue("@ID", idx.ToString)
-                        Dim i As Integer = cmd.ExecuteNonQuery()
-                            CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "UPDATE Settings SET sttValue = @sttvalue WHERE ID = @ID"
-                            Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
                             cmd.CommandType = CommandType.Text
                             cmd.Parameters.AddWithValue("@sttvalue", strPath)
                             cmd.Parameters.AddWithValue("@ID", idx.ToString)
                             Dim i As Integer = cmd.ExecuteNonQuery()
-                            CnnAC.Close()
+                            CnnSC.Close()
                         End Using
                 End Select
                 Retval4 = 1 'A strFileName (original) is Ready to be Moved into eLibFolders (as txtTitle.Text)
@@ -378,7 +367,7 @@ lblPARSE:
             If strPaperNote = "" Then strPaperNote = "-"
             Select Case Retval3
                 Case 0, 2 '//------------------------------------------------------------------------------- ImportRef /NewRefDoc Mode: Add Title to tblPapers
-                    Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+                    Select Case DatabaseType
                         Case "SqlServer"
                             Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                                 CnnSS.Open()
@@ -421,32 +410,9 @@ lblPARSE:
                                 End Try
                                 CnnSC.Close()
                             End Using
-                        Case "Access"
-                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                                CnnAC.Open()
-                                If boolIsPaper = 1 Then boolIsPaper = -1
-                                If boolIsBook = 1 Then boolIsBook = -1
-                                If boolIsManual = 1 Then boolIsManual = -1
-                                If boolIsLecture = 1 Then boolIsLecture = -1
-                                strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, [Note]) VALUES (@papername, @ispaper, @isbook, @ismanual, @islecture, @notes)"
-                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmd.CommandType = CommandType.Text
-                                cmd.Parameters.AddWithValue("@papername", strTitle)
-                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper)
-                                cmd.Parameters.AddWithValue("@isbook", boolIsBook)
-                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual)
-                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture)
-                                cmd.Parameters.AddWithValue("@notes", strPaperNote)
-                                Try
-                                    Dim i As Integer = cmd.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox("Error Saving new paper's data into eLib; Try 'SCAN' command to Update eLib DataTables!" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                                End Try
-                                CnnAC.Close()
-                            End Using
                     End Select
                 Case 1 '//------------------------------------------------------------------------------- Edit Ref Mode: Update Title in tblPapers
-                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Select Case DatabaseType
                         Case "SqlServer"
                             Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                                 CnnSS.Open()
@@ -483,31 +449,11 @@ lblPARSE:
                                 Dim i As Integer = cmd.ExecuteNonQuery()
                                 CnnSC.Close()
                             End Using
-                        Case "Access"
-                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                                CnnAC.Open()
-                                If boolIsPaper = 1 Then boolIsPaper = -1
-                                If boolIsBook = 1 Then boolIsBook = -1
-                                If boolIsManual = 1 Then boolIsManual = -1
-                                If boolIsLecture = 1 Then boolIsLecture = -1
-                                strSQL = "UPDATE Papers SET PaperName=@papername, IsPaper=@ispaper, IsBook=@isbook, IsManual=@ismanual, IsLecture=@islecture, [Note]=@note WHERE ID=@id"
-                                Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                cmd.CommandType = CommandType.Text
-                                cmd.Parameters.AddWithValue("@papername", strTitle)
-                                cmd.Parameters.AddWithValue("@ispaper", boolIsPaper.ToString)
-                                cmd.Parameters.AddWithValue("@isbook", boolIsBook.ToString)
-                                cmd.Parameters.AddWithValue("@ismanual", boolIsManual.ToString)
-                                cmd.Parameters.AddWithValue("@islecture", boolIsLecture.ToString)
-                                cmd.Parameters.AddWithValue("@notes", strPaperNote)
-                                cmd.Parameters.AddWithValue("@id", intRef.ToString)
-                                Dim i As Integer = cmd.ExecuteNonQuery()
-                                CnnAC.Close()
-                            End Using
                     End Select
             End Select
             '//Add strPath (of new Ref) into tblPaths **************************************************************************************
             strPath = DestinationFolder & "\" & strTitle & strExt
-            Select Case DatabaseType ' ----  SqlServer ---- / ----  SqlServerCE ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -536,27 +482,13 @@ lblPARSE:
                         End Try
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "INSERT INTO Paths (FilePath) VALUES (@filepath)"
-                        Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                        cmd.CommandType = CommandType.Text
-                        cmd.Parameters.AddWithValue("@filepath", strPath)
-                        Try
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                        Catch ex As Exception
-                            MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                        End Try
-                        CnnAC.Close()
-                    End Using
             End Select
             Select Case Retval3
                 Case 0, 2 'Import Ref Mode
                     '//Find ID of the new Ref in tblPapers (Import Mode Only)
                     DS.Tables("tblRefs1").Clear()
                     Dim Fltr As String = "PaperName='" & strTitle & "'"
-                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Select Case DatabaseType
                         Case "SqlServer"
                             Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                                 CnnSS.Open()
@@ -564,21 +496,12 @@ lblPARSE:
                                 DASS.Fill(DS, "tblRefs1")
                                 CnnSS.Close()
                             End Using
-                       '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                         Case "SqlServerCE"
                             Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                                 CnnSC.Open()
                                 DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnSC)
                                 DASC.Fill(DS, "tblRefs1")
                                 CnnSC.Close()
-                            End Using
-                       '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                        Case "Access"
-                            Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                                CnnAC.Open()
-                                DAAC = New OleDb.OleDbDataAdapter("SELECT Distinct Papers.ID, PaperName, IsPaper, IsBook, IsManual, IsLecture, Papers.Note FROM [Paper_Product] RIGHT JOIN Papers ON [Paper_Product].Paper_ID = Papers.ID  WHERE (" + Fltr + ") ORDER BY Papers.ID DESC;", CnnAC)
-                                DAAC.Fill(DS, "tblRefs1")
-                                CnnAC.Close()
                             End Using
                     End Select
                     Dim idx As Integer = DS.Tables("tblRefs1").Rows(0).Item(0)
@@ -616,21 +539,6 @@ lblPARSE:
                                         MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
                                     End Try
                                     CnnSC.Close()
-                                End Using
-                            Case "Access"
-                                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                                    CnnAC.Open()
-                                    strSQL = "INSERT INTO Paper_Product (Paper_ID, Product_ID) VALUES (@paperid, @productid)"
-                                    Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                    cmd.CommandType = CommandType.Text
-                                    cmd.Parameters.AddWithValue("@paperid", idx)
-                                    cmd.Parameters.AddWithValue("@productid", idy)
-                                    Try
-                                        Dim i As Integer = cmd.ExecuteNonQuery()
-                                    Catch ex As Exception
-                                        MsgBox("Error creating new paper's Path" & vbCrLf & ex.ToString, vbOKOnly, "eLib")
-                                    End Try
-                                    CnnAC.Close()
                                 End Using
                         End Select
                     Next k

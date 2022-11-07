@@ -11,7 +11,7 @@ Public Class frmReadRef
     Private Sub RefreshPathTable()
         Try
             DS.Tables("tblRefPaths").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -19,21 +19,12 @@ Public Class frmReadRef
                         DASS.Fill(DS, "tblRefPaths")
                         CnnSS.Close()
                     End Using
-            '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                 Case "SqlServerCE"
                     Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                         CnnSC.Open()
                         DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, FilePath FROM Paths WHERE FilePath Like '%" & strRef & "%' ORDER BY FilePath;", CnnSC)
                         DASC.Fill(DS, "tblRefPaths")
                         CnnSC.Close()
-                    End Using
-            '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        DAAC = New OleDb.OleDbDataAdapter("SELECT ID, FilePath FROM Paths WHERE FilePath Like '%" & strRef & "%' ORDER BY FilePath;", CnnAC)
-                        DAAC.Fill(DS, "tblRefPaths")
-                        CnnAC.Close()
                     End Using
             End Select
             ListPaths.DataSource = DS.Tables("tblRefPaths")
@@ -78,7 +69,7 @@ Public Class frmReadRef
             If Microsoft.VisualBasic.Left(strExt, 1) <> "." Then strExt = "." & strExt
             My.Computer.FileSystem.MoveFile(strPath, Microsoft.VisualBasic.Left(strPath, 3) & strRef & strExt, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.ThrowException)
             Try '//Delete thisPath from tbl_Paths
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -88,7 +79,6 @@ Public Class frmReadRef
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSS.Close()
                         End Using
-                       '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                     Case "SqlServerCE"
                         Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                             CnnSC.Open()
@@ -97,16 +87,6 @@ Public Class frmReadRef
                             cmdx.CommandType = CommandType.Text
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                       '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM Paths WHERE FilePath='" & strPath & "'"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
             Catch ex As Exception
@@ -139,7 +119,7 @@ Public Class frmReadRef
                     strPath = ListPaths.Text
                     My.Computer.FileSystem.DeleteFile(strPath, FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
                     Try '//Delete thisPath from tbl_Paths
-                        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                        Select Case DatabaseType
                             Case "SqlServer"
                                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                                     CnnSS.Open()
@@ -149,7 +129,6 @@ Public Class frmReadRef
                                     Dim ix As Integer = cmdx.ExecuteNonQuery()
                                     CnnSS.Close()
                                 End Using
-                           '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
                             Case "SqlServerCE"
                                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                                     CnnSC.Open()
@@ -158,16 +137,6 @@ Public Class frmReadRef
                                     cmdx.CommandType = CommandType.Text
                                     Dim ix As Integer = cmdx.ExecuteNonQuery()
                                     CnnSC.Close()
-                                End Using
-                           '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-                            Case "Access"
-                                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                                    CnnAC.Open()
-                                    strSQL = "DELETE FROM Paths WHERE FilePath='" & strPath & "'"
-                                    Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                                    cmdx.CommandType = CommandType.Text
-                                    Dim ix As Integer = cmdx.ExecuteNonQuery()
-                                    CnnAC.Close()
                                 End Using
                         End Select
                     Catch ex As Exception

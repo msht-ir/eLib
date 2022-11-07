@@ -89,7 +89,7 @@ Public Class frmUsers
             Case 19 : strSQL = "UPDATE Usrs SET acc14 = @sttvalue WHERE ID = @ID"
             Case 20 : strSQL = "UPDATE Usrs SET acc15 = @sttvalue WHERE ID = @ID"
         End Select
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
@@ -109,16 +109,6 @@ Public Class frmUsers
                     cmd.Parameters.AddWithValue("@ID", DS.Tables("tblUsrs").Rows(r).Item(0).ToString)
                     Dim i As Integer = cmd.ExecuteNonQuery()
                     CnnSC.Close()
-                End Using
-            Case "Access"
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    Dim cmd As New OleDb.OleDbCommand(strSQL, CnnAC)
-                    cmd.CommandType = CommandType.Text
-                    cmd.Parameters.AddWithValue("@sttvalue", DS.Tables("tblUsrs").Rows(r).Item(c))
-                    cmd.Parameters.AddWithValue("@ID", DS.Tables("tblUsrs").Rows(r).Item(0).ToString)
-                    Dim i As Integer = cmd.ExecuteNonQuery()
-                    CnnAC.Close()
                 End Using
         End Select
     End Sub
@@ -160,7 +150,7 @@ Public Class frmUsers
         '//Does this User have some Projects? If yes, dont delete it!
         Try
             DS.Tables("tblProject").Clear()
-            Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+            Select Case DatabaseType
                 Case "SqlServer"
                     Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                         CnnSS.Open()
@@ -177,14 +167,6 @@ Public Class frmUsers
                         DASC.Fill(DS, "tblProject")
                         CnnSC.Close()
                     End Using
-                Case "Access"
-                    Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                        CnnAC.Open()
-                        strSQL = "SELECT * FROM Project WHERE user_ID=" & intUser2bDel.ToString & ";"
-                        DAAC = New OleDb.OleDbDataAdapter(strSQL, CnnAC)
-                        DAAC.Fill(DS, "tblProject")
-                        CnnAC.Close()
-                    End Using
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
@@ -197,7 +179,7 @@ Public Class frmUsers
             Dim myansw As DialogResult = MsgBox("Delete selected 'USER' ?   Are you Sure ?", vbYesNo + vbDefaultButton2, "eLib")
             If myansw = vbNo Then Exit Sub
             Try
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
@@ -217,16 +199,6 @@ Public Class frmUsers
                             cmdx.Parameters.AddWithValue("@id", intUser2bDel.ToString)
                             Dim ix As Integer = cmdx.ExecuteNonQuery()
                             CnnSC.Close()
-                        End Using
-                    Case "Access"
-                        Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
-                            strSQL = "DELETE FROM usrs WHERE ID=@id"
-                            Dim cmdx As New OleDb.OleDbCommand(strSQL, CnnAC)
-                            cmdx.CommandType = CommandType.Text
-                            cmdx.Parameters.AddWithValue("@id", intUser2bDel.ToString)
-                            Dim ix As Integer = cmdx.ExecuteNonQuery()
-                            CnnAC.Close()
                         End Using
                 End Select
             Catch ex As Exception
@@ -249,10 +221,6 @@ Public Class frmUsers
         End If
     End Sub
     Private Sub MenuTools_Restore_Click(sender As Object, e As EventArgs) Handles MenuTools_Restore.Click
-        If DatabaseType = "Access" Then 'BulkInser works with sqlserver, (not accdb)
-            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
-            Exit Sub
-        End If
         Dim myansw As DialogResult = MsgBox("Notice: 'Restore' will ERASE current data in library", vbOKCancel + vbDefaultButton2 + vbExclamation, "eLib")
         If myansw = vbCancel Then Exit Sub
         lblInfo.Text = "Restoring ... Please wait!"
@@ -288,33 +256,30 @@ Public Class frmUsers
                     Dim strAnsw As String = InputBox("Enter this Code: " & strRndNumber, "Enter Code below to Proceed with Delete", "")
                     If strAnsw <> strRndNumber Then Exit Sub
                     '//OPEN A CONNECTION for this SUB
-                    Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                    Select Case DatabaseType
                         Case "SqlServer"
                             CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                             CnnSS.Open()
                         Case "SqlServerCE"
                             CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                             CnnSC.Open()
-                        Case "Access"
-                            CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                            CnnAC.Open()
                     End Select
                     '//WIPE-OUT!
-                    Clear_eLibPapersInfo("Papers")
-                    Clear_eLibPapersInfo("Papers_tmp")
-                    Clear_eLibPapersInfo("Paths")
-                    Clear_eLibProjectsInfo()
                     '//CLOSE ALL Connections
                     Select Case DatabaseType
                         Case "SqlServer"
+                            Clear_eLibPapersInfo("Papers")
+                            Clear_eLibPapersInfo("Paths")
+                            Clear_eLibProjectsInfo()
                             CnnSS.Close()
                             CnnSS.Dispose()
                         Case "SqlServerCE"
+                            Clear_eLibPapersInfo("Papers")
+                            Clear_eLibPapersInfo("Papers_tmp")
+                            Clear_eLibPapersInfo("Paths")
+                            Clear_eLibProjectsInfo()
                             CnnSC.Close()
                             CnnSC.Dispose()
-                        Case "Access"
-                            CnnAC.Close()
-                            CnnAC.Dispose()
                     End Select
                 End If '----------------------------------------------------------------------------------///
                 RefreshGridUsers()
@@ -323,10 +288,6 @@ Public Class frmUsers
         End If
     End Sub
     Private Sub MenuTools_Scan_Click(sender As Object, e As EventArgs) Handles MenuTools_Scan.Click
-        If DatabaseType = "Access" Then '!BulkInsert works with sqlserver, (not accdb)
-            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strDbBackEnd, vbNormalFocus)
-            Exit Sub
-        End If
         '//In Cae of SqlServer OR SqlServerCE:
         Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
         Select Case myansw

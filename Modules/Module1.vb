@@ -199,7 +199,7 @@ Module Module1
         '8  ImportAskFolder   '9  Owner             '10 QRCodeType        '11 SearchRefType     '12 SecurityCheck
         DS.Tables("tblUsrs").Clear()
         DS.Tables("tblSettings").Clear()
-        Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+        Select Case DatabaseType
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
@@ -211,7 +211,6 @@ Module Module1
                     DASS.Fill(DS, "tblSettings")
                     CnnSS.Close()
                 End Using
-                '--------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE --------- sqlserverCE
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
@@ -221,18 +220,6 @@ Module Module1
                     DASC = New SqlServerCe.SqlCeDataAdapter("SELECT ID, sttHeader, sttKey, sttValue, sttNote From Settings ORDER BY sttKey", CnnSC)
                     DASC.Fill(DS, "tblSettings")
                     CnnSC.Close()
-                End Using
-                '--------- access --------- access --------- access --------- access --------- access --------- access --------- access --------- access ---------
-            Case "Access"
-                Using CnnAC = New OleDb.OleDbConnection(strDatabaseCNNstring)
-                    CnnAC.Open()
-                    '//Users
-                    DAAC = New OleDb.OleDbDataAdapter("Select ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs", CnnAC)
-                    DAAC.Fill(DS, "tblUsrs")
-                    '//Settings
-                    DAAC = New OleDb.OleDbDataAdapter("SELECT ID, sttHeader, sttKey, sttValue, sttNote From Settings ORDER BY sttKey", CnnAC)
-                    DAAC.Fill(DS, "tblSettings")
-                    CnnAC.Close()
                 End Using
         End Select
         strFolderTemp = DS.Tables("tblSettings").Rows(7).Item(3)

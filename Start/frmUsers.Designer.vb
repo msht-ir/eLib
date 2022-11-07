@@ -26,6 +26,9 @@ Partial Class frmUsers
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUsers))
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.Menu_LoginAsUser = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Menu_LoginAsAdmin = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_Tools = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuTools_NewUser = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuTools_DeleteUser = New System.Windows.Forms.ToolStripMenuItem()
@@ -36,9 +39,6 @@ Partial Class frmUsers
         Me.MenuTools_Clear = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator()
         Me.MenuTools_Settings = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_LoginAsUser = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_LoginAsAdmin = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu_LogOut = New System.Windows.Forms.ToolStripMenuItem()
         Me.GridUsers = New System.Windows.Forms.DataGridView()
@@ -53,9 +53,30 @@ Partial Class frmUsers
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(187, 126)
         '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(183, 6)
+        '
+        'Menu_LoginAsUser
+        '
+        Me.Menu_LoginAsUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.Menu_LoginAsUser.ForeColor = System.Drawing.Color.DarkGreen
+        Me.Menu_LoginAsUser.Name = "Menu_LoginAsUser"
+        Me.Menu_LoginAsUser.Size = New System.Drawing.Size(186, 22)
+        Me.Menu_LoginAsUser.Text = "Login user ..."
+        '
+        'Menu_LoginAsAdmin
+        '
+        Me.Menu_LoginAsAdmin.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.Menu_LoginAsAdmin.ForeColor = System.Drawing.Color.DarkGreen
+        Me.Menu_LoginAsAdmin.Name = "Menu_LoginAsAdmin"
+        Me.Menu_LoginAsAdmin.Size = New System.Drawing.Size(186, 22)
+        Me.Menu_LoginAsAdmin.Text = "Continue as admin ..."
+        '
         'Menu_Tools
         '
-        Me.Menu_Tools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuTools_NewUser, Me.MenuTools_DeleteUser, Me.ToolStripMenuItem4, Me.MenuTools_Backup, Me.MenuTools_Restore, Me.MenuTools_Scan, Me.MenuTools_Clear, Me.ToolStripMenuItem5, Me.MenuTools_Settings})
+        Me.Menu_Tools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuTools_NewUser, Me.MenuTools_DeleteUser, Me.ToolStripMenuItem4, Me.MenuTools_Scan, Me.MenuTools_Backup, Me.MenuTools_Restore, Me.MenuTools_Clear, Me.ToolStripMenuItem5, Me.MenuTools_Settings})
         Me.Menu_Tools.Name = "Menu_Tools"
         Me.Menu_Tools.Size = New System.Drawing.Size(186, 22)
         Me.Menu_Tools.Text = "Tools"
@@ -111,27 +132,6 @@ Partial Class frmUsers
         Me.MenuTools_Settings.Name = "MenuTools_Settings"
         Me.MenuTools_Settings.Size = New System.Drawing.Size(180, 22)
         Me.MenuTools_Settings.Text = "Settings"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(183, 6)
-        '
-        'Menu_LoginAsUser
-        '
-        Me.Menu_LoginAsUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_LoginAsUser.ForeColor = System.Drawing.Color.DarkGreen
-        Me.Menu_LoginAsUser.Name = "Menu_LoginAsUser"
-        Me.Menu_LoginAsUser.Size = New System.Drawing.Size(186, 22)
-        Me.Menu_LoginAsUser.Text = "Login user ..."
-        '
-        'Menu_LoginAsAdmin
-        '
-        Me.Menu_LoginAsAdmin.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_LoginAsAdmin.ForeColor = System.Drawing.Color.DarkGreen
-        Me.Menu_LoginAsAdmin.Name = "Menu_LoginAsAdmin"
-        Me.Menu_LoginAsAdmin.Size = New System.Drawing.Size(186, 22)
-        Me.Menu_LoginAsAdmin.Text = "Continue as admin ..."
         '
         'ToolStripMenuItem2
         '
