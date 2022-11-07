@@ -301,6 +301,7 @@ Public Class frmUsers
                     End Select
                     '//WIPE-OUT!
                     Clear_eLibPapersInfo("Papers")
+                    Clear_eLibPapersInfo("Papers_tmp")
                     Clear_eLibPapersInfo("Paths")
                     Clear_eLibProjectsInfo()
                     '//CLOSE ALL Connections

@@ -29,7 +29,6 @@ Partial Class frmAssign
         Me.Menu1_Read = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu1_Assign = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu1_AssignTo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu1_AssignFolder = New System.Windows.Forms.ToolStripMenuItem()
         Me.ListToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu1_ListSubProject = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem7 = New System.Windows.Forms.ToolStripSeparator()
@@ -167,9 +166,9 @@ Partial Class frmAssign
         'List1MenuStrip
         '
         Me.List1MenuStrip.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.List1MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu1_Read, Me.Menu1_Assign, Me.Menu1_AssignTo, Me.Menu1_AssignFolder, Me.ListToolStripMenuItem, Me.Menu1_RefNote, Me.ToolStripMenuItem10, Me.Menu1_Copy, Me.Menu1_QRCode, Me.Menu1_GoogleScholar, Me.ToolStripMenuItem1, Me.Menu1_Delete, Me.Menu1_Exit})
+        Me.List1MenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu1_Read, Me.Menu1_Assign, Me.Menu1_AssignTo, Me.ListToolStripMenuItem, Me.Menu1_RefNote, Me.ToolStripMenuItem10, Me.Menu1_Copy, Me.Menu1_QRCode, Me.Menu1_GoogleScholar, Me.ToolStripMenuItem1, Me.Menu1_Delete, Me.Menu1_Exit})
         Me.List1MenuStrip.Name = "ContextMenuStrip1"
-        Me.List1MenuStrip.Size = New System.Drawing.Size(160, 258)
+        Me.List1MenuStrip.Size = New System.Drawing.Size(154, 236)
         '
         'Menu1_Read
         '
@@ -178,7 +177,7 @@ Partial Class frmAssign
         Me.Menu1_Read.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Read.ForeColor = System.Drawing.Color.SeaGreen
         Me.Menu1_Read.Name = "Menu1_Read"
-        Me.Menu1_Read.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_Read.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_Read.Text = "Read"
         '
         'Menu1_Assign
@@ -186,7 +185,7 @@ Partial Class frmAssign
         Me.Menu1_Assign.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Assign.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Menu1_Assign.Name = "Menu1_Assign"
-        Me.Menu1_Assign.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_Assign.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_Assign.Text = "Assign"
         '
         'Menu1_AssignTo
@@ -194,16 +193,8 @@ Partial Class frmAssign
         Me.Menu1_AssignTo.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
         Me.Menu1_AssignTo.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Menu1_AssignTo.Name = "Menu1_AssignTo"
-        Me.Menu1_AssignTo.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_AssignTo.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_AssignTo.Text = "Assign to ..."
-        '
-        'Menu1_AssignFolder
-        '
-        Me.Menu1_AssignFolder.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu1_AssignFolder.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Menu1_AssignFolder.Name = "Menu1_AssignFolder"
-        Me.Menu1_AssignFolder.Size = New System.Drawing.Size(159, 22)
-        Me.Menu1_AssignFolder.Text = "Assign folder ..."
         '
         'ListToolStripMenuItem
         '
@@ -211,66 +202,66 @@ Partial Class frmAssign
         Me.ListToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.ListToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.ListToolStripMenuItem.Name = "ListToolStripMenuItem"
-        Me.ListToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
+        Me.ListToolStripMenuItem.Size = New System.Drawing.Size(153, 22)
         Me.ListToolStripMenuItem.Text = "List"
         '
         'Menu1_ListSubProject
         '
         Me.Menu1_ListSubProject.ForeColor = System.Drawing.Color.IndianRed
         Me.Menu1_ListSubProject.Name = "Menu1_ListSubProject"
-        Me.Menu1_ListSubProject.Size = New System.Drawing.Size(170, 22)
+        Me.Menu1_ListSubProject.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_ListSubProject.Text = "from lib Shelves ..."
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(167, 6)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(177, 6)
         '
         'Menu1_Imp1
         '
         Me.Menu1_Imp1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Imp1.Name = "Menu1_Imp1"
-        Me.Menu1_Imp1.Size = New System.Drawing.Size(170, 22)
+        Me.Menu1_Imp1.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_Imp1.Text = "Imp 1"
         '
         'Menu1_Imp2
         '
         Me.Menu1_Imp2.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Imp2.Name = "Menu1_Imp2"
-        Me.Menu1_Imp2.Size = New System.Drawing.Size(170, 22)
+        Me.Menu1_Imp2.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_Imp2.Text = "imp 2"
         '
         'Menu1_Imp3
         '
         Me.Menu1_Imp3.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Imp3.Name = "Menu1_Imp3"
-        Me.Menu1_Imp3.Size = New System.Drawing.Size(170, 22)
+        Me.Menu1_Imp3.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_Imp3.Text = "imp 3"
         '
         'Menu1_ImpAll
         '
         Me.Menu1_ImpAll.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_ImpAll.Name = "Menu1_ImpAll"
-        Me.Menu1_ImpAll.Size = New System.Drawing.Size(170, 22)
+        Me.Menu1_ImpAll.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_ImpAll.Text = "Imp all"
         '
         'Menu1_ImR
         '
         Me.Menu1_ImR.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_ImR.Name = "Menu1_ImR"
-        Me.Menu1_ImR.Size = New System.Drawing.Size(170, 22)
+        Me.Menu1_ImR.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_ImR.Text = "ImR"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(167, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(177, 6)
         '
         'Menu1_ReportList
         '
         Me.Menu1_ReportList.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_ReportList.Name = "Menu1_ReportList"
-        Me.Menu1_ReportList.Size = New System.Drawing.Size(170, 22)
+        Me.Menu1_ReportList.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_ReportList.Text = "Report"
         '
         'Menu1_Email
@@ -278,54 +269,54 @@ Partial Class frmAssign
         Me.Menu1_Email.Enabled = False
         Me.Menu1_Email.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Email.Name = "Menu1_Email"
-        Me.Menu1_Email.Size = New System.Drawing.Size(170, 22)
+        Me.Menu1_Email.Size = New System.Drawing.Size(180, 22)
         Me.Menu1_Email.Text = "Email"
         '
         'Menu1_RefNote
         '
         Me.Menu1_RefNote.Name = "Menu1_RefNote"
-        Me.Menu1_RefNote.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_RefNote.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_RefNote.Text = "Note"
         '
         'ToolStripMenuItem10
         '
         Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
-        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(156, 6)
+        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(150, 6)
         '
         'Menu1_Copy
         '
         Me.Menu1_Copy.Name = "Menu1_Copy"
-        Me.Menu1_Copy.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_Copy.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_Copy.Text = "Copy title"
         '
         'Menu1_QRCode
         '
         Me.Menu1_QRCode.Name = "Menu1_QRCode"
-        Me.Menu1_QRCode.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_QRCode.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_QRCode.Text = "QR code"
         '
         'Menu1_GoogleScholar
         '
         Me.Menu1_GoogleScholar.Name = "Menu1_GoogleScholar"
-        Me.Menu1_GoogleScholar.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_GoogleScholar.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_GoogleScholar.Text = "Google scholar"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(156, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(150, 6)
         '
         'Menu1_Delete
         '
         Me.Menu1_Delete.Name = "Menu1_Delete"
-        Me.Menu1_Delete.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_Delete.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_Delete.Text = "Delete"
         '
         'Menu1_Exit
         '
         Me.Menu1_Exit.ForeColor = System.Drawing.Color.IndianRed
         Me.Menu1_Exit.Name = "Menu1_Exit"
-        Me.Menu1_Exit.Size = New System.Drawing.Size(159, 22)
+        Me.Menu1_Exit.Size = New System.Drawing.Size(153, 22)
         Me.Menu1_Exit.Text = "Exit"
         '
         'List3
@@ -747,20 +738,20 @@ Partial Class frmAssign
         Me.Menu_AddUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu_AddUser.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Menu_AddUser.Name = "Menu_AddUser"
-        Me.Menu_AddUser.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_AddUser.Size = New System.Drawing.Size(168, 22)
         Me.Menu_AddUser.Text = "Add new user"
         '
         'ToolStripMenuItem13
         '
         Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
-        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(165, 6)
         '
         'Menu_user
         '
         Me.Menu_user.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
         Me.Menu_user.ForeColor = System.Drawing.Color.DarkGoldenrod
         Me.Menu_user.Name = "Menu_user"
-        Me.Menu_user.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_user.Size = New System.Drawing.Size(168, 22)
         Me.Menu_user.Text = "Change user..."
         '
         'Menu_ChangePass
@@ -768,19 +759,19 @@ Partial Class frmAssign
         Me.Menu_ChangePass.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu_ChangePass.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
         Me.Menu_ChangePass.Name = "Menu_ChangePass"
-        Me.Menu_ChangePass.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_ChangePass.Size = New System.Drawing.Size(168, 22)
         Me.Menu_ChangePass.Text = "Change password"
         '
         'ToolStripMenuItem16
         '
         Me.ToolStripMenuItem16.Name = "ToolStripMenuItem16"
-        Me.ToolStripMenuItem16.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripMenuItem16.Size = New System.Drawing.Size(165, 6)
         '
         'Menu_Exit
         '
         Me.Menu_Exit.ForeColor = System.Drawing.Color.IndianRed
         Me.Menu_Exit.Name = "Menu_Exit"
-        Me.Menu_Exit.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Exit.Size = New System.Drawing.Size(168, 22)
         Me.Menu_Exit.Text = "Exit"
         '
         'LectNoteToolStripMenuItem
@@ -795,7 +786,7 @@ Partial Class frmAssign
         Me.Menu_AssignFolder.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
         Me.Menu_AssignFolder.ForeColor = System.Drawing.Color.RoyalBlue
         Me.Menu_AssignFolder.Name = "Menu_AssignFolder"
-        Me.Menu_AssignFolder.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_AssignFolder.Size = New System.Drawing.Size(159, 22)
         Me.Menu_AssignFolder.Text = "Assign folder ..."
         '
         'Menu_Import
@@ -803,7 +794,7 @@ Partial Class frmAssign
         Me.Menu_Import.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu_Import.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Menu_Import.Name = "Menu_Import"
-        Me.Menu_Import.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Import.Size = New System.Drawing.Size(159, 22)
         Me.Menu_Import.Text = "Import Ref"
         '
         'CreateARefToolStripMenuItem
@@ -812,7 +803,7 @@ Partial Class frmAssign
         Me.CreateARefToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.CreateARefToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText
         Me.CreateARefToolStripMenuItem.Name = "CreateARefToolStripMenuItem"
-        Me.CreateARefToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.CreateARefToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
         Me.CreateARefToolStripMenuItem.Text = "Create Ref"
         '
         'Menu_CreateWord
@@ -846,12 +837,12 @@ Partial Class frmAssign
         'ToolStripMenuItem8
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(156, 6)
         '
         'Menu_Scan
         '
         Me.Menu_Scan.Name = "Menu_Scan"
-        Me.Menu_Scan.Size = New System.Drawing.Size(180, 22)
+        Me.Menu_Scan.Size = New System.Drawing.Size(159, 22)
         Me.Menu_Scan.Text = "Scan"
         '
         'HelpToolStripMenuItem
@@ -1186,6 +1177,5 @@ Partial Class frmAssign
     Friend WithEvents txtSearchProject As TextBox
     Friend WithEvents lblSearchProject As Label
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
-    Friend WithEvents Menu1_AssignFolder As ToolStripMenuItem
     Friend WithEvents Menu_AssignFolder As ToolStripMenuItem
 End Class

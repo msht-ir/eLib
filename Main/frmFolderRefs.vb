@@ -67,18 +67,18 @@ Lblx:
         If Dir(Application.StartupPath & "eLibFx.txt") <> "" Then My.Computer.FileSystem.DeleteFile(Application.StartupPath & "eLibFx.txt", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
     End Sub
     Private Sub Menu_Inverse_Click(sender As Object, e As EventArgs) Handles Menu_Inverse.Click
-        For i As Integer = 1 To ListPaths.Items.Count
-            If ListPaths.Items(i).checked = False Then
-                ListPaths.Items(i).checked = True
+        For i As Integer = 0 To ListPaths.Items.Count - 1
+            If ListPaths.GetItemChecked(i) = True Then
+                ListPaths.SetItemChecked(i, False)
             Else
-                ListPaths.Items(i).checked = False
+                ListPaths.SetItemChecked(i, True)
             End If
-        Next
+        Next i
     End Sub
     Private Sub Menu_None_Click(sender As Object, e As EventArgs) Handles Menu_None.Click
-        For i As Integer = 1 To ListPaths.Items.Count
-            ListPaths.Items(i).checked = False
-        Next
+        For i As Integer = 0 To ListPaths.Items.Count - 1
+            ListPaths.SetItemChecked(i, False)
+        Next i
     End Sub
     Private Sub Menu_CopyTitle_Click(sender As Object, e As EventArgs) Handles Menu_CopyTitle.Click
         If ListPaths.SelectedIndex >= 0 Then

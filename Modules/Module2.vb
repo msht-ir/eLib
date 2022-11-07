@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports ClosedXML.Excel
+Imports DocumentFormat.OpenXml.Office2010.Excel
 Imports ErikEJ.SqlCe
 
 Module Module2
@@ -343,7 +344,7 @@ Lblx:
         Next flnm
     End Sub
     Public Sub BulkCopyPaperNames()
-        On Error Resume Next
+        'On Error Resume Next
         Select Case DatabaseType'-------- Bulk Copy -------- Bulk Copy -------- Bulk Copy -------- Bulk Copy 
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
@@ -357,13 +358,18 @@ Lblx:
             Case "SqlServerCE"
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
-                    'On Error GoTo 0
                     Dim options As SqlCeBulkCopyOptions = New SqlCeBulkCopyOptions
                     options = options Or SqlCeBulkCopyOptions.KeepNulls
                     Dim bCopy As New ErikEJ.SqlCe.SqlCeBulkCopy(CnnSC, options)
-                    bCopy.DestinationTableName = "Papers"
+                    bCopy.DestinationTableName = "Papers_tmp"
+                    'bCopy.bulkData.InsertIfNotExists = True
                     bCopy.BatchSize = DS.Tables("tblRefs1").Rows.Count
                     bCopy.WriteToServer(DS.Tables("tblRefs1"))
+                    '//
+                    strSQL = "Insert Into Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) Select Distinct PaperName, IsPaper, IsBook, IsManual, IsLecture, Note FROM Papers_tmp"
+                    Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                    cmdx.CommandType = CommandType.Text
+                    Dim ix As Integer = cmdx.ExecuteNonQuery()
                     CnnSC.Close()
                 End Using
         End Select
