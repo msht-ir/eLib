@@ -33,9 +33,9 @@ Partial Class frmAbout
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Copperplate Gothic Light", 40.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.Label2.Font = New System.Drawing.Font("Copperplate Gothic Light", 40.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.Label2.ForeColor = System.Drawing.Color.Gold
-        Me.Label2.Location = New System.Drawing.Point(260, 22)
+        Me.Label2.Location = New System.Drawing.Point(10, 18)
         Me.Label2.Name = "Label2"
         Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label2.Size = New System.Drawing.Size(143, 58)
@@ -45,25 +45,25 @@ Partial Class frmAbout
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Copperplate Gothic Light", 10.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.Label3.ForeColor = System.Drawing.Color.LightSlateGray
-        Me.Label3.Location = New System.Drawing.Point(74, 97)
+        Me.Label3.Font = New System.Drawing.Font("Consolas", 11.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.Label3.ForeColor = System.Drawing.SystemColors.ScrollBar
+        Me.Label3.Location = New System.Drawing.Point(19, 82)
         Me.Label3.Name = "Label3"
         Me.Label3.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label3.Size = New System.Drawing.Size(534, 15)
+        Me.Label3.Size = New System.Drawing.Size(448, 18)
         Me.Label3.TabIndex = 3
-        Me.Label3.Text = "by Dr Majid Sharifi-Tehrany - Faculty of Science, SKU  (2022 Nov 04)"
+        Me.Label3.Text = "By: Majid Sharifi-Tehrany (PhD, Systematic Botany, SKU)"
         '
         'Timer1
         '
         Me.Timer1.Enabled = True
-        Me.Timer1.Interval = 10000
+        Me.Timer1.Interval = 5000
         '
         'lblFrontEnd
         '
         Me.lblFrontEnd.Font = New System.Drawing.Font("Consolas", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.lblFrontEnd.ForeColor = System.Drawing.Color.LightSlateGray
-        Me.lblFrontEnd.Location = New System.Drawing.Point(442, 53)
+        Me.lblFrontEnd.Location = New System.Drawing.Point(164, 49)
         Me.lblFrontEnd.Name = "lblFrontEnd"
         Me.lblFrontEnd.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.lblFrontEnd.Size = New System.Drawing.Size(219, 27)
@@ -75,7 +75,7 @@ Partial Class frmAbout
         '
         Me.lblBackEnd.Font = New System.Drawing.Font("Consolas", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.lblBackEnd.ForeColor = System.Drawing.Color.LightSlateGray
-        Me.lblBackEnd.Location = New System.Drawing.Point(442, 26)
+        Me.lblBackEnd.Location = New System.Drawing.Point(164, 22)
         Me.lblBackEnd.Name = "lblBackEnd"
         Me.lblBackEnd.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.lblBackEnd.Size = New System.Drawing.Size(219, 27)
@@ -87,8 +87,8 @@ Partial Class frmAbout
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.Navy
-        Me.ClientSize = New System.Drawing.Size(682, 139)
+        Me.BackColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.ClientSize = New System.Drawing.Size(526, 119)
         Me.ControlBox = False
         Me.Controls.Add(Me.lblBackEnd)
         Me.Controls.Add(Me.lblFrontEnd)

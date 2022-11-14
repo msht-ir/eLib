@@ -35,12 +35,12 @@ Partial Class frmProductNotes
         '
         'txtNote
         '
-        Me.txtNote.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.txtNote.BackColor = System.Drawing.SystemColors.Control
         Me.txtNote.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNote.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtNote.Location = New System.Drawing.Point(18, 53)
+        Me.txtNote.Location = New System.Drawing.Point(54, 58)
         Me.txtNote.Name = "txtNote"
-        Me.txtNote.Size = New System.Drawing.Size(1007, 20)
+        Me.txtNote.Size = New System.Drawing.Size(997, 20)
         Me.txtNote.TabIndex = 1
         '
         'ContextMenuStrip1
@@ -75,11 +75,11 @@ Partial Class frmProductNotes
         '
         'txtDatum
         '
-        Me.txtDatum.BackColor = System.Drawing.SystemColors.Control
+        Me.txtDatum.BackColor = System.Drawing.SystemColors.ControlLight
         Me.txtDatum.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtDatum.Font = New System.Drawing.Font("Courier New", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.txtDatum.ForeColor = System.Drawing.Color.IndianRed
-        Me.txtDatum.Location = New System.Drawing.Point(18, 12)
+        Me.txtDatum.Location = New System.Drawing.Point(54, 17)
         Me.txtDatum.Mask = "0000-00-00 . 00-00"
         Me.txtDatum.Name = "txtDatum"
         Me.txtDatum.Size = New System.Drawing.Size(200, 17)
@@ -90,8 +90,8 @@ Partial Class frmProductNotes
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(1054, 106)
+        Me.BackColor = System.Drawing.SystemColors.ControlLight
+        Me.ClientSize = New System.Drawing.Size(1050, 129)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.txtDatum)

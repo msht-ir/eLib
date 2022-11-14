@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmChooseProject
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,13 +20,12 @@ Partial Class frmChooseProject
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.ListProj = New System.Windows.Forms.ListBox()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Menu1_OK = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu1_Active = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu1_Inactive = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu1_All = New System.Windows.Forms.ToolStripMenuItem()
@@ -60,9 +59,9 @@ Partial Class frmChooseProject
         '
         'ContextMenuStrip1
         '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu1_OK, Me.ToolStripMenuItem2, Me.Menu1_Active, Me.Menu1_Inactive, Me.Menu1_All, Me.ToolStripMenuItem1, Me.Menu1_Cancel})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu1_Active, Me.Menu1_Inactive, Me.Menu1_All, Me.ToolStripMenuItem1, Me.Menu1_OK, Me.Menu1_Cancel})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 126)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 120)
         '
         'Menu1_OK
         '
@@ -71,11 +70,6 @@ Partial Class frmChooseProject
         Me.Menu1_OK.Name = "Menu1_OK"
         Me.Menu1_OK.Size = New System.Drawing.Size(152, 22)
         Me.Menu1_OK.Text = "Select Project"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(149, 6)
         '
         'Menu1_Active
         '
@@ -149,7 +143,7 @@ Partial Class frmChooseProject
         '
         Me.TextBoxProdNote.BackColor = System.Drawing.SystemColors.Control
         Me.TextBoxProdNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxProdNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.TextBoxProdNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.TextBoxProdNote.ForeColor = System.Drawing.Color.Teal
         Me.TextBoxProdNote.Location = New System.Drawing.Point(337, 4)
         Me.TextBoxProdNote.Margin = New System.Windows.Forms.Padding(4)
@@ -187,7 +181,7 @@ Partial Class frmChooseProject
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(645, 484)
+        Me.ClientSize = New System.Drawing.Size(641, 480)
         Me.ControlBox = False
         Me.Controls.Add(Me.txtSearchProd)
         Me.Controls.Add(Me.txtSearchProj)
@@ -226,5 +220,4 @@ Partial Class frmChooseProject
     Friend WithEvents ContextMenuStrip2 As ContextMenuStrip
     Friend WithEvents Menu2_OK As ToolStripMenuItem
     Friend WithEvents Menu2_Cancel As ToolStripMenuItem
-    Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
 End Class

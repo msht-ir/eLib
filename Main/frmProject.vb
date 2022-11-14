@@ -19,6 +19,8 @@
                         CheckBoxActive.Checked = Retval3
                 End Select
                 txtProjectName.Focus()
+                txtProjectName.SelectionStart = 0
+                txtProjectName.SelectionLength = Len(txtProjectName.Text)
             Case 1 'Request from subProject
                 Me.Text = "subProject:"
                 CheckBoxActive.Enabled = False
@@ -33,17 +35,21 @@
                         txtProjectNote.Text = strProjectNote
                 End Select
                 txtProjectName.Focus()
+                txtProjectName.SelectionStart = 0
+                txtProjectName.SelectionLength = Len(txtProjectName.Text)
             Case 2 'Request from USER Add/Edit
-                '[password: clr and type here]
+                '[password: type here]
 
                 CheckBoxActive.Enabled = True
                 Select Case Retval2
                     Case 0 'new User
                         Me.Text = "New User:"
-                        txtProjectName.Text = "usrName-" & System.DateTime.Now.ToString("MMddHHmm") & "- EDIT!"
+                        txtProjectName.Text = "usr-" & System.DateTime.Now.ToString("MMddHHmm") & "- EDIT me!"
                         txtProjectNote.Text = "[password:type here]"
                         'txtProjectNote.PasswordChar = "-"
                         txtProjectName.Focus()
+                        txtProjectName.SelectionStart = 0
+                        txtProjectName.SelectionLength = Len(txtProjectName.Text)
                     Case 1
                         Me.Text = "Current Password:"
                         txtProjectName.Text = strProjectName
@@ -74,28 +80,30 @@
     End Sub
     Private Sub txtProjectName_KeyDown(sender As Object, e As KeyEventArgs) Handles txtProjectName.KeyDown
         If e.KeyCode = 13 Then
+            txtProjectNote.Focus()
+            txtProjectNote.SelectionStart = 0
+            txtProjectNote.SelectionLength = Len(txtProjectNote.Text)
+            e.SuppressKeyPress = True
+        End If
+    End Sub
+    Private Sub txtProjectNote_KeyDown(sender As Object, e As KeyEventArgs) Handles txtProjectNote.KeyDown
+        If e.KeyCode = 13 Then
+            If Microsoft.VisualBasic.Right(txtProjectName.Text, 10) = "- EDIT me!" Then
+                txtProjectName.Focus()
+                txtProjectName.SelectionStart = 0
+                txtProjectName.SelectionLength = Len(txtProjectName.Text)
+                e.SuppressKeyPress = True
+                Exit Sub
+            End If
             If Trim(txtProjectNote.Text) = "[password:type here]" Then
-                txtProjectNote.Focus()
+                txtProjectNote.SelectionStart = 0
+                txtProjectNote.SelectionLength = Len(txtProjectNote.Text)
                 e.SuppressKeyPress = True
                 Exit Sub
             End If
             Menu_Save_Click(sender, e)
         End If
-    End Sub
-    Private Sub txtProjectNote_KeyDown(sender As Object, e As KeyEventArgs) Handles txtProjectNote.KeyDown
-        Select Case Retval1
-            Case 0, 1 '0:Project 1:Product
-                If e.KeyCode = 13 Then txtProjectName.Focus()
-            Case 2 '2:USER-Password
-                If e.KeyCode = 13 Then
-                    If Trim(txtProjectNote.Text) = "[password:type here]" Then
-                        e.SuppressKeyPress = True
-                        Exit Sub
-                    End If
-                    Menu_Save_Click(sender, e)
-                End If
-
-        End Select
+        '//Save and Exit
     End Sub
     Private Sub Menu_Save_Click(sender As Object, e As EventArgs) Handles Menu_Save.Click
         strProjectName = txtProjectName.Text

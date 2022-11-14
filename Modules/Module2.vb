@@ -425,7 +425,7 @@ lblReturn:
             '//-------------------------------------------------------------------------------------- 0 users
             Try
                 DS.Tables("tblUsrs").Clear()
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         DASS = New SqlClient.SqlDataAdapter("SELECT ID, UsrName, UsrPass, UsrActive, UsrNote, acc00, acc01, acc02, acc03, acc04, acc05, acc06, acc07, acc08, acc09, acc10, acc11, acc12, acc13, acc14, acc15 FROM usrs ORDER BY ID;", CnnSS)
                         DASS.Fill(DS, "tblUsrs")
@@ -495,7 +495,7 @@ lblReturn:
             '//-------------------------------------------------------------------------------------- 2 Projects
             Try
                 DS.Tables("tblProject").Clear()
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "Select ID, ProjectName, Notes, Active, user_ID FROM Project Order By ID"
                         DASS = New SqlClient.SqlDataAdapter(strSQL, CnnSS)
@@ -523,7 +523,7 @@ lblReturn:
             '//-------------------------------------------------------------------------------------- 3 Products
             Try
                 DS.Tables("tblProduct").Clear()
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         DASS = New SqlClient.SqlDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Order by ID", CnnSS)
                         DASS.Fill(DS, "tblProduct")
@@ -548,7 +548,7 @@ lblReturn:
             '//-------------------------------------------------------------------------------------- 4 Assignments
             Try
                 DS.Tables("tblAssignments").Clear()
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         DASS = New SqlClient.SqlDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID ORDER BY Paper_Product.ID;", CnnSS)
                         DASS.Fill(DS, "tblAssignments")
@@ -691,10 +691,10 @@ lblReturn:
         Try
             Select Case DatabaseType
                 Case "SqlServer"
-                    DASS = New SqlClient.SqlDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_Product.ID =1;", CnnSS)
+                    DASS = New SqlClient.SqlDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_Product.ID =1;", CnnSS)
                     DASS.Fill(DS, "tblAssignments")
                 Case "SqlServerCE"
-                    DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_Product.ID =1;", CnnSC)
+                    DASC = New SqlServerCe.SqlCeDataAdapter("SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_Product.ID =1;", CnnSC)
                     DASC.Fill(DS, "tblAssignments")
             End Select
         Catch ex As Exception

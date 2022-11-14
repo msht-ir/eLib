@@ -584,9 +584,9 @@ Public Class frmAssign
     Private Sub GetAssignments1(refid As Integer)
         Select Case UserType
             Case "Admin"
-                strSQL = "SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " ORDER BY ProductName;"
+                strSQL = "SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " ORDER BY ProductName;"
             Case "User", "Guest"
-                strSQL = "SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " AND user_ID= " & intUser & " ORDER BY ProductName;"
+                strSQL = "SELECT Paper_Product.ID, Paper_ID, Product_ID, ProductName, Paper_Product.Note, Imp1, Imp2, Imp3, ImR, user_ID FROM Project INNER JOIN (Product INNER JOIN Paper_Product ON Product.ID = Paper_Product.Product_ID) ON Project.ID = Product.Project_ID WHERE Paper_ID=" & refid.ToString & " AND user_ID= " & intUser & " ORDER BY ProductName;"
         End Select
         DS.Tables("tblAssignments").Clear()
         Select Case DatabaseType
@@ -828,16 +828,22 @@ Public Class frmAssign
         Dim strFilter As String = ""
         Dim strBoolTrue As String = ""
         Select Case DatabaseType
-            Case "SqlServer" : strBoolTrue = "1"
-            Case "SqlServerCE" : strBoolTrue = "-1"
-            Case "Access" : strBoolTrue = "-1"
-        End Select
-        Select Case Imx
-            Case "Imp1" : strFilter = "Imp1 = " & strBoolTrue
-            Case "Imp2" : strFilter = "Imp2 = " & strBoolTrue
-            Case "Imp3" : strFilter = "Imp3 = " & strBoolTrue
-            Case "ImR" : strFilter = "ImR = " & strBoolTrue
-            Case "ImpAll" : strFilter = "Imp1 = " & strBoolTrue & "OR Imp2 = " & strBoolTrue & "OR Imp3 = " & strBoolTrue
+            Case "SqlServer"
+                Select Case Imx
+                    Case "Imp1" : strFilter = "Imp1 = 1" & strBoolTrue
+                    Case "Imp2" : strFilter = "Imp2 = 1" & strBoolTrue
+                    Case "Imp3" : strFilter = "Imp3 = 1" & strBoolTrue
+                    Case "ImR" : strFilter = "ImR = 1" & strBoolTrue
+                    Case "ImpAll" : strFilter = "Imp1 = 1 OR Imp2 = 1 OR Imp3 = 1"
+                End Select
+            Case "SqlServerCE"
+                Select Case Imx
+                    Case "Imp1" : strFilter = "Imp1 = 1" & strBoolTrue
+                    Case "Imp2" : strFilter = "Imp2 = 1" & strBoolTrue
+                    Case "Imp3" : strFilter = "Imp3 = 1" & strBoolTrue
+                    Case "ImR" : strFilter = "ImR = 1" & strBoolTrue
+                    Case "ImpAll" : strFilter = "Imp1 = 1 OR Imp2 = 1 OR Imp3 = 1"
+                End Select
         End Select
         Try
             DS.Tables("tblRefs1").Clear()
@@ -922,7 +928,7 @@ Public Class frmAssign
         If List2.SelectedIndex = -1 Then Exit Sub
         Try
             lblAssignInfo.Text = "" '//in case no matching user-id was found
-            Dim intKarbar As Integer = DS.Tables("tblAssignments").Rows(List2.SelectedIndex).Item(5)
+            Dim intKarbar As Integer = DS.Tables("tblAssignments").Rows(List2.SelectedIndex).Item(9)
             For i = 0 To DS.Tables("tblUsrs").Rows.Count - 1
                 'MsgBox("intKarbar: " & intKarbar.ToString & " /  " & i.ToString & ":i  / id: " & DS.Tables("tblUsrs").Rows(i).Item(0) & " / user: " & DS.Tables("tblUsrs").Rows(i).Item(1))
                 If DS.Tables("tblUsrs").Rows(i).Item(0) = intKarbar Then
@@ -1071,7 +1077,10 @@ Public Class frmAssign
         'List3_Click(sender, e)
     End Sub
     Private Sub Menu3_Add_Click(sender As Object, e As EventArgs) Handles Menu3_Add.Click
-        If (UserType = "Guest") Or (UserType = "Admin") Then Exit Sub
+        If UserType = "Guest" Then
+            MsgBox("You are Logged-In as 'Guest'", vbInformation, "eLib")
+            Exit Sub
+        End If
         'strProjectName | strProjectNote
         Retval1 = 0 'project
         Retval2 = 0 'new project
@@ -1567,6 +1576,7 @@ Public Class frmAssign
             Else
                 'MsgBox("Canceled", vbOKOnly, "eLib")
             End If
+            List4_Click(sender, e)
         Catch ex As Exception
             MsgBox(ex.ToString) 'Do Nothing!
         End Try
@@ -1684,7 +1694,7 @@ Public Class frmAssign
                 '//A: Report Refs
                 For iRef = 0 To DS.Tables("tblRefs2").Rows.Count - 1
                     PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px'> - " & DS.Tables("tblRefs2").Rows(iRef).Item(1) & " ")
-                    PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:10px'> ///" & DS.Tables("tblRefs2").Rows(iRef).Item(6) & "</span>")
+                    PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///" & DS.Tables("tblRefs2").Rows(iRef).Item(6) & "</span>")
                 Next iRef
             Catch ex As Exception
             End Try
@@ -1693,7 +1703,7 @@ Public Class frmAssign
             Try
                 For iNote = 0 To DS.Tables("tblProductNotes").Rows.Count - 1
                     PrintLine(1, "<p style='color:SlateGray; font-family:tahoma; font-size:12px'> - " & DS.Tables("tblProductNotes").Rows(iNote).Item(1) & " ")
-                    PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:10px'> ///" & DS.Tables("tblProductNotes").Rows(iNote).Item(2) & "</span>")
+                    PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///" & DS.Tables("tblProductNotes").Rows(iNote).Item(2) & "</span>")
                 Next iNote
                 PrintLine(1, "<hr>")
             Catch ex As Exception
@@ -1731,7 +1741,7 @@ Public Class frmAssign
                 Try
                     For iRef = 0 To DS.Tables("tblRefs2").Rows.Count - 1
                         PrintLine(1, "<p style='color:Black; font-family:tahoma; font-size:12px'> - " & DS.Tables("tblRefs2").Rows(iRef).Item(1) & " ")
-                        PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:10px'> ///" & DS.Tables("tblRefs2").Rows(iRef).Item(6) & "</span>")
+                        PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///" & DS.Tables("tblRefs2").Rows(iRef).Item(6) & "</span>")
                     Next iRef
                 Catch ex As Exception
                 End Try
@@ -1740,7 +1750,7 @@ Public Class frmAssign
                 Try
                     For iNote = 0 To DS.Tables("tblProductNotes").Rows.Count - 1
                         PrintLine(1, "<p style='color:SlateGray; font-family:tahoma; font-size:12px'> - " & DS.Tables("tblProductNotes").Rows(iNote).Item(1) & " ")
-                        PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:10px'> ///" & DS.Tables("tblProductNotes").Rows(iNote).Item(2) & "</span>")
+                        PrintLine(1, "<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///" & DS.Tables("tblProductNotes").Rows(iNote).Item(2) & "</span>")
                     Next iNote
                     PrintLine(1, "<hr>")
                 Catch ex As Exception
@@ -1973,7 +1983,7 @@ Public Class frmAssign
         strAssignNote = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(8) '8:Assignment.Note
         strRefNote = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(6)    '6:Paper.Note
         intRef = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(0)        '0:Paper.ID
-        'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp2.Lect.Man.Book.Paper}
+        'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp1.Lect.Man.Book.Paper}
         Retval2 = 0
         If DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(2) = True Then Retval2 = (Retval2 Or 1)
         If DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(3) = True Then Retval2 = (Retval2 Or 2)
@@ -1987,13 +1997,14 @@ Public Class frmAssign
         If Retval1 = 1 Then
             SetRefAttributes(Retval2, strProdNote, strAssignNote, strRefNote)
             List5_Click(sender, e) 'refresh labels
+            lblProdNote.Text = strProdNote 'refresh label
+            DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(2) = strProdNote
         End If
     End Sub
     Private Sub SetRefAttributes(Attr As Integer, strProdNote As String, strAssignNote As String, strRefNote As String)
-        'intAssign
-        'intProd
+        'intAssign - intProd
         Dim strAttrx As String = ""
-        'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp2.Lect.Man.Book.Paper}
+        'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp1.Lect.Man.Book.Paper}
         Try
             Select Case DatabaseType
                 Case "SqlServer"
@@ -2098,13 +2109,6 @@ Public Class frmAssign
             txtSearch.Text = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(1) + " "
         End If
     End Sub
-    Private Sub Menu5_GoogleScholar_Click(sender As Object, e As EventArgs) Handles Menu5_GoogleScholar.Click
-        Menu5_CheckMarckSet(7)
-        If List5.SelectedIndex >= 0 Then
-            Dim strSearchScholar As String = List5.Text
-            SearchScholar(strSearchScholar)
-        End If
-    End Sub
     Private Sub Menu5_QRCode_Click(sender As Object, e As EventArgs) Handles Menu5_QRCode.Click
         '//check if tbl.Settings allows QRCODEGen ?
         Menu5_CheckMarckSet(8)
@@ -2170,6 +2174,13 @@ Public Class frmAssign
             lblRefStatus2.Text = "Collected Data not Found!"
             Exit Sub
         End Try
+    End Sub
+    Private Sub Menu5_GoogleScholar_Click(sender As Object, e As EventArgs) Handles Menu5_GoogleScholar.Click
+        Menu5_CheckMarckSet(7)
+        If List5.SelectedIndex >= 0 Then
+            Dim strSearchScholar As String = List5.Text
+            SearchScholar(strSearchScholar)
+        End If
     End Sub
 
     'List 6 (Notes of a sub)
@@ -2419,10 +2430,10 @@ Public Class frmAssign
 
     'Exit
     Private Sub Menu1_Exit_Click(sender As Object, e As EventArgs) Handles Menu1_Exit.Click
-        Menu_Exit_Click(sender, e)
+        Menu_user_Click(sender, e) '//Menu_Exit_Click(sender, e)
     End Sub
     Private Sub Menu5_Exit_Click(sender As Object, e As EventArgs) Handles Menu5_Exit.Click
-        Menu_Exit_Click(sender, e)
+        Menu_user_Click(sender, e) '//Menu_Exit_Click(sender, e)
     End Sub
     Private Sub Menu_Exit_Click(sender As Object, e As EventArgs) Handles Menu_Exit.Click
         DeleteHtmlFiles() 'Remove possible existing Data related to other users (now, and also when logging-in via frmCNN as new user )

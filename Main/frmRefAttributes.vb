@@ -14,7 +14,7 @@
         CheckBoxImp2.Checked = False
         CheckBoxImp3.Checked = False
         CheckBoxImR.Checked = False
-        'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp2.Lect.Man.Book.Paper}
+        'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp1.Lect.Man.Book.Paper}
         If (Retval2 And 1) = 1 Then CheckBoxPaper.Checked = True
         If (Retval2 And 2) = 2 Then CheckBoxBook.Checked = True
         If (Retval2 And 4) = 4 Then CheckBoxManual.Checked = True
@@ -56,7 +56,7 @@
         strProdNote = TextBoxProductNote.Text
         strAssignNote = TextBoxAssignmentNote.Text
         strRefNote = TextBoxRefNote.Text
-        'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp2.Lect.Man.Book.Paper}
+        'Retval2: 1111-1111 {ImR.Imp3.Imp2.Imp1.Lect.Man.Book.Paper}
         Retval2 = 0
         If CheckBoxPaper.Checked = True Then Retval2 = (Retval2 Or 1)
         If CheckBoxBook.Checked = True Then Retval2 = (Retval2 Or 2)

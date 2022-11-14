@@ -20,7 +20,6 @@ Public Class frmCNN
         If IO.File.Exists(strFilename) = False Then
             Menu_ResetCnns_Click(sender, e)
             frmAbout.ShowDialog()
-            'MsgBox("Connections Restored", vbInformation + vbOKOnly, "eLib")
         End If
         If IO.File.Exists(strFilename) = True Then
             FileOpen(1, strFilename, OpenMode.Input) '//----------------------------------------------------------- OPEN FILE
@@ -92,7 +91,7 @@ lbl_Read:
         Dim c As Integer = GridCNN.SelectedCells(0).ColumnIndex 'count from 0
         If r < 0 Then Exit Sub
 
-        Using dialog As New OpenFileDialog With {.InitialDirectory = Application.StartupPath, .Filter = "SqlServerCE|eLib*.sdf|ACCDB|eLib*.accdb"}
+        Using dialog As New OpenFileDialog With {.InitialDirectory = Application.StartupPath, .Filter = "SqlServerCE|eLib*.sdf"}
             If dialog.ShowDialog = DialogResult.OK Then
                 GridCNN(1, r).Value = dialog.FileName
             Else
@@ -108,7 +107,7 @@ lbl_Read:
             Dim c As Integer = GridCNN.SelectedCells(0).ColumnIndex 'count from 0
             If r < 0 Or c < 0 Then Exit Sub
             Dim strValue As String = GridCNN(c, r).Value
-            strValue = InputBox("enter new value", "connection settings", strValue)
+            strValue = InputBox("Enter new value", "connection settings", strValue)
             GridCNN(c, r).Value = strValue
             SaveChanges() 'AutoSave
         Catch ex As Exception
@@ -128,24 +127,22 @@ lbl_Read:
         End Try
     End Sub
     Private Sub Menu_ResetCnns_Click(sender As Object, e As EventArgs) Handles Menu_ResetCnns.Click
-        '//Confirm
-        'Dim myansw As DialogResult = MsgBox("Clear List and Reset to Possible Connections ?", vbYesNo + vbDefaultButton2, "eLib")
-        'If myansw = vbNo Then Exit Sub
         '//Clear Grid
         For r As Integer = GridCNN.Rows.Count - 1 To 0 Step -1
             GridCNN.Rows.Remove(GridCNN.Rows(r))
         Next
         '//Append Original connections / for Existing Databases in Application Folder
         Try
-            tblConnection.Rows.Add("SQLServer Remote", "eLib Database on Remote Server")
-            tblConnection.Rows.Add("SQLServer", "Server=.\SQLExpress; Initial Catalog=eLib1; Integrated Security = SSPI;", "", "")
+            Dim myansw As DialogResult = MsgBox("Add online server?", vbYesNoCancel + vbDefaultButton2, "eLib")
+            If myansw = vbCancel Then Exit Sub
+            If myansw = vbYes Then
+                tblConnection.Rows.Add("SQLServer Remote", "eLib Database on Remote Server")
+                tblConnection.Rows.Add("SQLServer", "Server=.\SQLExpress; Initial Catalog=abcd; Integrated Security = SSPI;", "", "")
+            End If
             Dim strFile As String
             Dim strDir As String = Application.StartupPath
             For Each strFile In Directory.GetFiles(strDir, "*.sdf")
                 tblConnection.Rows.Add("SqlServer CE", strFile, "", "")
-            Next
-            For Each strFile In Directory.GetFiles(strDir, "*.accdb")
-                tblConnection.Rows.Add("ACCDB", strFile, "", "")
             Next
         Catch ex As Exception
         End Try

@@ -1,7 +1,7 @@
 ﻿Public Class frmAbout
     Private Sub frmAbout_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        lblFrontEnd.Text = "fe: " & strCurrentVersion
-        lblBackEnd.Text = "be: " & strBuildInfo
+        lblFrontEnd.Text = "FE: " & strCurrentVersion
+        lblBackEnd.Text = "BE: " & strBuildInfo
     End Sub
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Me.Dispose()

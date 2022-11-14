@@ -171,8 +171,9 @@ Partial Class frmRefAttributes
         '
         'TextBoxRefNote
         '
+        Me.TextBoxRefNote.BackColor = System.Drawing.SystemColors.Control
         Me.TextBoxRefNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxRefNote.Location = New System.Drawing.Point(32, 125)
+        Me.TextBoxRefNote.Location = New System.Drawing.Point(45, 123)
         Me.TextBoxRefNote.Name = "TextBoxRefNote"
         Me.TextBoxRefNote.Size = New System.Drawing.Size(361, 16)
         Me.TextBoxRefNote.TabIndex = 1
@@ -180,7 +181,7 @@ Partial Class frmRefAttributes
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(32, 104)
+        Me.Label1.Location = New System.Drawing.Point(44, 102)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(24, 15)
         Me.Label1.TabIndex = 3
@@ -189,7 +190,7 @@ Partial Class frmRefAttributes
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(32, 166)
+        Me.Label2.Location = New System.Drawing.Point(44, 166)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(29, 15)
         Me.Label2.TabIndex = 5
@@ -197,8 +198,9 @@ Partial Class frmRefAttributes
         '
         'TextBoxAssignmentNote
         '
+        Me.TextBoxAssignmentNote.BackColor = System.Drawing.SystemColors.Control
         Me.TextBoxAssignmentNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxAssignmentNote.Location = New System.Drawing.Point(32, 187)
+        Me.TextBoxAssignmentNote.Location = New System.Drawing.Point(45, 187)
         Me.TextBoxAssignmentNote.Name = "TextBoxAssignmentNote"
         Me.TextBoxAssignmentNote.Size = New System.Drawing.Size(361, 16)
         Me.TextBoxAssignmentNote.TabIndex = 0
@@ -215,7 +217,7 @@ Partial Class frmRefAttributes
         Me.Panel2.Controls.Add(Me.TextBoxAssignmentNote)
         Me.Panel2.Location = New System.Drawing.Point(145, 29)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(428, 246)
+        Me.Panel2.Size = New System.Drawing.Size(410, 246)
         Me.Panel2.TabIndex = 8
         Me.Panel2.TabStop = True
         '
@@ -223,7 +225,7 @@ Partial Class frmRefAttributes
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Label4.Location = New System.Drawing.Point(7, 7)
+        Me.Label4.Location = New System.Drawing.Point(7, 6)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(58, 15)
         Me.Label4.TabIndex = 9
@@ -232,7 +234,7 @@ Partial Class frmRefAttributes
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(32, 39)
+        Me.Label3.Location = New System.Drawing.Point(44, 39)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(63, 15)
         Me.Label3.TabIndex = 7
@@ -240,8 +242,9 @@ Partial Class frmRefAttributes
         '
         'TextBoxProductNote
         '
+        Me.TextBoxProductNote.BackColor = System.Drawing.SystemColors.Control
         Me.TextBoxProductNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxProductNote.Location = New System.Drawing.Point(32, 60)
+        Me.TextBoxProductNote.Location = New System.Drawing.Point(45, 60)
         Me.TextBoxProductNote.Name = "TextBoxProductNote"
         Me.TextBoxProductNote.Size = New System.Drawing.Size(361, 16)
         Me.TextBoxProductNote.TabIndex = 2
@@ -278,7 +281,7 @@ Partial Class frmRefAttributes
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(572, 300)
+        Me.ClientSize = New System.Drawing.Size(554, 300)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.LabelRefTitle)
