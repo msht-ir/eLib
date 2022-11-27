@@ -47,7 +47,7 @@ Partial Class frmAbout
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Consolas", 11.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.Label3.ForeColor = System.Drawing.SystemColors.ScrollBar
-        Me.Label3.Location = New System.Drawing.Point(19, 82)
+        Me.Label3.Location = New System.Drawing.Point(462, 22)
         Me.Label3.Name = "Label3"
         Me.Label3.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Label3.Size = New System.Drawing.Size(448, 18)
@@ -87,13 +87,14 @@ Partial Class frmAbout
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.ClientSize = New System.Drawing.Size(526, 119)
+        Me.BackColor = System.Drawing.Color.Navy
+        Me.ClientSize = New System.Drawing.Size(954, 93)
         Me.ControlBox = False
         Me.Controls.Add(Me.lblBackEnd)
         Me.Controls.Add(Me.lblFrontEnd)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label2)
+        Me.ForeColor = System.Drawing.Color.Navy
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.MaximizeBox = False
         Me.MinimizeBox = False

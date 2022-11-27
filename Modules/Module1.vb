@@ -13,13 +13,13 @@ Module Module1
     Public CnnSC As New SqlServerCe.SqlCeConnection
     Public CmdSC As New SqlServerCe.SqlCeCommand
     Public DASC As New SqlServerCe.SqlCeDataAdapter
-    Public CnnAC As New OleDb.OleDbConnection
-    Public CmdAC As New OleDb.OleDbCommand
-    Public DAAC As New OleDb.OleDbDataAdapter
+    'Public CnnAC As New OleDb.OleDbConnection
+    'Public CmdAC As New OleDb.OleDbCommand
+    'Public DAAC As New OleDb.OleDbDataAdapter
 
     Public DS As New DataSet
     Public strDbBackEnd As String = ""                ' // (read from cnn file) Path of Backend file on local or server 
-    Public BackEndPass As String = "eLibSiliconPower" ' //encryption password of ACCDB Backend file
+    Public BackEndPass As String = "eLibSiliconPower" ' //Password of local sqlserver CE Backend
     Public strServerUid As String = ""
     Public strServerPwd As String = ""
     Public strSQL As String
@@ -34,7 +34,7 @@ Module Module1
     Public UserNickName As String = ""
     Public strAdminPass As String = ""
     Public strUserPass As String = ""
-    Public UserType As String = ""             'ADMIN | USER 
+    Public UserType As String = "" 'ADMIN | USER 
     Public UserAccessControls As Integer = 0  'acc1-acc15 (user access controls)
     Public intUser As Integer = 0
     Public strUser As String = ""
@@ -60,7 +60,7 @@ Module Module1
     Public intAssign As Integer = 0
     Public strAssignNote As String = ""
     Public strPath As String = ""
-    Public strFilename As String = ""             ' // path of text file for backend.path, user.id, pass strings
+    Public strFilename As String = "" ' // path of text file for backend.path, user.id, pass strings
     Public strExt As String = ""
     Public strCaption As String = ""
     Public strReportsFooter As String = "eLib Desktop App [ www.msht.ir ],  by: Dr. Majid Sharifi-Tehrani, Faculty of Science (SKU), 2022"
@@ -78,9 +78,8 @@ Module Module1
     Public tblProd_tmp As New System.Data.DataTable
     Public tblProd_tmp2 As New System.Data.DataTable
     Public tblAssign_tmp As New System.Data.DataTable 'for Editting a Ref using frmImport 
-    '--
-    Public tblTEMPeLibSaveAs As New System.Data.DataTable
 
+    'Public tblTEMPeLibSaveAs As New System.Data.DataTable
     '//Journals
     'Public tbleLibJCR As New System.Data.DataTable
     'Public tblSCOPUS_2018 As New System.Data.DataTable
@@ -121,9 +120,6 @@ Module Module1
     'Public tblItems As New System.Data.DataTable
     'Public tblItems_Data As New System.Data.DataTable
 
-
-
-
     Sub Main()
         CreateTables()
         frmCNN.ShowDialog()
@@ -132,8 +128,7 @@ Module Module1
         '//Settings usrs
         DS.Tables.Add("tblusrs")
         DS.Tables.Add("tblSettings")
-        DS.Tables.Add("tblxSecurityConverter")
-
+        'DS.Tables.Add("tblxSecurityConverter")
         '//eLib
         DS.Tables.Add("tblRefs1")
         DS.Tables.Add("tblAssignments")
@@ -142,15 +137,15 @@ Module Module1
         DS.Tables.Add("tblRefs2")
         DS.Tables.Add("tblProductNotes")
         DS.Tables.Add("tblRefPaths")
-        DS.Tables.Add("tblProj_tmp") 'for frm.selectProj/Prod
-        DS.Tables.Add("tblProd_tmp") 'for frm.selectProj/Prod
+        DS.Tables.Add("tblProj_tmp")  'for frm.selectProj/Prod
+        DS.Tables.Add("tblProd_tmp")  'for frm.selectProj/Prod
         DS.Tables.Add("tblProd_tmp2") 'for frm.ImportRef
         DS.Tables("tblProd_tmp2").Columns.Add("ProdId", GetType(Integer))
         DS.Tables("tblProd_tmp2").Columns.Add("ProdName", GetType(String))
         '--
-        DS.Tables.Add("tblTEMPeLibSaveAs")
-        DS.Tables.Add("tblTempExcelSheetsList")
-        DS.Tables.Add("tblTempExporteLibAssignments")
+        'DS.Tables.Add("tblTEMPeLibSaveAs")
+        'DS.Tables.Add("tblTempExcelSheetsList")
+        'DS.Tables.Add("tblTempExporteLibAssignments")
 
         '//Journals
         'DS.Tables.Add("tbleLibJCR")
@@ -262,8 +257,8 @@ Module Module1
                                     CnnSS.Dispose()
                                     CnnSC.Close()
                                     CnnSC.Dispose()
-                                    CnnAC.Close()
-                                    CnnAC.Dispose()
+                                    'CnnAC.Close()
+                                    'CnnAC.Dispose()
                                     Application.Exit()
                                     End
                             End Select

@@ -51,13 +51,14 @@ Partial Class frmImportRefs
         '
         Me.txtTitle.BackColor = System.Drawing.SystemColors.Control
         Me.txtTitle.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtTitle.ContextMenuStrip = Me.ContextMenuStrip1
         Me.txtTitle.Dock = System.Windows.Forms.DockStyle.Top
         Me.txtTitle.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.txtTitle.ForeColor = System.Drawing.Color.IndianRed
         Me.txtTitle.Location = New System.Drawing.Point(0, 0)
         Me.txtTitle.Multiline = True
         Me.txtTitle.Name = "txtTitle"
-        Me.txtTitle.Size = New System.Drawing.Size(987, 69)
+        Me.txtTitle.Size = New System.Drawing.Size(978, 69)
         Me.txtTitle.TabIndex = 0
         '
         'ListProduct
@@ -65,12 +66,13 @@ Partial Class frmImportRefs
         Me.ListProduct.BackColor = System.Drawing.SystemColors.Control
         Me.ListProduct.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.ListProduct.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.ListProduct.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.ListProduct.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
+        Me.ListProduct.ForeColor = System.Drawing.Color.IndianRed
         Me.ListProduct.FormattingEnabled = True
-        Me.ListProduct.ItemHeight = 17
-        Me.ListProduct.Location = New System.Drawing.Point(118, 83)
+        Me.ListProduct.ItemHeight = 20
+        Me.ListProduct.Location = New System.Drawing.Point(118, 98)
         Me.ListProduct.Name = "ListProduct"
-        Me.ListProduct.Size = New System.Drawing.Size(347, 102)
+        Me.ListProduct.Size = New System.Drawing.Size(347, 80)
         Me.ListProduct.TabIndex = 1
         '
         'ContextMenuStrip2
@@ -103,7 +105,7 @@ Partial Class frmImportRefs
         Me.radioPaper.AutoSize = True
         Me.radioPaper.Checked = True
         Me.radioPaper.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.radioPaper.Location = New System.Drawing.Point(16, 16)
+        Me.radioPaper.Location = New System.Drawing.Point(16, 9)
         Me.radioPaper.Name = "radioPaper"
         Me.radioPaper.Size = New System.Drawing.Size(62, 23)
         Me.radioPaper.TabIndex = 2
@@ -115,7 +117,7 @@ Partial Class frmImportRefs
         '
         Me.radioBook.AutoSize = True
         Me.radioBook.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.radioBook.Location = New System.Drawing.Point(16, 40)
+        Me.radioBook.Location = New System.Drawing.Point(16, 33)
         Me.radioBook.Name = "radioBook"
         Me.radioBook.Size = New System.Drawing.Size(58, 23)
         Me.radioBook.TabIndex = 3
@@ -127,7 +129,7 @@ Partial Class frmImportRefs
         '
         Me.radioManual.AutoSize = True
         Me.radioManual.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.radioManual.Location = New System.Drawing.Point(16, 64)
+        Me.radioManual.Location = New System.Drawing.Point(16, 57)
         Me.radioManual.Name = "radioManual"
         Me.radioManual.Size = New System.Drawing.Size(73, 23)
         Me.radioManual.TabIndex = 4
@@ -139,7 +141,7 @@ Partial Class frmImportRefs
         '
         Me.radioLecture.AutoSize = True
         Me.radioLecture.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.radioLecture.Location = New System.Drawing.Point(16, 88)
+        Me.radioLecture.Location = New System.Drawing.Point(16, 81)
         Me.radioLecture.Name = "radioLecture"
         Me.radioLecture.Size = New System.Drawing.Size(72, 23)
         Me.radioLecture.TabIndex = 5
@@ -152,9 +154,9 @@ Partial Class frmImportRefs
         Me.txtNote.BackColor = System.Drawing.SystemColors.Control
         Me.txtNote.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtNote.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtNote.Location = New System.Drawing.Point(485, 83)
+        Me.txtNote.Location = New System.Drawing.Point(480, 98)
         Me.txtNote.Name = "txtNote"
-        Me.txtNote.Size = New System.Drawing.Size(490, 18)
+        Me.txtNote.Size = New System.Drawing.Size(502, 18)
         Me.txtNote.TabIndex = 6
         '
         'ContextMenuStrip1
@@ -168,7 +170,7 @@ Partial Class frmImportRefs
         Me.Menu1_Select.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Select.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Menu1_Select.Name = "Menu1_Select"
-        Me.Menu1_Select.Size = New System.Drawing.Size(180, 22)
+        Me.Menu1_Select.Size = New System.Drawing.Size(154, 22)
         Me.Menu1_Select.Text = "1- Select ..."
         '
         'Menu1_Paste
@@ -176,7 +178,7 @@ Partial Class frmImportRefs
         Me.Menu1_Paste.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Paste.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Menu1_Paste.Name = "Menu1_Paste"
-        Me.Menu1_Paste.Size = New System.Drawing.Size(180, 22)
+        Me.Menu1_Paste.Size = New System.Drawing.Size(154, 22)
         Me.Menu1_Paste.Text = "2- Paste Title"
         '
         'Menu1_Move
@@ -184,19 +186,19 @@ Partial Class frmImportRefs
         Me.Menu1_Move.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.Menu1_Move.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Menu1_Move.Name = "Menu1_Move"
-        Me.Menu1_Move.Size = New System.Drawing.Size(180, 22)
+        Me.Menu1_Move.Size = New System.Drawing.Size(154, 22)
         Me.Menu1_Move.Text = "3- Move to eLib"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(151, 6)
         '
         'Menu1_Exit
         '
         Me.Menu1_Exit.ForeColor = System.Drawing.Color.IndianRed
         Me.Menu1_Exit.Name = "Menu1_Exit"
-        Me.Menu1_Exit.Size = New System.Drawing.Size(180, 22)
+        Me.Menu1_Exit.Size = New System.Drawing.Size(154, 22)
         Me.Menu1_Exit.Text = "Exit"
         '
         'Panel1
@@ -209,7 +211,7 @@ Partial Class frmImportRefs
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Left
         Me.Panel1.Location = New System.Drawing.Point(0, 69)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(112, 120)
+        Me.Panel1.Size = New System.Drawing.Size(112, 109)
         Me.Panel1.TabIndex = 7
         '
         'frmImportRefs
@@ -217,7 +219,7 @@ Partial Class frmImportRefs
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(987, 189)
+        Me.ClientSize = New System.Drawing.Size(978, 178)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.Panel1)

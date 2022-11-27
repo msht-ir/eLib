@@ -2444,9 +2444,9 @@ Public Class frmAssign
         CnnSC.Close()
         CnnSC.Dispose()
         CnnSC = Nothing
-        CnnAC.Close()
-        CnnAC.Dispose()
-        CnnAC = Nothing
+        'CnnAC.Close()
+        'CnnAC.Dispose()
+        'CnnAC = Nothing
         Application.Exit()
         End
     End Sub

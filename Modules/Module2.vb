@@ -128,7 +128,7 @@ Module Module2
         '//Del Database Tables Rows 
         Try
             For Each strTableName In {"usrs", "Project", "Product", "Paper_Product", "ProductNotes"}
-                Select Case DatabaseType ' ----  SqlServer ---- / ---- Access ----
+                Select Case DatabaseType
                     Case "SqlServer"
                         strSQL = "DELETE FROM " & strTableName & ";"
                         Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
@@ -185,18 +185,19 @@ Module Module2
 
     '//Admin SCAN_Folders
     Public Sub eLibScanNames()
+        '//1 Validate eLib Folders
         Dim resultx As String = ValidateFolders()
         If resultx <> "valid" Then
             Dim myansw As DialogResult = MsgBox("eLib Folders not valid !" & vbCrLf & "Correct them now ?", vbYesNo + vbDefaultButton2, "eLib")
             If myansw = vbYes Then frmSettings.ShowDialog()
             Exit Sub
         End If
-        '//EXTRACT FileNames : DIR /s >> text files
+        '//2 EXTRACT FileNames : DIR /s >> text files
         Process.Start("cmd.exe", "/C Dir " & strFolderPapers & " /s > " & Application.StartupPath & "eLibP.txt").WaitForExit()
         Process.Start("cmd.exe", "/C Dir " & strFolderBooks & " /s > " & Application.StartupPath & "eLibB.txt").WaitForExit()
         Process.Start("cmd.exe", "/C Dir " & strFolderManuals & " /s > " & Application.StartupPath & "eLibM.txt").WaitForExit()
         Process.Start("cmd.exe", "/C Dir " & strFolderLectures & " /s > " & Application.StartupPath & "eLibL.txt").WaitForExit()
-        '//Extract lines of interest out of textfiles!
+        '//3 Extract lines of interest out of textfiles!
         Dim strLine As String = ""
         Dim strName As String = ""
         For Each flnm As String In {"eLibP", "eLibB", "eLibM", "eLibL"}
@@ -221,7 +222,7 @@ Lblx:
             FileClose(1)
             FileClose(2)
         Next flnm
-        '//Prepare Table cols for Import
+        '//4 Prepare Table cols for Import
         Try
             DS.Tables("tblRefs1").Clear()
             Select Case DatabaseType
@@ -243,14 +244,14 @@ Lblx:
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
-        '//TRUE value= +1/-1 ?
         DS.Tables("tblRefs1").Clear()
+        '/TRUE value= +1|-1 ?
         Dim Trux As Integer = 0
         Select Case DatabaseType
             Case "SqlServer" : Trux = 1
             Case "SqlServerCE" : Trux = -1
         End Select
-        '//IMPORT into tblPapers
+        '//5 IMPORT into tblPapers
         For Each flnm As String In {"P", "B", "M", "L"}
             FileOpen(1, Application.StartupPath & "eLib" & flnm & "x.txt", OpenMode.Input)
             While Not EOF(1)
@@ -265,9 +266,9 @@ Lblx:
             FileClose(1)
             Application.DoEvents()
         Next flnm
-        '//BULK-COPY
+        '//6 Call BULK-COPY
         BulkCopyPaperNames()
-        '//Delete temporary files
+        '//7 Delete temporary files
         For Each flnm As String In {"eLibP", "eLibB", "eLibM", "eLibL"}
             If Dir(Application.StartupPath + flnm & ".txt") <> "" Then My.Computer.FileSystem.DeleteFile(Application.StartupPath + flnm & ".txt", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
             If Dir(Application.StartupPath + flnm & "x.txt") <> "" Then My.Computer.FileSystem.DeleteFile(Application.StartupPath + flnm & "x.txt", FileIO.UIOption.OnlyErrorDialogs, FileIO.RecycleOption.SendToRecycleBin, FileIO.UICancelOption.ThrowException)
@@ -275,7 +276,8 @@ Lblx:
     End Sub
     Public Sub BulkCopyPaperNames()
         'On Error Resume Next
-        Select Case DatabaseType'-------- Bulk Copy -------- Bulk Copy -------- Bulk Copy -------- Bulk Copy 
+        'On Error GoTo 0
+        Select Case DatabaseType
             Case "SqlServer"
                 Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
@@ -286,21 +288,70 @@ Lblx:
                     CnnSS.Close()
                 End Using
             Case "SqlServerCE"
+                '//0 Clear Papers_tmp
+                '//1 BulkCopy from tblRefs1 to Papers_tmp (where tmp {is |isn't} indexed)
+                '//2 Delete Rows from Papers_tmp which exist in Papers
+                '//3 Insert Remaining Rows in Papers_tmp into Papers
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                    '//0 Clear Temp_Table
                     CnnSC.Open()
-                    Dim options As SqlCeBulkCopyOptions = New SqlCeBulkCopyOptions
-                    options = options Or SqlCeBulkCopyOptions.KeepNulls
-                    Dim bCopy As New ErikEJ.SqlCe.SqlCeBulkCopy(CnnSC, options)
-                    bCopy.DestinationTableName = "Papers_tmp"
-                    'bCopy.bulkData.InsertIfNotExists = True
-                    bCopy.BatchSize = DS.Tables("tblRefs1").Rows.Count
-                    bCopy.WriteToServer(DS.Tables("tblRefs1"))
-                    '//
-                    strSQL = "Insert Into Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, Note) Select Distinct PaperName, IsPaper, IsBook, IsManual, IsLecture, Note FROM Papers_tmp"
+                    strSQL = "DELETE FROM Papers_tmp;"
                     Dim cmdx As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
                     cmdx.CommandType = CommandType.Text
                     Dim ix As Integer = cmdx.ExecuteNonQuery()
                     CnnSC.Close()
+                    MsgBox("0 Done")
+
+                    '//1 BulkCopy from tblRefs1 to Papers_tmp (where tmp {is |isn't} indexed)
+                    CnnSC.Open()
+                    Dim options As SqlCeBulkCopyOptions = New SqlCeBulkCopyOptions
+                    options = options Or SqlCeBulkCopyOptions.KeepNulls
+                    Dim bCopy As New ErikEJ.SqlCe.SqlCeBulkCopy(CnnSC, options)
+                    bCopy.DestinationTableName = "Papers_tmp" '//bCopy.bulkData.InsertIfNotExists = True
+                    bCopy.BatchSize = DS.Tables("tblRefs1").Rows.Count
+                    bCopy.WriteToServer(DS.Tables("tblRefs1"))
+                    CnnSC.Close()
+                    'OK!
+                    MsgBox("1 Done")
+
+                    ''//2 Delete Rows from Papers_tmp which exist in Papers
+                    CnnSC.Open()
+                    strSQL = "Delete From Papers_tmp Where PaperName in (SELECT Papers.PaperName FROM Papers INNER JOIN Papers_tmp ON Papers.PaperName = Papers_tmp.PaperName);"
+                    Dim cmdy As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                    cmdy.CommandType = CommandType.Text
+                    Dim iy As Integer = cmdy.ExecuteNonQuery()
+                    CnnSC.Close()
+                    MsgBox("2 Done")
+
+                    '//TEST!
+                    DS.Tables("tblRefs1").Clear()
+                    CnnSC.Open()
+                    DASC = New SqlServerCe.SqlCeDataAdapter("Select PaperName, IsPaper, IsBook, IsManual, IsLecture, Note From Papers_tmp;", CnnSC)
+                    DASC.Fill(DS, "tblRefs1")
+                    CnnSC.Close()
+                    MsgBox("test Done: " & DS.Tables("tblRefs1").Rows.Count.ToString)
+
+                    '//3 Insert Remaining Rows in Papers_tmp into Papers  ///////////// DOSENT WORD PROPERLY
+                    CnnSC.Open()
+                    strSQL = "INSERT INTO Papers (PaperName, IsPaper, IsBook, IsManual, IsLecture, [Note]) SELECT Papers_tmp.PaperName, Papers_tmp.IsPaper, Papers_tmp.IsBook, Papers_tmp.IsManual, Papers_tmp.IsLecture, Papers_tmp.Note FROM Papers_tmp;"
+                    Dim cmdz As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                    cmdz.CommandType = CommandType.Text
+                    Dim iz As Integer = cmdz.ExecuteNonQuery()
+                    CnnSC.Close()
+                    MsgBox("3 Done")
+
+
+                    ''//3
+                    'CnnSC.Open()
+                    'Dim options2 As SqlCeBulkCopyOptions = New SqlCeBulkCopyOptions
+                    'options2 = options Or SqlCeBulkCopyOptions.KeepNulls
+                    'Dim bCopy2 As New ErikEJ.SqlCe.SqlCeBulkCopy(CnnSC, options2)
+                    'bCopy2.DestinationTableName = "Papers"
+                    'bCopy2.BatchSize = DS.Tables("tblRefs1").Rows.Count
+                    'bCopy2.WriteToServer(DS.Tables("tblRefs1"))
+                    'CnnSC.Close()
+                    'MsgBox("3 Done")
+
                 End Using
         End Select
     End Sub
@@ -401,7 +452,7 @@ Lblx:
             GoTo lblReturn
         End If
         strExt = LCase(Microsoft.VisualBasic.Right(strFlnm, 4))
-        If strExt = ".pdf" Or strExt = ".doc" Or strExt = ".xls" Or strExt = ".ppt" Or strExt = ".bmp" Or strExt = ".jpg" Or strExt = ".png" Or strExt = ".txt" Then
+        If strExt = ".pdf" Or strExt = ".doc" Or strExt = ".xls" Or strExt = ".ppt" Or strExt = ".bmp" Or strExt = ".jpg" Or strExt = ".png" Or strExt = ".txt" Or strExt = ".MP4" Or strExt = ".MP3" Then
             strFlnm = Microsoft.VisualBasic.Left(strFlnm, Len(strFlnm) - 4)
             GoTo lblReturn
         End If
