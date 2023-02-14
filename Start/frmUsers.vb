@@ -10,13 +10,13 @@ Public Class frmUsers
         GridUsers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
         GridUsers.Columns(0).Visible = False    'ID
         GridUsers.Columns(0).Width = 0          'ID
-        GridUsers.Columns(1).Width = 150        'UserName
-        GridUsers.Columns(2).Width = 120        'UserPass
-        GridUsers.Columns(3).Width = 45         'Active
-        GridUsers.Columns(4).Width = 220        'UserNote
+        GridUsers.Columns(1).Width = 200        'UserName
+        GridUsers.Columns(2).Width = 180        'UserPass
+        GridUsers.Columns(3).Width = 60         'Active
+        GridUsers.Columns(4).Width = 450        'UserNote
         For i As Integer = 0 To 15
-            GridUsers.Columns(i + 5).Width = 45 'Acc00-15
-        Next
+            GridUsers.Columns(i + 5).Visible = False '.Width = 45 'Acc00-15
+        Next i
         For i As Integer = 0 To GridUsers.Columns.Count - 1 'Disable sort for column_haeders
             GridUsers.Columns.Item(i).SortMode = DataGridViewColumnSortMode.Programmatic
         Next i

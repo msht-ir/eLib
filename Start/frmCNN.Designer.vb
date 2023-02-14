@@ -29,10 +29,9 @@ Partial Class frmCNN
         Me.MenuStripCNN = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Menu_SelectBE = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_FindDB = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Edit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Remove = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_ResetCnns = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Menu_Remove = New System.Windows.Forms.ToolStripMenuItem()
+        Me.Menu_FindDB = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
         Me.Menu_Guide = New System.Windows.Forms.ToolStripMenuItem()
         Me.Menu_Exit = New System.Windows.Forms.ToolStripMenuItem()
@@ -53,6 +52,7 @@ Partial Class frmCNN
         Me.GridCNN.BackgroundColor = System.Drawing.SystemColors.Control
         Me.GridCNN.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.GridCNN.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.GridCNN.ColumnHeadersVisible = False
         Me.GridCNN.ContextMenuStrip = Me.MenuStripCNN
         Me.GridCNN.Dock = System.Windows.Forms.DockStyle.Top
         Me.GridCNN.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
@@ -71,82 +71,77 @@ Partial Class frmCNN
         Me.GridCNN.RowHeadersVisible = False
         Me.GridCNN.RowHeadersWidth = 20
         Me.GridCNN.RowTemplate.Height = 25
-        Me.GridCNN.Size = New System.Drawing.Size(839, 199)
+        Me.GridCNN.Size = New System.Drawing.Size(600, 154)
         Me.GridCNN.TabIndex = 3
         '
         'MenuStripCNN
         '
-        Me.MenuStripCNN.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_SelectBE, Me.ToolStripMenuItem2, Me.Menu_FindDB, Me.Menu_Edit, Me.Menu_Remove, Me.Menu_ResetCnns, Me.ToolStripMenuItem3, Me.Menu_Guide, Me.Menu_Exit})
+        Me.MenuStripCNN.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_SelectBE, Me.ToolStripMenuItem2, Me.Menu_ResetCnns, Me.Menu_Remove, Me.Menu_FindDB, Me.ToolStripMenuItem3, Me.Menu_Guide, Me.Menu_Exit})
         Me.MenuStripCNN.Name = "MenuStripCNN"
-        Me.MenuStripCNN.Size = New System.Drawing.Size(122, 170)
+        Me.MenuStripCNN.Size = New System.Drawing.Size(188, 148)
         '
         'Menu_SelectBE
         '
         Me.Menu_SelectBE.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
         Me.Menu_SelectBE.ForeColor = System.Drawing.Color.DarkGoldenrod
         Me.Menu_SelectBE.Name = "Menu_SelectBE"
-        Me.Menu_SelectBE.Size = New System.Drawing.Size(121, 22)
+        Me.Menu_SelectBE.Size = New System.Drawing.Size(187, 22)
         Me.Menu_SelectBE.Text = "Log in"
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(118, 6)
-        '
-        'Menu_FindDB
-        '
-        Me.Menu_FindDB.Name = "Menu_FindDB"
-        Me.Menu_FindDB.Size = New System.Drawing.Size(121, 22)
-        Me.Menu_FindDB.Text = "Locate ..."
-        '
-        'Menu_Edit
-        '
-        Me.Menu_Edit.Name = "Menu_Edit"
-        Me.Menu_Edit.Size = New System.Drawing.Size(121, 22)
-        Me.Menu_Edit.Text = "Edit"
-        '
-        'Menu_Remove
-        '
-        Me.Menu_Remove.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Remove.Name = "Menu_Remove"
-        Me.Menu_Remove.Size = New System.Drawing.Size(121, 22)
-        Me.Menu_Remove.Text = "Delete"
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(184, 6)
         '
         'Menu_ResetCnns
         '
         Me.Menu_ResetCnns.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Menu_ResetCnns.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Menu_ResetCnns.Name = "Menu_ResetCnns"
-        Me.Menu_ResetCnns.Size = New System.Drawing.Size(121, 22)
-        Me.Menu_ResetCnns.Text = "Reset"
+        Me.Menu_ResetCnns.Size = New System.Drawing.Size(187, 22)
+        Me.Menu_ResetCnns.Text = "Libraries ..."
+        '
+        'Menu_Remove
+        '
+        Me.Menu_Remove.ForeColor = System.Drawing.Color.IndianRed
+        Me.Menu_Remove.Name = "Menu_Remove"
+        Me.Menu_Remove.Size = New System.Drawing.Size(187, 22)
+        Me.Menu_Remove.Text = "Delete"
+        '
+        'Menu_FindDB
+        '
+        Me.Menu_FindDB.Name = "Menu_FindDB"
+        Me.Menu_FindDB.Size = New System.Drawing.Size(187, 22)
+        Me.Menu_FindDB.Text = "Find partable libraries"
+        Me.Menu_FindDB.Visible = False
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(118, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(184, 6)
         '
         'Menu_Guide
         '
         Me.Menu_Guide.Name = "Menu_Guide"
-        Me.Menu_Guide.Size = New System.Drawing.Size(121, 22)
+        Me.Menu_Guide.Size = New System.Drawing.Size(187, 22)
         Me.Menu_Guide.Text = "Help"
         '
         'Menu_Exit
         '
         Me.Menu_Exit.ForeColor = System.Drawing.Color.IndianRed
         Me.Menu_Exit.Name = "Menu_Exit"
-        Me.Menu_Exit.Size = New System.Drawing.Size(121, 22)
+        Me.Menu_Exit.Size = New System.Drawing.Size(187, 22)
         Me.Menu_Exit.Text = "Quit"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Copperplate Gothic Light", 24.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Label2.ForeColor = System.Drawing.Color.Gold
-        Me.Label2.Location = New System.Drawing.Point(12, 202)
+        Me.Label2.Font = New System.Drawing.Font("Copperplate Gothic Light", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.Label2.ForeColor = System.Drawing.Color.DarkGoldenrod
+        Me.Label2.Location = New System.Drawing.Point(367, 159)
         Me.Label2.Name = "Label2"
         Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label2.Size = New System.Drawing.Size(85, 35)
+        Me.Label2.Size = New System.Drawing.Size(58, 24)
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "eLib"
         '
@@ -155,7 +150,7 @@ Partial Class frmCNN
         Me.lblBuildInfo.AutoSize = True
         Me.lblBuildInfo.Font = New System.Drawing.Font("Copperplate Gothic Light", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
         Me.lblBuildInfo.ForeColor = System.Drawing.Color.LightSlateGray
-        Me.lblBuildInfo.Location = New System.Drawing.Point(96, 216)
+        Me.lblBuildInfo.Location = New System.Drawing.Point(425, 166)
         Me.lblBuildInfo.Name = "lblBuildInfo"
         Me.lblBuildInfo.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.lblBuildInfo.Size = New System.Drawing.Size(120, 14)
@@ -169,10 +164,10 @@ Partial Class frmCNN
         Me.PasswordTextBox.Enabled = False
         Me.PasswordTextBox.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.PasswordTextBox.ForeColor = System.Drawing.SystemColors.ControlLight
-        Me.PasswordTextBox.Location = New System.Drawing.Point(433, 214)
+        Me.PasswordTextBox.Location = New System.Drawing.Point(80, 163)
         Me.PasswordTextBox.Name = "PasswordTextBox"
         Me.PasswordTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(45)
-        Me.PasswordTextBox.Size = New System.Drawing.Size(88, 16)
+        Me.PasswordTextBox.Size = New System.Drawing.Size(98, 16)
         Me.PasswordTextBox.TabIndex = 6
         '
         'Label1
@@ -180,11 +175,11 @@ Partial Class frmCNN
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Label1.ForeColor = System.Drawing.Color.Gold
-        Me.Label1.Location = New System.Drawing.Point(356, 211)
+        Me.Label1.Location = New System.Drawing.Point(34, 161)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(70, 19)
+        Me.Label1.Size = New System.Drawing.Size(46, 19)
         Me.Label1.TabIndex = 7
-        Me.Label1.Text = "Password:"
+        Me.Label1.Text = "Login:"
         Me.Label1.Visible = False
         '
         'frmCNN
@@ -193,7 +188,7 @@ Partial Class frmCNN
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Navy
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(839, 243)
+        Me.ClientSize = New System.Drawing.Size(600, 189)
         Me.ContextMenuStrip = Me.MenuStripCNN
         Me.ControlBox = False
         Me.Controls.Add(Me.Label1)
@@ -208,7 +203,7 @@ Partial Class frmCNN
         Me.MinimizeBox = False
         Me.Name = "frmCNN"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "eLib"
+        Me.Text = "Libs"
         CType(Me.GridCNN, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStripCNN.ResumeLayout(False)
         Me.ResumeLayout(False)
@@ -221,7 +216,6 @@ Partial Class frmCNN
     Friend WithEvents Menu_Exit As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem2 As ToolStripSeparator
     Friend WithEvents Menu_FindDB As ToolStripMenuItem
-    Friend WithEvents Menu_Edit As ToolStripMenuItem
     Friend WithEvents راهنماToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Menu_Guide As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator

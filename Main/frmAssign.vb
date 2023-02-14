@@ -185,6 +185,7 @@ Public Class frmAssign
         frmFolderRefs.ShowDialog()
     End Sub
     Private Sub Menu_Import_Click(sender As Object, e As EventArgs) Handles Menu_Import.Click
+        Me.WindowState = FormWindowState.Minimized
         Retval3 = 0 'flag for NewImport (not Edit Ref)
         frmImportRefs.ShowDialog()
     End Sub
@@ -615,21 +616,30 @@ Public Class frmAssign
         If Menu1_GoogleScholar.Checked = True Then Menu1_GoogleScholar_Click(sender, e) : Exit Sub
         If Menu1_Delete.Checked = True Then Menu1_Delete_Click(sender, e) : Exit Sub
     End Sub
+    Private Sub Menu1_Lock_Click(sender As Object, e As EventArgs) Handles Menu1_Lock.Click
+        If Menu1_Lock.Checked = True Then
+            Menu1_Lock.Checked = False
+            Menu1_CheckMarckSet(1)
+        Else
+            Menu1_Lock.Checked = True
+        End If
+    End Sub
     Private Sub Menu1_Assign_Click(sender As Object, e As EventArgs) Handles Menu1_Assign.Click
-        Menu1_CheckMarckSet(2)
+        If Menu1_Lock.Checked = True Then Menu1_CheckMarckSet(2) Else Menu1_CheckMarckSet(1)
         intRef = List1.SelectedValue
         intProd = List4.SelectedValue
         If intRef < 1 Or intProd < 1 Then Exit Sub
         Dim i As Boolean = DoAssignRef2Prod(intRef, intProd)
         If i = True Then
             List1_Click(sender, e) 'refresh list2
+            Menu4_ClickShowNotes.Checked = False
             List4_Click(sender, e) 'refresh list5
         Else
             MsgBox("Error Assigning Ref to Product!", vbOKOnly, "eLib")
         End If
     End Sub
     Private Sub Menu1_AssignTo_Click(sender As Object, e As EventArgs) Handles Menu1_AssignTo.Click
-        Menu1_CheckMarckSet(3)
+        If Menu1_Lock.Checked = True Then Menu1_CheckMarckSet(3) Else Menu1_CheckMarckSet(1)
         intRef = List1.SelectedValue
         If intRef < 1 Then Exit Sub
         frmChooseProject.ShowDialog()
@@ -731,7 +741,7 @@ Public Class frmAssign
     End Sub
     Private Sub Menu1_RefNote_Click(sender As Object, e As EventArgs) Handles Menu1_RefNote.Click
         '//Note for Ref
-        Menu1_CheckMarckSet(4)
+        If Menu1_Lock.Checked = True Then Menu1_CheckMarckSet(4) Else Menu1_CheckMarckSet(1)
         If List1.SelectedIndex = -1 Then Exit Sub
         Dim i As Integer = List1.SelectedIndex
         strRefNote = DS.Tables("tblRefs1").Rows(i).Item(6)
@@ -784,11 +794,11 @@ Public Class frmAssign
     End Sub
     Private Sub Menu1_QRCode_Click(sender As Object, e As EventArgs) Handles Menu1_QRCode.Click
         '//check if tbl.Settings allows QRCODEGen ?
-        Menu1_CheckMarckSet(5)
+        If Menu1_Lock.Checked = True Then Menu1_CheckMarckSet(5) Else Menu1_CheckMarckSet(1)
         If List1.SelectedIndex >= 0 Then Call QRCodeGen(List1.Text)
     End Sub
     Private Sub Menu1_GoogleScholar_Click(sender As Object, e As EventArgs) Handles Menu1_GoogleScholar.Click
-        Menu1_CheckMarckSet(6)
+        If Menu1_Lock.Checked = True Then Menu1_CheckMarckSet(6) Else Menu1_CheckMarckSet(1)
         If List1.SelectedIndex >= 0 Then
             Dim strSearchScholar As String = List1.Text
             SearchScholar(strSearchScholar)
@@ -871,7 +881,7 @@ Public Class frmAssign
         MsgBox("under constraction")
     End Sub
     Private Sub Menu1_Delete_Click(sender As Object, e As EventArgs) Handles Menu1_Delete.Click
-        Menu1_CheckMarckSet(7)
+        If Menu1_Lock.Checked = True Then Menu1_CheckMarckSet(7) Else Menu1_CheckMarckSet(1)
         If List1.SelectedIndex = -1 Then Exit Sub
         intRef = List1.SelectedValue
         If intRef < 1 Then Exit Sub
@@ -1333,6 +1343,7 @@ Public Class frmAssign
             DS.Tables("tblRefs2").Clear()
             DS.Tables("tblProductNotes").Clear()
             ClearLabels(240) '240:&B11110000 clear labels in below of the form
+            Menu4_ClickShowNotes.Checked = False
         Catch ex As Exception
             'MsgBox(ex.ToString)
         End Try
@@ -1431,6 +1442,7 @@ Public Class frmAssign
             'Raises an error when DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(2) = NULL!  
             'MsgBox("Error!" & vbCrLf & ex.ToString)
         End Try
+        If Menu4_ClickShowNotes.Checked = True Then List6_Click(sender, e)
     End Sub
     Private Sub GetRefs(Productid)
         Try
@@ -1766,6 +1778,14 @@ Public Class frmAssign
             Exit Sub
         End Try
     End Sub
+    Private Sub Menu4_ClickShowNotes_Click(sender As Object, e As EventArgs) Handles Menu4_ClickShowNotes.Click
+        If Menu4_ClickShowNotes.Checked = True Then
+            Menu4_ClickShowNotes.Checked = False
+        Else
+            Menu4_ClickShowNotes.Checked = True
+        End If
+        List4_Click(sender, e)
+    End Sub
 
     'List 5 (Refs2)
     Private Sub Menu5_CheckMarckSet(i As Integer)
@@ -1834,7 +1854,7 @@ Public Class frmAssign
             strRefNote = DS.Tables("tblRefs2").Rows(Refid).Item(6) '6:Papers.Note
             lblRefNote2.Text = strRefNote                          '6:Papers.Note
         Catch ex As Exception
-            MsgBox("111 / " & ex.ToString)
+            'MsgBox("111 / " & ex.ToString)
         End Try
     End Sub
     Private Sub List5_DoubleClick(sender As Object, e As EventArgs) Handles List5.DoubleClick
@@ -1853,13 +1873,21 @@ Public Class frmAssign
         If Menu5_QRCode.Checked = True Then Menu5_QRCode_Click(sender, e) : Exit Sub
         If Menu5_Collect.Checked = True Then Menu5_Collect_Click(sender, e) : Exit Sub
     End Sub
+    Private Sub Menu5_Lock_Click(sender As Object, e As EventArgs) Handles Menu5_Lock.Click
+        If Menu5_Lock.Checked = True Then
+            Menu5_Lock.Checked = False
+            Menu5_CheckMarckSet(1)
+        Else
+            Menu5_Lock.Checked = True
+        End If
+    End Sub
     Private Sub Menu5_Read_Click(sender As Object, e As EventArgs) Handles Menu5_Read.Click
         Menu5_CheckMarckSet(1)
         strRef = List5.Text
         If strRef <> "" Then frmReadRef.ShowDialog()
     End Sub
     Private Sub Menu5_Replace_Click(sender As Object, e As EventArgs) Handles Menu5_Replace.Click
-        Menu5_CheckMarckSet(2)
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(2) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex = -1 Then Exit Sub
         If List6.SelectedIndex >= 0 Then Exit Sub
         frmChooseProject.ShowDialog()
@@ -1895,7 +1923,7 @@ Public Class frmAssign
         End If
     End Sub
     Private Sub Menu5_AddTo_Click(sender As Object, e As EventArgs) Handles Menu5_AddTo.Click
-        Menu5_CheckMarckSet(3)
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(3) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex = -1 Then Exit Sub
         If List6.SelectedIndex >= 0 Then Exit Sub
         frmChooseProject.ShowDialog()
@@ -1932,7 +1960,11 @@ Public Class frmAssign
 
     End Sub
     Private Sub Menu5_Delete_Click(sender As Object, e As EventArgs) Handles Menu5_Delete.Click
-        Menu5_CheckMarckSet(4)
+        If Menu4_ClickShowNotes.Checked = True Then
+            Menu1_CheckMarckSet(1) '//To ensure that default action for Menu5 is READ
+            Exit Sub '//This menu item is for deleting Assignments (not deleting the Notes)
+        End If
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(4) Else Menu1_CheckMarckSet(1)
         intAssign = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(9) 'see GetRefs above
         If intAssign < 1 Then Exit Sub
         Dim myansw As DialogResult = MsgBox("Delete this Assignment?", vbYesNo, "eLib")
@@ -1967,13 +1999,13 @@ Public Class frmAssign
                     GetAssignments1(intRef) 'refresh list2
                 End If
             Catch ex As Exception
-                MsgBox(ex.ToString)
+                'MsgBox(ex.ToString)
             End Try
         End If
 
     End Sub
     Private Sub Menu5_RefAttributes_Click(sender As Object, e As EventArgs) Handles Menu5_RefAttributes.Click
-        Menu5_CheckMarckSet(5)
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(5) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex = -1 Then Exit Sub
         'If List6.SelectedIndex <> -1 Then Exit Sub
         intProd = DS.Tables("tblProduct").Rows(List4.SelectedIndex).Item(0)     '0:Product.ID
@@ -2102,7 +2134,7 @@ Public Class frmAssign
 
     End Sub
     Private Sub Menu5_ShowAbove_Click(sender As Object, e As EventArgs) Handles Menu5_ShowAbove.Click
-        Menu5_CheckMarckSet(6)
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(6) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex = -1 Then Exit Sub
         If List6.SelectedIndex = -1 Then 'Check if list 5 is showing a ref / not a note!
             lblSearch_Click(sender, e)
@@ -2111,11 +2143,11 @@ Public Class frmAssign
     End Sub
     Private Sub Menu5_QRCode_Click(sender As Object, e As EventArgs) Handles Menu5_QRCode.Click
         '//check if tbl.Settings allows QRCODEGen ?
-        Menu5_CheckMarckSet(8)
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(8) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex >= 0 Then Call QRCodeGen(List5.Text)
     End Sub
     Private Sub Menu5_Collect_Click(sender As Object, e As EventArgs) Handles Menu5_Collect.Click
-        Menu5_CheckMarckSet(9)
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(9) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex = -1 Then Exit Sub
         FileOpen(1, Application.StartupPath & "elibCollect", OpenMode.Append)
         PrintLine(1, ". " & List3.Text & " . " & List4.Text & " . " & List6.Text)
@@ -2176,7 +2208,7 @@ Public Class frmAssign
         End Try
     End Sub
     Private Sub Menu5_GoogleScholar_Click(sender As Object, e As EventArgs) Handles Menu5_GoogleScholar.Click
-        Menu5_CheckMarckSet(7)
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(7) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex >= 0 Then
             Dim strSearchScholar As String = List5.Text
             SearchScholar(strSearchScholar)
@@ -2194,7 +2226,7 @@ Public Class frmAssign
         End Select
     End Sub
     Private Sub List6_Click(sender As Object, e As EventArgs) Handles List6.Click
-        If List6.SelectedIndex = -1 Then Exit Sub
+        'If List6.SelectedIndex = -1 Then Exit Sub
         Try
             Dim intProductNote As Integer = List6.SelectedValue
             List5.DataSource = DS.Tables("tblProductNotes")
@@ -2204,6 +2236,7 @@ Public Class frmAssign
             ClearLabels(224) '224:&B1110'0000 labels below the form except for lblProdNotes
         Catch ex As Exception
         End Try
+        Menu4_ClickShowNotes.Checked = True
     End Sub
     Private Sub List6_DoubleClick(sender As Object, e As EventArgs) Handles List6.DoubleClick
         If List6.SelectedIndex <> -1 Then Menu6_Edit_Click(sender, e)

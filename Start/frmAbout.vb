@@ -9,4 +9,5 @@
     Private Sub frmAbout_Click(sender As Object, e As EventArgs) Handles MyBase.Click
         Me.Dispose()
     End Sub
+
 End Class

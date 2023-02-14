@@ -1,59 +1,59 @@
-﻿Imports System.IO
-
+﻿Imports System.Data.SqlClient
+Imports System.IO
+Imports DocumentFormat.OpenXml.Spreadsheet
+Imports Microsoft.Win32
+Imports Microsoft
+Imports Microsoft.SqlServer
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports DocumentFormat.OpenXml.Vml
+Imports System.Management
 Public Class frmCNN
     Dim tblConnection As New System.Data.DataTable
     Private Sub cnn_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        DeleteHtmlFiles() 'Remove possible existing Data related to other users (now, and also when exiting the Program)
+        Dim ServerName As String = Environment.MachineName
+        Dim RegistryView As RegistryView = RegistryView.Registry64
+        Try
+            Using hklm As RegistryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView)
+                Dim instanceKey As RegistryKey = hklm.OpenSubKey("SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL", False)
+                intInstanceNumber = 0
+                For Each instanceName As String In instanceKey.GetValueNames()
+                    intInstanceNumber = intInstanceNumber + 1
+                    'MsgBox(ServerName + " \\ " + instanceName)
+                    strServerName = ServerName
+                    strInstanceName = instanceName
+                    Exit For
+                Next
+            End Using
+        Catch ex As Exception
+            'MsgBox(ex.ToString)
+        End Try
+        If strInstanceName = "" Then strInstanceName = "SQLEXPRESS"
+        'Remove possible existing Data related to other users (now, and also when exiting the Program)
+        DeleteHtmlFiles()
         PasswordTextBox.Enabled = False
         GetBuildInfo()
         lblBuildInfo.Text = "fe: " & strBuildInfo
-        Me.Text = "DblClick a Library"
-        Dim strConnectionName As String = ""
-        Dim strConnectionAddress As String = ""
-        Dim strConnectionUsername As String = ""
-        Dim strConnectionPassword As String = ""
+        Me.Text = "Libraries"
         tblConnection.Columns.Add("Library", GetType(String))
         tblConnection.Columns.Add("Address", GetType(String))
         tblConnection.Columns.Add("uid", GetType(String))
         tblConnection.Columns.Add("pwd", GetType(String))
+        '//If file eLibcnn not exist:
         strFilename = Application.StartupPath & "eLibcnn"
         If IO.File.Exists(strFilename) = False Then
-            Menu_ResetCnns_Click(sender, e)
-            frmAbout.ShowDialog()
+            FileOpen(1, Application.StartupPath & "eLibcnn", OpenMode.Output)
+            PrintLine(1, "eLibcnn")
+            PrintLine(1, "SQLServer Remote")
+            PrintLine(1, "eLib Database on Remote Server")
+            PrintLine(1, " ")
+            PrintLine(1, " ")
+            PrintLine(1, " ")
+            FileClose(1)
         End If
         If IO.File.Exists(strFilename) = True Then
-            FileOpen(1, strFilename, OpenMode.Input) '//----------------------------------------------------------- OPEN FILE
-lbl_Read:
-            Try
-                Dim strx1 As String = LineInput(1)
-                If strx1 = "eLibcnn" Then
-                    strConnectionName = LineInput(1)
-                    strConnectionAddress = LineInput(1)
-                    strConnectionUsername = LineInput(1)
-                    strConnectionPassword = LineInput(1)
-                    tblConnection.Rows.Add(strConnectionName, strConnectionAddress, strConnectionUsername, strConnectionPassword)
-                End If
-                GoTo lbl_Read
-            Catch ex As Exception
-                'MsgBox("Connection Error", vbOKOnly, "eLib") ' MsgBox(ex.ToString)
-            End Try
-            If Not EOF(1) Then GoTo lbl_Read
-            FileClose(1) '//-------------------------------------------------------------------------------------- CLOSE FILE
-            GridCNN.DataBindings.Clear()
-            GridCNN.DataSource = tblConnection
-            GridCNN.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
-            GridCNN.Columns(0).Width = 300         'connection name
-            GridCNN.Columns(1).Width = 530         'connection address
-            GridCNN.Columns(2).Width = 0           'connection username
-            GridCNN.Columns(3).Width = 0           'connection password
-            GridCNN.Columns(2).Visible = False     'connection username
-            GridCNN.Columns(3).Visible = False     'connection password
-            For i As Integer = 0 To GridCNN.Columns.Count - 1 'Disable sort for column_haeders
-                GridCNN.Columns.Item(i).SortMode = DataGridViewColumnSortMode.Programmatic
-            Next i
-            GridCNN.Refresh()
+            ReFeedList()
         Else
-            MsgBox("Close and re-Open eLib", vbOKOnly, "eLib")
+            MsgBox("Close And re-Open eLib", vbOKOnly, "eLib")
             Menu_Exit_Click(sender, e)
         End If
     End Sub
@@ -81,6 +81,47 @@ lbl_Read:
             FileClose(1)
         End If
     End Sub
+    Private Sub ReFeedList()
+        Dim strConnectionName As String = ""
+        Dim strConnectionAddress As String = ""
+        Dim strConnectionUsername As String = ""
+        Dim strConnectionPassword As String = ""
+        '//Clear List of CNNs
+        For r As Integer = GridCNN.Rows.Count - 1 To 0 Step -1
+            GridCNN.Rows.Remove(GridCNN.Rows(r))
+        Next
+        FileOpen(1, strFilename, OpenMode.Input) '//----------------------------------------------------------- OPEN FILE
+lbl_Read:
+        Try
+            Dim strx1 As String = LineInput(1)
+            If strx1 = "eLibcnn" Then
+                strConnectionName = LineInput(1)
+                strConnectionAddress = LineInput(1)
+                strConnectionUsername = LineInput(1)
+                strConnectionPassword = LineInput(1)
+                tblConnection.Rows.Add(strConnectionName, strConnectionAddress, strConnectionUsername, strConnectionPassword)
+            End If
+            GoTo lbl_Read
+        Catch ex As Exception
+            'MsgBox("Connection Error", vbOKOnly, "eLib") ' MsgBox(ex.ToString)
+        End Try
+        If Not EOF(1) Then GoTo lbl_Read
+        FileClose(1) '//-------------------------------------------------------------------------------------- CLOSE FILE
+        GridCNN.DataBindings.Clear()
+        GridCNN.DataSource = tblConnection
+        GridCNN.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
+        GridCNN.Columns(0).Width = 580         'connection name
+        GridCNN.Columns(1).Width = 0           'connection address //was: 610
+        GridCNN.Columns(2).Width = 0           'connection username
+        GridCNN.Columns(3).Width = 0           'connection password
+        GridCNN.Columns(1).Visible = False     'connection address
+        GridCNN.Columns(2).Visible = False     'connection username
+        GridCNN.Columns(3).Visible = False     'connection password
+        For i As Integer = 0 To GridCNN.Columns.Count - 1 'Disable sort for column_haeders
+            GridCNN.Columns.Item(i).SortMode = DataGridViewColumnSortMode.Programmatic
+        Next i
+        GridCNN.Refresh()
+    End Sub
     Private Sub GridCNN_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles GridCNN.CellDoubleClick
         Menu_SelectBE_Click(sender, e)
 
@@ -90,7 +131,6 @@ lbl_Read:
         Dim r As Integer = GridCNN.SelectedCells(0).RowIndex 'count from 0
         Dim c As Integer = GridCNN.SelectedCells(0).ColumnIndex 'count from 0
         If r < 0 Then Exit Sub
-
         Using dialog As New OpenFileDialog With {.InitialDirectory = Application.StartupPath, .Filter = "SqlServerCE|eLib*.sdf"}
             If dialog.ShowDialog = DialogResult.OK Then
                 GridCNN(1, r).Value = dialog.FileName
@@ -99,20 +139,6 @@ lbl_Read:
             End If
         End Using
         SaveChanges()
-    End Sub
-    Private Sub Menu_Edit_Click(sender As Object, e As EventArgs) Handles Menu_Edit.Click
-        Try
-            If GridCNN.RowCount < 1 Then Exit Sub
-            Dim r As Integer = GridCNN.SelectedCells(0).RowIndex    'count from 0
-            Dim c As Integer = GridCNN.SelectedCells(0).ColumnIndex 'count from 0
-            If r < 0 Or c < 0 Then Exit Sub
-            Dim strValue As String = GridCNN(c, r).Value
-            strValue = InputBox("Enter new value", "connection settings", strValue)
-            GridCNN(c, r).Value = strValue
-            SaveChanges() 'AutoSave
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
     End Sub
     Private Sub Menu_Remove_Click(sender As Object, e As EventArgs) Handles Menu_Remove.Click
         If GridCNN.SelectedCells.Count = 0 Then Exit Sub 'No cells is selected
@@ -127,27 +153,9 @@ lbl_Read:
         End Try
     End Sub
     Private Sub Menu_ResetCnns_Click(sender As Object, e As EventArgs) Handles Menu_ResetCnns.Click
-        '//Clear Grid
-        For r As Integer = GridCNN.Rows.Count - 1 To 0 Step -1
-            GridCNN.Rows.Remove(GridCNN.Rows(r))
-        Next
-        '//Append Original connections / for Existing Databases in Application Folder
-        Try
-            Dim myansw As DialogResult = MsgBox("Add online server?", vbYesNoCancel + vbDefaultButton2, "eLib")
-            If myansw = vbCancel Then Exit Sub
-            If myansw = vbYes Then
-                tblConnection.Rows.Add("SQLServer Remote", "eLib Database on Remote Server")
-                tblConnection.Rows.Add("SQLServer", "Server=.\SQLExpress; Initial Catalog=abcd; Integrated Security = SSPI;", "", "")
-            End If
-            Dim strFile As String
-            Dim strDir As String = Application.StartupPath
-            For Each strFile In Directory.GetFiles(strDir, "*.sdf")
-                tblConnection.Rows.Add("SqlServer CE", strFile, "", "")
-            Next
-        Catch ex As Exception
-        End Try
-        'Save
-        SaveChanges()
+        frmCnnReset.ShowDialog()
+        ReFeedList()
+        GridCNN_Click(sender, e)
     End Sub
     Private Sub SaveChanges()
         Try
@@ -213,33 +221,33 @@ lbl_Read:
                 lblBuildInfo.Text = "fe: " & strBuildInfo
                 Exit Sub
             Case 1 'connection was successful
-                ReadSettingsAndUsers() 'to get Admin Pass, Current Version, ...
-                strAdminPass = DS.Tables("tblSettings").Rows(0).Item(3)
-                strCurrentVersion = DS.Tables("tblSettings").Rows(1).Item(3)
+                ReadSettingsAndUsers() 'to get Admin Pass, Current Version, etc
                 lblBuildInfo.Text = "be: " & strCurrentVersion
                 strCaption = Server2Connect 'for: frmAssign.text
                 PasswordTextBox.Enabled = True
                 Label1.Visible = True
                 PasswordTextBox.Focus()
+                '//Validate This Copy
+                SecurityValidateThisCopy()
+                If KeyIsValid <> True Then Menu_Exit_Click(sender, e)
         End Select
     End Sub
     Public Function Connect2Database(Server2Connect As String) As Integer
         Try
             Select Case Server2Connect
-                Case "SQLServer Remote" '------------------------------------ remote server
+                Case "Remote Lib" '------------------------------------ remote server
                     strDatabaseCNNstring = "Server=setareh.r1host.com\sqlserver2019; Initial Catalog=mshtir_eLib; User ID=mshtir_eLib1user; Password=eLiB_dRmShT2733;"
                     CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
                     DatabaseType = "SqlServer"
-
                     Connect2Database = 1
-                Case "SQLServer" '------------------------------------------- local sqlserver
+                Case "Lib A", "Lib B", "Developer's Lib" '------------------------------------------- local sqlserver
                     strDatabaseCNNstring = strDbBackEnd
                     CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
                     CnnSS.Open()
                     DatabaseType = "SqlServer"
                     Connect2Database = 1
-                Case "SqlServer CE" '----------------------------------------- local sqlserver CE
+                Case "Portable Lib" '----------------------------------------- local sqlserver CE
                     strDatabaseCNNstring = "Data Source=" & strDbBackEnd & ";Password=" & BackEndPass & ";"
                     CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
@@ -325,9 +333,6 @@ lbl_Read:
         CnnSC.Close()
         CnnSC.Dispose()
         CnnSC = Nothing
-        'CnnAC.Close()
-        'CnnAC.Dispose()
-        'CnnAC = Nothing
         Application.Exit()
         End
     End Sub

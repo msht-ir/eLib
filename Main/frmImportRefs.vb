@@ -1,16 +1,21 @@
 ﻿Imports System.Buffers
 Imports System.Reflection.Emit
 Imports System.Windows
+Imports System.Windows.Forms.VisualStyles
 Imports DocumentFormat.OpenXml.Office2010.ExcelAc
 Imports DocumentFormat.OpenXml.Office2013.PowerPoint.Roaming
 Imports DocumentFormat.OpenXml.Spreadsheet
 Imports DocumentFormat.OpenXml.Vml
+Imports System.IO
+Imports DocumentFormat.OpenXml.Office2016.Drawing.Charts
 
 Public Class frmImportRefs
+    Dim MyFile As FileInfo
     Dim strTitleA As String
     Dim strTitleB As String
     '//formLOAD
     Private Sub frmImportRefs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.AllowDrop = True
         ReadSettingsAndUsers()
         DS.Tables("tblProd_tmp2").Clear()
         ListProduct.DataSource = DS.Tables("tblProd_tmp2")
@@ -42,7 +47,6 @@ Public Class frmImportRefs
             ListProduct.Enabled = False
         End If
     End Sub
-
     '//MENU_2 (Select Assignments)
     Private Sub Menu2_Add_Click(sender As Object, e As EventArgs) Handles Menu2_Add.Click
         '//Add
@@ -62,56 +66,105 @@ Public Class frmImportRefs
         '//Clear
         DS.Tables("tblProd_tmp2").Clear()
     End Sub
-
-    '//MENU_1 -SELECT
-    Private Sub Menu1_Select_Click(sender As Object, e As EventArgs) Handles Menu1_Select.Click
+    '//MENU_1 -SELECT or Drag-Drop
+    Private Sub Menu1_Select_Click() Handles Menu1_Select.Click
         Retval4 = 0 'Nothing is ready to move into eLibFolders (After processing the Title, Retval4 will be 1)
         txtNote.Text = ""
         txtTitle.Text = ""
-        Dim idx As Integer = 0
         Using dialog As New OpenFileDialog With {.InitialDirectory = strFolderTemp, .Filter = "eLib Refs|*.*"}
             If dialog.ShowDialog = DialogResult.OK Then
                 strFilename = dialog.FileName
-                txtTitle.Text = eLibParseRefFileName(strFilename)
-                Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strFilename, vbNormalFocus)
-                txtTitle.Focus() 'Ready for Paste
-                '//Update strFolderTemp
-                strFolderTemp = strPath
-                For r As Integer = 0 To DS.Tables("tblSettings").Rows.Count - 1
-                    If DS.Tables("tblSettings").Rows(r).Item(2) = "FolderTemp" Then
-                        idx = DS.Tables("tblSettings").Rows(r).Item(0)
-                        Exit For
-                    End If
-                Next
-                Select Case DatabaseType
-                    Case "SqlServer"
-                        Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
-                            CnnSS.Open()
-                            strSQL = "UPDATE Settings SET sttValue= @sttvalue WHERE ID = @ID"
-                            Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
-                            cmd.CommandType = CommandType.Text
-                            cmd.Parameters.AddWithValue("@sttvalue", strPath)
-                            cmd.Parameters.AddWithValue("@ID", idx.ToString)
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                            CnnSS.Close()
-                        End Using
-                    Case "SqlServerCE"
-                        Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
-                            CnnSC.Open()
-                            strSQL = "UPDATE Settings SET sttValue= @sttvalue WHERE ID = @ID"
-                            Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
-                            cmd.CommandType = CommandType.Text
-                            cmd.Parameters.AddWithValue("@sttvalue", strPath)
-                            cmd.Parameters.AddWithValue("@ID", idx.ToString)
-                            Dim i As Integer = cmd.ExecuteNonQuery()
-                            CnnSC.Close()
-                        End Using
-                End Select
-                Retval4 = 1 'A strFileName (original) is Ready to be Moved into eLibFolders (as txtTitle.Text)
+                lblPath.Text = strFilename
+                lblPath.Visible = True
+                ShowFileInfo(strFilename)
             Else 'Nothing selected via File Dialog
+                lblPath.Visible = True : lblPath.Text = "Drop a Ref  ^"
+                lblExt.Visible = False
+                lblSize.Visible = False
+                lblCreated.Visible = False
+                lblModified.Visible = False
                 Exit Sub
             End If
         End Using
+    End Sub
+    Private Sub txtTitle_DragEnter(sender As Object, e As DragEventArgs) Handles txtTitle.DragEnter
+        'Display behavior of the mouse icon
+        If e.Data.GetDataPresent(DataFormats.FileDrop) Then
+            e.Effect = DragDropEffects.Copy
+        End If
+    End Sub
+    Private Sub txtTitle_DragDrop(sender As Object, e As DragEventArgs) Handles txtTitle.DragDrop
+        'GET SINGLE FILE PATH FROM DROPPED FILE
+        Dim strFilex As String = e.Data.GetData(DataFormats.FileDrop)(0) '(OR for multiple files:) Dim filex() As String = e.Data.GetData(DataFormats.FileDrop)
+        ShowFileInfo(strFilex)
+    End Sub
+    Private Sub ShowFileInfo(strF As String)
+        MyFile = New FileInfo(strF)
+        If String.IsNullOrWhiteSpace(MyFile.Extension) Then
+            Exit Sub 'ABORT IF NOT VALID
+        Else
+            strFilename = MyFile.FullName
+            lblPath.Visible = True
+            lblExt.Visible = True
+            lblSize.Visible = True
+            lblCreated.Visible = True
+            lblModified.Visible = True
+            '//
+            lblPath.Text = MyFile.FullName
+            lblExt.Text = "Type: " & MyFile.Extension
+            lblSize.Text = "Size: " & Math.Round(MyFile.Length / 1024) & " KB"
+            lblCreated.Text = "Created: " & MyFile.CreationTime
+            lblModified.Text = "Modified: " & MyFile.LastWriteTime
+            UpdateTempFolder()
+        End If
+
+    End Sub
+    Private Sub UpdateTempFolder()
+        Dim idx As Integer = 0
+        txtTitle.Text = eLibParseRefFileName(strFilename)
+        txtTitle.SelectionStart = 0
+        txtTitle.SelectionLength = Len(txtTitle.Text)
+        If RadiobtnOpen.Checked = True Then
+            Dim G As Long = Shell("RUNDLL32.EXE URL.DLL,FileProtocolHandler " & strFilename, vbNormalFocus)
+        End If
+        txtTitle.Focus() 'Ready for Paste
+        '//Update strFolderTemp
+        strFolderTemp = strPath
+        For r As Integer = 0 To DS.Tables("tblSettings").Rows.Count - 1
+            If DS.Tables("tblSettings").Rows(r).Item(2) = "FolderTemp" Then
+                idx = DS.Tables("tblSettings").Rows(r).Item(0)
+                Exit For
+            End If
+        Next
+        '//Update address or the new TempFolder in DB
+        Select Case DatabaseType
+            Case "SqlServer"
+                Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                    CnnSS.Open()
+                    strSQL = "UPDATE Settings SET sttValue= @sttvalue WHERE ID = @ID"
+                    Dim cmd As New SqlClient.SqlCommand(strSQL, CnnSS)
+                    cmd.CommandType = CommandType.Text
+                    cmd.Parameters.AddWithValue("@sttvalue", strPath)
+                    cmd.Parameters.AddWithValue("@ID", idx.ToString)
+                    Dim i As Integer = cmd.ExecuteNonQuery()
+                    CnnSS.Close()
+                End Using
+            Case "SqlServerCE"
+                Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                    CnnSC.Open()
+                    strSQL = "UPDATE Settings SET sttValue= @sttvalue WHERE ID = @ID"
+                    Dim cmd As New SqlServerCe.SqlCeCommand(strSQL, CnnSC)
+                    cmd.CommandType = CommandType.Text
+                    cmd.Parameters.AddWithValue("@sttvalue", strPath)
+                    cmd.Parameters.AddWithValue("@ID", idx.ToString)
+                    Dim i As Integer = cmd.ExecuteNonQuery()
+                    CnnSC.Close()
+                End Using
+        End Select
+        Retval4 = 1 'A strFileName (original) is Ready to be Moved into eLibFolders (as txtTitle.Text)
+        If RadiobtnMove.Checked = True Then
+            MoveThisRef()
+        End If
     End Sub
     Private Function eLibParseRefFileName(strTitleA As String) As String
         eLibParseRefFileName = ""
@@ -323,8 +376,11 @@ lblPARSE:
     '//MENU_1 -MOVE
     Private Sub Menu1_Move_Click(sender As Object, e As EventArgs) Handles Menu1_Move.Click
         '//Move the Ref (and Assignments?) to eLib
+        MoveThisRef()
+    End Sub
+    Private Sub MoveThisRef()
         If (Retval4 = 0) Or (Microsoft.VisualBasic.Left(Trim(txtTitle.Text), 2) = "//") Then
-            Menu1_Select_Click(sender, e)
+            Menu1_Select_Click()
             Exit Sub
         End If
         Dim strTitle As String = Trim(txtTitle.Text)
@@ -343,14 +399,19 @@ lblPARSE:
         End Select
         strExt = Microsoft.VisualBasic.Right(strFilename, 4)
         If Microsoft.VisualBasic.Left(strExt, 1) <> "." Then strExt = "." & strExt
-        FolderBrowserDialog1.SelectedPath = DestinationFolder & "\"  'OR Environment.SpecialFolder.Desktop
-        If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
-            DestinationFolder = FolderBrowserDialog1.SelectedPath
-        Else
-            Exit Sub
+        '//Ask Destination Folder
+        If CheckAskDest.Checked = True Then
+            FolderBrowserDialog1.SelectedPath = DestinationFolder & "\"  'OR Environment.SpecialFolder.Desktop
+            If (FolderBrowserDialog1.ShowDialog() = DialogResult.OK) Then
+                DestinationFolder = FolderBrowserDialog1.SelectedPath
+            Else
+                Exit Sub
+            End If
         End If
+        '//Now, MOVE to Destination
         Try
             My.Computer.FileSystem.MoveFile(strFilename, DestinationFolder & "\" & strTitle & strExt, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.ThrowException)
+            My.Computer.Clipboard.SetText(strTitle)
             '//Add data to elib Tables
             Dim boolIsPaper As Boolean = 0
             Dim boolIsBook As Boolean = 0
@@ -549,18 +610,26 @@ lblPARSE:
             Retval4 = 0 'Ready for 'Selecting' another Ref
             Select Case Retval3
                 Case 0 'ImportRefMode
-                    txtTitle.Text = "//imported: " & strTitle & vbCrLf & "//assigned to: " & DS.Tables("tblProd_tmp2").Rows.Count.ToString & " items(s)   //ref note: " & txtNote.Text & vbCrLf & "--"
+                    txtTitle.Text = "//imported: " & strTitle & vbCrLf & "//assigned to: " & DS.Tables("tblProd_tmp2").Rows.Count.ToString & " item(s)   //ref note: " & txtNote.Text & vbCrLf & "--"
                     txtNote.Text = ""
+                    lblPath.Visible = True : lblPath.Text = "Drop a Ref  ^"
+                    lblExt.Visible = False
+                    lblSize.Visible = False
+                    lblCreated.Visible = False
+                    lblModified.Visible = False
                 Case 1 'EditRefMode
-                    Menu1_Exit_Click(sender, e)
+                    Menu1_Exit_Click()
                 Case 2 'CreateNewRefMode
-                    Menu1_Exit_Click(sender, e)
+                    Menu1_Exit_Click()
             End Select
         Catch ex As Exception
             MsgBox(ex.ToString)
         End Try
     End Sub
-    Private Sub Menu1_Exit_Click(sender As Object, e As EventArgs) Handles Menu1_Exit.Click
+    '//MENU_Exit
+    Private Sub Menu1_Exit_Click() Handles Menu1_Exit.Click
         Me.Dispose()
+        frmAssign.WindowState = FormWindowState.Normal
     End Sub
+
 End Class
