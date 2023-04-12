@@ -1,15 +1,7 @@
-﻿Imports System.Data.SqlClient
-Imports System.IO
-Imports DocumentFormat.OpenXml.Spreadsheet
-Imports Microsoft.Win32
-Imports Microsoft
-Imports Microsoft.SqlServer
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
-Imports DocumentFormat.OpenXml.Vml
-Imports System.Management
+﻿Imports Microsoft.Win32
 Public Class frmCNN
     Dim tblConnection As New System.Data.DataTable
-    Private Sub cnn_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub frmCNN_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim ServerName As String = Environment.MachineName
         Dim RegistryView As RegistryView = RegistryView.Registry64
         Try
@@ -32,8 +24,7 @@ Public Class frmCNN
         DeleteHtmlFiles()
         PasswordTextBox.Enabled = False
         GetBuildInfo()
-        lblBuildInfo.Text = "fe: " & strBuildInfo
-        Me.Text = "Libraries"
+        Me.Text = "libs"
         tblConnection.Columns.Add("Library", GetType(String))
         tblConnection.Columns.Add("Address", GetType(String))
         tblConnection.Columns.Add("uid", GetType(String))
@@ -110,7 +101,7 @@ lbl_Read:
         GridCNN.DataBindings.Clear()
         GridCNN.DataSource = tblConnection
         GridCNN.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
-        GridCNN.Columns(0).Width = 580         'connection name
+        GridCNN.Columns(0).Width = 480         'connection name
         GridCNN.Columns(1).Width = 0           'connection address //was: 610
         GridCNN.Columns(2).Width = 0           'connection username
         GridCNN.Columns(3).Width = 0           'connection password
@@ -203,7 +194,6 @@ lbl_Read:
         PasswordTextBox.Text = ""
         PasswordTextBox.Enabled = False
         Label1.Visible = False
-        lblBuildInfo.Text = "fe: " & strBuildInfo
     End Sub
     Private Sub Menu_SelectBE_Click(sender As Object, e As EventArgs) Handles Menu_SelectBE.Click
         If GridCNN.RowCount < 1 Then Exit Sub
@@ -218,11 +208,9 @@ lbl_Read:
         Retval1 = Connect2Database(Server2Connect)
         Select Case Retval1
             Case 0 'did not connect to a database
-                lblBuildInfo.Text = "fe: " & strBuildInfo
                 Exit Sub
             Case 1 'connection was successful
                 ReadSettingsAndUsers() 'to get Admin Pass, Current Version, etc
-                lblBuildInfo.Text = "be: " & strCurrentVersion
                 strCaption = Server2Connect 'for: frmAssign.text
                 PasswordTextBox.Enabled = True
                 Label1.Visible = True

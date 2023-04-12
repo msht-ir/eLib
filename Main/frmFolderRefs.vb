@@ -1,8 +1,6 @@
-﻿Imports DocumentFormat.OpenXml.Office2010.ExcelAc
-
-Public Class frmFolderRefs
-    Dim DestinationFolder As String = ""
+﻿Public Class frmFolderRefs
     Private Sub frmFolderRefs_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        '//in module: Public DestinationFolder As String = ""
         Menu_SubFolders.Checked = False
         DestinationFolder = Application.StartupPath 'OR: Environment.SpecialFolder.Desktop
         lblPath.Text = "-"

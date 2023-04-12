@@ -1,7 +1,5 @@
 ﻿
 Imports System.Management
-Imports System.Net.Cache
-Imports System.Math
 Module ModuleSecurity
     Dim Rndx As New Random()
     Sub SecurityValidateThisCopy()

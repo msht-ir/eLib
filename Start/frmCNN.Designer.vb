@@ -22,193 +22,173 @@ Partial Class frmCNN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCNN))
-        Me.GridCNN = New System.Windows.Forms.DataGridView()
-        Me.MenuStripCNN = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu_SelectBE = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_ResetCnns = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Remove = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_FindDB = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_Guide = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Exit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.lblBuildInfo = New System.Windows.Forms.Label()
-        Me.PasswordTextBox = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        CType(Me.GridCNN, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.MenuStripCNN.SuspendLayout()
-        Me.SuspendLayout()
-        '
-        'GridCNN
-        '
-        Me.GridCNN.AllowUserToAddRows = False
-        Me.GridCNN.AllowUserToDeleteRows = False
-        Me.GridCNN.AllowUserToResizeColumns = False
-        Me.GridCNN.AllowUserToResizeRows = False
-        Me.GridCNN.BackgroundColor = System.Drawing.SystemColors.Control
-        Me.GridCNN.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.GridCNN.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.GridCNN.ColumnHeadersVisible = False
-        Me.GridCNN.ContextMenuStrip = Me.MenuStripCNN
-        Me.GridCNN.Dock = System.Windows.Forms.DockStyle.Top
-        Me.GridCNN.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.GridCNN.GridColor = System.Drawing.Color.Lavender
-        Me.GridCNN.Location = New System.Drawing.Point(0, 0)
-        Me.GridCNN.MultiSelect = False
-        Me.GridCNN.Name = "GridCNN"
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.InfoText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.GridCNN.RowHeadersDefaultCellStyle = DataGridViewCellStyle1
-        Me.GridCNN.RowHeadersVisible = False
-        Me.GridCNN.RowHeadersWidth = 20
-        Me.GridCNN.RowTemplate.Height = 25
-        Me.GridCNN.Size = New System.Drawing.Size(600, 154)
-        Me.GridCNN.TabIndex = 3
-        '
-        'MenuStripCNN
-        '
-        Me.MenuStripCNN.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_SelectBE, Me.ToolStripMenuItem2, Me.Menu_ResetCnns, Me.Menu_Remove, Me.Menu_FindDB, Me.ToolStripMenuItem3, Me.Menu_Guide, Me.Menu_Exit})
-        Me.MenuStripCNN.Name = "MenuStripCNN"
-        Me.MenuStripCNN.Size = New System.Drawing.Size(188, 148)
-        '
-        'Menu_SelectBE
-        '
-        Me.Menu_SelectBE.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu_SelectBE.ForeColor = System.Drawing.Color.DarkGoldenrod
-        Me.Menu_SelectBE.Name = "Menu_SelectBE"
-        Me.Menu_SelectBE.Size = New System.Drawing.Size(187, 22)
-        Me.Menu_SelectBE.Text = "Log in"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(184, 6)
-        '
-        'Menu_ResetCnns
-        '
-        Me.Menu_ResetCnns.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_ResetCnns.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Menu_ResetCnns.Name = "Menu_ResetCnns"
-        Me.Menu_ResetCnns.Size = New System.Drawing.Size(187, 22)
-        Me.Menu_ResetCnns.Text = "Libraries ..."
-        '
-        'Menu_Remove
-        '
-        Me.Menu_Remove.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Remove.Name = "Menu_Remove"
-        Me.Menu_Remove.Size = New System.Drawing.Size(187, 22)
-        Me.Menu_Remove.Text = "Delete"
-        '
-        'Menu_FindDB
-        '
-        Me.Menu_FindDB.Name = "Menu_FindDB"
-        Me.Menu_FindDB.Size = New System.Drawing.Size(187, 22)
-        Me.Menu_FindDB.Text = "Find partable libraries"
-        Me.Menu_FindDB.Visible = False
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(184, 6)
-        '
-        'Menu_Guide
-        '
-        Me.Menu_Guide.Name = "Menu_Guide"
-        Me.Menu_Guide.Size = New System.Drawing.Size(187, 22)
-        Me.Menu_Guide.Text = "Help"
-        '
-        'Menu_Exit
-        '
-        Me.Menu_Exit.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Exit.Name = "Menu_Exit"
-        Me.Menu_Exit.Size = New System.Drawing.Size(187, 22)
-        Me.Menu_Exit.Text = "Quit"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Copperplate Gothic Light", 16.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Label2.ForeColor = System.Drawing.Color.DarkGoldenrod
-        Me.Label2.Location = New System.Drawing.Point(367, 159)
-        Me.Label2.Name = "Label2"
-        Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label2.Size = New System.Drawing.Size(58, 24)
-        Me.Label2.TabIndex = 4
-        Me.Label2.Text = "eLib"
-        '
-        'lblBuildInfo
-        '
-        Me.lblBuildInfo.AutoSize = True
-        Me.lblBuildInfo.Font = New System.Drawing.Font("Copperplate Gothic Light", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.lblBuildInfo.ForeColor = System.Drawing.Color.LightSlateGray
-        Me.lblBuildInfo.Location = New System.Drawing.Point(425, 166)
-        Me.lblBuildInfo.Name = "lblBuildInfo"
-        Me.lblBuildInfo.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblBuildInfo.Size = New System.Drawing.Size(120, 14)
-        Me.lblBuildInfo.TabIndex = 5
-        Me.lblBuildInfo.Text = "Build 14010402"
-        '
-        'PasswordTextBox
-        '
-        Me.PasswordTextBox.BackColor = System.Drawing.Color.Navy
-        Me.PasswordTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.PasswordTextBox.Enabled = False
-        Me.PasswordTextBox.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.PasswordTextBox.ForeColor = System.Drawing.SystemColors.ControlLight
-        Me.PasswordTextBox.Location = New System.Drawing.Point(80, 163)
-        Me.PasswordTextBox.Name = "PasswordTextBox"
-        Me.PasswordTextBox.PasswordChar = Global.Microsoft.VisualBasic.ChrW(45)
-        Me.PasswordTextBox.Size = New System.Drawing.Size(98, 16)
-        Me.PasswordTextBox.TabIndex = 6
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Label1.ForeColor = System.Drawing.Color.Gold
-        Me.Label1.Location = New System.Drawing.Point(34, 161)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(46, 19)
-        Me.Label1.TabIndex = 7
-        Me.Label1.Text = "Login:"
-        Me.Label1.Visible = False
-        '
-        'frmCNN
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.Navy
-        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.ClientSize = New System.Drawing.Size(600, 189)
-        Me.ContextMenuStrip = Me.MenuStripCNN
-        Me.ControlBox = False
-        Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.PasswordTextBox)
-        Me.Controls.Add(Me.lblBuildInfo)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.GridCNN)
-        Me.ForeColor = System.Drawing.Color.DarkSlateGray
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmCNN"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Libs"
-        CType(Me.GridCNN, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.MenuStripCNN.ResumeLayout(False)
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
-
+        components = New ComponentModel.Container()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(frmCNN))
+        GridCNN = New DataGridView()
+        MenuStripCNN = New ContextMenuStrip(components)
+        Menu_SelectBE = New ToolStripMenuItem()
+        ToolStripMenuItem2 = New ToolStripSeparator()
+        Menu_ResetCnns = New ToolStripMenuItem()
+        Menu_Remove = New ToolStripMenuItem()
+        Menu_FindDB = New ToolStripMenuItem()
+        ToolStripMenuItem3 = New ToolStripSeparator()
+        Menu_Guide = New ToolStripMenuItem()
+        Menu_Exit = New ToolStripMenuItem()
+        PasswordTextBox = New TextBox()
+        Label1 = New Label()
+        CType(GridCNN, ComponentModel.ISupportInitialize).BeginInit()
+        MenuStripCNN.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' GridCNN
+        ' 
+        GridCNN.AllowUserToAddRows = False
+        GridCNN.AllowUserToDeleteRows = False
+        GridCNN.AllowUserToResizeColumns = False
+        GridCNN.AllowUserToResizeRows = False
+        GridCNN.BackgroundColor = SystemColors.Control
+        GridCNN.BorderStyle = BorderStyle.None
+        GridCNN.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        GridCNN.ColumnHeadersVisible = False
+        GridCNN.ContextMenuStrip = MenuStripCNN
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = SystemColors.Control
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point)
+        DataGridViewCellStyle1.ForeColor = Color.DarkSlateGray
+        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Control
+        DataGridViewCellStyle1.SelectionForeColor = Color.IndianRed
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.False
+        GridCNN.DefaultCellStyle = DataGridViewCellStyle1
+        GridCNN.Dock = DockStyle.Top
+        GridCNN.EditMode = DataGridViewEditMode.EditProgrammatically
+        GridCNN.GridColor = SystemColors.Control
+        GridCNN.Location = New Point(0, 0)
+        GridCNN.MultiSelect = False
+        GridCNN.Name = "GridCNN"
+        DataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = SystemColors.Control
+        DataGridViewCellStyle2.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        DataGridViewCellStyle2.ForeColor = SystemColors.InfoText
+        DataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = DataGridViewTriState.True
+        GridCNN.RowHeadersDefaultCellStyle = DataGridViewCellStyle2
+        GridCNN.RowHeadersVisible = False
+        GridCNN.RowHeadersWidth = 20
+        GridCNN.RowTemplate.Height = 25
+        GridCNN.Size = New Size(491, 156)
+        GridCNN.TabIndex = 3
+        ' 
+        ' MenuStripCNN
+        ' 
+        MenuStripCNN.Items.AddRange(New ToolStripItem() {Menu_SelectBE, ToolStripMenuItem2, Menu_ResetCnns, Menu_Remove, Menu_FindDB, ToolStripMenuItem3, Menu_Guide, Menu_Exit})
+        MenuStripCNN.Name = "MenuStripCNN"
+        MenuStripCNN.Size = New Size(189, 148)
+        ' 
+        ' Menu_SelectBE
+        ' 
+        Menu_SelectBE.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        Menu_SelectBE.ForeColor = Color.DarkGoldenrod
+        Menu_SelectBE.Name = "Menu_SelectBE"
+        Menu_SelectBE.Size = New Size(188, 22)
+        Menu_SelectBE.Text = "Log in"
+        ' 
+        ' ToolStripMenuItem2
+        ' 
+        ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        ToolStripMenuItem2.Size = New Size(185, 6)
+        ' 
+        ' Menu_ResetCnns
+        ' 
+        Menu_ResetCnns.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        Menu_ResetCnns.ForeColor = SystemColors.ControlText
+        Menu_ResetCnns.Name = "Menu_ResetCnns"
+        Menu_ResetCnns.Size = New Size(188, 22)
+        Menu_ResetCnns.Text = "Libraries ..."
+        ' 
+        ' Menu_Remove
+        ' 
+        Menu_Remove.ForeColor = Color.IndianRed
+        Menu_Remove.Name = "Menu_Remove"
+        Menu_Remove.Size = New Size(188, 22)
+        Menu_Remove.Text = "Delete"
+        ' 
+        ' Menu_FindDB
+        ' 
+        Menu_FindDB.Name = "Menu_FindDB"
+        Menu_FindDB.Size = New Size(188, 22)
+        Menu_FindDB.Text = "Find portable libraries"
+        Menu_FindDB.Visible = False
+        ' 
+        ' ToolStripMenuItem3
+        ' 
+        ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        ToolStripMenuItem3.Size = New Size(185, 6)
+        ' 
+        ' Menu_Guide
+        ' 
+        Menu_Guide.Name = "Menu_Guide"
+        Menu_Guide.Size = New Size(188, 22)
+        Menu_Guide.Text = "Help"
+        ' 
+        ' Menu_Exit
+        ' 
+        Menu_Exit.ForeColor = Color.IndianRed
+        Menu_Exit.Name = "Menu_Exit"
+        Menu_Exit.Size = New Size(188, 22)
+        Menu_Exit.Text = "Quit"
+        ' 
+        ' PasswordTextBox
+        ' 
+        PasswordTextBox.BackColor = SystemColors.ControlLight
+        PasswordTextBox.BorderStyle = BorderStyle.None
+        PasswordTextBox.Enabled = False
+        PasswordTextBox.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        PasswordTextBox.ForeColor = SystemColors.ControlLight
+        PasswordTextBox.Location = New Point(242, 164)
+        PasswordTextBox.Name = "PasswordTextBox"
+        PasswordTextBox.PasswordChar = "-"c
+        PasswordTextBox.Size = New Size(120, 16)
+        PasswordTextBox.TabIndex = 6
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Font = New Font("Copperplate Gothic Light", 11F, FontStyle.Regular, GraphicsUnit.Point)
+        Label1.ForeColor = Color.DimGray
+        Label1.Location = New Point(182, 164)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(54, 16)
+        Label1.TabIndex = 7
+        Label1.Text = "Login"
+        Label1.Visible = False
+        ' 
+        ' frmCNN
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ControlLight
+        BackgroundImageLayout = ImageLayout.Stretch
+        ClientSize = New Size(491, 193)
+        ContextMenuStrip = MenuStripCNN
+        ControlBox = False
+        Controls.Add(Label1)
+        Controls.Add(PasswordTextBox)
+        Controls.Add(GridCNN)
+        ForeColor = Color.DarkSlateGray
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "frmCNN"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Libs"
+        CType(GridCNN, ComponentModel.ISupportInitialize).EndInit()
+        MenuStripCNN.ResumeLayout(False)
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
     Friend WithEvents GridCNN As DataGridView
     Friend WithEvents MenuStripCNN As ContextMenuStrip
@@ -219,8 +199,6 @@ Partial Class frmCNN
     Friend WithEvents راهنماToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents Menu_Guide As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
-    Private WithEvents Label2 As Label
-    Friend WithEvents lblBuildInfo As Label
     Friend WithEvents PasswordTextBox As TextBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Menu_Remove As ToolStripMenuItem

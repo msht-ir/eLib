@@ -68,11 +68,6 @@
             End Select
         Next r
     End Sub
-    Private Sub Menu_ExitSetup_Click() Handles Menu_ExitSetup.Click
-        SaveSettings()
-        ReadSettingsAndUsers() 'to refresh tblSettings
-        Me.Dispose()
-    End Sub
     Private Sub Settings_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         If e.CloseReason = CloseReason.UserClosing Then
             e.Cancel = True
@@ -81,4 +76,10 @@
 
     End Sub
 
+    Private Sub Menu_ExitSetup_Click(sender As Object, e As EventArgs) Handles Menu_ExitSetup.Click
+        SaveSettings()
+        ReadSettingsAndUsers() 'to refresh tblSettings
+        Me.Dispose()
+
+    End Sub
 End Class

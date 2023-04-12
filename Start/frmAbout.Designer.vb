@@ -22,92 +22,79 @@ Partial Class frmAbout
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.lblFrontEnd = New System.Windows.Forms.Label()
-        Me.lblBackEnd = New System.Windows.Forms.Label()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.SuspendLayout()
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Segoe UI Light", 48.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.Label2.ForeColor = System.Drawing.Color.Goldenrod
-        Me.Label2.Location = New System.Drawing.Point(12, 12)
-        Me.Label2.Name = "Label2"
-        Me.Label2.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.Label2.Size = New System.Drawing.Size(147, 86)
-        Me.Label2.TabIndex = 1
-        Me.Label2.Text = "eLib"
-        '
-        'Timer1
-        '
-        Me.Timer1.Enabled = True
-        Me.Timer1.Interval = 5000
-        '
-        'lblFrontEnd
-        '
-        Me.lblFrontEnd.Font = New System.Drawing.Font("Consolas", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.lblFrontEnd.ForeColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.lblFrontEnd.Location = New System.Drawing.Point(373, 61)
-        Me.lblFrontEnd.Name = "lblFrontEnd"
-        Me.lblFrontEnd.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblFrontEnd.Size = New System.Drawing.Size(178, 27)
-        Me.lblFrontEnd.TabIndex = 4
-        Me.lblFrontEnd.Text = "FrontEnd:"
-        Me.lblFrontEnd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblBackEnd
-        '
-        Me.lblBackEnd.Font = New System.Drawing.Font("Consolas", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.lblBackEnd.ForeColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.lblBackEnd.Location = New System.Drawing.Point(373, 34)
-        Me.lblBackEnd.Name = "lblBackEnd"
-        Me.lblBackEnd.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.lblBackEnd.Size = New System.Drawing.Size(178, 27)
-        Me.lblBackEnd.TabIndex = 5
-        Me.lblBackEnd.Text = "BackEnd:"
-        Me.lblBackEnd.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Panel1
-        '
-        Me.Panel1.BackColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 117)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(563, 68)
-        Me.Panel1.TabIndex = 6
-        '
-        'frmAbout
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.Navy
-        Me.ClientSize = New System.Drawing.Size(563, 185)
-        Me.ControlBox = False
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.lblBackEnd)
-        Me.Controls.Add(Me.lblFrontEnd)
-        Me.ForeColor = System.Drawing.Color.Navy
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmAbout"
-        Me.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-        Me.ShowIcon = False
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "دانشگاه شهرکرد، دانشکده علوم پايه"
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
-
+        components = New ComponentModel.Container()
+        Label2 = New Label()
+        Timer1 = New Timer(components)
+        lblBackEnd = New Label()
+        Label1 = New Label()
+        SuspendLayout()
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.BackColor = SystemColors.ControlLight
+        Label2.Font = New Font("Consolas", 32.25F, FontStyle.Regular, GraphicsUnit.Point)
+        Label2.ForeColor = SystemColors.ActiveCaption
+        Label2.Location = New Point(226, 7)
+        Label2.Name = "Label2"
+        Label2.RightToLeft = RightToLeft.No
+        Label2.Size = New Size(118, 51)
+        Label2.TabIndex = 1
+        Label2.Text = "eLib"
+        ' 
+        ' Timer1
+        ' 
+        Timer1.Enabled = True
+        Timer1.Interval = 5000
+        ' 
+        ' lblBackEnd
+        ' 
+        lblBackEnd.Font = New Font("Consolas", 9.75F, FontStyle.Italic, GraphicsUnit.Point)
+        lblBackEnd.ForeColor = SystemColors.ControlDarkDark
+        lblBackEnd.Location = New Point(12, 65)
+        lblBackEnd.Name = "lblBackEnd"
+        lblBackEnd.RightToLeft = RightToLeft.No
+        lblBackEnd.Size = New Size(539, 27)
+        lblBackEnd.TabIndex = 5
+        lblBackEnd.Text = "BackEnd:"
+        lblBackEnd.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' Label1
+        ' 
+        Label1.Font = New Font("Consolas", 9.75F, FontStyle.Italic, GraphicsUnit.Point)
+        Label1.ForeColor = SystemColors.ControlDarkDark
+        Label1.Location = New Point(12, 98)
+        Label1.Name = "Label1"
+        Label1.RightToLeft = RightToLeft.No
+        Label1.Size = New Size(539, 27)
+        Label1.TabIndex = 6
+        Label1.Text = "Developed by: Majid Sharifi-Tehrani"
+        Label1.TextAlign = ContentAlignment.MiddleLeft
+        ' 
+        ' frmAbout
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ControlLight
+        ClientSize = New Size(563, 139)
+        ControlBox = False
+        Controls.Add(Label1)
+        Controls.Add(Label2)
+        Controls.Add(lblBackEnd)
+        ForeColor = Color.Navy
+        FormBorderStyle = FormBorderStyle.FixedToolWindow
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "frmAbout"
+        ShowIcon = False
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "eLib"
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
     Friend WithEvents Timer1 As Timer
     Private WithEvents Label2 As Label
-    Friend WithEvents lblFrontEnd As Label
     Friend WithEvents lblBackEnd As Label
-    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Label1 As Label
 End Class

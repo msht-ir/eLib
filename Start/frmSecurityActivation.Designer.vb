@@ -22,136 +22,135 @@ Partial Class frmSecurityActivation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu2_Exit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtOwner = New System.Windows.Forms.TextBox()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu_Request = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_Exit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.Panel1.SuspendLayout()
-        Me.ContextMenuStrip2.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
-        Me.SuspendLayout()
-        '
-        'Panel1
-        '
-        Me.Panel1.AllowDrop = True
-        Me.Panel1.BackColor = System.Drawing.SystemColors.Control
-        Me.Panel1.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.Panel1.Controls.Add(Me.Label3)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 104)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(683, 101)
-        Me.Panel1.TabIndex = 8
-        '
-        'ContextMenuStrip2
-        '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu2_Exit})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(94, 26)
-        '
-        'Menu2_Exit
-        '
-        Me.Menu2_Exit.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu2_Exit.Name = "Menu2_Exit"
-        Me.Menu2_Exit.Size = New System.Drawing.Size(93, 22)
-        Me.Menu2_Exit.Text = "Exit"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Font = New System.Drawing.Font("Lucida Console", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Label3.ForeColor = System.Drawing.Color.IndianRed
-        Me.Label3.Location = New System.Drawing.Point(234, 40)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(247, 16)
-        Me.Label3.TabIndex = 10
-        Me.Label3.Text = "Drop 'eLibKey' File HERE"
-        '
-        'txtOwner
-        '
-        Me.txtOwner.BackColor = System.Drawing.SystemColors.ButtonFace
-        Me.txtOwner.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtOwner.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.txtOwner.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtOwner.ForeColor = System.Drawing.Color.IndianRed
-        Me.txtOwner.Location = New System.Drawing.Point(148, 56)
-        Me.txtOwner.Name = "txtOwner"
-        Me.txtOwner.Size = New System.Drawing.Size(425, 18)
-        Me.txtOwner.TabIndex = 0
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_Request, Me.ToolStripMenuItem1, Me.Menu_Exit})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(117, 54)
-        '
-        'Menu_Request
-        '
-        Me.Menu_Request.Name = "Menu_Request"
-        Me.Menu_Request.Size = New System.Drawing.Size(116, 22)
-        Me.Menu_Request.Text = "Request"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(113, 6)
-        '
-        'Menu_Exit
-        '
-        Me.Menu_Exit.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Exit.Name = "Menu_Exit"
-        Me.Menu_Exit.Size = New System.Drawing.Size(116, 22)
-        Me.Menu_Exit.Text = "Exit"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("Segoe UI", 14.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Label2.ForeColor = System.Drawing.SystemColors.ActiveCaption
-        Me.Label2.Location = New System.Drawing.Point(248, 16)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(215, 25)
-        Me.Label2.TabIndex = 9
-        Me.Label2.Text = "Request Activation Key"
-        '
-        'Timer1
-        '
-        Me.Timer1.Interval = 3000
-        '
-        'frmSecurityActivation
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(683, 205)
-        Me.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ControlBox = False
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.txtOwner)
-        Me.Controls.Add(Me.Panel1)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmSecurityActivation"
-        Me.ShowIcon = False
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Registeration"
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
-        Me.ContextMenuStrip2.ResumeLayout(False)
-        Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
-
+        components = New ComponentModel.Container()
+        Panel1 = New Panel()
+        ContextMenuStrip2 = New ContextMenuStrip(components)
+        Menu2_Exit = New ToolStripMenuItem()
+        Label3 = New Label()
+        txtOwner = New TextBox()
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        Menu_Request = New ToolStripMenuItem()
+        ToolStripMenuItem1 = New ToolStripSeparator()
+        Menu_Exit = New ToolStripMenuItem()
+        Label2 = New Label()
+        Timer1 = New Timer(components)
+        Panel1.SuspendLayout()
+        ContextMenuStrip2.SuspendLayout()
+        ContextMenuStrip1.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' Panel1
+        ' 
+        Panel1.AllowDrop = True
+        Panel1.BackColor = SystemColors.Control
+        Panel1.ContextMenuStrip = ContextMenuStrip2
+        Panel1.Controls.Add(Label3)
+        Panel1.Dock = DockStyle.Bottom
+        Panel1.Location = New Point(0, 100)
+        Panel1.Name = "Panel1"
+        Panel1.Size = New Size(679, 101)
+        Panel1.TabIndex = 8
+        ' 
+        ' ContextMenuStrip2
+        ' 
+        ContextMenuStrip2.Items.AddRange(New ToolStripItem() {Menu2_Exit})
+        ContextMenuStrip2.Name = "ContextMenuStrip2"
+        ContextMenuStrip2.Size = New Size(94, 26)
+        ' 
+        ' Menu2_Exit
+        ' 
+        Menu2_Exit.ForeColor = Color.IndianRed
+        Menu2_Exit.Name = "Menu2_Exit"
+        Menu2_Exit.Size = New Size(93, 22)
+        Menu2_Exit.Text = "Exit"
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Font = New Font("Lucida Console", 12F, FontStyle.Regular, GraphicsUnit.Point)
+        Label3.ForeColor = Color.IndianRed
+        Label3.Location = New Point(209, 51)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(247, 16)
+        Label3.TabIndex = 10
+        Label3.Text = "Drop 'eLibKey' File HERE"
+        ' 
+        ' txtOwner
+        ' 
+        txtOwner.BackColor = SystemColors.ButtonFace
+        txtOwner.BorderStyle = BorderStyle.None
+        txtOwner.ContextMenuStrip = ContextMenuStrip1
+        txtOwner.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        txtOwner.ForeColor = Color.IndianRed
+        txtOwner.Location = New Point(124, 56)
+        txtOwner.Name = "txtOwner"
+        txtOwner.Size = New Size(425, 18)
+        txtOwner.TabIndex = 0
+        ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {Menu_Request, ToolStripMenuItem1, Menu_Exit})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(117, 54)
+        ' 
+        ' Menu_Request
+        ' 
+        Menu_Request.Name = "Menu_Request"
+        Menu_Request.Size = New Size(116, 22)
+        Menu_Request.Text = "Request"
+        ' 
+        ' ToolStripMenuItem1
+        ' 
+        ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        ToolStripMenuItem1.Size = New Size(113, 6)
+        ' 
+        ' Menu_Exit
+        ' 
+        Menu_Exit.ForeColor = Color.IndianRed
+        Menu_Exit.Name = "Menu_Exit"
+        Menu_Exit.Size = New Size(116, 22)
+        Menu_Exit.Text = "Exit"
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point)
+        Label2.ForeColor = SystemColors.ActiveCaption
+        Label2.Location = New Point(221, 17)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(215, 25)
+        Label2.TabIndex = 9
+        Label2.Text = "Request Activation Key"
+        ' 
+        ' Timer1
+        ' 
+        Timer1.Interval = 3000
+        ' 
+        ' frmSecurityActivation
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ControlLight
+        ClientSize = New Size(679, 201)
+        ContextMenuStrip = ContextMenuStrip1
+        ControlBox = False
+        Controls.Add(Label2)
+        Controls.Add(txtOwner)
+        Controls.Add(Panel1)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "frmSecurityActivation"
+        ShowIcon = False
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Registeration"
+        Panel1.ResumeLayout(False)
+        Panel1.PerformLayout()
+        ContextMenuStrip2.ResumeLayout(False)
+        ContextMenuStrip1.ResumeLayout(False)
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
     Friend WithEvents Panel1 As Panel
     Friend WithEvents txtOwner As TextBox

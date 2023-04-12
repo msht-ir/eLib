@@ -22,67 +22,66 @@ Partial Class frmCnnReset
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.ListCnn = New System.Windows.Forms.CheckedListBox()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu_Reset = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Cancel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ContextMenuStrip1.SuspendLayout()
-        Me.SuspendLayout()
-        '
-        'ListCnn
-        '
-        Me.ListCnn.BackColor = System.Drawing.SystemColors.MenuBar
-        Me.ListCnn.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.ListCnn.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ListCnn.Dock = System.Windows.Forms.DockStyle.Top
-        Me.ListCnn.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.ListCnn.ForeColor = System.Drawing.Color.Teal
-        Me.ListCnn.FormattingEnabled = True
-        Me.ListCnn.Location = New System.Drawing.Point(0, 0)
-        Me.ListCnn.Name = "ListCnn"
-        Me.ListCnn.Size = New System.Drawing.Size(413, 154)
-        Me.ListCnn.TabIndex = 3
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_Reset, Me.Menu_Cancel})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(111, 48)
-        '
-        'Menu_Reset
-        '
-        Me.Menu_Reset.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_Reset.Name = "Menu_Reset"
-        Me.Menu_Reset.Size = New System.Drawing.Size(110, 22)
-        Me.Menu_Reset.Text = "OK"
-        '
-        'Menu_Cancel
-        '
-        Me.Menu_Cancel.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Cancel.Name = "Menu_Cancel"
-        Me.Menu_Cancel.Size = New System.Drawing.Size(110, 22)
-        Me.Menu_Cancel.Text = "Cancel"
-        '
-        'frmCnnReset
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(413, 178)
-        Me.ControlBox = False
-        Me.Controls.Add(Me.ListCnn)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmCnnReset"
-        Me.ShowIcon = False
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "frmCnnReset"
-        Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.ResumeLayout(False)
-
+        components = New ComponentModel.Container()
+        ListCnn = New CheckedListBox()
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        Menu_Reset = New ToolStripMenuItem()
+        Menu_Cancel = New ToolStripMenuItem()
+        ContextMenuStrip1.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' ListCnn
+        ' 
+        ListCnn.BackColor = SystemColors.MenuBar
+        ListCnn.BorderStyle = BorderStyle.None
+        ListCnn.ContextMenuStrip = ContextMenuStrip1
+        ListCnn.Dock = DockStyle.Top
+        ListCnn.Font = New Font("Segoe UI", 11F, FontStyle.Italic, GraphicsUnit.Point)
+        ListCnn.ForeColor = Color.Teal
+        ListCnn.FormattingEnabled = True
+        ListCnn.Location = New Point(0, 0)
+        ListCnn.Name = "ListCnn"
+        ListCnn.Size = New Size(409, 154)
+        ListCnn.TabIndex = 3
+        ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {Menu_Reset, Menu_Cancel})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(111, 48)
+        ' 
+        ' Menu_Reset
+        ' 
+        Menu_Reset.Font = New Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point)
+        Menu_Reset.Name = "Menu_Reset"
+        Menu_Reset.Size = New Size(110, 22)
+        Menu_Reset.Text = "OK"
+        ' 
+        ' Menu_Cancel
+        ' 
+        Menu_Cancel.ForeColor = Color.IndianRed
+        Menu_Cancel.Name = "Menu_Cancel"
+        Menu_Cancel.Size = New Size(110, 22)
+        Menu_Cancel.Text = "Cancel"
+        ' 
+        ' frmCnnReset
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ControlLight
+        ClientSize = New Size(409, 189)
+        ControlBox = False
+        Controls.Add(ListCnn)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "frmCnnReset"
+        ShowIcon = False
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "frmCnnReset"
+        ContextMenuStrip1.ResumeLayout(False)
+        ResumeLayout(False)
     End Sub
 
     Friend WithEvents ListCnn As CheckedListBox

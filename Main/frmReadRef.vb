@@ -1,8 +1,4 @@
-﻿Imports System.IO
-Imports DocumentFormat.OpenXml.Wordprocessing
-Imports System.Net.Mail
-
-Public Class frmReadRef
+﻿Public Class frmReadRef
     Private Sub frmReadRef_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'MsgBox("id: " & intRef.ToString & " /Type: " & strRefType & " /Title: " & strRef & " /Note: " & strRefNote)
         If UserType <> "Admin" Then Menu_Delete.Enabled = False Else Menu_Delete.Enabled = True

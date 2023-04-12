@@ -1,7 +1,5 @@
 ﻿'Imports DocumentFormat.OpenXml.Office2010.ExcelAc
 
-Imports System.IO
-Imports System.Globalization
 Module Module1
     '//Connection  {AC:Access - SS:SqlServer - SC:SqlServerCE}
     Public DatabaseType As String = ""
@@ -67,8 +65,9 @@ Module Module1
     Public strPath As String = ""
     Public strFilename As String = "" ' // path of text file for backend.path, user.id, pass strings
     Public strExt As String = ""
+    Public DestinationFolder As String = "" 'for Importing Refs
     Public strCaption As String = ""
-    Public strReportsFooter As String = "eLib Desktop App [ www.msht.ir ],  by: Dr. Majid Sharifi-Tehrani, Faculty of Science (SKU), 2022"
+    Public strReportsFooter As String = "eLib Desktop App [ www.msht.ir ],  by: Dr. Majid Sharifi-Tehrani, Faculty of Science (SKU), 2023"
     '//TABLES//
     Public tblSettings As New System.Data.DataTable
     Public tblusrs As New System.Data.DataTable

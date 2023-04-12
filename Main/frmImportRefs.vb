@@ -1,13 +1,4 @@
-﻿Imports System.Buffers
-Imports System.Reflection.Emit
-Imports System.Windows
-Imports System.Windows.Forms.VisualStyles
-Imports DocumentFormat.OpenXml.Office2010.ExcelAc
-Imports DocumentFormat.OpenXml.Office2013.PowerPoint.Roaming
-Imports DocumentFormat.OpenXml.Spreadsheet
-Imports DocumentFormat.OpenXml.Vml
-Imports System.IO
-Imports DocumentFormat.OpenXml.Office2016.Drawing.Charts
+﻿Imports System.IO
 
 Public Class frmImportRefs
     Dim MyFile As FileInfo
@@ -47,6 +38,20 @@ Public Class frmImportRefs
             ListProduct.Enabled = False
         End If
     End Sub
+    'Radios PBML
+    Private Sub radioPaper_Click(sender As Object, e As EventArgs) Handles radioPaper.Click
+        If radioPaper.Checked = True Then lblDestinationFolder.Text = strFolderPapers
+    End Sub
+    Private Sub radioBook_Click(sender As Object, e As EventArgs) Handles radioBook.Click
+        If radioBook.Checked = True Then lblDestinationFolder.Text = strFolderBooks
+    End Sub
+    Private Sub radioManual_Click(sender As Object, e As EventArgs) Handles radioManual.Click
+        If radioManual.Checked = True Then lblDestinationFolder.Text = strFolderManuals
+    End Sub
+    Private Sub radioLecture_Click(sender As Object, e As EventArgs) Handles radioLecture.Click
+        If radioLecture.Checked = True Then lblDestinationFolder.Text = strFolderLectures
+    End Sub
+
     '//MENU_2 (Select Assignments)
     Private Sub Menu2_Add_Click(sender As Object, e As EventArgs) Handles Menu2_Add.Click
         '//Add
@@ -66,7 +71,7 @@ Public Class frmImportRefs
         '//Clear
         DS.Tables("tblProd_tmp2").Clear()
     End Sub
-    '//MENU_1 -SELECT or Drag-Drop
+    '//MENU_1 SELECT / Drag-Drop
     Private Sub Menu1_Select_Click() Handles Menu1_Select.Click
         Retval4 = 0 'Nothing is ready to move into eLibFolders (After processing the Title, Retval4 will be 1)
         txtNote.Text = ""
@@ -379,22 +384,22 @@ lblPARSE:
         MoveThisRef()
     End Sub
     Private Sub MoveThisRef()
+        '//in module: Public DestinationFolder As String = ""
         If (Retval4 = 0) Or (Microsoft.VisualBasic.Left(Trim(txtTitle.Text), 2) = "//") Then
             Menu1_Select_Click()
             Exit Sub
         End If
         Dim strTitle As String = Trim(txtTitle.Text)
         Dim Radiox As Integer = 0
-        Dim DestinationFolder As String = ""
         If radioPaper.Checked = True Then Radiox = 1
         If radioBook.Checked = True Then Radiox = 2
         If radioManual.Checked = True Then Radiox = 3
         If radioLecture.Checked = True Then Radiox = 4
         Select Case Radiox
-            Case 1 : DestinationFolder = strFolderPapers   'from tblSettings
-            Case 2 : DestinationFolder = strFolderBooks    'from tblSettings
-            Case 3 : DestinationFolder = strFolderManuals  'from tblSettings
-            Case 4 : DestinationFolder = strFolderLectures 'from tblSettings
+            Case 1 : If lblDestinationFolder.Text = "-" Then DestinationFolder = strFolderPapers Else DestinationFolder = lblDestinationFolder.Text
+            Case 2 : If lblDestinationFolder.Text = "-" Then DestinationFolder = strFolderBooks Else DestinationFolder = lblDestinationFolder.Text
+            Case 3 : If lblDestinationFolder.Text = "-" Then DestinationFolder = strFolderManuals Else DestinationFolder = lblDestinationFolder.Text
+            Case 4 : If lblDestinationFolder.Text = "-" Then DestinationFolder = strFolderLectures Else DestinationFolder = lblDestinationFolder.Text
             Case Else : Exit Sub
         End Select
         strExt = Microsoft.VisualBasic.Right(strFilename, 4)
@@ -412,6 +417,7 @@ lblPARSE:
         Try
             My.Computer.FileSystem.MoveFile(strFilename, DestinationFolder & "\" & strTitle & strExt, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.ThrowException)
             My.Computer.Clipboard.SetText(strTitle)
+            lblDestinationFolder.Text = DestinationFolder
             '//Add data to elib Tables
             Dim boolIsPaper As Boolean = 0
             Dim boolIsBook As Boolean = 0
@@ -631,5 +637,6 @@ lblPARSE:
         Me.Dispose()
         frmAssign.WindowState = FormWindowState.Normal
     End Sub
+
 
 End Class

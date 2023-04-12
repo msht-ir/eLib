@@ -22,197 +22,184 @@ Partial Class frmUsers
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmUsers))
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu_LoginAsUser = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_LoginAsAdmin = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Tools = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuTools_Scan = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuTools_NewUser = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuTools_DeleteUser = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem5 = New System.Windows.Forms.ToolStripSeparator()
-        Me.MenuTools_Backup = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuTools_Restore = New System.Windows.Forms.ToolStripMenuItem()
-        Me.MenuTools_Clear = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.MenuTools_Settings = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem2 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_LogOut = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GridUsers = New System.Windows.Forms.DataGridView()
-        Me.lblInfo = New System.Windows.Forms.Label()
-        Me.ContextMenuStrip1.SuspendLayout()
-        CType(Me.GridUsers, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SuspendLayout()
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_LoginAsUser, Me.Menu_LoginAsAdmin, Me.Menu_Tools, Me.ToolStripMenuItem2, Me.Menu_LogOut})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(177, 98)
-        '
-        'Menu_LoginAsUser
-        '
-        Me.Menu_LoginAsUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu_LoginAsUser.ForeColor = System.Drawing.Color.Teal
-        Me.Menu_LoginAsUser.Name = "Menu_LoginAsUser"
-        Me.Menu_LoginAsUser.Size = New System.Drawing.Size(176, 22)
-        Me.Menu_LoginAsUser.Text = "Login user ..."
-        '
-        'Menu_LoginAsAdmin
-        '
-        Me.Menu_LoginAsAdmin.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu_LoginAsAdmin.ForeColor = System.Drawing.Color.Teal
-        Me.Menu_LoginAsAdmin.Name = "Menu_LoginAsAdmin"
-        Me.Menu_LoginAsAdmin.Size = New System.Drawing.Size(176, 22)
-        Me.Menu_LoginAsAdmin.Text = "Continue admin ..."
-        '
-        'Menu_Tools
-        '
-        Me.Menu_Tools.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuTools_Scan, Me.MenuTools_NewUser, Me.MenuTools_DeleteUser, Me.ToolStripMenuItem5, Me.MenuTools_Backup, Me.MenuTools_Restore, Me.MenuTools_Clear, Me.ToolStripMenuItem4, Me.MenuTools_Settings})
-        Me.Menu_Tools.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_Tools.Name = "Menu_Tools"
-        Me.Menu_Tools.Size = New System.Drawing.Size(176, 22)
-        Me.Menu_Tools.Text = "Tools"
-        '
-        'MenuTools_Scan
-        '
-        Me.MenuTools_Scan.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.MenuTools_Scan.Name = "MenuTools_Scan"
-        Me.MenuTools_Scan.Size = New System.Drawing.Size(127, 22)
-        Me.MenuTools_Scan.Text = "Scan"
-        '
-        'MenuTools_NewUser
-        '
-        Me.MenuTools_NewUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.MenuTools_NewUser.Name = "MenuTools_NewUser"
-        Me.MenuTools_NewUser.Size = New System.Drawing.Size(127, 22)
-        Me.MenuTools_NewUser.Text = "New user"
-        '
-        'MenuTools_DeleteUser
-        '
-        Me.MenuTools_DeleteUser.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.MenuTools_DeleteUser.ForeColor = System.Drawing.Color.IndianRed
-        Me.MenuTools_DeleteUser.Name = "MenuTools_DeleteUser"
-        Me.MenuTools_DeleteUser.Size = New System.Drawing.Size(127, 22)
-        Me.MenuTools_DeleteUser.Text = "Delete"
-        '
-        'ToolStripMenuItem5
-        '
-        Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(124, 6)
-        '
-        'MenuTools_Backup
-        '
-        Me.MenuTools_Backup.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.MenuTools_Backup.Name = "MenuTools_Backup"
-        Me.MenuTools_Backup.Size = New System.Drawing.Size(127, 22)
-        Me.MenuTools_Backup.Text = "Backup"
-        '
-        'MenuTools_Restore
-        '
-        Me.MenuTools_Restore.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.MenuTools_Restore.Name = "MenuTools_Restore"
-        Me.MenuTools_Restore.Size = New System.Drawing.Size(127, 22)
-        Me.MenuTools_Restore.Text = "Restore"
-        '
-        'MenuTools_Clear
-        '
-        Me.MenuTools_Clear.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.MenuTools_Clear.ForeColor = System.Drawing.Color.IndianRed
-        Me.MenuTools_Clear.Name = "MenuTools_Clear"
-        Me.MenuTools_Clear.Size = New System.Drawing.Size(127, 22)
-        Me.MenuTools_Clear.Text = "Clear"
-        '
-        'ToolStripMenuItem4
-        '
-        Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(124, 6)
-        '
-        'MenuTools_Settings
-        '
-        Me.MenuTools_Settings.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.MenuTools_Settings.Name = "MenuTools_Settings"
-        Me.MenuTools_Settings.Size = New System.Drawing.Size(127, 22)
-        Me.MenuTools_Settings.Text = "Settings"
-        '
-        'ToolStripMenuItem2
-        '
-        Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(173, 6)
-        '
-        'Menu_LogOut
-        '
-        Me.Menu_LogOut.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_LogOut.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_LogOut.Name = "Menu_LogOut"
-        Me.Menu_LogOut.Size = New System.Drawing.Size(176, 22)
-        Me.Menu_LogOut.Text = "Log out"
-        '
-        'GridUsers
-        '
-        Me.GridUsers.AllowUserToAddRows = False
-        Me.GridUsers.AllowUserToDeleteRows = False
-        Me.GridUsers.AllowUserToResizeColumns = False
-        Me.GridUsers.AllowUserToResizeRows = False
-        Me.GridUsers.BackgroundColor = System.Drawing.SystemColors.Control
-        Me.GridUsers.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.GridUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.GridUsers.DefaultCellStyle = DataGridViewCellStyle1
-        Me.GridUsers.Dock = System.Windows.Forms.DockStyle.Top
-        Me.GridUsers.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
-        Me.GridUsers.GridColor = System.Drawing.SystemColors.ActiveCaption
-        Me.GridUsers.Location = New System.Drawing.Point(0, 0)
-        Me.GridUsers.Name = "GridUsers"
-        Me.GridUsers.RowHeadersVisible = False
-        Me.GridUsers.RowHeadersWidth = 15
-        Me.GridUsers.RowTemplate.Height = 25
-        Me.GridUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.GridUsers.Size = New System.Drawing.Size(945, 234)
-        Me.GridUsers.TabIndex = 0
-        Me.GridUsers.TabStop = False
-        '
-        'lblInfo
-        '
-        Me.lblInfo.AutoSize = True
-        Me.lblInfo.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.lblInfo.ForeColor = System.Drawing.Color.IndianRed
-        Me.lblInfo.Location = New System.Drawing.Point(12, 242)
-        Me.lblInfo.Name = "lblInfo"
-        Me.lblInfo.Size = New System.Drawing.Size(12, 15)
-        Me.lblInfo.TabIndex = 1
-        Me.lblInfo.Text = "-"
-        '
-        'frmUsers
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(945, 266)
-        Me.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ControlBox = False
-        Me.Controls.Add(Me.lblInfo)
-        Me.Controls.Add(Me.GridUsers)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmUsers"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Users setup"
-        Me.ContextMenuStrip1.ResumeLayout(False)
-        CType(Me.GridUsers, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
-
+        components = New ComponentModel.Container()
+        Dim DataGridViewCellStyle1 As DataGridViewCellStyle = New DataGridViewCellStyle()
+        Dim resources As ComponentModel.ComponentResourceManager = New ComponentModel.ComponentResourceManager(GetType(frmUsers))
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        Menu_LoginAsUser = New ToolStripMenuItem()
+        Menu_LoginAsAdmin = New ToolStripMenuItem()
+        Menu_Tools = New ToolStripMenuItem()
+        MenuTools_Scan = New ToolStripMenuItem()
+        MenuTools_NewUser = New ToolStripMenuItem()
+        MenuTools_DeleteUser = New ToolStripMenuItem()
+        ToolStripMenuItem5 = New ToolStripSeparator()
+        MenuTools_Backup = New ToolStripMenuItem()
+        MenuTools_Restore = New ToolStripMenuItem()
+        MenuTools_Clear = New ToolStripMenuItem()
+        ToolStripMenuItem4 = New ToolStripSeparator()
+        MenuTools_Settings = New ToolStripMenuItem()
+        ToolStripMenuItem2 = New ToolStripSeparator()
+        Menu_LogOut = New ToolStripMenuItem()
+        GridUsers = New DataGridView()
+        lblInfo = New Label()
+        ContextMenuStrip1.SuspendLayout()
+        CType(GridUsers, ComponentModel.ISupportInitialize).BeginInit()
+        SuspendLayout()
+        ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {Menu_LoginAsUser, Menu_LoginAsAdmin, Menu_Tools, ToolStripMenuItem2, Menu_LogOut})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(173, 98)
+        ' 
+        ' Menu_LoginAsUser
+        ' 
+        Menu_LoginAsUser.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        Menu_LoginAsUser.ForeColor = Color.Teal
+        Menu_LoginAsUser.Name = "Menu_LoginAsUser"
+        Menu_LoginAsUser.Size = New Size(172, 22)
+        Menu_LoginAsUser.Text = "Login ..."' 
+        ' Menu_LoginAsAdmin
+        ' 
+        Menu_LoginAsAdmin.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        Menu_LoginAsAdmin.ForeColor = Color.Teal
+        Menu_LoginAsAdmin.Name = "Menu_LoginAsAdmin"
+        Menu_LoginAsAdmin.Size = New Size(172, 22)
+        Menu_LoginAsAdmin.Text = "Login as Admin ..."' 
+        ' Menu_Tools
+        ' 
+        Menu_Tools.DropDownItems.AddRange(New ToolStripItem() {MenuTools_Scan, MenuTools_NewUser, MenuTools_DeleteUser, ToolStripMenuItem5, MenuTools_Backup, MenuTools_Restore, MenuTools_Clear, ToolStripMenuItem4, MenuTools_Settings})
+        Menu_Tools.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        Menu_Tools.Name = "Menu_Tools"
+        Menu_Tools.Size = New Size(172, 22)
+        Menu_Tools.Text = "Tools"' 
+        ' MenuTools_Scan
+        ' 
+        MenuTools_Scan.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        MenuTools_Scan.Name = "MenuTools_Scan"
+        MenuTools_Scan.Size = New Size(127, 22)
+        MenuTools_Scan.Text = "Scan"' 
+        ' MenuTools_NewUser
+        ' 
+        MenuTools_NewUser.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        MenuTools_NewUser.Name = "MenuTools_NewUser"
+        MenuTools_NewUser.Size = New Size(127, 22)
+        MenuTools_NewUser.Text = "New user"' 
+        ' MenuTools_DeleteUser
+        ' 
+        MenuTools_DeleteUser.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        MenuTools_DeleteUser.ForeColor = Color.IndianRed
+        MenuTools_DeleteUser.Name = "MenuTools_DeleteUser"
+        MenuTools_DeleteUser.Size = New Size(127, 22)
+        MenuTools_DeleteUser.Text = "Delete"' 
+        ' ToolStripMenuItem5
+        ' 
+        ToolStripMenuItem5.Name = "ToolStripMenuItem5"
+        ToolStripMenuItem5.Size = New Size(124, 6)
+        ' 
+        ' MenuTools_Backup
+        ' 
+        MenuTools_Backup.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        MenuTools_Backup.Name = "MenuTools_Backup"
+        MenuTools_Backup.Size = New Size(127, 22)
+        MenuTools_Backup.Text = "Backup"' 
+        ' MenuTools_Restore
+        ' 
+        MenuTools_Restore.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        MenuTools_Restore.Name = "MenuTools_Restore"
+        MenuTools_Restore.Size = New Size(127, 22)
+        MenuTools_Restore.Text = "Restore"' 
+        ' MenuTools_Clear
+        ' 
+        MenuTools_Clear.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        MenuTools_Clear.ForeColor = Color.IndianRed
+        MenuTools_Clear.Name = "MenuTools_Clear"
+        MenuTools_Clear.Size = New Size(127, 22)
+        MenuTools_Clear.Text = "Clear"' 
+        ' ToolStripMenuItem4
+        ' 
+        ToolStripMenuItem4.Name = "ToolStripMenuItem4"
+        ToolStripMenuItem4.Size = New Size(124, 6)
+        ' 
+        ' MenuTools_Settings
+        ' 
+        MenuTools_Settings.Font = New Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point)
+        MenuTools_Settings.Name = "MenuTools_Settings"
+        MenuTools_Settings.Size = New Size(127, 22)
+        MenuTools_Settings.Text = "Settings"' 
+        ' ToolStripMenuItem2
+        ' 
+        ToolStripMenuItem2.Name = "ToolStripMenuItem2"
+        ToolStripMenuItem2.Size = New Size(169, 6)
+        ' 
+        ' Menu_LogOut
+        ' 
+        Menu_LogOut.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        Menu_LogOut.ForeColor = Color.IndianRed
+        Menu_LogOut.Name = "Menu_LogOut"
+        Menu_LogOut.Size = New Size(172, 22)
+        Menu_LogOut.Text = "Log out"' 
+        ' GridUsers
+        ' 
+        GridUsers.AllowUserToAddRows = False
+        GridUsers.AllowUserToDeleteRows = False
+        GridUsers.AllowUserToResizeColumns = False
+        GridUsers.AllowUserToResizeRows = False
+        GridUsers.BackgroundColor = SystemColors.Control
+        GridUsers.BorderStyle = BorderStyle.None
+        GridUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = SystemColors.Control
+        DataGridViewCellStyle1.Font = New Font("Segoe UI", 8F, FontStyle.Regular, GraphicsUnit.Point)
+        DataGridViewCellStyle1.ForeColor = SystemColors.ControlDarkDark
+        DataGridViewCellStyle1.SelectionBackColor = SystemColors.Control
+        DataGridViewCellStyle1.SelectionForeColor = Color.IndianRed
+        DataGridViewCellStyle1.WrapMode = DataGridViewTriState.False
+        GridUsers.DefaultCellStyle = DataGridViewCellStyle1
+        GridUsers.Dock = DockStyle.Top
+        GridUsers.EditMode = DataGridViewEditMode.EditProgrammatically
+        GridUsers.GridColor = SystemColors.Control
+        GridUsers.Location = New Point(0, 0)
+        GridUsers.Name = "GridUsers"
+        GridUsers.RowHeadersVisible = False
+        GridUsers.RowHeadersWidth = 15
+        GridUsers.RowTemplate.Height = 25
+        GridUsers.SelectionMode = DataGridViewSelectionMode.CellSelect
+        GridUsers.Size = New Size(945, 234)
+        GridUsers.TabIndex = 0
+        GridUsers.TabStop = False
+        ' 
+        ' lblInfo
+        ' 
+        lblInfo.AutoSize = True
+        lblInfo.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        lblInfo.ForeColor = Color.IndianRed
+        lblInfo.Location = New Point(12, 242)
+        lblInfo.Name = "lblInfo"
+        lblInfo.Size = New Size(12, 15)
+        lblInfo.TabIndex = 1
+        lblInfo.Text = "-"' 
+        ' frmUsers
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ControlLight
+        ClientSize = New Size(945, 266)
+        ContextMenuStrip = ContextMenuStrip1
+        ControlBox = False
+        Controls.Add(lblInfo)
+        Controls.Add(GridUsers)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "frmUsers"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Users setup"
+        ContextMenuStrip1.ResumeLayout(False)
+        CType(GridUsers, ComponentModel.ISupportInitialize).EndInit()
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip

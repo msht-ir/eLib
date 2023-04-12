@@ -1,6 +1,4 @@
-﻿Imports DocumentFormat.OpenXml.Office2010.ExcelAc
-
-Public Class frmUsers
+﻿Public Class frmUsers
     Private Sub frmUsers_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         RefreshGridUsers()
     End Sub
@@ -11,7 +9,7 @@ Public Class frmUsers
         GridUsers.Columns(0).Visible = False    'ID
         GridUsers.Columns(0).Width = 0          'ID
         GridUsers.Columns(1).Width = 200        'UserName
-        GridUsers.Columns(2).Width = 180        'UserPass
+        GridUsers.Columns(2).Width = 200        'UserPass
         GridUsers.Columns(3).Width = 60         'Active
         GridUsers.Columns(4).Width = 450        'UserNote
         For i As Integer = 0 To 15
@@ -331,12 +329,5 @@ Public Class frmUsers
         Me.Dispose()
         frmCNN.ShowDialog()
     End Sub
-
-
-
-
-
-
-
 
 End Class

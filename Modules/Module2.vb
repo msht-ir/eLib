@@ -1,6 +1,6 @@
 ﻿Imports System.IO
 Imports ClosedXML.Excel
-Imports DocumentFormat.OpenXml.Office2010.Excel
+Imports DocumentFormat.OpenXml
 Imports ErikEJ.SqlCe
 
 Module Module2

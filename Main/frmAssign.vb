@@ -1,4 +1,5 @@
-﻿Imports ClosedXML.Excel
+﻿Imports System.IO
+Imports ClosedXML.Excel
 
 Public Class frmAssign
     Private Sub frmAssign_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -13,7 +14,6 @@ Public Class frmAssign
         End Select
         Dim boolEnbl As Boolean = False
         If UserType = "User" Then Menu_ChangePass.Enabled = True Else Menu_ChangePass.Enabled = False
-        If UserType = "User" Or UserType = "Guest" Then Menu_Scan.Enabled = False Else Menu_Scan.Enabled = True
         Try
             Me.Text = "eLib     |     USR: " & strUser & "     |     DB: " & strCaption & "     |     BE: " & strDbBackEnd
             DS.Tables("tblProject").Clear()
@@ -246,29 +246,6 @@ Public Class frmAssign
         Catch ex As Exception
             MsgBox("Error Creating New Ref" & vbCrLf & ex.ToString)
         End Try
-    End Sub
-    Private Sub Menu_Scan_Click_1(sender As Object, e As EventArgs) Handles Menu_Scan.Click
-        Dim myansw As DialogResult = MsgBox("eLib Settings :" & vbCrLf & "-" & vbCrLf & "Papers ->   " & strFolderPapers & vbCrLf & "Books ->   " & strFolderBooks & vbCrLf & "Manuals ->   " & strFolderManuals & vbCrLf & "Lectures ->   " & strFolderLectures & vbCrLf & "-" & vbCrLf & vbCrLf & "(YES) Scan Current Folders" & vbCrLf & vbCrLf & "(NO) 'Change' Folders", vbYesNoCancel + vbDefaultButton2, "eLib")
-        Select Case myansw
-            Case vbNo
-                frmSettings.ShowDialog()
-                ReadSettingsAndUsers()
-                ValidateFolders()
-            Case vbYes
-                List1.DataSource = Nothing
-                List2.DataSource = Nothing
-                lblRefNote1.Text = "Step 1/3 : Clear current file Paths . . ."
-                Clear_eLibPapersInfo("Paths")
-                lblRefNote1.Text = "Step 2/3 : Scan eLib Folders . . ."
-                eLibScanNames() 'eLibTitles in old eLib versions
-                lblRefNote1.Text = "Step 3/3 : Constructing new file Paths  . . ."
-                eLibScanPaths() 'eLibPaths in old eLib versions
-                lblRefNote1.Text = "SCAN finished successfully!"
-                txtSearch.Text = ""
-                txtSearch.Focus()
-            Case vbCancel
-                'do nothing
-        End Select
     End Sub
     'Help
     Private Sub Menu_Guide_Click(sender As Object, e As EventArgs) Handles Menu_Guide.Click
@@ -2133,19 +2110,6 @@ Public Class frmAssign
         End Try
 
     End Sub
-    Private Sub Menu5_ShowAbove_Click(sender As Object, e As EventArgs) Handles Menu5_ShowAbove.Click
-        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(6) Else Menu1_CheckMarckSet(1)
-        If List5.SelectedIndex = -1 Then Exit Sub
-        If List6.SelectedIndex = -1 Then 'Check if list 5 is showing a ref / not a note!
-            lblSearch_Click(sender, e)
-            txtSearch.Text = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(1) + " "
-        End If
-    End Sub
-    Private Sub Menu5_QRCode_Click(sender As Object, e As EventArgs) Handles Menu5_QRCode.Click
-        '//check if tbl.Settings allows QRCODEGen ?
-        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(8) Else Menu1_CheckMarckSet(1)
-        If List5.SelectedIndex >= 0 Then Call QRCodeGen(List5.Text)
-    End Sub
     Private Sub Menu5_Collect_Click(sender As Object, e As EventArgs) Handles Menu5_Collect.Click
         If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(9) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex = -1 Then Exit Sub
@@ -2155,19 +2119,6 @@ Public Class frmAssign
         PrintLine(1, "")
         FileClose(1)
         lblRefStatus2.Text = "Collected <  " & List5.Text
-    End Sub
-    Private Sub lblAssignNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblAssignNote2.DoubleClick
-        Menu5_RefAttributes_Click(sender, e)
-    End Sub
-    Private Sub lblRefNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblRefNote2.DoubleClick
-        Menu5_RefAttributes_Click(sender, e)
-    End Sub
-    Private Sub Menu5_Copy_Click(sender As Object, e As EventArgs) Handles Menu5_Copy.Click
-        'Copy to clipboard
-        If List5.SelectedIndex >= 0 Then
-            My.Computer.Clipboard.SetText(List5.Text)
-            lblRefStatus2.Text = "'Title' coppied to clipboard"
-        End If
     End Sub
     Private Sub Menu5_Show_Click(sender As Object, e As EventArgs) Handles Menu5_Show.Click
         '//Open Collection to read
@@ -2207,12 +2158,38 @@ Public Class frmAssign
             Exit Sub
         End Try
     End Sub
+    Private Sub Menu5_ShowAbove_Click(sender As Object, e As EventArgs) Handles Menu5_ShowAbove.Click
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(6) Else Menu1_CheckMarckSet(1)
+        If List5.SelectedIndex = -1 Then Exit Sub
+        If List6.SelectedIndex = -1 Then 'Check if list 5 is showing a ref / not a note!
+            lblSearch_Click(sender, e)
+            txtSearch.Text = DS.Tables("tblRefs2").Rows(List5.SelectedIndex).Item(1) + " "
+        End If
+    End Sub
+    Private Sub Menu5_Copy_Click(sender As Object, e As EventArgs) Handles Menu5_Copy.Click
+        'Copy to clipboard
+        If List5.SelectedIndex >= 0 Then
+            My.Computer.Clipboard.SetText(List5.Text)
+            lblRefStatus2.Text = "'Title' coppied to clipboard"
+        End If
+    End Sub
     Private Sub Menu5_GoogleScholar_Click(sender As Object, e As EventArgs) Handles Menu5_GoogleScholar.Click
         If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(7) Else Menu1_CheckMarckSet(1)
         If List5.SelectedIndex >= 0 Then
             Dim strSearchScholar As String = List5.Text
             SearchScholar(strSearchScholar)
         End If
+    End Sub
+    Private Sub Menu5_QRCode_Click(sender As Object, e As EventArgs) Handles Menu5_QRCode.Click
+        '//check if tbl.Settings allows QRCODEGen ?
+        If Menu5_Lock.Checked = True Then Menu5_CheckMarckSet(8) Else Menu1_CheckMarckSet(1)
+        If List5.SelectedIndex >= 0 Then Call QRCodeGen(List5.Text)
+    End Sub
+    Private Sub lblAssignNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblAssignNote2.DoubleClick
+        Menu5_RefAttributes_Click(sender, e)
+    End Sub
+    Private Sub lblRefNote2_DoubleClick(sender As Object, e As EventArgs) Handles lblRefNote2.DoubleClick
+        Menu5_RefAttributes_Click(sender, e)
     End Sub
 
     'List 6 (Notes of a sub)

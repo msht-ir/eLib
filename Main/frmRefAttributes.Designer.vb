@@ -22,289 +22,281 @@ Partial Class frmRefAttributes
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.CheckBoxImp3 = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxImp2 = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxLecture = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxImp1 = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxManual = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxImR = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxBook = New System.Windows.Forms.CheckBox()
-        Me.CheckBoxPaper = New System.Windows.Forms.CheckBox()
-        Me.TextBoxRefNote = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.TextBoxAssignmentNote = New System.Windows.Forms.TextBox()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.TextBoxProductNote = New System.Windows.Forms.TextBox()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu_Save = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Cancel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.LabelRefTitle = New System.Windows.Forms.Label()
-        Me.Panel1.SuspendLayout()
-        Me.Panel2.SuspendLayout()
-        Me.ContextMenuStrip1.SuspendLayout()
-        Me.SuspendLayout()
-        '
-        'Panel1
-        '
-        Me.Panel1.BackColor = System.Drawing.SystemColors.Control
-        Me.Panel1.Controls.Add(Me.CheckBoxImp3)
-        Me.Panel1.Controls.Add(Me.CheckBoxImp2)
-        Me.Panel1.Controls.Add(Me.CheckBoxLecture)
-        Me.Panel1.Controls.Add(Me.CheckBoxImp1)
-        Me.Panel1.Controls.Add(Me.CheckBoxManual)
-        Me.Panel1.Controls.Add(Me.CheckBoxImR)
-        Me.Panel1.Controls.Add(Me.CheckBoxBook)
-        Me.Panel1.Controls.Add(Me.CheckBoxPaper)
-        Me.Panel1.Location = New System.Drawing.Point(15, 29)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(121, 246)
-        Me.Panel1.TabIndex = 0
-        '
-        'CheckBoxImp3
-        '
-        Me.CheckBoxImp3.AutoSize = True
-        Me.CheckBoxImp3.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.CheckBoxImp3.ForeColor = System.Drawing.Color.Brown
-        Me.CheckBoxImp3.Location = New System.Drawing.Point(22, 211)
-        Me.CheckBoxImp3.Name = "CheckBoxImp3"
-        Me.CheckBoxImp3.Size = New System.Drawing.Size(60, 23)
-        Me.CheckBoxImp3.TabIndex = 7
-        Me.CheckBoxImp3.TabStop = False
-        Me.CheckBoxImp3.Text = "Imp3"
-        Me.CheckBoxImp3.UseVisualStyleBackColor = True
-        '
-        'CheckBoxImp2
-        '
-        Me.CheckBoxImp2.AutoSize = True
-        Me.CheckBoxImp2.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.CheckBoxImp2.ForeColor = System.Drawing.Color.Brown
-        Me.CheckBoxImp2.Location = New System.Drawing.Point(22, 183)
-        Me.CheckBoxImp2.Name = "CheckBoxImp2"
-        Me.CheckBoxImp2.Size = New System.Drawing.Size(60, 23)
-        Me.CheckBoxImp2.TabIndex = 6
-        Me.CheckBoxImp2.TabStop = False
-        Me.CheckBoxImp2.Text = "Imp2"
-        Me.CheckBoxImp2.UseVisualStyleBackColor = True
-        '
-        'CheckBoxLecture
-        '
-        Me.CheckBoxLecture.AutoSize = True
-        Me.CheckBoxLecture.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.CheckBoxLecture.ForeColor = System.Drawing.Color.MediumBlue
-        Me.CheckBoxLecture.Location = New System.Drawing.Point(22, 89)
-        Me.CheckBoxLecture.Name = "CheckBoxLecture"
-        Me.CheckBoxLecture.Size = New System.Drawing.Size(73, 23)
-        Me.CheckBoxLecture.TabIndex = 3
-        Me.CheckBoxLecture.TabStop = False
-        Me.CheckBoxLecture.Text = "Lecture"
-        Me.CheckBoxLecture.UseVisualStyleBackColor = True
-        '
-        'CheckBoxImp1
-        '
-        Me.CheckBoxImp1.AutoSize = True
-        Me.CheckBoxImp1.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.CheckBoxImp1.ForeColor = System.Drawing.Color.Brown
-        Me.CheckBoxImp1.Location = New System.Drawing.Point(22, 155)
-        Me.CheckBoxImp1.Name = "CheckBoxImp1"
-        Me.CheckBoxImp1.Size = New System.Drawing.Size(60, 23)
-        Me.CheckBoxImp1.TabIndex = 5
-        Me.CheckBoxImp1.TabStop = False
-        Me.CheckBoxImp1.Text = "Imp1"
-        Me.CheckBoxImp1.UseVisualStyleBackColor = True
-        '
-        'CheckBoxManual
-        '
-        Me.CheckBoxManual.AutoSize = True
-        Me.CheckBoxManual.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.CheckBoxManual.ForeColor = System.Drawing.Color.MediumBlue
-        Me.CheckBoxManual.Location = New System.Drawing.Point(22, 61)
-        Me.CheckBoxManual.Name = "CheckBoxManual"
-        Me.CheckBoxManual.Size = New System.Drawing.Size(74, 23)
-        Me.CheckBoxManual.TabIndex = 2
-        Me.CheckBoxManual.TabStop = False
-        Me.CheckBoxManual.Text = "Manual"
-        Me.CheckBoxManual.UseVisualStyleBackColor = True
-        '
-        'CheckBoxImR
-        '
-        Me.CheckBoxImR.AutoSize = True
-        Me.CheckBoxImR.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.CheckBoxImR.ForeColor = System.Drawing.Color.OliveDrab
-        Me.CheckBoxImR.Location = New System.Drawing.Point(22, 122)
-        Me.CheckBoxImR.Name = "CheckBoxImR"
-        Me.CheckBoxImR.Size = New System.Drawing.Size(52, 23)
-        Me.CheckBoxImR.TabIndex = 4
-        Me.CheckBoxImR.TabStop = False
-        Me.CheckBoxImR.Text = "ImR"
-        Me.CheckBoxImR.UseVisualStyleBackColor = True
-        '
-        'CheckBoxBook
-        '
-        Me.CheckBoxBook.AutoSize = True
-        Me.CheckBoxBook.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.CheckBoxBook.ForeColor = System.Drawing.Color.MediumBlue
-        Me.CheckBoxBook.Location = New System.Drawing.Point(22, 34)
-        Me.CheckBoxBook.Name = "CheckBoxBook"
-        Me.CheckBoxBook.Size = New System.Drawing.Size(59, 23)
-        Me.CheckBoxBook.TabIndex = 1
-        Me.CheckBoxBook.TabStop = False
-        Me.CheckBoxBook.Text = "Book"
-        Me.CheckBoxBook.UseVisualStyleBackColor = True
-        '
-        'CheckBoxPaper
-        '
-        Me.CheckBoxPaper.AutoSize = True
-        Me.CheckBoxPaper.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.CheckBoxPaper.ForeColor = System.Drawing.Color.MediumBlue
-        Me.CheckBoxPaper.Location = New System.Drawing.Point(22, 7)
-        Me.CheckBoxPaper.Name = "CheckBoxPaper"
-        Me.CheckBoxPaper.Size = New System.Drawing.Size(63, 23)
-        Me.CheckBoxPaper.TabIndex = 0
-        Me.CheckBoxPaper.TabStop = False
-        Me.CheckBoxPaper.Text = "Paper"
-        Me.CheckBoxPaper.UseVisualStyleBackColor = True
-        '
-        'TextBoxRefNote
-        '
-        Me.TextBoxRefNote.BackColor = System.Drawing.SystemColors.Control
-        Me.TextBoxRefNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxRefNote.Location = New System.Drawing.Point(45, 123)
-        Me.TextBoxRefNote.Name = "TextBoxRefNote"
-        Me.TextBoxRefNote.Size = New System.Drawing.Size(361, 16)
-        Me.TextBoxRefNote.TabIndex = 1
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(44, 102)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(24, 15)
-        Me.Label1.TabIndex = 3
-        Me.Label1.Text = "Ref"
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(44, 166)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(29, 15)
-        Me.Label2.TabIndex = 5
-        Me.Label2.Text = "Link"
-        '
-        'TextBoxAssignmentNote
-        '
-        Me.TextBoxAssignmentNote.BackColor = System.Drawing.SystemColors.Control
-        Me.TextBoxAssignmentNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxAssignmentNote.Location = New System.Drawing.Point(45, 187)
-        Me.TextBoxAssignmentNote.Name = "TextBoxAssignmentNote"
-        Me.TextBoxAssignmentNote.Size = New System.Drawing.Size(361, 16)
-        Me.TextBoxAssignmentNote.TabIndex = 0
-        '
-        'Panel2
-        '
-        Me.Panel2.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.Panel2.Controls.Add(Me.Label4)
-        Me.Panel2.Controls.Add(Me.Label3)
-        Me.Panel2.Controls.Add(Me.TextBoxProductNote)
-        Me.Panel2.Controls.Add(Me.TextBoxRefNote)
-        Me.Panel2.Controls.Add(Me.Label2)
-        Me.Panel2.Controls.Add(Me.Label1)
-        Me.Panel2.Controls.Add(Me.TextBoxAssignmentNote)
-        Me.Panel2.Location = New System.Drawing.Point(145, 29)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(410, 246)
-        Me.Panel2.TabIndex = 8
-        Me.Panel2.TabStop = True
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Label4.Location = New System.Drawing.Point(7, 6)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(58, 15)
-        Me.Label4.TabIndex = 9
-        Me.Label4.Text = "Note for:"
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(44, 39)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(63, 15)
-        Me.Label3.TabIndex = 7
-        Me.Label3.Text = "subProject"
-        '
-        'TextBoxProductNote
-        '
-        Me.TextBoxProductNote.BackColor = System.Drawing.SystemColors.Control
-        Me.TextBoxProductNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxProductNote.Location = New System.Drawing.Point(45, 60)
-        Me.TextBoxProductNote.Name = "TextBoxProductNote"
-        Me.TextBoxProductNote.Size = New System.Drawing.Size(361, 16)
-        Me.TextBoxProductNote.TabIndex = 2
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_Save, Me.Menu_Cancel})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(111, 48)
-        '
-        'Menu_Save
-        '
-        Me.Menu_Save.Name = "Menu_Save"
-        Me.Menu_Save.Size = New System.Drawing.Size(110, 22)
-        Me.Menu_Save.Text = "Save"
-        '
-        'Menu_Cancel
-        '
-        Me.Menu_Cancel.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Cancel.Name = "Menu_Cancel"
-        Me.Menu_Cancel.Size = New System.Drawing.Size(110, 22)
-        Me.Menu_Cancel.Text = "Cancel"
-        '
-        'LabelRefTitle
-        '
-        Me.LabelRefTitle.Location = New System.Drawing.Point(17, 4)
-        Me.LabelRefTitle.Name = "LabelRefTitle"
-        Me.LabelRefTitle.Size = New System.Drawing.Size(556, 20)
-        Me.LabelRefTitle.TabIndex = 8
-        Me.LabelRefTitle.Text = "-"
-        '
-        'frmRefAttributes
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(554, 300)
-        Me.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ControlBox = False
-        Me.Controls.Add(Me.LabelRefTitle)
-        Me.Controls.Add(Me.Panel2)
-        Me.Controls.Add(Me.Panel1)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmRefAttributes"
-        Me.ShowIcon = False
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Attributes"
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
-        Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout()
-        Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.ResumeLayout(False)
-
+        components = New ComponentModel.Container()
+        CheckBoxImp3 = New CheckBox()
+        CheckBoxImp2 = New CheckBox()
+        CheckBoxLecture = New CheckBox()
+        CheckBoxImp1 = New CheckBox()
+        CheckBoxManual = New CheckBox()
+        CheckBoxImR = New CheckBox()
+        CheckBoxBook = New CheckBox()
+        CheckBoxPaper = New CheckBox()
+        TextBoxRefNote = New TextBox()
+        Label1 = New Label()
+        Label2 = New Label()
+        TextBoxAssignmentNote = New TextBox()
+        Panel2 = New Panel()
+        Label3 = New Label()
+        TextBoxProductNote = New TextBox()
+        Label4 = New Label()
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        Menu_Save = New ToolStripMenuItem()
+        Menu_Cancel = New ToolStripMenuItem()
+        LabelRefTitle = New Label()
+        Panel2.SuspendLayout()
+        ContextMenuStrip1.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' CheckBoxImp3
+        ' 
+        CheckBoxImp3.AutoSize = True
+        CheckBoxImp3.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        CheckBoxImp3.ForeColor = Color.Brown
+        CheckBoxImp3.Location = New Point(114, 169)
+        CheckBoxImp3.Name = "CheckBoxImp3"
+        CheckBoxImp3.Size = New Size(60, 23)
+        CheckBoxImp3.TabIndex = 7
+        CheckBoxImp3.TabStop = False
+        CheckBoxImp3.Text = "Imp3"
+        CheckBoxImp3.UseVisualStyleBackColor = True
+        ' 
+        ' CheckBoxImp2
+        ' 
+        CheckBoxImp2.AutoSize = True
+        CheckBoxImp2.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        CheckBoxImp2.ForeColor = Color.Brown
+        CheckBoxImp2.Location = New Point(114, 128)
+        CheckBoxImp2.Name = "CheckBoxImp2"
+        CheckBoxImp2.Size = New Size(60, 23)
+        CheckBoxImp2.TabIndex = 6
+        CheckBoxImp2.TabStop = False
+        CheckBoxImp2.Text = "Imp2"
+        CheckBoxImp2.UseVisualStyleBackColor = True
+        ' 
+        ' CheckBoxLecture
+        ' 
+        CheckBoxLecture.AutoSize = True
+        CheckBoxLecture.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        CheckBoxLecture.ForeColor = Color.MediumBlue
+        CheckBoxLecture.Location = New Point(22, 169)
+        CheckBoxLecture.Name = "CheckBoxLecture"
+        CheckBoxLecture.Size = New Size(73, 23)
+        CheckBoxLecture.TabIndex = 3
+        CheckBoxLecture.TabStop = False
+        CheckBoxLecture.Text = "Lecture"
+        CheckBoxLecture.UseVisualStyleBackColor = True
+        ' 
+        ' CheckBoxImp1
+        ' 
+        CheckBoxImp1.AutoSize = True
+        CheckBoxImp1.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        CheckBoxImp1.ForeColor = Color.Brown
+        CheckBoxImp1.Location = New Point(114, 87)
+        CheckBoxImp1.Name = "CheckBoxImp1"
+        CheckBoxImp1.Size = New Size(60, 23)
+        CheckBoxImp1.TabIndex = 5
+        CheckBoxImp1.TabStop = False
+        CheckBoxImp1.Text = "Imp1"
+        CheckBoxImp1.UseVisualStyleBackColor = True
+        ' 
+        ' CheckBoxManual
+        ' 
+        CheckBoxManual.AutoSize = True
+        CheckBoxManual.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        CheckBoxManual.ForeColor = Color.MediumBlue
+        CheckBoxManual.Location = New Point(22, 128)
+        CheckBoxManual.Name = "CheckBoxManual"
+        CheckBoxManual.Size = New Size(74, 23)
+        CheckBoxManual.TabIndex = 2
+        CheckBoxManual.TabStop = False
+        CheckBoxManual.Text = "Manual"
+        CheckBoxManual.UseVisualStyleBackColor = True
+        ' 
+        ' CheckBoxImR
+        ' 
+        CheckBoxImR.AutoSize = True
+        CheckBoxImR.Font = New Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point)
+        CheckBoxImR.ForeColor = Color.OliveDrab
+        CheckBoxImR.Location = New Point(114, 46)
+        CheckBoxImR.Name = "CheckBoxImR"
+        CheckBoxImR.Size = New Size(52, 23)
+        CheckBoxImR.TabIndex = 4
+        CheckBoxImR.TabStop = False
+        CheckBoxImR.Text = "ImR"
+        CheckBoxImR.UseVisualStyleBackColor = True
+        ' 
+        ' CheckBoxBook
+        ' 
+        CheckBoxBook.AutoSize = True
+        CheckBoxBook.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        CheckBoxBook.ForeColor = Color.MediumBlue
+        CheckBoxBook.Location = New Point(22, 87)
+        CheckBoxBook.Name = "CheckBoxBook"
+        CheckBoxBook.Size = New Size(59, 23)
+        CheckBoxBook.TabIndex = 1
+        CheckBoxBook.TabStop = False
+        CheckBoxBook.Text = "Book"
+        CheckBoxBook.UseVisualStyleBackColor = True
+        ' 
+        ' CheckBoxPaper
+        ' 
+        CheckBoxPaper.AutoSize = True
+        CheckBoxPaper.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        CheckBoxPaper.ForeColor = Color.MediumBlue
+        CheckBoxPaper.Location = New Point(22, 46)
+        CheckBoxPaper.Name = "CheckBoxPaper"
+        CheckBoxPaper.Size = New Size(63, 23)
+        CheckBoxPaper.TabIndex = 0
+        CheckBoxPaper.TabStop = False
+        CheckBoxPaper.Text = "Paper"
+        CheckBoxPaper.UseVisualStyleBackColor = True
+        ' 
+        ' TextBoxRefNote
+        ' 
+        TextBoxRefNote.BackColor = SystemColors.Control
+        TextBoxRefNote.BorderStyle = BorderStyle.None
+        TextBoxRefNote.Location = New Point(76, 41)
+        TextBoxRefNote.Name = "TextBoxRefNote"
+        TextBoxRefNote.Size = New Size(454, 16)
+        TextBoxRefNote.TabIndex = 1
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        Label1.ForeColor = SystemColors.ControlDarkDark
+        Label1.Location = New Point(46, 41)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(27, 15)
+        Label1.TabIndex = 3
+        Label1.Text = "Ref"
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        Label2.ForeColor = SystemColors.ControlDarkDark
+        Label2.Location = New Point(38, 113)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(30, 15)
+        Label2.TabIndex = 5
+        Label2.Text = "Link"
+        ' 
+        ' TextBoxAssignmentNote
+        ' 
+        TextBoxAssignmentNote.BackColor = SystemColors.Control
+        TextBoxAssignmentNote.BorderStyle = BorderStyle.None
+        TextBoxAssignmentNote.Location = New Point(76, 112)
+        TextBoxAssignmentNote.Name = "TextBoxAssignmentNote"
+        TextBoxAssignmentNote.Size = New Size(454, 16)
+        TextBoxAssignmentNote.TabIndex = 0
+        ' 
+        ' Panel2
+        ' 
+        Panel2.BackColor = SystemColors.ControlLight
+        Panel2.Controls.Add(Label3)
+        Panel2.Controls.Add(TextBoxProductNote)
+        Panel2.Controls.Add(TextBoxRefNote)
+        Panel2.Controls.Add(Label4)
+        Panel2.Controls.Add(Label2)
+        Panel2.Controls.Add(Label1)
+        Panel2.Controls.Add(TextBoxAssignmentNote)
+        Panel2.Location = New Point(207, 40)
+        Panel2.Name = "Panel2"
+        Panel2.Size = New Size(545, 162)
+        Panel2.TabIndex = 8
+        Panel2.TabStop = True
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        Label3.ForeColor = SystemColors.ControlDarkDark
+        Label3.Location = New Point(7, 76)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(66, 15)
+        Label3.TabIndex = 7
+        Label3.Text = "subProject"
+        ' 
+        ' TextBoxProductNote
+        ' 
+        TextBoxProductNote.BackColor = SystemColors.Control
+        TextBoxProductNote.BorderStyle = BorderStyle.None
+        TextBoxProductNote.Location = New Point(76, 76)
+        TextBoxProductNote.Name = "TextBoxProductNote"
+        TextBoxProductNote.Size = New Size(454, 16)
+        TextBoxProductNote.TabIndex = 2
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        Label4.Location = New Point(259, 13)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(54, 15)
+        Label4.TabIndex = 9
+        Label4.Text = "Note for:"
+        ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {Menu_Save, Menu_Cancel})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(111, 48)
+        ' 
+        ' Menu_Save
+        ' 
+        Menu_Save.Name = "Menu_Save"
+        Menu_Save.Size = New Size(110, 22)
+        Menu_Save.Text = "Save"
+        ' 
+        ' Menu_Cancel
+        ' 
+        Menu_Cancel.ForeColor = Color.IndianRed
+        Menu_Cancel.Name = "Menu_Cancel"
+        Menu_Cancel.Size = New Size(110, 22)
+        Menu_Cancel.Text = "Cancel"
+        ' 
+        ' LabelRefTitle
+        ' 
+        LabelRefTitle.BackColor = SystemColors.ControlLight
+        LabelRefTitle.Location = New Point(11, 9)
+        LabelRefTitle.Name = "LabelRefTitle"
+        LabelRefTitle.Size = New Size(741, 20)
+        LabelRefTitle.TabIndex = 8
+        LabelRefTitle.Text = "-"
+        ' 
+        ' frmRefAttributes
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.Control
+        ClientSize = New Size(773, 221)
+        ContextMenuStrip = ContextMenuStrip1
+        ControlBox = False
+        Controls.Add(CheckBoxImp3)
+        Controls.Add(CheckBoxImp2)
+        Controls.Add(CheckBoxLecture)
+        Controls.Add(LabelRefTitle)
+        Controls.Add(CheckBoxImp1)
+        Controls.Add(Panel2)
+        Controls.Add(CheckBoxManual)
+        Controls.Add(CheckBoxImR)
+        Controls.Add(CheckBoxPaper)
+        Controls.Add(CheckBoxBook)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "frmRefAttributes"
+        ShowIcon = False
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Attributes"
+        Panel2.ResumeLayout(False)
+        Panel2.PerformLayout()
+        ContextMenuStrip1.ResumeLayout(False)
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
-
-    Friend WithEvents Panel1 As Panel
     Friend WithEvents CheckBoxLecture As CheckBox
     Friend WithEvents CheckBoxManual As CheckBox
     Friend WithEvents CheckBoxBook As CheckBox
