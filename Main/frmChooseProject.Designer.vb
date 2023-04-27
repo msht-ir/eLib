@@ -22,194 +22,180 @@ Partial Class frmChooseProject
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.ListProj = New System.Windows.Forms.ListBox()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu1_OK = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu1_Active = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu1_Inactive = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu1_All = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu1_Cancel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ListProd = New System.Windows.Forms.ListBox()
-        Me.ContextMenuStrip2 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu2_OK = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu2_Cancel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TextBoxProdNote = New System.Windows.Forms.TextBox()
-        Me.txtSearchProj = New System.Windows.Forms.TextBox()
-        Me.txtSearchProd = New System.Windows.Forms.TextBox()
-        Me.ContextMenuStrip1.SuspendLayout()
-        Me.ContextMenuStrip2.SuspendLayout()
-        Me.SuspendLayout()
-        '
-        'ListProj
-        '
-        Me.ListProj.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ListProj.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.ListProj.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ListProj.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.ListProj.FormattingEnabled = True
-        Me.ListProj.ItemHeight = 17
-        Me.ListProj.Location = New System.Drawing.Point(12, 28)
-        Me.ListProj.Margin = New System.Windows.Forms.Padding(4)
-        Me.ListProj.Name = "ListProj"
-        Me.ListProj.Size = New System.Drawing.Size(304, 425)
-        Me.ListProj.TabIndex = 0
-        Me.ListProj.TabStop = False
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu1_Active, Me.Menu1_Inactive, Me.Menu1_All, Me.ToolStripMenuItem1, Me.Menu1_OK, Me.Menu1_Cancel})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 120)
-        '
-        'Menu1_OK
-        '
-        Me.Menu1_OK.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Menu1_OK.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Menu1_OK.Name = "Menu1_OK"
-        Me.Menu1_OK.Size = New System.Drawing.Size(152, 22)
-        Me.Menu1_OK.Text = "Select Project"
-        '
-        'Menu1_Active
-        '
-        Me.Menu1_Active.Checked = True
-        Me.Menu1_Active.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.Menu1_Active.Name = "Menu1_Active"
-        Me.Menu1_Active.Size = New System.Drawing.Size(152, 22)
-        Me.Menu1_Active.Text = "Active"
-        '
-        'Menu1_Inactive
-        '
-        Me.Menu1_Inactive.Name = "Menu1_Inactive"
-        Me.Menu1_Inactive.Size = New System.Drawing.Size(152, 22)
-        Me.Menu1_Inactive.Text = "Inactive"
-        '
-        'Menu1_All
-        '
-        Me.Menu1_All.Name = "Menu1_All"
-        Me.Menu1_All.Size = New System.Drawing.Size(152, 22)
-        Me.Menu1_All.Text = "All"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(149, 6)
-        '
-        'Menu1_Cancel
-        '
-        Me.Menu1_Cancel.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu1_Cancel.Name = "Menu1_Cancel"
-        Me.Menu1_Cancel.Size = New System.Drawing.Size(152, 22)
-        Me.Menu1_Cancel.Text = "Cancel"
-        '
-        'ListProd
-        '
-        Me.ListProd.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ListProd.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.ListProd.ContextMenuStrip = Me.ContextMenuStrip2
-        Me.ListProd.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.ListProd.FormattingEnabled = True
-        Me.ListProd.ItemHeight = 17
-        Me.ListProd.Location = New System.Drawing.Point(324, 28)
-        Me.ListProd.Margin = New System.Windows.Forms.Padding(4)
-        Me.ListProd.Name = "ListProd"
-        Me.ListProd.Size = New System.Drawing.Size(304, 425)
-        Me.ListProd.TabIndex = 1
-        Me.ListProd.TabStop = False
-        '
-        'ContextMenuStrip2
-        '
-        Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu2_OK, Me.Menu2_Cancel})
-        Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(172, 48)
-        '
-        'Menu2_OK
-        '
-        Me.Menu2_OK.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.Menu2_OK.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Menu2_OK.Name = "Menu2_OK"
-        Me.Menu2_OK.Size = New System.Drawing.Size(171, 22)
-        Me.Menu2_OK.Text = "Select subProject"
-        '
-        'Menu2_Cancel
-        '
-        Me.Menu2_Cancel.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu2_Cancel.Name = "Menu2_Cancel"
-        Me.Menu2_Cancel.Size = New System.Drawing.Size(171, 22)
-        Me.Menu2_Cancel.Text = "Cancel"
-        '
-        'TextBoxProdNote
-        '
-        Me.TextBoxProdNote.BackColor = System.Drawing.SystemColors.Control
-        Me.TextBoxProdNote.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TextBoxProdNote.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.TextBoxProdNote.ForeColor = System.Drawing.Color.Teal
-        Me.TextBoxProdNote.Location = New System.Drawing.Point(337, 4)
-        Me.TextBoxProdNote.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBoxProdNote.Name = "TextBoxProdNote"
-        Me.TextBoxProdNote.Size = New System.Drawing.Size(291, 14)
-        Me.TextBoxProdNote.TabIndex = 2
-        Me.TextBoxProdNote.TabStop = False
-        '
-        'txtSearchProj
-        '
-        Me.txtSearchProj.BackColor = System.Drawing.SystemColors.Control
-        Me.txtSearchProj.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtSearchProj.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtSearchProj.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtSearchProj.Location = New System.Drawing.Point(12, 461)
-        Me.txtSearchProj.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtSearchProj.Name = "txtSearchProj"
-        Me.txtSearchProj.Size = New System.Drawing.Size(304, 17)
-        Me.txtSearchProj.TabIndex = 0
-        '
-        'txtSearchProd
-        '
-        Me.txtSearchProd.BackColor = System.Drawing.SystemColors.Control
-        Me.txtSearchProd.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtSearchProd.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtSearchProd.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.txtSearchProd.Location = New System.Drawing.Point(324, 461)
-        Me.txtSearchProd.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtSearchProd.Name = "txtSearchProd"
-        Me.txtSearchProd.Size = New System.Drawing.Size(304, 17)
-        Me.txtSearchProd.TabIndex = 1
-        '
-        'frmChooseProject
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 18.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.Control
-        Me.ClientSize = New System.Drawing.Size(641, 480)
-        Me.ControlBox = False
-        Me.Controls.Add(Me.txtSearchProd)
-        Me.Controls.Add(Me.txtSearchProj)
-        Me.Controls.Add(Me.TextBoxProdNote)
-        Me.Controls.Add(Me.ListProd)
-        Me.Controls.Add(Me.ListProj)
-        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmChooseProject"
-        Me.ShowIcon = False
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Choose a Project / subProject"
-        Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.ContextMenuStrip2.ResumeLayout(False)
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
-
+        components = New ComponentModel.Container()
+        ListProj = New ListBox()
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        Menu1_Active = New ToolStripMenuItem()
+        Menu1_Inactive = New ToolStripMenuItem()
+        Menu1_All = New ToolStripMenuItem()
+        ToolStripMenuItem1 = New ToolStripSeparator()
+        Menu1_OK = New ToolStripMenuItem()
+        Menu1_Cancel = New ToolStripMenuItem()
+        ListProd = New ListBox()
+        ContextMenuStrip2 = New ContextMenuStrip(components)
+        Menu2_OK = New ToolStripMenuItem()
+        Menu2_Cancel = New ToolStripMenuItem()
+        TextBoxProdNote = New TextBox()
+        txtSearchProj = New TextBox()
+        ContextMenuStrip1.SuspendLayout()
+        ContextMenuStrip2.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' ListProj
+        ' 
+        ListProj.BackColor = SystemColors.ControlLight
+        ListProj.BorderStyle = BorderStyle.None
+        ListProj.ContextMenuStrip = ContextMenuStrip1
+        ListProj.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        ListProj.FormattingEnabled = True
+        ListProj.ItemHeight = 17
+        ListProj.Location = New Point(12, 56)
+        ListProj.Margin = New Padding(4)
+        ListProj.Name = "ListProj"
+        ListProj.Size = New Size(304, 340)
+        ListProj.TabIndex = 0
+        ListProj.TabStop = False
+        ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {Menu1_Active, Menu1_Inactive, Menu1_All, ToolStripMenuItem1, Menu1_OK, Menu1_Cancel})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(153, 120)
+        ' 
+        ' Menu1_Active
+        ' 
+        Menu1_Active.Checked = True
+        Menu1_Active.CheckState = CheckState.Checked
+        Menu1_Active.Name = "Menu1_Active"
+        Menu1_Active.Size = New Size(152, 22)
+        Menu1_Active.Text = "Active"
+        ' 
+        ' Menu1_Inactive
+        ' 
+        Menu1_Inactive.Name = "Menu1_Inactive"
+        Menu1_Inactive.Size = New Size(152, 22)
+        Menu1_Inactive.Text = "Inactive"
+        ' 
+        ' Menu1_All
+        ' 
+        Menu1_All.Name = "Menu1_All"
+        Menu1_All.Size = New Size(152, 22)
+        Menu1_All.Text = "All"
+        ' 
+        ' ToolStripMenuItem1
+        ' 
+        ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        ToolStripMenuItem1.Size = New Size(149, 6)
+        ' 
+        ' Menu1_OK
+        ' 
+        Menu1_OK.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        Menu1_OK.ForeColor = SystemColors.HotTrack
+        Menu1_OK.Name = "Menu1_OK"
+        Menu1_OK.Size = New Size(152, 22)
+        Menu1_OK.Text = "Select Project"
+        ' 
+        ' Menu1_Cancel
+        ' 
+        Menu1_Cancel.ForeColor = Color.IndianRed
+        Menu1_Cancel.Name = "Menu1_Cancel"
+        Menu1_Cancel.Size = New Size(152, 22)
+        Menu1_Cancel.Text = "Cancel"
+        ' 
+        ' ListProd
+        ' 
+        ListProd.BackColor = SystemColors.ControlLight
+        ListProd.BorderStyle = BorderStyle.None
+        ListProd.ContextMenuStrip = ContextMenuStrip2
+        ListProd.Font = New Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point)
+        ListProd.FormattingEnabled = True
+        ListProd.ItemHeight = 17
+        ListProd.Location = New Point(335, 56)
+        ListProd.Margin = New Padding(4)
+        ListProd.Name = "ListProd"
+        ListProd.Size = New Size(304, 340)
+        ListProd.TabIndex = 1
+        ListProd.TabStop = False
+        ' 
+        ' ContextMenuStrip2
+        ' 
+        ContextMenuStrip2.Items.AddRange(New ToolStripItem() {Menu2_OK, Menu2_Cancel})
+        ContextMenuStrip2.Name = "ContextMenuStrip2"
+        ContextMenuStrip2.Size = New Size(172, 48)
+        ' 
+        ' Menu2_OK
+        ' 
+        Menu2_OK.Font = New Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point)
+        Menu2_OK.ForeColor = SystemColors.HotTrack
+        Menu2_OK.Name = "Menu2_OK"
+        Menu2_OK.Size = New Size(171, 22)
+        Menu2_OK.Text = "Select subProject"
+        ' 
+        ' Menu2_Cancel
+        ' 
+        Menu2_Cancel.ForeColor = Color.IndianRed
+        Menu2_Cancel.Name = "Menu2_Cancel"
+        Menu2_Cancel.Size = New Size(171, 22)
+        Menu2_Cancel.Text = "Cancel"
+        ' 
+        ' TextBoxProdNote
+        ' 
+        TextBoxProdNote.BackColor = SystemColors.Control
+        TextBoxProdNote.BorderStyle = BorderStyle.None
+        TextBoxProdNote.Font = New Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        TextBoxProdNote.ForeColor = Color.Teal
+        TextBoxProdNote.Location = New Point(13, 416)
+        TextBoxProdNote.Margin = New Padding(4)
+        TextBoxProdNote.Name = "TextBoxProdNote"
+        TextBoxProdNote.Size = New Size(626, 14)
+        TextBoxProdNote.TabIndex = 2
+        TextBoxProdNote.TabStop = False
+        TextBoxProdNote.TextAlign = HorizontalAlignment.Right
+        ' 
+        ' txtSearchProj
+        ' 
+        txtSearchProj.BackColor = SystemColors.ControlLight
+        txtSearchProj.BorderStyle = BorderStyle.None
+        txtSearchProj.Font = New Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point)
+        txtSearchProj.ForeColor = Color.IndianRed
+        txtSearchProj.Location = New Point(13, 13)
+        txtSearchProj.Margin = New Padding(4)
+        txtSearchProj.Name = "txtSearchProj"
+        txtSearchProj.Size = New Size(626, 18)
+        txtSearchProj.TabIndex = 0
+        txtSearchProj.TextAlign = HorizontalAlignment.Center
+        ' 
+        ' frmChooseProject
+        ' 
+        AutoScaleDimensions = New SizeF(9F, 18F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.Control
+        ClientSize = New Size(654, 440)
+        ControlBox = False
+        Controls.Add(txtSearchProj)
+        Controls.Add(TextBoxProdNote)
+        Controls.Add(ListProd)
+        Controls.Add(ListProj)
+        Font = New Font("Microsoft Sans Serif", 11.25F, FontStyle.Regular, GraphicsUnit.Point)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        Margin = New Padding(4)
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "frmChooseProject"
+        ShowIcon = False
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Choose a Project / subProject"
+        ContextMenuStrip1.ResumeLayout(False)
+        ContextMenuStrip2.ResumeLayout(False)
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents ListProj As ListBox
     Friend WithEvents ListProd As ListBox
     Friend WithEvents TextBoxProdNote As TextBox
     Friend WithEvents txtSearchProj As TextBox
-    Friend WithEvents txtSearchProd As TextBox
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents Menu1_Active As ToolStripMenuItem
     Friend WithEvents Menu1_Inactive As ToolStripMenuItem

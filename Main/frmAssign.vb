@@ -1060,9 +1060,6 @@ Public Class frmAssign
             Case 37 : txtSearchProject.Focus() '<- Left
         End Select
     End Sub
-    Private Sub List3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles List3.SelectedIndexChanged
-        'List3_Click(sender, e)
-    End Sub
     Private Sub Menu3_Add_Click(sender As Object, e As EventArgs) Handles Menu3_Add.Click
         If UserType = "Guest" Then
             MsgBox("You are Logged-In as 'Guest'", vbInformation, "eLib")
@@ -1251,6 +1248,18 @@ Public Class frmAssign
         Menu3_Active.Checked = False
         Menu3_InActive.Checked = False
         Menu3_All.Checked = True 'but filter by strSearchProject
+        '//Also search subProjects
+        Dim strSearchPrd As String = Trim(txtSearchProject.Text)
+        If strSearchPrd = "" Then Exit Sub
+        SrearchProducts(strSearchPrd)
+        List4.DataSource = DS.Tables("tblProduct")
+        List4.DisplayMember = "ProductName"
+        List4.ValueMember = "ID"
+        List4.SelectedValue = -1
+        DS.Tables("tblRefs2").Clear()
+        DS.Tables("tblProductNotes").Clear()
+        ClearLabels(240) '240:&B11110000 clear labels in below of the form
+        Menu4_ClickShowNotes.Checked = False
     End Sub
     Private Sub txtSearchProject_KeyDown(sender As Object, e As KeyEventArgs) Handles txtSearchProject.KeyDown
         'MsgBox(Str(e.KeyCode))
@@ -1339,6 +1348,25 @@ Public Class frmAssign
                 Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
                     CnnSC.Open()
                     DASC = New SqlServerCe.SqlCeDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Where Project_ID = " & Projectid.ToString & " Order by ProductName", CnnSC)
+                    DASC.Fill(DS, "tblProduct")
+                    CnnSC.Close()
+                End Using
+        End Select
+    End Sub
+    Private Sub SrearchProducts(strSearchKeyword As String)
+        DS.Tables("tblProduct").Clear()
+        Select Case DatabaseType
+            Case "SqlServer"
+                Using CnnSS = New SqlClient.SqlConnection(strDatabaseCNNstring)
+                    CnnSS.Open()
+                    DASS = New SqlClient.SqlDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Where ProductName LIKE '%" & strSearchKeyword & "%' Order by ProductName", CnnSS)
+                    DASS.Fill(DS, "tblProduct")
+                    CnnSS.Close()
+                End Using
+            Case "SqlServerCE"
+                Using CnnSC = New SqlServerCe.SqlCeConnection(strDatabaseCNNstring)
+                    CnnSC.Open()
+                    DASC = New SqlServerCe.SqlCeDataAdapter("Select ID, ProductName, Notes, Project_ID FROM Product Where ProductName LIKE '%" & strSearchKeyword & "%' Order by ProductName", CnnSC)
                     DASC.Fill(DS, "tblProduct")
                     CnnSC.Close()
                 End Using

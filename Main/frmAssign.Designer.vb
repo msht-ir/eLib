@@ -780,7 +780,7 @@ Partial Class frmAssign
         Menu_AddUser.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
         Menu_AddUser.ForeColor = SystemColors.ActiveCaptionText
         Menu_AddUser.Name = "Menu_AddUser"
-        Menu_AddUser.Size = New Size(168, 22)
+        Menu_AddUser.Size = New Size(180, 22)
         Menu_AddUser.Text = "New user"
         ' 
         ' Menu_ChangePass
@@ -788,20 +788,20 @@ Partial Class frmAssign
         Menu_ChangePass.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
         Menu_ChangePass.ForeColor = SystemColors.ActiveCaptionText
         Menu_ChangePass.Name = "Menu_ChangePass"
-        Menu_ChangePass.Size = New Size(168, 22)
+        Menu_ChangePass.Size = New Size(180, 22)
         Menu_ChangePass.Text = "Change password"
         ' 
         ' ToolStripMenuItem13
         ' 
         ToolStripMenuItem13.Name = "ToolStripMenuItem13"
-        ToolStripMenuItem13.Size = New Size(165, 6)
+        ToolStripMenuItem13.Size = New Size(177, 6)
         ' 
         ' Menu_user
         ' 
         Menu_user.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         Menu_user.ForeColor = Color.DarkGoldenrod
         Menu_user.Name = "Menu_user"
-        Menu_user.Size = New Size(168, 22)
+        Menu_user.Size = New Size(180, 22)
         Menu_user.Text = "Change user..."
         ' 
         ' Menu_Exit
@@ -809,7 +809,7 @@ Partial Class frmAssign
         Menu_Exit.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         Menu_Exit.ForeColor = Color.IndianRed
         Menu_Exit.Name = "Menu_Exit"
-        Menu_Exit.Size = New Size(168, 22)
+        Menu_Exit.Size = New Size(180, 22)
         Menu_Exit.Text = "Quit"
         ' 
         ' LectNoteToolStripMenuItem
@@ -824,7 +824,7 @@ Partial Class frmAssign
         Menu_AssignFolder.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         Menu_AssignFolder.ForeColor = Color.RoyalBlue
         Menu_AssignFolder.Name = "Menu_AssignFolder"
-        Menu_AssignFolder.Size = New Size(130, 22)
+        Menu_AssignFolder.Size = New Size(180, 22)
         Menu_AssignFolder.Text = "Folders ..."
         ' 
         ' Menu_Import
@@ -832,7 +832,7 @@ Partial Class frmAssign
         Menu_Import.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
         Menu_Import.ForeColor = SystemColors.ControlText
         Menu_Import.Name = "Menu_Import"
-        Menu_Import.Size = New Size(130, 22)
+        Menu_Import.Size = New Size(180, 22)
         Menu_Import.Text = "Import"
         ' 
         ' CreateARefToolStripMenuItem
@@ -841,36 +841,36 @@ Partial Class frmAssign
         CreateARefToolStripMenuItem.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
         CreateARefToolStripMenuItem.ForeColor = SystemColors.ControlText
         CreateARefToolStripMenuItem.Name = "CreateARefToolStripMenuItem"
-        CreateARefToolStripMenuItem.Size = New Size(130, 22)
+        CreateARefToolStripMenuItem.Size = New Size(180, 22)
         CreateARefToolStripMenuItem.Text = "Create refs"
         ' 
         ' Menu_CreateWord
         ' 
         Menu_CreateWord.Font = New Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point)
         Menu_CreateWord.Name = "Menu_CreateWord"
-        Menu_CreateWord.Size = New Size(159, 22)
+        Menu_CreateWord.Size = New Size(180, 22)
         Menu_CreateWord.Text = "Word Document"
         ' 
         ' Menu_CreatePowepoint
         ' 
         Menu_CreatePowepoint.Font = New Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point)
         Menu_CreatePowepoint.Name = "Menu_CreatePowepoint"
-        Menu_CreatePowepoint.Size = New Size(159, 22)
+        Menu_CreatePowepoint.Size = New Size(180, 22)
         Menu_CreatePowepoint.Text = "PowerPoint"
         ' 
         ' Menu_CreateTextFile
         ' 
         Menu_CreateTextFile.Font = New Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point)
         Menu_CreateTextFile.Name = "Menu_CreateTextFile"
-        Menu_CreateTextFile.Size = New Size(159, 22)
+        Menu_CreateTextFile.Size = New Size(180, 22)
         Menu_CreateTextFile.Text = "Text file"
         ' 
         ' Menu_CreateExcel
         ' 
         Menu_CreateExcel.Font = New Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point)
         Menu_CreateExcel.Name = "Menu_CreateExcel"
-        Menu_CreateExcel.Size = New Size(159, 22)
-        Menu_CreateExcel.Text = "Ecxel"
+        Menu_CreateExcel.Size = New Size(180, 22)
+        Menu_CreateExcel.Text = "Excel"
         ' 
         ' HelpToolStripMenuItem
         ' 
@@ -882,13 +882,13 @@ Partial Class frmAssign
         ' Menu_Guide
         ' 
         Menu_Guide.Name = "Menu_Guide"
-        Menu_Guide.Size = New Size(180, 22)
+        Menu_Guide.Size = New Size(142, 22)
         Menu_Guide.Text = "Online guide"
         ' 
         ' Menu_About
         ' 
         Menu_About.Name = "Menu_About"
-        Menu_About.Size = New Size(180, 22)
+        Menu_About.Size = New Size(142, 22)
         Menu_About.Text = "About"
         ' 
         ' List6

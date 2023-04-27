@@ -31,7 +31,6 @@ Partial Class frmCNN
         Menu_SelectBE = New ToolStripMenuItem()
         ToolStripMenuItem2 = New ToolStripSeparator()
         Menu_ResetCnns = New ToolStripMenuItem()
-        Menu_Remove = New ToolStripMenuItem()
         Menu_FindDB = New ToolStripMenuItem()
         ToolStripMenuItem3 = New ToolStripSeparator()
         Menu_Guide = New ToolStripMenuItem()
@@ -78,87 +77,80 @@ Partial Class frmCNN
         GridCNN.RowHeadersVisible = False
         GridCNN.RowHeadersWidth = 20
         GridCNN.RowTemplate.Height = 25
-        GridCNN.Size = New Size(491, 156)
+        GridCNN.Size = New Size(544, 134)
         GridCNN.TabIndex = 3
         ' 
         ' MenuStripCNN
         ' 
-        MenuStripCNN.Items.AddRange(New ToolStripItem() {Menu_SelectBE, ToolStripMenuItem2, Menu_ResetCnns, Menu_Remove, Menu_FindDB, ToolStripMenuItem3, Menu_Guide, Menu_Exit})
+        MenuStripCNN.Items.AddRange(New ToolStripItem() {Menu_SelectBE, ToolStripMenuItem2, Menu_ResetCnns, Menu_FindDB, ToolStripMenuItem3, Menu_Guide, Menu_Exit})
         MenuStripCNN.Name = "MenuStripCNN"
-        MenuStripCNN.Size = New Size(189, 148)
+        MenuStripCNN.Size = New Size(131, 126)
         ' 
         ' Menu_SelectBE
         ' 
         Menu_SelectBE.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
         Menu_SelectBE.ForeColor = Color.DarkGoldenrod
         Menu_SelectBE.Name = "Menu_SelectBE"
-        Menu_SelectBE.Size = New Size(188, 22)
+        Menu_SelectBE.Size = New Size(130, 22)
         Menu_SelectBE.Text = "Log in"
         ' 
         ' ToolStripMenuItem2
         ' 
         ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        ToolStripMenuItem2.Size = New Size(185, 6)
+        ToolStripMenuItem2.Size = New Size(127, 6)
         ' 
         ' Menu_ResetCnns
         ' 
         Menu_ResetCnns.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
         Menu_ResetCnns.ForeColor = SystemColors.ControlText
         Menu_ResetCnns.Name = "Menu_ResetCnns"
-        Menu_ResetCnns.Size = New Size(188, 22)
+        Menu_ResetCnns.Size = New Size(130, 22)
         Menu_ResetCnns.Text = "Libraries ..."
-        ' 
-        ' Menu_Remove
-        ' 
-        Menu_Remove.ForeColor = Color.IndianRed
-        Menu_Remove.Name = "Menu_Remove"
-        Menu_Remove.Size = New Size(188, 22)
-        Menu_Remove.Text = "Delete"
         ' 
         ' Menu_FindDB
         ' 
         Menu_FindDB.Name = "Menu_FindDB"
-        Menu_FindDB.Size = New Size(188, 22)
-        Menu_FindDB.Text = "Find portable libraries"
+        Menu_FindDB.Size = New Size(130, 22)
+        Menu_FindDB.Text = "Find libs ..."
         Menu_FindDB.Visible = False
         ' 
         ' ToolStripMenuItem3
         ' 
         ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        ToolStripMenuItem3.Size = New Size(185, 6)
+        ToolStripMenuItem3.Size = New Size(127, 6)
         ' 
         ' Menu_Guide
         ' 
         Menu_Guide.Name = "Menu_Guide"
-        Menu_Guide.Size = New Size(188, 22)
+        Menu_Guide.Size = New Size(130, 22)
         Menu_Guide.Text = "Help"
         ' 
         ' Menu_Exit
         ' 
         Menu_Exit.ForeColor = Color.IndianRed
         Menu_Exit.Name = "Menu_Exit"
-        Menu_Exit.Size = New Size(188, 22)
+        Menu_Exit.Size = New Size(130, 22)
         Menu_Exit.Text = "Quit"
         ' 
         ' PasswordTextBox
         ' 
-        PasswordTextBox.BackColor = SystemColors.ControlLight
+        PasswordTextBox.BackColor = SystemColors.Control
         PasswordTextBox.BorderStyle = BorderStyle.None
-        PasswordTextBox.Enabled = False
         PasswordTextBox.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
-        PasswordTextBox.ForeColor = SystemColors.ControlLight
-        PasswordTextBox.Location = New Point(242, 164)
+        PasswordTextBox.ForeColor = SystemColors.ActiveCaption
+        PasswordTextBox.Location = New Point(77, 161)
         PasswordTextBox.Name = "PasswordTextBox"
         PasswordTextBox.PasswordChar = "-"c
-        PasswordTextBox.Size = New Size(120, 16)
+        PasswordTextBox.Size = New Size(138, 16)
         PasswordTextBox.TabIndex = 6
+        PasswordTextBox.Visible = False
         ' 
         ' Label1
         ' 
         Label1.AutoSize = True
         Label1.Font = New Font("Copperplate Gothic Light", 11F, FontStyle.Regular, GraphicsUnit.Point)
-        Label1.ForeColor = Color.DimGray
-        Label1.Location = New Point(182, 164)
+        Label1.ForeColor = Color.IndianRed
+        Label1.Location = New Point(17, 161)
         Label1.Name = "Label1"
         Label1.Size = New Size(54, 16)
         Label1.TabIndex = 7
@@ -171,12 +163,12 @@ Partial Class frmCNN
         AutoScaleMode = AutoScaleMode.Font
         BackColor = SystemColors.ControlLight
         BackgroundImageLayout = ImageLayout.Stretch
-        ClientSize = New Size(491, 193)
+        ClientSize = New Size(544, 205)
         ContextMenuStrip = MenuStripCNN
         ControlBox = False
+        Controls.Add(GridCNN)
         Controls.Add(Label1)
         Controls.Add(PasswordTextBox)
-        Controls.Add(GridCNN)
         ForeColor = Color.DarkSlateGray
         FormBorderStyle = FormBorderStyle.FixedSingle
         Icon = CType(resources.GetObject("$this.Icon"), Icon)
@@ -201,6 +193,5 @@ Partial Class frmCNN
     Friend WithEvents ToolStripMenuItem3 As ToolStripSeparator
     Friend WithEvents PasswordTextBox As TextBox
     Friend WithEvents Label1 As Label
-    Friend WithEvents Menu_Remove As ToolStripMenuItem
     Friend WithEvents Menu_ResetCnns As ToolStripMenuItem
 End Class

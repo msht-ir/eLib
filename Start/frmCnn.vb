@@ -22,7 +22,7 @@ Public Class frmCNN
         If strInstanceName = "" Then strInstanceName = "SQLEXPRESS"
         'Remove possible existing Data related to other users (now, and also when exiting the Program)
         DeleteHtmlFiles()
-        PasswordTextBox.Enabled = False
+        PasswordTextBox.Visible = False
         GetBuildInfo()
         Me.Text = "libs"
         tblConnection.Columns.Add("Library", GetType(String))
@@ -101,7 +101,7 @@ lbl_Read:
         GridCNN.DataBindings.Clear()
         GridCNN.DataSource = tblConnection
         GridCNN.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None
-        GridCNN.Columns(0).Width = 480         'connection name
+        GridCNN.Columns(0).Width = 530         'connection name
         GridCNN.Columns(1).Width = 0           'connection address //was: 610
         GridCNN.Columns(2).Width = 0           'connection username
         GridCNN.Columns(3).Width = 0           'connection password
@@ -130,18 +130,6 @@ lbl_Read:
             End If
         End Using
         SaveChanges()
-    End Sub
-    Private Sub Menu_Remove_Click(sender As Object, e As EventArgs) Handles Menu_Remove.Click
-        If GridCNN.SelectedCells.Count = 0 Then Exit Sub 'No cells is selected
-        Try '//Method2 for scaping from error!
-            Dim iRow As Integer = GridCNN.SelectedCells(0).RowIndex
-            'Dim myansw As DialogResult = MsgBox("Delete 'Connection' from List?", vbOKCancel + vbDefaultButton2, "eLib")
-            'If myansw = vbCancel Then Exit Sub
-            GridCNN.Rows.RemoveAt(iRow) '//DataGridView Row Delete in 'CellSelect' Mode
-            SaveChanges()
-        Catch ex As Exception
-            Exit Sub 'No cells is selected
-        End Try
     End Sub
     Private Sub Menu_ResetCnns_Click(sender As Object, e As EventArgs) Handles Menu_ResetCnns.Click
         frmCnnReset.ShowDialog()
@@ -192,7 +180,7 @@ lbl_Read:
     End Sub
     Private Sub GridCNN_Click(sender As Object, e As EventArgs) Handles GridCNN.Click
         PasswordTextBox.Text = ""
-        PasswordTextBox.Enabled = False
+        PasswordTextBox.Visible = False
         Label1.Visible = False
     End Sub
     Private Sub Menu_SelectBE_Click(sender As Object, e As EventArgs) Handles Menu_SelectBE.Click
@@ -212,7 +200,7 @@ lbl_Read:
             Case 1 'connection was successful
                 ReadSettingsAndUsers() 'to get Admin Pass, Current Version, etc
                 strCaption = Server2Connect 'for: frmAssign.text
-                PasswordTextBox.Enabled = True
+                PasswordTextBox.Visible = True
                 Label1.Visible = True
                 PasswordTextBox.Focus()
                 '//Validate This Copy

@@ -22,129 +22,128 @@ Partial Class frmReadRef
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
-        Me.ListPaths = New System.Windows.Forms.ListBox()
-        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.Menu_Read = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Edit = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Locate = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_SaveACopy = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_OpenSaveFolder = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Email = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem3 = New System.Windows.Forms.ToolStripSeparator()
-        Me.Menu_Delete = New System.Windows.Forms.ToolStripMenuItem()
-        Me.Menu_Cancel = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ContextMenuStrip1.SuspendLayout()
-        Me.SuspendLayout()
-        '
-        'ListPaths
-        '
-        Me.ListPaths.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ListPaths.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.ListPaths.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ListPaths.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ListPaths.Font = New System.Drawing.Font("Segoe UI", 10.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point)
-        Me.ListPaths.ForeColor = System.Drawing.Color.IndianRed
-        Me.ListPaths.FormattingEnabled = True
-        Me.ListPaths.ItemHeight = 17
-        Me.ListPaths.Location = New System.Drawing.Point(0, 0)
-        Me.ListPaths.Name = "ListPaths"
-        Me.ListPaths.Size = New System.Drawing.Size(1205, 80)
-        Me.ListPaths.TabIndex = 0
-        '
-        'ContextMenuStrip1
-        '
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Menu_Read, Me.Menu_Edit, Me.Menu_Locate, Me.ToolStripMenuItem1, Me.Menu_SaveACopy, Me.Menu_OpenSaveFolder, Me.Menu_Email, Me.ToolStripMenuItem3, Me.Menu_Delete, Me.Menu_Cancel})
-        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(148, 192)
-        '
-        'Menu_Read
-        '
-        Me.Menu_Read.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu_Read.ForeColor = System.Drawing.SystemColors.HotTrack
-        Me.Menu_Read.Name = "Menu_Read"
-        Me.Menu_Read.Size = New System.Drawing.Size(147, 22)
-        Me.Menu_Read.Text = "Read ..."
-        '
-        'Menu_Edit
-        '
-        Me.Menu_Edit.Font = New System.Drawing.Font("Segoe UI", 9.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point)
-        Me.Menu_Edit.ForeColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.Menu_Edit.Name = "Menu_Edit"
-        Me.Menu_Edit.Size = New System.Drawing.Size(147, 22)
-        Me.Menu_Edit.Text = "Edit ..."
-        '
-        'Menu_Locate
-        '
-        Me.Menu_Locate.Name = "Menu_Locate"
-        Me.Menu_Locate.Size = New System.Drawing.Size(147, 22)
-        Me.Menu_Locate.Text = "Locate"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(144, 6)
-        '
-        'Menu_SaveACopy
-        '
-        Me.Menu_SaveACopy.Name = "Menu_SaveACopy"
-        Me.Menu_SaveACopy.Size = New System.Drawing.Size(147, 22)
-        Me.Menu_SaveACopy.Text = "Save a Copy"
-        '
-        'Menu_OpenSaveFolder
-        '
-        Me.Menu_OpenSaveFolder.Name = "Menu_OpenSaveFolder"
-        Me.Menu_OpenSaveFolder.Size = New System.Drawing.Size(147, 22)
-        Me.Menu_OpenSaveFolder.Text = "SaveAs Folder"
-        '
-        'Menu_Email
-        '
-        Me.Menu_Email.Enabled = False
-        Me.Menu_Email.Name = "Menu_Email"
-        Me.Menu_Email.Size = New System.Drawing.Size(147, 22)
-        Me.Menu_Email.Text = "Email"
-        '
-        'ToolStripMenuItem3
-        '
-        Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(144, 6)
-        '
-        'Menu_Delete
-        '
-        Me.Menu_Delete.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Menu_Delete.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Delete.Name = "Menu_Delete"
-        Me.Menu_Delete.Size = New System.Drawing.Size(147, 22)
-        Me.Menu_Delete.Text = "Delete"
-        '
-        'Menu_Cancel
-        '
-        Me.Menu_Cancel.ForeColor = System.Drawing.Color.IndianRed
-        Me.Menu_Cancel.Name = "Menu_Cancel"
-        Me.Menu_Cancel.Size = New System.Drawing.Size(147, 22)
-        Me.Menu_Cancel.Text = "Exit"
-        '
-        'frmReadRef
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.ControlLight
-        Me.ClientSize = New System.Drawing.Size(1205, 80)
-        Me.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.ControlBox = False
-        Me.Controls.Add(Me.ListPaths)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-        Me.MaximizeBox = False
-        Me.MinimizeBox = False
-        Me.Name = "frmReadRef"
-        Me.ShowIcon = False
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "DblClick to READ"
-        Me.ContextMenuStrip1.ResumeLayout(False)
-        Me.ResumeLayout(False)
-
+        components = New ComponentModel.Container()
+        ListPaths = New ListBox()
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        Menu_Read = New ToolStripMenuItem()
+        Menu_Edit = New ToolStripMenuItem()
+        Menu_Locate = New ToolStripMenuItem()
+        ToolStripMenuItem1 = New ToolStripSeparator()
+        Menu_SaveACopy = New ToolStripMenuItem()
+        Menu_OpenSaveFolder = New ToolStripMenuItem()
+        Menu_Email = New ToolStripMenuItem()
+        ToolStripMenuItem3 = New ToolStripSeparator()
+        Menu_Delete = New ToolStripMenuItem()
+        Menu_Cancel = New ToolStripMenuItem()
+        ContextMenuStrip1.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' ListPaths
+        ' 
+        ListPaths.BackColor = SystemColors.ControlLight
+        ListPaths.BorderStyle = BorderStyle.None
+        ListPaths.ContextMenuStrip = ContextMenuStrip1
+        ListPaths.Dock = DockStyle.Fill
+        ListPaths.Font = New Font("Segoe UI", 10F, FontStyle.Italic, GraphicsUnit.Point)
+        ListPaths.ForeColor = Color.IndianRed
+        ListPaths.FormattingEnabled = True
+        ListPaths.ItemHeight = 17
+        ListPaths.Location = New Point(0, 0)
+        ListPaths.Name = "ListPaths"
+        ListPaths.Size = New Size(1201, 76)
+        ListPaths.TabIndex = 0
+        ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {Menu_Read, Menu_Edit, Menu_Locate, ToolStripMenuItem1, Menu_SaveACopy, Menu_OpenSaveFolder, Menu_Email, ToolStripMenuItem3, Menu_Delete, Menu_Cancel})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(148, 192)
+        ' 
+        ' Menu_Read
+        ' 
+        Menu_Read.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        Menu_Read.ForeColor = SystemColors.HotTrack
+        Menu_Read.Name = "Menu_Read"
+        Menu_Read.Size = New Size(147, 22)
+        Menu_Read.Text = "Read ..."
+        ' 
+        ' Menu_Edit
+        ' 
+        Menu_Edit.Font = New Font("Segoe UI", 9F, FontStyle.Bold Or FontStyle.Italic, GraphicsUnit.Point)
+        Menu_Edit.ForeColor = Color.DarkGoldenrod
+        Menu_Edit.Name = "Menu_Edit"
+        Menu_Edit.Size = New Size(147, 22)
+        Menu_Edit.Text = "Edit ..."
+        ' 
+        ' Menu_Locate
+        ' 
+        Menu_Locate.Name = "Menu_Locate"
+        Menu_Locate.Size = New Size(147, 22)
+        Menu_Locate.Text = "Locate"
+        ' 
+        ' ToolStripMenuItem1
+        ' 
+        ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        ToolStripMenuItem1.Size = New Size(144, 6)
+        ' 
+        ' Menu_SaveACopy
+        ' 
+        Menu_SaveACopy.Name = "Menu_SaveACopy"
+        Menu_SaveACopy.Size = New Size(147, 22)
+        Menu_SaveACopy.Text = "Save a Copy"
+        ' 
+        ' Menu_OpenSaveFolder
+        ' 
+        Menu_OpenSaveFolder.Name = "Menu_OpenSaveFolder"
+        Menu_OpenSaveFolder.Size = New Size(147, 22)
+        Menu_OpenSaveFolder.Text = "SaveAs Folder"
+        ' 
+        ' Menu_Email
+        ' 
+        Menu_Email.Enabled = False
+        Menu_Email.Name = "Menu_Email"
+        Menu_Email.Size = New Size(147, 22)
+        Menu_Email.Text = "Email"
+        ' 
+        ' ToolStripMenuItem3
+        ' 
+        ToolStripMenuItem3.Name = "ToolStripMenuItem3"
+        ToolStripMenuItem3.Size = New Size(144, 6)
+        ' 
+        ' Menu_Delete
+        ' 
+        Menu_Delete.Font = New Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point)
+        Menu_Delete.ForeColor = Color.IndianRed
+        Menu_Delete.Name = "Menu_Delete"
+        Menu_Delete.Size = New Size(147, 22)
+        Menu_Delete.Text = "Delete"
+        ' 
+        ' Menu_Cancel
+        ' 
+        Menu_Cancel.ForeColor = Color.IndianRed
+        Menu_Cancel.Name = "Menu_Cancel"
+        Menu_Cancel.Size = New Size(147, 22)
+        Menu_Cancel.Text = "Exit"
+        ' 
+        ' frmReadRef
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ControlLight
+        ClientSize = New Size(1201, 76)
+        ContextMenuStrip = ContextMenuStrip1
+        ControlBox = False
+        Controls.Add(ListPaths)
+        FormBorderStyle = FormBorderStyle.FixedSingle
+        MaximizeBox = False
+        MinimizeBox = False
+        Name = "frmReadRef"
+        ShowIcon = False
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "DblClick to READ"
+        ContextMenuStrip1.ResumeLayout(False)
+        ResumeLayout(False)
     End Sub
 
     Friend WithEvents ListPaths As ListBox
