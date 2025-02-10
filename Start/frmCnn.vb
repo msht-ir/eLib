@@ -20,7 +20,7 @@ Public Class frmCNN
             'MsgBox(ex.ToString)
         End Try
         If strInstanceName = "" Then strInstanceName = "SQLEXPRESS"
-        'Remove possible existing Data related to other users (now, and also when exiting the Program)
+        'Remove possible existing Data related to other users (both now and also when exiting the Program)
         DeleteHtmlFiles()
         PasswordTextBox.Visible = False
         GetBuildInfo()
