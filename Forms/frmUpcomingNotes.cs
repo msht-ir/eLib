@@ -12,7 +12,7 @@ namespace eLib.Forms
         public frmUpcomingNotes ()
             {
             InitializeComponent ();
-            }        
+            }
         int intGridExpandWidth = 893; int intGridShrinkWidth = 465; //txtNote widths
         private void frmUpcomingNotes_Load (object sender, EventArgs e)
             {

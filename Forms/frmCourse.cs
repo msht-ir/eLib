@@ -120,7 +120,7 @@ namespace eLib.Forms
                         {
                         using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                             {
-                            Db.strSQL = "UPDATE CourseTopics SET Course_ID = @courseid, Topic = @topic WHERE ID = " + lstTopics.SelectedValue.ToString ();
+                            Db.strSQL = "UPDATE CourseTopics SET CourseId = @courseid, Topic = @topic WHERE CourseTopicId = " + lstTopics.SelectedValue.ToString ();
                             CnnSS.Open ();
                             var cmd2 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                             cmd2.CommandType = CommandType.Text;
@@ -172,7 +172,7 @@ namespace eLib.Forms
         private void RefreshCourseTopics ()
             {
             Testbank.GetCourseTopics (Course.Id);
-            lstTopics.DataSource = Db.DS.Tables ["tblCourseTopics"];
+            lstTopics.DataSource = Db.DS.Tables["tblCourseTopics"];
             lstTopics.DisplayMember = "Topic";
             lstTopics.ValueMember = "ID";
             }

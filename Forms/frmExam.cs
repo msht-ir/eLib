@@ -131,7 +131,7 @@ namespace eLib.Forms
                 {
                 if (gridComposition.SelectedCells [0].RowIndex >= 0)
                     {
-                    //0ID, 1Exam_ID, 2Topic_ID, 3Topic, 4TopicNTests, 5TestsLevel
+                    //0ID, 1Exam_ID, 2TopicId, 3Topic, 4TopicNTests, 5TestsLevel
                     int r = gridComposition.SelectedCells [0].RowIndex;
                     int compid = Convert.ToInt32 (gridComposition.Rows [r].Cells [0].Value);
                     int topicNtests = Convert.ToInt32 (gridComposition.Rows [r].Cells [4].Value);
@@ -189,7 +189,7 @@ namespace eLib.Forms
                 {
                 if (gridComposition.SelectedCells [0].RowIndex >= 0)
                     {
-                    //0ID, 1Exam_ID, 2Topic_ID, 3Topic, 4TopicNTests, 5TestsLevel
+                    //0ID, 1Exam_ID, 2TopicId, 3Topic, 4TopicNTests, 5TestsLevel
                     int r = gridComposition.SelectedCells [0].RowIndex;
                     ExamComposition.Id = Convert.ToInt32 (gridComposition.Rows [r].Cells [0].Value);
                     DialogResult myansw = MessageBox.Show ("Delete Exam-Composition?\n\nClick ( NO ) to EDIT", "eLib.Exams", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -311,10 +311,10 @@ namespace eLib.Forms
                 {
                 gridComposition.Columns [i].SortMode = DataGridViewColumnSortMode.Programmatic;
                 }
-            //[ExamComposition]: ID, Exam_ID, Topic_ID, Topic, TopicNTests, TestsLevel
+            //[ExamComposition]: ID, Exam_ID, TopicId, Topic, TopicNTests, TestsLevel
             gridComposition.Columns [0].Visible = false;   //ID
             gridComposition.Columns [1].Visible = false;   //Exam_ID
-            gridComposition.Columns [2].Visible = false;   //Topic_ID
+            gridComposition.Columns [2].Visible = false;   //TopicId
             //gridComposition.Columns [5].Visible = false;   //TestsLevel
             gridComposition.Columns [3].Width = 360;       //Topic
             gridComposition.Columns [4].Width = 70;        //TopicNTests

@@ -88,10 +88,10 @@ namespace eLib
                         txtProjectNote.SelectionLength = Strings.Len (txtProjectNote.Text);
                         break;
                         }
-                case 128: //new participant (bit8 on, bit4 off)
+                case 128: //new Student (bit8 on, bit4 off)
                         {
                         CheckBoxActive.Enabled = false;
-                        Text = "New Participant:";
+                        Text = "New Student:";
                         txtProjectName.Text = Project.Name;
                         txtProjectNote.Text = Project.Note;
                         txtProjectName.Focus ();
@@ -99,10 +99,10 @@ namespace eLib
                         txtProjectName.SelectionLength = Strings.Len (txtProjectName.Text);
                         break;
                         }
-                case 136: //edit participant (bit8 on, bit4 on)
+                case 136: //edit Student (bit8 on, bit4 on)
                         {
                         CheckBoxActive.Enabled = false;
-                        Text = "Edit Participant:";
+                        Text = "Edit Student:";
                         txtProjectName.Text = Project.Name;
                         CheckBoxActive.Checked = true;
                         txtProjectName.Enabled = true;

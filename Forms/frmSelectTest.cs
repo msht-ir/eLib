@@ -1,5 +1,4 @@
-﻿using Microsoft.Office.Interop.Access;
-using System;
+﻿using System;
 using System.Data;
 using System.Windows.Forms;
 using Form = System.Windows.Forms.Form;
@@ -21,8 +20,8 @@ namespace eLib.Forms
             Testbank.regTestBank &= 0b011111; //bit6 off (item not selected) --default
             //Load tests of a course and highlight those already selected for an exam
             Testbank.GetTests (Course.Id, "course", 0);
-            lstTests.DataSource = Db.DS.Tables ["tblTests"];
-            lstTests.DisplayMember = "TestText";
+            lstTests.DataSource = Db.DS.Tables["tblTests"];
+            lstTests.DisplayMember = "TestTitle";
             lstTests.ValueMember = "ID";
             lstTests.SelectedIndex = -1;
             if (Testbank.CourseRTL)
@@ -143,9 +142,9 @@ namespace eLib.Forms
                     {
                     using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                         {
-                        //ExamTest: {0Tests.ID, 1ExamTests.ID, 2TestText, 3TestType, 4Course_ID, 5Topic_ID, 6TestRTL, 7OptionsRTL}
-                        int examTestId = Convert.ToInt32 (Db.DS.Tables ["tblExamTests"].Rows [Convert.ToInt32 (lstExamTests.SelectedIndex)] [1]);
-                        Db.strSQL = "DELETE FROM ExamTests WHERE ID =" + examTestId.ToString ();
+                        //ExamTest: {0Tests.ID, 1ExamTests.ID, 2TestTitle, 3TestType, 4Course_ID, 5TopicId, 6TestRTL, 7OptionsRTL}
+                        int examTestId = Convert.ToInt32 (Db.DS.Tables["tblExamTests"].Rows[Convert.ToInt32 (lstExamTests.SelectedIndex)][1]);
+                        Db.strSQL = "DELETE FROM ExamTests WHERE ExamTestId =" + examTestId.ToString ();
                         CnnSS.Open ();
                         var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                         cmd.CommandType = CommandType.Text;
@@ -181,7 +180,7 @@ namespace eLib.Forms
             {
             Testbank.GetTestOptions (intTestId);
             //ID, Test_ID, OptionText, IsAnswer, ForceLast
-            lstOptions.DataSource = Db.DS.Tables ["tblTestOptions"];
+            lstOptions.DataSource = Db.DS.Tables["tblTestOptions"];
             lstOptions.DisplayMember = "OptionText";
             lstOptions.ValueMember = "ID";
             lstOptions.SelectedIndex = -1;
@@ -190,24 +189,24 @@ namespace eLib.Forms
                 {
                 case "course":
                         {
-                        //tblTests: 0ID, 1TestText, 2TestType, 3Course_ID, 4Topic_ID, 5TestRTL, 6OptionsRTL, 7ForceLast, 8TestLevel
-                        boolRTL = Convert.ToBoolean (Db.DS.Tables ["tblTests"].Rows [(int) lstTests.SelectedIndex] [6]);
+                        //tblTests: 0ID, 1TestTitle, 2TestType, 3Course_ID, 4TopicId, 5TestRTL, 6OptionsRTL, 7ForceLast, 8TestLevel
+                        boolRTL = Convert.ToBoolean (Db.DS.Tables["tblTests"].Rows[(int) lstTests.SelectedIndex][6]);
                         break;
                         }
                 case "exam":
                         {
-                        //tblExamTests: 0Tests.ID, 1ExamTests.ID, 2TestText, 3TestType, 4Course_ID, 5Topic_ID, 6TestRTL, 7OptionsRTL
-                        boolRTL = Convert.ToBoolean (Db.DS.Tables ["tblExamTests"].Rows [(int) lstExamTests.SelectedIndex] [7]);
+                        //tblExamTests: 0Tests.ID, 1ExamTests.ID, 2TestTitle, 3TestType, 4Course_ID, 5TopicId, 6TestRTL, 7OptionsRTL
+                        boolRTL = Convert.ToBoolean (Db.DS.Tables["tblExamTests"].Rows[(int) lstExamTests.SelectedIndex][7]);
                         break;
                         }
                 }
             lstOptions.RightToLeft = (boolRTL) ? RightToLeft.Yes : RightToLeft.No;
             //select answer
             int cnt = 0;
-            foreach (DataRow r in Db.DS.Tables ["tblTestOptions"].Rows)
+            foreach (DataRow r in Db.DS.Tables["tblTestOptions"].Rows)
                 {
                 cnt++;
-                if (Convert.ToBoolean(r [3].ToString()))
+                if (Convert.ToBoolean (r[3].ToString ()))
                     {
                     //MessageBox.Show ("Answer: " + cnt.ToString ());
                     lstOptions.SelectedIndex = cnt - 1;
@@ -219,8 +218,8 @@ namespace eLib.Forms
             {
             //get tests
             Testbank.GetTests (Exam.Id, "Exam", 0);
-            lstExamTests.DataSource = Db.DS.Tables ["tblExamTests"];
-            lstExamTests.DisplayMember = "TestText";
+            lstExamTests.DataSource = Db.DS.Tables["tblExamTests"];
+            lstExamTests.DisplayMember = "TestTitle";
             lstExamTests.ValueMember = "Tests.ID";
             lstExamTests.SelectedIndex = -1;
             }

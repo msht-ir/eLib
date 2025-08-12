@@ -5,11 +5,8 @@ using Microsoft.VisualBasic.CompilerServices;
 using System;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing.Text;
 using System.IO;
-using System.Management;
 using System.Windows.Forms;
-using static System.Windows.Forms.LinkLabel;
 using Strings = Microsoft.VisualBasic.Strings;
 
 namespace eLib
@@ -66,17 +63,17 @@ namespace eLib
             bit 5: frmProject dialog is exited as 0:cancel, 1:ok/save
             bit 6: a subproject is selected from dialog frmSelectProject/Subproject
             bit 7: a project is selected from dialog frmSelectProject/Subproject
-            bit 8: frmProject dialog is requested for participant/pass (examSheets)
+            bit 8: frmProject dialog is requested for Student/pass (examSheets)
          */
         public static void CreateTables ()
             {
             Db.DS.Tables.Add ("tblConnections");
-            Db.DS.Tables ["tblConnections"].Columns.Add ("Library", typeof (string));
-            Db.DS.Tables ["tblConnections"].Columns.Add ("Address", typeof (string));
-            Db.DS.Tables ["tblConnections"].Columns.Add ("initcat", typeof (string));
-            Db.DS.Tables ["tblConnections"].Columns.Add ("uid", typeof (string));
-            Db.DS.Tables ["tblConnections"].Columns.Add ("pwd", typeof (string));
-            Db.DS.Tables ["tblConnections"].Columns.Add ("SN", typeof (string));
+            Db.DS.Tables["tblConnections"].Columns.Add ("Library", typeof (string));
+            Db.DS.Tables["tblConnections"].Columns.Add ("Address", typeof (string));
+            Db.DS.Tables["tblConnections"].Columns.Add ("initcat", typeof (string));
+            Db.DS.Tables["tblConnections"].Columns.Add ("uid", typeof (string));
+            Db.DS.Tables["tblConnections"].Columns.Add ("pwd", typeof (string));
+            Db.DS.Tables["tblConnections"].Columns.Add ("SN", typeof (string));
             Db.DS.Tables.Add ("tblSettings");
             //Settings usrs
             Db.DS.Tables.Add ("tblusrs");
@@ -103,8 +100,8 @@ namespace eLib
             Db.DS.Tables.Add ("tblProj_tmp");           // for frm.selectProj/Prod
             Db.DS.Tables.Add ("tblProd_tmp");           // for frm.selectProj/Prod
             Db.DS.Tables.Add ("tblProd_tmp2");          // for frm.ImportRef
-            Db.DS.Tables ["tblProd_tmp2"].Columns.Add ("ProdId", typeof (int));
-            Db.DS.Tables ["tblProd_tmp2"].Columns.Add ("ProdName", typeof (string));
+            Db.DS.Tables["tblProd_tmp2"].Columns.Add ("ProdId", typeof (int));
+            Db.DS.Tables["tblProd_tmp2"].Columns.Add ("ProdName", typeof (string));
             //Augustus
             Db.DS.Tables.Add ("tblSpecies");
             Db.DS.Tables.Add ("tblClusters");
@@ -112,25 +109,25 @@ namespace eLib
             Db.DS.Tables.Add ("tblPalette");
             Db.DS.Tables.Add ("tblArrows");
             //tblPalette
-            Db.DS.Tables ["tblPalette"].Columns.Add ("ID", typeof (int));
-            Db.DS.Tables ["tblPalette"].Columns.Add ("R", typeof (int));
-            Db.DS.Tables ["tblPalette"].Columns.Add ("G", typeof (int));
-            Db.DS.Tables ["tblPalette"].Columns.Add ("B", typeof (int));
-            Db.DS.Tables ["tblPalette"].Clear ();
+            Db.DS.Tables["tblPalette"].Columns.Add ("ID", typeof (int));
+            Db.DS.Tables["tblPalette"].Columns.Add ("R", typeof (int));
+            Db.DS.Tables["tblPalette"].Columns.Add ("G", typeof (int));
+            Db.DS.Tables["tblPalette"].Columns.Add ("B", typeof (int));
+            Db.DS.Tables["tblPalette"].Clear ();
             for (int i = 0; i < 20; i++)
                 {
-                Db.DS.Tables ["tblPalette"].Rows.Add (i, 0, 0, 0);
+                Db.DS.Tables["tblPalette"].Rows.Add (i, 0, 0, 0);
                 }
             //tblArrows
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Species", typeof (string));
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Cluster", typeof (string));
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Gene", typeof (string));
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Spacer", typeof (string));
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Size", typeof (int));
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Dir", typeof (string));
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Description", typeof (string));
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Dye", typeof (string));
-            Db.DS.Tables ["tblArrows"].Columns.Add ("Sel", typeof (string));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Species", typeof (string));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Cluster", typeof (string));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Gene", typeof (string));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Spacer", typeof (string));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Size", typeof (int));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Dir", typeof (string));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Description", typeof (string));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Dye", typeof (string));
+            Db.DS.Tables["tblArrows"].Columns.Add ("Sel", typeof (string));
             //tblExams
             Db.DS.Tables.Add ("tblCourses");
             Db.DS.Tables.Add ("tblCourseTopics");
@@ -141,119 +138,119 @@ namespace eLib
             Db.DS.Tables.Add ("tblExamComposition");
             Db.DS.Tables.Add ("tblExamTests");
             Db.DS.Tables.Add ("tblEntries");
-            Db.DS.Tables.Add ("tblEntryParticipants");
-            Db.DS.Tables.Add ("tblExamParticipants");
-            Db.DS.Tables.Add ("tblParticipantExams");
+            Db.DS.Tables.Add ("tblEntryStudents");
+            Db.DS.Tables.Add ("tblExamStudents");
+            Db.DS.Tables.Add ("tblStudentExams");
             Db.DS.Tables.Add ("tblExamSheets");
             //security
             Db.DS.Tables.Add ("tblSecurityCodes");
-            Db.DS.Tables ["tblSecurityCodes"].Columns.Add ("Ascii_Code", typeof (int));
-            Db.DS.Tables ["tblSecurityCodes"].Columns.Add ("Alt1", typeof (int));
-            Db.DS.Tables ["tblSecurityCodes"].Columns.Add ("Alt2", typeof (int));
-            Db.DS.Tables ["tblSecurityCodes"].Columns.Add ("Alt3", typeof (int));
-            Db.DS.Tables ["tblSecurityCodes"].Columns.Add ("Alt4", typeof (int));
-            Db.DS.Tables ["tblSecurityCodes"].Columns.Add ("Alt5", typeof (int));
-            Db.DS.Tables ["tblSecurityCodes"].Columns.Add ("Coeff", typeof (int));
+            Db.DS.Tables["tblSecurityCodes"].Columns.Add ("Ascii_Code", typeof (int));
+            Db.DS.Tables["tblSecurityCodes"].Columns.Add ("Alt1", typeof (int));
+            Db.DS.Tables["tblSecurityCodes"].Columns.Add ("Alt2", typeof (int));
+            Db.DS.Tables["tblSecurityCodes"].Columns.Add ("Alt3", typeof (int));
+            Db.DS.Tables["tblSecurityCodes"].Columns.Add ("Alt4", typeof (int));
+            Db.DS.Tables["tblSecurityCodes"].Columns.Add ("Alt5", typeof (int));
+            Db.DS.Tables["tblSecurityCodes"].Columns.Add ("Coeff", typeof (int));
             //add rows
             FeedSecurityTable ();
             }
         public static void FeedSecurityTable ()
             {
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (32, 85, 32, 45, 64, 54, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (33, 104, 53, 57, 90, 67, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (34, 93, 89, 84, 91, 86, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (35, 123, 90, 85, 116, 77, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (36, 77, 91, 56, 120, 123, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (37, 59, 116, 77, 70, 42, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (38, 49, 120, 78, 66, 85, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (39, 65, 121, 102, 71, 119, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (40, 66, 54, 103, 110, 104, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (41, 101, 87, 104, 122, 93, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (42, 46, 88, 47, 123, 114, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (43, 110, 67, 93, 86, 65, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (44, 109, 103, 60, 50, 80, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (45, 94, 101, 121, 125, 37, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (46, 62, 46, 65, 96, 52, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (47, 34, 73, 99, 63, 33, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (48, 111, 72, 100, 107, 125, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (49, 79, 63, 61, 88, 38, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (50, 98, 124, 82, 117, 74, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (51, 32, 75, 58, 55, 105, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (52, 45, 37, 83, 93, 97, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (53, 73, 102, 59, 126, 98, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (54, 41, 114, 55, 92, 32, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (55, 53, 50, 113, 56, 45, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (56, 89, 115, 39, 94, 35, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (57, 126, 106, 123, 98, 91, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (58, 61, 122, 42, 32, 116, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (59, 43, 123, 62, 45, 120, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (60, 124, 42, 34, 35, 70, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (61, 96, 39, 111, 57, 50, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (62, 64, 109, 72, 84, 51, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (63, 99, 41, 73, 85, 112, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (64, 90, 64, 74, 119, 57, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (65, 95, 40, 89, 87, 107, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (66, 40, 47, 118, 76, 111, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (67, 55, 45, 107, 111, 109, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (68, 103, 35, 76, 72, 73, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (69, 83, 74, 110, 105, 99, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (70, 56, 105, 101, 97, 90, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (71, 80, 66, 92, 67, 39, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (72, 36, 108, 53, 54, 92, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (73, 76, 81, 125, 82, 48, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (74, 100, 43, 96, 62, 106, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (75, 117, 44, 63, 34, 60, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (76, 35, 51, 40, 108, 36, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (77, 106, 112, 41, 114, 95, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (78, 60, 57, 64, 115, 79, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (79, 47, 62, 90, 36, 61, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (80, 114, 33, 35, 60, 87, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (81, 72, 111, 122, 38, 96, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (82, 81, 110, 46, 41, 64, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (83, 122, 86, 94, 118, 66, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (84, 58, 118, 108, 68, 71, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (85, 97, 68, 114, 69, 110, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (86, 113, 69, 115, 44, 122, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (87, 39, 70, 50, 121, 40, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (88, 68, 71, 51, 65, 101, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (89, 119, 52, 112, 99, 46, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (90, 48, 94, 91, 95, 43, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (91, 51, 77, 116, 79, 82, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (92, 121, 65, 126, 46, 44, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (93, 87, 80, 33, 43, 47, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (94, 91, 60, 105, 77, 118, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (95, 116, 61, 124, 78, 84, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (96, 120, 82, 75, 104, 58, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (97, 70, 83, 37, 58, 78, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (98, 107, 58, 54, 59, 113, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (99, 38, 59, 87, 49, 55, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (100, 74, 49, 88, 113, 59, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (101, 105, 113, 117, 39, 121, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (102, 69, 55, 49, 40, 68, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (103, 44, 56, 119, 101, 69, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (104, 112, 78, 120, 80, 63, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (105, 57, 84, 66, 102, 94, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (106, 92, 48, 68, 75, 72, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (107, 71, 92, 69, 37, 81, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (108, 102, 126, 70, 52, 83, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (109, 115, 125, 71, 53, 56, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (110, 50, 93, 52, 89, 126, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (111, 67, 117, 48, 42, 108, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (112, 33, 85, 109, 51, 102, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (113, 125, 119, 38, 112, 115, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (114, 118, 76, 79, 124, 49, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (115, 88, 97, 80, 47, 103, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (116, 75, 98, 81, 48, 100, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (117, 82, 99, 43, 106, 76, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (118, 54, 79, 106, 61, 124, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (119, 108, 34, 36, 109, 88, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (120, 86, 107, 95, 73, 117, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (121, 37, 36, 97, 81, 41, 4);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (122, 52, 95, 98, 83, 53, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (123, 42, 96, 32, 74, 89, 2);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (124, 63, 100, 44, 33, 75, 3);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (125, 84, 38, 67, 103, 62, 1);
-            Db.DS.Tables ["tblSecurityCodes"].Rows.Add (126, 78, 104, 86, 100, 34, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (32, 85, 32, 45, 64, 54, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (33, 104, 53, 57, 90, 67, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (34, 93, 89, 84, 91, 86, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (35, 123, 90, 85, 116, 77, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (36, 77, 91, 56, 120, 123, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (37, 59, 116, 77, 70, 42, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (38, 49, 120, 78, 66, 85, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (39, 65, 121, 102, 71, 119, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (40, 66, 54, 103, 110, 104, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (41, 101, 87, 104, 122, 93, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (42, 46, 88, 47, 123, 114, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (43, 110, 67, 93, 86, 65, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (44, 109, 103, 60, 50, 80, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (45, 94, 101, 121, 125, 37, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (46, 62, 46, 65, 96, 52, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (47, 34, 73, 99, 63, 33, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (48, 111, 72, 100, 107, 125, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (49, 79, 63, 61, 88, 38, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (50, 98, 124, 82, 117, 74, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (51, 32, 75, 58, 55, 105, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (52, 45, 37, 83, 93, 97, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (53, 73, 102, 59, 126, 98, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (54, 41, 114, 55, 92, 32, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (55, 53, 50, 113, 56, 45, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (56, 89, 115, 39, 94, 35, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (57, 126, 106, 123, 98, 91, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (58, 61, 122, 42, 32, 116, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (59, 43, 123, 62, 45, 120, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (60, 124, 42, 34, 35, 70, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (61, 96, 39, 111, 57, 50, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (62, 64, 109, 72, 84, 51, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (63, 99, 41, 73, 85, 112, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (64, 90, 64, 74, 119, 57, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (65, 95, 40, 89, 87, 107, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (66, 40, 47, 118, 76, 111, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (67, 55, 45, 107, 111, 109, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (68, 103, 35, 76, 72, 73, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (69, 83, 74, 110, 105, 99, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (70, 56, 105, 101, 97, 90, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (71, 80, 66, 92, 67, 39, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (72, 36, 108, 53, 54, 92, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (73, 76, 81, 125, 82, 48, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (74, 100, 43, 96, 62, 106, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (75, 117, 44, 63, 34, 60, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (76, 35, 51, 40, 108, 36, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (77, 106, 112, 41, 114, 95, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (78, 60, 57, 64, 115, 79, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (79, 47, 62, 90, 36, 61, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (80, 114, 33, 35, 60, 87, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (81, 72, 111, 122, 38, 96, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (82, 81, 110, 46, 41, 64, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (83, 122, 86, 94, 118, 66, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (84, 58, 118, 108, 68, 71, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (85, 97, 68, 114, 69, 110, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (86, 113, 69, 115, 44, 122, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (87, 39, 70, 50, 121, 40, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (88, 68, 71, 51, 65, 101, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (89, 119, 52, 112, 99, 46, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (90, 48, 94, 91, 95, 43, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (91, 51, 77, 116, 79, 82, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (92, 121, 65, 126, 46, 44, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (93, 87, 80, 33, 43, 47, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (94, 91, 60, 105, 77, 118, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (95, 116, 61, 124, 78, 84, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (96, 120, 82, 75, 104, 58, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (97, 70, 83, 37, 58, 78, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (98, 107, 58, 54, 59, 113, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (99, 38, 59, 87, 49, 55, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (100, 74, 49, 88, 113, 59, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (101, 105, 113, 117, 39, 121, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (102, 69, 55, 49, 40, 68, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (103, 44, 56, 119, 101, 69, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (104, 112, 78, 120, 80, 63, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (105, 57, 84, 66, 102, 94, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (106, 92, 48, 68, 75, 72, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (107, 71, 92, 69, 37, 81, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (108, 102, 126, 70, 52, 83, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (109, 115, 125, 71, 53, 56, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (110, 50, 93, 52, 89, 126, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (111, 67, 117, 48, 42, 108, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (112, 33, 85, 109, 51, 102, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (113, 125, 119, 38, 112, 115, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (114, 118, 76, 79, 124, 49, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (115, 88, 97, 80, 47, 103, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (116, 75, 98, 81, 48, 100, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (117, 82, 99, 43, 106, 76, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (118, 54, 79, 106, 61, 124, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (119, 108, 34, 36, 109, 88, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (120, 86, 107, 95, 73, 117, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (121, 37, 36, 97, 81, 41, 4);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (122, 52, 95, 98, 83, 53, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (123, 42, 96, 32, 74, 89, 2);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (124, 63, 100, 44, 33, 75, 3);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (125, 84, 38, 67, 103, 62, 1);
+            Db.DS.Tables["tblSecurityCodes"].Rows.Add (126, 78, 104, 86, 100, 34, 2);
             }
         public static void GetClientName ()
             {
@@ -262,9 +259,9 @@ namespace eLib
         public static void GetClientSN ()
             {
             //using management object and using Win32_LogicalDisk to obtain disk properties
-            var oHD = new ManagementObject ("Win32_LogicalDisk.DeviceID=\"C:\"");
+            var oHD = new System.Management.ManagementObject ("Win32_LogicalDisk.DeviceID=\"C:\"");
             oHD.Get (); // Get Info
-            DriveSN = Microsoft.VisualBasic.Strings.Trim (oHD ["VolumeSerialNumber"].ToString ());
+            DriveSN = Microsoft.VisualBasic.Strings.Trim (oHD["VolumeSerialNumber"].ToString ());
             }
         //QRCODE
         public static void GenerateQRCode (object strText2Code)
@@ -421,7 +418,7 @@ namespace eLib
                 }
             catch (Exception ex)
                 {
-                MessageBox.Show (ex.ToString ());
+                //MessageBox.Show (ex.ToString ());
                 return false;
                 }
             }
@@ -445,6 +442,7 @@ namespace eLib
                     }
                 }
             }
+
         public static int ConnectTo (string Server2Connect)
             {
             //MessageBox.Show (Server2Connect);
@@ -467,8 +465,8 @@ namespace eLib
             }
         public static void ReadSettingsAndUsers ()
             {
-            Db.DS.Tables ["tblUsrs"].Clear ();
-            Db.DS.Tables ["tblSettings"].Clear ();
+            Db.DS.Tables["tblUsrs"].Clear ();
+            Db.DS.Tables["tblSettings"].Clear ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -480,8 +478,8 @@ namespace eLib
                 Db.DASS.Fill (Db.DS, "tblSettings");
                 CnnSS.Close ();
                 }
-            User.AdminPass = Convert.ToString (Db.DS.Tables ["tblSettings"].Rows [0] [3]);
-            Db.CurrentDbVersion = Convert.ToString (Db.DS.Tables ["tblSettings"].Rows [1] [3]);
+            User.AdminPass = Convert.ToString (Db.DS.Tables["tblSettings"].Rows[0][3]);
+            Db.CurrentDbVersion = Convert.ToString (Db.DS.Tables["tblSettings"].Rows[1][3]);
             }
         //SCAN (new codes using class fileinfo, directory)
         public static void ScanResources ()
@@ -494,8 +492,8 @@ namespace eLib
                 return;
                 }
             //step 2. prepare tbls Refs, Paths 
-            Db.DS.Tables ["tblRefs"].Clear ();
-            Db.DS.Tables ["tblRefPaths"].Clear ();
+            Db.DS.Tables["tblRefs"].Clear ();
+            Db.DS.Tables["tblRefPaths"].Clear ();
             using (var CnnSS1 = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 try
@@ -544,8 +542,8 @@ namespace eLib
                     //bulkcopy-files
                     var bCopy1 = new SqlBulkCopy (CnnSS1);
                     bCopy1.DestinationTableName = "Papers";
-                    bCopy1.BatchSize = Db.DS.Tables ["tblRefs"].Rows.Count;
-                    bCopy1.WriteToServer (Db.DS.Tables ["tblRefs"]);
+                    bCopy1.BatchSize = Db.DS.Tables["tblRefs"].Rows.Count;
+                    bCopy1.WriteToServer (Db.DS.Tables["tblRefs"]);
                     bCopy1.Close ();
                     CnnSS1.Close ();
                     }
@@ -563,8 +561,8 @@ namespace eLib
                     //bulkcopy-paths
                     var bCopy2 = new SqlBulkCopy (CnnSS2);
                     bCopy2.DestinationTableName = "Paths";
-                    bCopy2.BatchSize = Db.DS.Tables ["tblRefPaths"].Rows.Count;
-                    bCopy2.WriteToServer (Db.DS.Tables ["tblRefPaths"]);
+                    bCopy2.BatchSize = Db.DS.Tables["tblRefPaths"].Rows.Count;
+                    bCopy2.WriteToServer (Db.DS.Tables["tblRefPaths"]);
                     bCopy2.Close ();
                     CnnSS2.Close ();
                     }
@@ -577,7 +575,7 @@ namespace eLib
             }
         private static void GetSubDirs (string strDir)
             {
-            string [] subdirectoryEntries = Directory.GetDirectories (strDir);
+            string[] subdirectoryEntries = Directory.GetDirectories (strDir);
             //loop to find more subdirectories
             foreach (string subdirectory in subdirectoryEntries)
                 {
@@ -587,34 +585,34 @@ namespace eLib
             }
         private static void GetFilenamesAndPaths (string strDirPath)
             {
-            string [] Files = Directory.GetFiles (strDirPath, "*.*");
+            string[] Files = Directory.GetFiles (strDirPath, "*.*");
             string strFilename = "";
             foreach (string file in Files)
                 {
                 FileInfo fi = new FileInfo (file);
-                Db.DS.Tables ["tblRefPaths"].Rows.Add (fi.FullName, Client.DriveSN);
+                Db.DS.Tables["tblRefPaths"].Rows.Add (fi.FullName, Client.DriveSN);
                 //
                 strFilename = RemoveExtension (fi.Name);
                 switch (Ref.Attributes)
                     {
                     case 1: //for papers
                             {
-                            Db.DS.Tables ["tblRefs"].Rows.Add (1, strFilename, 1, 0, 0, 0); //P
+                            Db.DS.Tables["tblRefs"].Rows.Add (1, strFilename, 1, 0, 0, 0); //P
                             break;
                             }
                     case 2: //for books
-                        Db.DS.Tables ["tblRefs"].Rows.Add (1, strFilename, 0, 1, 0, 0); //B
+                        Db.DS.Tables["tblRefs"].Rows.Add (1, strFilename, 0, 1, 0, 0); //B
                             {
                             break;
                             }
                     case 3: //for manuals
                             {
-                            Db.DS.Tables ["tblRefs"].Rows.Add (1, strFilename, 0, 0, 1, 0); //M
+                            Db.DS.Tables["tblRefs"].Rows.Add (1, strFilename, 0, 0, 1, 0); //M
                             break;
                             }
                     case 4: //for lectures
                             {
-                            Db.DS.Tables ["tblRefs"].Rows.Add (1, strFilename, 0, 0, 0, 1); //L
+                            Db.DS.Tables["tblRefs"].Rows.Add (1, strFilename, 0, 0, 0, 1); //L
                             break;
                             }
                     }
@@ -658,7 +656,7 @@ namespace eLib
             //3 Extract lines of interest out of textfiles!
             string strLine = "";
             string strName = "";
-            foreach (string flnm in new [] { "eLibP", "eLibB", "eLibM", "eLibL" })
+            foreach (string flnm in new[] { "eLibP", "eLibB", "eLibM", "eLibL" })
                 {
                 FileSystem.FileOpen (1, Application.StartupPath + flnm + ".txt", OpenMode.Input);
                 FileSystem.FileOpen (2, Application.StartupPath + flnm + "x.txt", OpenMode.Output);
@@ -696,7 +694,7 @@ namespace eLib
             //4 Prepare Table cols for Import
             try
                 {
-                Db.DS.Tables ["tblRefs"].Clear ();
+                Db.DS.Tables["tblRefs"].Clear ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
@@ -709,9 +707,9 @@ namespace eLib
                 {
                 MessageBox.Show (ex.ToString ());
                 }
-            Db.DS.Tables ["tblRefs"].Clear ();
+            Db.DS.Tables["tblRefs"].Clear ();
             //5 IMPORT into tblPapers
-            foreach (string flnm in new [] { "P", "B", "M", "L" })
+            foreach (string flnm in new[] { "P", "B", "M", "L" })
                 {
                 FileSystem.FileOpen (1, Application.StartupPath + "eLib" + flnm + "x.txt", OpenMode.Input);
                 while (!FileSystem.EOF (1))
@@ -721,22 +719,22 @@ namespace eLib
                         {
                         case "P":
                                 {
-                                Db.DS.Tables ["tblRefs"].Rows.Add (1, strLine, 1, 0, 0, 0);
+                                Db.DS.Tables["tblRefs"].Rows.Add (1, strLine, 1, 0, 0, 0);
                                 break;
                                 }
                         case "B":
                                 {
-                                Db.DS.Tables ["tblRefs"].Rows.Add (1, strLine, 0, 1, 0, 0);
+                                Db.DS.Tables["tblRefs"].Rows.Add (1, strLine, 0, 1, 0, 0);
                                 break;
                                 }
                         case "M":
                                 {
-                                Db.DS.Tables ["tblRefs"].Rows.Add (1, strLine, 0, 0, 1, 0);
+                                Db.DS.Tables["tblRefs"].Rows.Add (1, strLine, 0, 0, 1, 0);
                                 break;
                                 }
                         case "L":
                                 {
-                                Db.DS.Tables ["tblRefs"].Rows.Add (1, strLine, 0, 0, 0, 1);
+                                Db.DS.Tables["tblRefs"].Rows.Add (1, strLine, 0, 0, 0, 1);
                                 break;
                                 }
                         }
@@ -747,7 +745,7 @@ namespace eLib
             //6 Call BULK-COPY
             BulkCopyPaperNames ();
             //7 Delete temporary files
-            foreach (string flnm in new [] { "eLibP", "eLibB", "eLibM", "eLibL" })
+            foreach (string flnm in new[] { "eLibP", "eLibB", "eLibM", "eLibL" })
                 {
                 if (!string.IsNullOrEmpty (FileSystem.Dir (Application.StartupPath + flnm + ".txt")))
                     File.Delete (Application.StartupPath + flnm + ".txt");
@@ -777,7 +775,7 @@ namespace eLib
             Process.Start ("cmd.exe", "/C Dir " + User.FolderLectures + " /s /b > " + Application.StartupPath + "eLibLz.txt").WaitForExit ();
             try
                 {
-                Db.DS.Tables ["tblRefPaths"].Clear ();
+                Db.DS.Tables["tblRefPaths"].Clear ();
                 Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter ("SELECT FilePath, StorageSN FROM Paths  WHERE FilePath ='_1';", Db.CnnSS);
                 Db.DASS.Fill (Db.DS, "tblRefPaths");
                 }
@@ -787,7 +785,7 @@ namespace eLib
                 }
             // Load fromTextFiles into tblTables:
             string A = "";
-            foreach (string flnm in new [] { "P", "B", "M", "L" })
+            foreach (string flnm in new[] { "P", "B", "M", "L" })
                 {
                 FileSystem.FileOpen (1, Application.StartupPath + "eLib" + flnm + "z.txt", OpenMode.Input);
                 while (!FileSystem.EOF (1))
@@ -795,7 +793,7 @@ namespace eLib
                     try
                         {
                         A = FileSystem.LineInput (1);
-                        Db.DS.Tables ["tblRefPaths"].Rows.Add (A, Client.DriveSN);
+                        Db.DS.Tables["tblRefPaths"].Rows.Add (A, Client.DriveSN);
                         }
                     catch (Exception ex)
                         {
@@ -810,15 +808,15 @@ namespace eLib
                 {
                 var bCopy = new SqlBulkCopy (Db.CnnSS);
                 bCopy.DestinationTableName = "Paths";
-                bCopy.BatchSize = Db.DS.Tables ["tblRefPaths"].Rows.Count;
-                bCopy.WriteToServer (Db.DS.Tables ["tblRefPaths"]);
+                bCopy.BatchSize = Db.DS.Tables["tblRefPaths"].Rows.Count;
+                bCopy.WriteToServer (Db.DS.Tables["tblRefPaths"]);
                 }
             catch (Exception ex)
                 {
                 MessageBox.Show (ex.ToString ());
                 }
             //Delete temporary files
-            foreach (string flnm in new [] { "eLibP", "eLibB", "eLibM", "eLibL" })
+            foreach (string flnm in new[] { "eLibP", "eLibB", "eLibM", "eLibL" })
                 {
                 if (!string.IsNullOrEmpty (FileSystem.Dir (Application.StartupPath + flnm + "z.txt")))
                     File.Delete (Application.StartupPath + flnm + "z.txt");
@@ -834,8 +832,8 @@ namespace eLib
                 CnnSS.Open ();
                 var bCopy = new SqlBulkCopy (CnnSS);
                 bCopy.DestinationTableName = "Papers";
-                bCopy.BatchSize = Db.DS.Tables ["tblRefs"].Rows.Count;
-                bCopy.WriteToServer (Db.DS.Tables ["tblRefs"]);
+                bCopy.BatchSize = Db.DS.Tables["tblRefs"].Rows.Count;
+                bCopy.WriteToServer (Db.DS.Tables["tblRefs"]);
                 CnnSS.Close ();
                 }
             }
@@ -996,7 +994,7 @@ namespace eLib
                             }
                     case ".xlsx":
                             {
-                            using (IXLWorkbook WB = new XLWorkbook ())
+                            using (ClosedXML.Excel.IXLWorkbook WB = new XLWorkbook ())
                                 {
                                 var WS0 = WB.Worksheets.Add ("eLib_NewExcelRef");
                                 WS0.Cell (1, 1).Value = "eLib Col1";
@@ -1033,25 +1031,25 @@ namespace eLib
             //Assuming an OPEN CNN for this SUB
             Db.RestoreStatus = 0;
             //Clear DataTables 
-            Db.DS.Tables ["tblUsrs"].Clear ();
-            Db.DS.Tables ["tblRefs"].Clear ();
-            Db.DS.Tables ["tblProject"].Clear ();
-            Db.DS.Tables ["tblSubProject"].Clear ();
-            Db.DS.Tables ["tblAssignments"].Clear ();
-            Db.DS.Tables ["tblLinks"].Clear (); // not necessary
-            Db.DS.Tables ["tblSNotes"].Clear ();
-            Db.DS.Tables ["tblNoteNet"].Clear ();
-            Db.DS.Tables ["tblCourses"].Clear ();
-            Db.DS.Tables ["tblCourseTopics"].Clear ();
-            Db.DS.Tables ["tblTests"].Clear ();
-            Db.DS.Tables ["tblTestOptions"].Clear ();
-            Db.DS.Tables ["tblExams"].Clear ();
-            Db.DS.Tables ["tblExamComposition"].Clear ();
-            Db.DS.Tables ["tblExamTests"].Clear ();
+            Db.DS.Tables["tblUsrs"].Clear ();
+            Db.DS.Tables["tblRefs"].Clear ();
+            Db.DS.Tables["tblProject"].Clear ();
+            Db.DS.Tables["tblSubProject"].Clear ();
+            Db.DS.Tables["tblAssignments"].Clear ();
+            Db.DS.Tables["tblLinks"].Clear (); // not necessary
+            Db.DS.Tables["tblSNotes"].Clear ();
+            Db.DS.Tables["tblNoteNet"].Clear ();
+            Db.DS.Tables["tblCourses"].Clear ();
+            Db.DS.Tables["tblCourseTopics"].Clear ();
+            Db.DS.Tables["tblTests"].Clear ();
+            Db.DS.Tables["tblTestOptions"].Clear ();
+            Db.DS.Tables["tblExams"].Clear ();
+            Db.DS.Tables["tblExamComposition"].Clear ();
+            Db.DS.Tables["tblExamTests"].Clear ();
             //Del Database Tables Rows 
             try
                 {
-                foreach (var strTableName in new [] { tblName })
+                foreach (var strTableName in new[] { tblName })
                     {
                     using (var CnnSSx = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                         {
@@ -1087,7 +1085,7 @@ namespace eLib
             Db.RestoreStatus = Db.RestoreStatus & 253; //set bit2 off: ------0-
             try
                 {
-                foreach (var strTableName in new [] { tblName })
+                foreach (var strTableName in new[] { tblName })
                     {
                     Db.strSQL = "DBCC CHECKIDENT (" + strTableName + ", RESEED, 1)";
                     var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, Db.CnnSS);
@@ -1107,34 +1105,34 @@ namespace eLib
             //Assuming an OPEN CNN for this SUB
             Db.RestoreStatus = Db.RestoreStatus & 254;
             //Clear DataTables 
-            Db.DS.Tables ["tblUsrs"].Clear ();
-            Db.DS.Tables ["tblRefs"].Clear ();
-            Db.DS.Tables ["tblProject"].Clear ();
-            Db.DS.Tables ["tblSubProject"].Clear ();
-            Db.DS.Tables ["tblAssignments"].Clear ();
-            Db.DS.Tables ["tblAssignments4Backup"].Clear ();
-            Db.DS.Tables ["tblLinks"].Clear ();
-            Db.DS.Tables ["tblRNotes"].Clear ();
-            Db.DS.Tables ["tblSNotes"].Clear ();
-            Db.DS.Tables ["tblLNotes"].Clear ();
-            Db.DS.Tables ["tblXNotes"].Clear ();
-            Db.DS.Tables ["tblNoteNet"].Clear ();
-            Db.DS.Tables ["tblCourses"].Clear ();
-            Db.DS.Tables ["tblCourseTopics"].Clear ();
-            Db.DS.Tables ["tblTests"].Clear ();
-            Db.DS.Tables ["tblTestOptions"].Clear ();
-            Db.DS.Tables ["tblExams"].Clear ();
-            Db.DS.Tables ["tblExamComposition"].Clear ();
-            Db.DS.Tables ["tblEntries"].Clear ();
-            Db.DS.Tables ["tblEntryParticipants"].Clear ();
-            Db.DS.Tables ["tblExamParticipants"].Clear ();
-            Db.DS.Tables ["tblExamTests"].Clear ();
+            Db.DS.Tables["tblUsrs"].Clear ();
+            Db.DS.Tables["tblRefs"].Clear ();
+            Db.DS.Tables["tblProject"].Clear ();
+            Db.DS.Tables["tblSubProject"].Clear ();
+            Db.DS.Tables["tblAssignments"].Clear ();
+            Db.DS.Tables["tblAssignments4Backup"].Clear ();
+            Db.DS.Tables["tblLinks"].Clear ();
+            Db.DS.Tables["tblRNotes"].Clear ();
+            Db.DS.Tables["tblSNotes"].Clear ();
+            Db.DS.Tables["tblLNotes"].Clear ();
+            Db.DS.Tables["tblXNotes"].Clear ();
+            Db.DS.Tables["tblNoteNet"].Clear ();
+            Db.DS.Tables["tblCourses"].Clear ();
+            Db.DS.Tables["tblCourseTopics"].Clear ();
+            Db.DS.Tables["tblTests"].Clear ();
+            Db.DS.Tables["tblTestOptions"].Clear ();
+            Db.DS.Tables["tblExams"].Clear ();
+            Db.DS.Tables["tblExamComposition"].Clear ();
+            Db.DS.Tables["tblEntries"].Clear ();
+            Db.DS.Tables["tblEntryStudents"].Clear ();
+            Db.DS.Tables["tblExamStudents"].Clear ();
+            Db.DS.Tables["tblExamTests"].Clear ();
             //Db.DS.Tables ["tblConnections"].Clear ();    //new 14030720
             //Db.DS.Tables ["tblSecurityCodes"].Clear ();  //new 14030720
             //Del Database Tables Rows 
             try
                 {
-                foreach (var strTableName in new [] { "usrs", "User_Project", "Projects", "SubProjects", "Links", "Notes", "NoteNet", "Courses", "CourseTopics", "Tests", "TestOptions", "Exams", "ExamComposition", "ExamTests", "Entries", "Participants", "ExamParticipants", "ExamSheets", "Sequences", "ArrowData", "Clusters", "Species", "Transcripts" })
+                foreach (var strTableName in new[] { "usrs", "User_Project", "Projects", "SubProjects", "Links", "Notes", "NoteNet", "Courses", "CourseTopics", "Tests", "TestOptions", "Exams", "ExamComposition", "ExamTests", "Entries", "Students", "ExamStudents", "ExamSheets", "Sequences", "ArrowData", "Clusters", "Species", "Transcripts" })
                     {
                     Db.strSQL = "DELETE FROM " + strTableName + ";";
                     var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, Db.CnnSS);
@@ -1152,7 +1150,7 @@ namespace eLib
             Db.RestoreStatus = Db.RestoreStatus & 253;
             try
                 {
-                foreach (var strTableName in new [] { "usrs", "Projects", "SubProjects", "Links", "Notes", "NoteNet", "Courses", "CourseTopics", "Tests", "TestOptions", "Exams", "ExamComposition", "ExamTests", "Entries", "Participants", "ExamParticipants", "Clusters", "Species", "Transcripts" })
+                foreach (var strTableName in new[] { "usrs", "Projects", "SubProjects", "Links", "Notes", "NoteNet", "Courses", "CourseTopics", "Tests", "TestOptions", "Exams", "ExamComposition", "ExamTests", "Entries", "Students", "ExamStudents", "Clusters", "Species", "Transcripts" })
                     {
                     Db.strSQL = "DBCC CHECKIDENT (" + strTableName + ", RESEED, 1)";
                     var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, Db.CnnSS);
@@ -1294,16 +1292,16 @@ namespace eLib
             {
             Db.CnnSS.Close ();
             Db.CnnSS.Dispose ();
-            Db.DS.Tables ["tblUserProject"].Clear ();
-            Db.DS.Tables ["tblProject"].Clear ();
-            Db.DS.Tables ["tblSubProject"].Clear ();
-            Db.DS.Tables ["tblAssignments"].Clear ();
-            Db.DS.Tables ["tblSNotes"].Clear ();
-            Db.DS.Tables ["tblRefs"].Clear ();
-            Db.DS.Tables ["tblLinks"].Clear ();
+            Db.DS.Tables["tblUserProject"].Clear ();
+            Db.DS.Tables["tblProject"].Clear ();
+            Db.DS.Tables["tblSubProject"].Clear ();
+            Db.DS.Tables["tblAssignments"].Clear ();
+            Db.DS.Tables["tblSNotes"].Clear ();
+            Db.DS.Tables["tblRefs"].Clear ();
+            Db.DS.Tables["tblLinks"].Clear ();
             //initialize tables Links, SLRNotes
-            Db.DS.Tables ["tblSNotes"].Clear ();
-            Db.DS.Tables ["tblLinks"].Clear ();
+            Db.DS.Tables["tblSNotes"].Clear ();
+            Db.DS.Tables["tblLinks"].Clear ();
             //tblSNote
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
@@ -1322,15 +1320,15 @@ namespace eLib
                 Db.strSQL = "SELECT User_Id, Project_Id, ReadOnly FROM User_Project";
                 CnnSS.Open ();
                 Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter ("SELECT User_Id, UsrName, UsrNote, Project_Id, ReadOnly FROM usrs JOIN User_Project ON usrs.ID = User_Project.User_Id WHERE Project_Id = " + Project.Id.ToString (), CnnSS);
-                Db.DASS.Fill (Db.DS.Tables ["tblUserProject"]);
+                Db.DASS.Fill (Db.DS.Tables["tblUserProject"]);
                 CnnSS.Close ();
                 }
             }
         public static int CheckReadOnlyAccess (int projectid)
             {
-            foreach (DataRow R in Db.DS.Tables ["tblUserProject"].Rows)
+            foreach (DataRow R in Db.DS.Tables["tblUserProject"].Rows)
                 {
-                if (((int) R [0] == User.Id) && ((int) R [3] == projectid) && ((bool) R [4] == true))
+                if (((int) R[0] == User.Id) && ((int) R[3] == projectid) && ((bool) R[4] == true))
                     {
                     MessageBox.Show ("Notice: \n\n\nYou have ReadOnly access to this Project!", "eLib", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return 1;
@@ -1365,7 +1363,7 @@ namespace eLib
         public static void GetProjects (int usrid, int activex, string strSearchProj)
             {
             //activex: 0:active 1:inactive  2:all 3:search
-            Db.DS.Tables ["tblProject"].Clear ();
+            Db.DS.Tables["tblProject"].Clear ();
             switch (activex)
                 {
                 case 0:
@@ -1404,11 +1402,11 @@ namespace eLib
                 CnnSS.Close ();
                 }
             Assign.ReadAllSharingsTable ();
-            Db.DS.Tables ["tblSubProject"].Clear ();
+            Db.DS.Tables["tblSubProject"].Clear ();
             }
         public static void GetSubProjects (int Projectid)
             {
-            Db.DS.Tables ["tblSubProject"].Clear ();
+            Db.DS.Tables["tblSubProject"].Clear ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -1444,7 +1442,7 @@ namespace eLib
             //Do Query
             try
                 {
-                Db.DS.Tables ["tblRefs"].Clear ();
+                Db.DS.Tables["tblRefs"].Clear ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
@@ -1474,21 +1472,21 @@ namespace eLib
                         {
                         case 1:
                                 {
-                                Db.DS.Tables ["tblSNotes"].Clear ();
+                                Db.DS.Tables["tblSNotes"].Clear ();
                                 Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter (Db.strSQL, CnnSS);
                                 Db.DASS.Fill (Db.DS, "tblSNotes");
                                 break;
                                 }
                         case 2:
                                 {
-                                Db.DS.Tables ["tblLNotes"].Clear ();
+                                Db.DS.Tables["tblLNotes"].Clear ();
                                 Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter (Db.strSQL, CnnSS);
                                 Db.DASS.Fill (Db.DS, "tblLNotes");
                                 break;
                                 }
                         case 3:
                                 {
-                                Db.DS.Tables ["tblRNotes"].Clear ();
+                                Db.DS.Tables["tblRNotes"].Clear ();
                                 Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter (Db.strSQL, CnnSS);
                                 Db.DASS.Fill (Db.DS, "tblRNotes");
                                 break;
@@ -1506,7 +1504,7 @@ namespace eLib
             {
             try
                 {
-                Db.DS.Tables ["tblLinks"].Clear ();
+                Db.DS.Tables["tblLinks"].Clear ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
@@ -1523,7 +1521,7 @@ namespace eLib
         public static void GetRLinks (int refid)
             {
             Db.strSQL = "SELECT Links.ID, Paper_ID, SubProject_ID, SubProjectName, Imp1, Imp2, Imp3, ImR, user_ID FROM Projects INNER JOIN (SubProjects INNER JOIN Links ON SubProjects.ID = Links.SubProject_ID) ON Projects.ID = SubProjects.Project_ID WHERE (Paper_ID =" + refid.ToString () + ") AND (user_ID = " + User.Id + ") ORDER BY SubProjectName;";
-            Db.DS.Tables ["tblAssignments"].Clear ();
+            Db.DS.Tables["tblAssignments"].Clear ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -1567,7 +1565,7 @@ namespace eLib
                 }
             try
                 {
-                Db.DS.Tables ["tblRefs"].Clear ();
+                Db.DS.Tables["tblRefs"].Clear ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
@@ -1595,7 +1593,7 @@ namespace eLib
                         {
                         try
                             {
-                            Db.DS.Tables ["tblRefs"].Clear ();
+                            Db.DS.Tables["tblRefs"].Clear ();
                             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                                 {
                                 CnnSS.Open ();
@@ -1614,7 +1612,7 @@ namespace eLib
                         {
                         try
                             {
-                            Db.DS.Tables ["tblRefs"].Clear ();
+                            Db.DS.Tables["tblRefs"].Clear ();
                             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                                 {
                                 CnnSS.Open ();
@@ -1630,18 +1628,18 @@ namespace eLib
                         break;
                         }
                 }
-            Db.DS.Tables ["tblAssignments"].Clear ();
+            Db.DS.Tables["tblAssignments"].Clear ();
             Client.List5Mode = "Ref";
             }
         public static void GetSharedList (int projectid)
             {
             //get list of users that this project is already shared with them
-            Db.DS.Tables ["tblUserProject"].Clear ();
+            Db.DS.Tables["tblUserProject"].Clear ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
                 Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter ("SELECT User_Id, UsrName, UsrNote, Project_Id, ReadOnly FROM usrs JOIN User_Project ON usrs.ID = User_Project.User_Id WHERE Project_Id = " + Project.Id.ToString (), CnnSS);
-                Db.DASS.Fill (Db.DS.Tables ["tblUserProject"]);
+                Db.DASS.Fill (Db.DS.Tables["tblUserProject"]);
                 CnnSS.Close ();
                 }
             }
@@ -1821,10 +1819,10 @@ namespace eLib
             // RefAttributes: 1111-1111 {ImR.Imp3.Imp2.Imp1.Lect.Man.Book.Paper}
             try
                 {
-                strAttrx = ((Ref.Attributes & 16) == 16) ? (strAttrx + "Imp1=1, ") : (strAttrx + "Imp1=0, "); 
-                strAttrx = ((Ref.Attributes & 32) == 32) ? (strAttrx + "Imp2=1, ") : (strAttrx + "Imp2=0, "); 
-                strAttrx = ((Ref.Attributes & 64) == 64) ? (strAttrx + "Imp3=1, ") : (strAttrx + "Imp3=0, "); 
-                strAttrx = ((Ref.Attributes & 128) == 128) ? (strAttrx + "ImR=1 ") : (strAttrx + "ImR=0 "); 
+                strAttrx = ((Ref.Attributes & 16) == 16) ? (strAttrx + "Imp1=1, ") : (strAttrx + "Imp1=0, ");
+                strAttrx = ((Ref.Attributes & 32) == 32) ? (strAttrx + "Imp2=1, ") : (strAttrx + "Imp2=0, ");
+                strAttrx = ((Ref.Attributes & 64) == 64) ? (strAttrx + "Imp3=1, ") : (strAttrx + "Imp3=0, ");
+                strAttrx = ((Ref.Attributes & 128) == 128) ? (strAttrx + "ImR=1 ") : (strAttrx + "ImR=0 ");
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     Db.strSQL = "UPDATE Links SET " + strAttrx + " WHERE ID=@id";
@@ -1897,7 +1895,7 @@ namespace eLib
                 {
                 GetSLinks (subprojectId);   //fills tblLinks for this subProject
                 GetNotes (subprojectId, 1); //fills tblSNotes for this subProject
-                if (Db.DS.Tables ["tblLinks"].Rows.Count > 0 || Db.DS.Tables ["tblSNotes"].Rows.Count > 0)
+                if (Db.DS.Tables["tblLinks"].Rows.Count > 0 || Db.DS.Tables["tblSNotes"].Rows.Count > 0)
                     {
                     MessageBox.Show ("This SubProjects is not empty \r\n Replace (or Delete), then try again", "eLib", MessageBoxButtons.OK);
                     return;
@@ -1937,7 +1935,7 @@ namespace eLib
                 //cannot delete ReadOnlyAccess
                 return "readonly";
                 }
-            else 
+            else
                 {
                 //ok, CheckReadOnlyAccess was 0
                 try
@@ -2065,7 +2063,7 @@ namespace eLib
                     return false;
                     }
                 }
-            if (Db.DS.Tables ["tblLNotes"].Rows.Count > 0)
+            if (Db.DS.Tables["tblLNotes"].Rows.Count > 0)
                 {
                 DialogResult myansw = MessageBox.Show ("Notice: This Link has some Notes !\n\nNotes will be Deleteded", "eLib", MessageBoxButtons.OKCancel);
                 if (myansw == DialogResult.Cancel)
@@ -2098,7 +2096,7 @@ namespace eLib
                     }
                 foreach (DataRow r in temp_dt.Rows)
                     {
-                    DeleteNote ((Convert.ToInt32(r [0])), false);
+                    DeleteNote ((Convert.ToInt32 (r[0])), false);
                     }
                 return true;
                 }
@@ -2118,13 +2116,13 @@ namespace eLib
                     }
                 }
             string confirmMessage = "";
-            if (Db.DS.Tables ["tblRNotes"].Rows.Count > 0)
+            if (Db.DS.Tables["tblRNotes"].Rows.Count > 0)
                 {
-                confirmMessage += "\n\nNotice: This Ref is Linked to some subProjects! (Links will be deleted)";                
+                confirmMessage += "\n\nNotice: This Ref is Linked to some subProjects! (Links will be deleted)";
                 }
-            if (Db.DS.Tables ["tblAssignments"].Rows.Count > 0)
+            if (Db.DS.Tables["tblAssignments"].Rows.Count > 0)
                 {
-                confirmMessage += "\n\nNotice: This Ref has Notes! (Notes will be deleted)";                
+                confirmMessage += "\n\nNotice: This Ref has Notes! (Notes will be deleted)";
                 }
             if (confirmMessage != "")
                 {
@@ -2159,7 +2157,7 @@ namespace eLib
                     }
                 foreach (DataRow r in temp_dt.Rows)
                     {
-                    DeleteNote ((Convert.ToInt32 (r [0])), false);
+                    DeleteNote ((Convert.ToInt32 (r[0])), false);
                     }
                 //delete (one by one) Links of this Ref!
                 temp_dt.Clear ();
@@ -2172,7 +2170,7 @@ namespace eLib
                     }
                 foreach (DataRow r in temp_dt.Rows)
                     {
-                    DeleteALink ((Convert.ToInt32 (r [0])), false);
+                    DeleteALink ((Convert.ToInt32 (r[0])), false);
                     }
                 return true;
                 }
@@ -2240,18 +2238,18 @@ namespace eLib
                 FileSystem.FileOpen (1, Application.StartupPath + "elibReport.html", OpenMode.Output);
                 //header
                 Assign.AddHeader2Report (header);
-                var loopTo = Db.DS.Tables ["tblProject"].Rows.Count - 1;
+                var loopTo = Db.DS.Tables["tblProject"].Rows.Count - 1;
                 for (iProj = 0; iProj <= loopTo; iProj++)
                     {
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Project: ", Db.DS.Tables ["tblProject"].Rows [iProj] [1]), " "));
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Black; font-family:tahoma; font-size:12px'> (", Db.DS.Tables ["tblProject"].Rows [iProj] [2]), ")</span>"));
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Project: ", Db.DS.Tables["tblProject"].Rows[iProj][1]), " "));
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Black; font-family:tahoma; font-size:12px'> (", Db.DS.Tables["tblProject"].Rows[iProj][2]), ")</span>"));
                     //Read Data
-                    Assign.GetSubProjects (Convert.ToInt32 (Db.DS.Tables ["tblProject"].Rows [iProj] [0]));
-                    var loopTo1 = Db.DS.Tables ["tblSubProject"].Rows.Count - 1;
+                    Assign.GetSubProjects (Convert.ToInt32 (Db.DS.Tables["tblProject"].Rows[iProj][0]));
+                    var loopTo1 = Db.DS.Tables["tblSubProject"].Rows.Count - 1;
                     for (iProd = 0; iProd <= loopTo1; iProd++)
                         {
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables ["tblSubProject"].Rows [iProd] [1]), " "));
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Green; font-family:tahoma; font-size:10px'> ///", Db.DS.Tables ["tblSubProject"].Rows [iProd] [2]), "</span>"));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables["tblSubProject"].Rows[iProd][1]), " "));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Green; font-family:tahoma; font-size:10px'> ///", Db.DS.Tables["tblSubProject"].Rows[iProd][2]), "</span>"));
                         }
                     FileSystem.PrintLine (1, "<hr>");
                     }
@@ -2277,20 +2275,20 @@ namespace eLib
                 //header
                 Assign.AddHeader2Report ("Report subProject: '" + SubProject.Name + "' of Project: '" + Project.Name + "' of User: ");
                 //data
-                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Project: ", Db.DS.Tables ["tblSubProject"].Rows [subprojectId] [1]), " "));
-                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Black; font-family:tahoma; font-size:12px'> [ ", Db.DS.Tables ["tblSubProject"].Rows [subprojectId] [2]), " ]</span>"));
+                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Project: ", Db.DS.Tables["tblSubProject"].Rows[subprojectId][1]), " "));
+                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Black; font-family:tahoma; font-size:12px'> [ ", Db.DS.Tables["tblSubProject"].Rows[subprojectId][2]), " ]</span>"));
                 //Read Data
-                Assign.GetNotes (Convert.ToInt32 (Db.DS.Tables ["tblSubProject"].Rows [subprojectId] [0]), 1);
-                Assign.GetSLinks (Db.DS.Tables ["tblSubProject"].Rows [subprojectId] [0]);
+                Assign.GetNotes (Convert.ToInt32 (Db.DS.Tables["tblSubProject"].Rows[subprojectId][0]), 1);
+                Assign.GetSLinks (Db.DS.Tables["tblSubProject"].Rows[subprojectId][0]);
                 FileSystem.PrintLine (1, "<p style='color:Blue; font-family:tahoma; font-size:14px'>Refs: </p>");
                 try
                     {
                     //A: Report Refs
-                    var loopTo = Db.DS.Tables ["tblLinks"].Rows.Count - 1;
+                    var loopTo = Db.DS.Tables["tblLinks"].Rows.Count - 1;
                     for (iRef = 0; iRef <= loopTo; iRef++)
                         {
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables ["tblLinks"].Rows [iRef] [1]), " "));
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///", Db.DS.Tables ["tblLinks"].Rows [iRef] [6]), "</span>"));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables["tblLinks"].Rows[iRef][1]), " "));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///", Db.DS.Tables["tblLinks"].Rows[iRef][6]), "</span>"));
                         }
                     }
                 catch (Exception ex)
@@ -2300,11 +2298,11 @@ namespace eLib
                 FileSystem.PrintLine (1, "<p style='color:Blue; font-family:tahoma; font-size:12px'>Notes: </p>");
                 try
                     {
-                    var loopTo1 = Db.DS.Tables ["tblSNotes"].Rows.Count - 1;
+                    var loopTo1 = Db.DS.Tables["tblSNotes"].Rows.Count - 1;
                     for (iNote = 0; iNote <= loopTo1; iNote++)
                         {
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:SlateGray; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables ["tblSNotes"].Rows [iNote] [1]), " "));
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///", Db.DS.Tables ["tblSNotes"].Rows [iNote] [2]), "</span>"));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:SlateGray; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables["tblSNotes"].Rows[iNote][1]), " "));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///", Db.DS.Tables["tblSNotes"].Rows[iNote][2]), "</span>"));
                         }
                     FileSystem.PrintLine (1, "<hr>");
                     }
@@ -2333,23 +2331,23 @@ namespace eLib
                 //header
                 Assign.AddHeader2Report ("Report Project: '" + Project.Name + "' of User: ");
                 //data
-                var loopTo = Db.DS.Tables ["tblSubProject"].Rows.Count - 1;
+                var loopTo = Db.DS.Tables["tblSubProject"].Rows.Count - 1;
                 for (iProd = 0; iProd <= loopTo; iProd++)
                     {
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Project: ", Db.DS.Tables ["tblSubProject"].Rows [iProd] [1]), " "));
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Black; font-family:tahoma; font-size:12px'> [ ", Db.DS.Tables ["tblSubProject"].Rows [iProd] [2]), " ]</span>"));
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Project: ", Db.DS.Tables["tblSubProject"].Rows[iProd][1]), " "));
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Black; font-family:tahoma; font-size:12px'> [ ", Db.DS.Tables["tblSubProject"].Rows[iProd][2]), " ]</span>"));
                     //Read Data
-                    Assign.GetNotes (Convert.ToInt32 (Db.DS.Tables ["tblSubProject"].Rows [iProd] [0]), 1);
-                    Assign.GetSLinks (Db.DS.Tables ["tblSubProject"].Rows [iProd] [0]);
+                    Assign.GetNotes (Convert.ToInt32 (Db.DS.Tables["tblSubProject"].Rows[iProd][0]), 1);
+                    Assign.GetSLinks (Db.DS.Tables["tblSubProject"].Rows[iProd][0]);
                     //A: Report Refs
                     FileSystem.PrintLine (1, "<p style='color:Blue; font-family:tahoma; font-size:14px'>Refs: </p>");
                     try
                         {
-                        var loopTo1 = Db.DS.Tables ["tblLinks"].Rows.Count - 1;
+                        var loopTo1 = Db.DS.Tables["tblLinks"].Rows.Count - 1;
                         for (iRef = 0; iRef <= loopTo1; iRef++)
                             {
-                            FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables ["tblLinks"].Rows [iRef] [1]), " "));
-                            FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///", Db.DS.Tables ["tblLinks"].Rows [iRef] [6]), "</span>"));
+                            FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables["tblLinks"].Rows[iRef][1]), " "));
+                            FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///", Db.DS.Tables["tblLinks"].Rows[iRef][6]), "</span>"));
                             }
                         }
                     catch (Exception ex)
@@ -2359,11 +2357,11 @@ namespace eLib
                     FileSystem.PrintLine (1, "<p style='color:Blue; font-family:tahoma; font-size:12px'>Notes: </p>");
                     try
                         {
-                        var loopTo2 = Db.DS.Tables ["tblSNotes"].Rows.Count - 1;
+                        var loopTo2 = Db.DS.Tables["tblSNotes"].Rows.Count - 1;
                         for (iNote = 0; iNote <= loopTo2; iNote++)
                             {
-                            FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:SlateGray; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables ["tblSNotes"].Rows [iNote] [1]), " "));
-                            FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///", Db.DS.Tables ["tblSNotes"].Rows [iNote] [2]), "</span>"));
+                            FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:SlateGray; font-family:tahoma; font-size:12px'> - ", Db.DS.Tables["tblSNotes"].Rows[iNote][1]), " "));
+                            FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:DarkCyan; font-family:tahoma; font-size:12px'> ///", Db.DS.Tables["tblSNotes"].Rows[iNote][2]), "</span>"));
                             }
                         FileSystem.PrintLine (1, "<hr>");
                         }
@@ -2464,7 +2462,7 @@ namespace eLib
             string Keyx4 = "";
             string Fltr1 = ""; //search PaperName
             string Fltr2 = ""; //filter reftypes 
-            var spcz = new int [4];
+            var spcz = new int[4];
             //locate spaces in the search string : save nSPC in scpz(0)
             KeyxA = searchString;
             int k = 0;
@@ -2475,12 +2473,12 @@ namespace eLib
                     k = k + 1;
                     if (k == 4)
                         break;
-                    spcz [k] = i;
+                    spcz[k] = i;
                     }
                 }
-            spcz [0] = k;
+            spcz[0] = k;
             //how many spaces?
-            switch (spcz [0])
+            switch (spcz[0])
                 {
                 case 0: //no space; one key
                         {
@@ -2490,17 +2488,17 @@ namespace eLib
                 case 1: // 1 space; 2 keys
                         {
                         // Keyx1 = Mid(KeyxA, 1, spcz(1) - 1)
-                        Keyx1 = Strings.Left (KeyxA, spcz [1] - 1);
-                        Keyx2 = Strings.Mid (KeyxA, spcz [1] + 1);
+                        Keyx1 = Strings.Left (KeyxA, spcz[1] - 1);
+                        Keyx2 = Strings.Mid (KeyxA, spcz[1] + 1);
                         Fltr1 = "(Papers.PaperName Like '%" + Keyx1 + "%') AND ";
                         Fltr1 = Fltr1 + "(Papers.PaperName Like '%" + Keyx2 + "%')";
                         break;
                         }
                 case 2: // 2 spaces; 3 keys
                         {
-                        Keyx1 = Strings.Left (KeyxA, spcz [1] - 1);
-                        Keyx2 = Strings.Mid (KeyxA, spcz [1] + 1, spcz [2] - spcz [1] - 1);
-                        Keyx3 = Strings.Mid (KeyxA, spcz [2] + 1);
+                        Keyx1 = Strings.Left (KeyxA, spcz[1] - 1);
+                        Keyx2 = Strings.Mid (KeyxA, spcz[1] + 1, spcz[2] - spcz[1] - 1);
+                        Keyx3 = Strings.Mid (KeyxA, spcz[2] + 1);
                         Fltr1 = "(Papers.PaperName Like '%" + Keyx1 + "%') AND ";
                         Fltr1 = Fltr1 + "(Papers.PaperName Like '%" + Keyx2 + "%') AND ";
                         Fltr1 = Fltr1 + "(Papers.PaperName Like '%" + Keyx3 + "%')";
@@ -2509,10 +2507,10 @@ namespace eLib
                 case 3:
                 case 4:
                         {
-                        Keyx1 = Strings.Left (KeyxA, spcz [1] - 1);
-                        Keyx2 = Strings.Mid (KeyxA, spcz [1] + 1, spcz [2] - spcz [1] - 1);
-                        Keyx3 = Strings.Mid (KeyxA, spcz [2] + 1, spcz [3] - spcz [2] - 1);
-                        Keyx4 = Strings.Mid (KeyxA, spcz [3] + 1);
+                        Keyx1 = Strings.Left (KeyxA, spcz[1] - 1);
+                        Keyx2 = Strings.Mid (KeyxA, spcz[1] + 1, spcz[2] - spcz[1] - 1);
+                        Keyx3 = Strings.Mid (KeyxA, spcz[2] + 1, spcz[3] - spcz[2] - 1);
+                        Keyx4 = Strings.Mid (KeyxA, spcz[3] + 1);
                         Fltr1 = "(Papers.PaperName Like '%" + Keyx1 + "%') AND ";
                         Fltr1 = Fltr1 + "(Papers.PaperName Like '%" + Keyx2 + "%') AND ";
                         Fltr1 = Fltr1 + "(Papers.PaperName Like '%" + Keyx3 + "%') AND ";
@@ -2606,7 +2604,7 @@ namespace eLib
             //Do Query
             try
                 {
-                Db.DS.Tables ["tblRefs"].Clear ();
+                Db.DS.Tables["tblRefs"].Clear ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
@@ -2631,7 +2629,7 @@ namespace eLib
             string Keyx3 = "";
             string Keyx4 = "";
             string Fltr1 = "";
-            var spcz = new int [4];
+            var spcz = new int[4];
             //locate spaces in the search string : save nSPC in scpz(0)
             KeyxA = searchString;
             int k = 0;
@@ -2642,12 +2640,12 @@ namespace eLib
                     k = k + 1;
                     if (k == 4)
                         break;
-                    spcz [k] = i;
+                    spcz[k] = i;
                     }
                 }
-            spcz [0] = k;
+            spcz[0] = k;
             //how many spaces?
-            switch (spcz [0])
+            switch (spcz[0])
                 {
                 case 0: //no space; one key
                         {
@@ -2657,17 +2655,17 @@ namespace eLib
                 case 1: // 1 space; 2 keys
                         {
                         // Keyx1 = Mid(KeyxA, 1, spcz(1) - 1)
-                        Keyx1 = Strings.Left (KeyxA, spcz [1] - 1);
-                        Keyx2 = Strings.Mid (KeyxA, spcz [1] + 1);
+                        Keyx1 = Strings.Left (KeyxA, spcz[1] - 1);
+                        Keyx2 = Strings.Mid (KeyxA, spcz[1] + 1);
                         Fltr1 = "(Notes.Note Like '%" + Keyx1 + "%') AND ";
                         Fltr1 = Fltr1 + "(Notes.Note Like '%" + Keyx2 + "%')";
                         break;
                         }
                 case 2: // 2 spaces; 3 keys
                         {
-                        Keyx1 = Strings.Left (KeyxA, spcz [1] - 1);
-                        Keyx2 = Strings.Mid (KeyxA, spcz [1] + 1, spcz [2] - spcz [1] - 1);
-                        Keyx3 = Strings.Mid (KeyxA, spcz [2] + 1);
+                        Keyx1 = Strings.Left (KeyxA, spcz[1] - 1);
+                        Keyx2 = Strings.Mid (KeyxA, spcz[1] + 1, spcz[2] - spcz[1] - 1);
+                        Keyx3 = Strings.Mid (KeyxA, spcz[2] + 1);
                         Fltr1 = "(Notes.Note Like '%" + Keyx1 + "%') AND ";
                         Fltr1 = Fltr1 + "(Notes.Note Like '%" + Keyx2 + "%') AND ";
                         Fltr1 = Fltr1 + "(Notes.Note Like '%" + Keyx3 + "%')";
@@ -2676,10 +2674,10 @@ namespace eLib
                 case 3:
                 case 4:
                         {
-                        Keyx1 = Strings.Left (KeyxA, spcz [1] - 1);
-                        Keyx2 = Strings.Mid (KeyxA, spcz [1] + 1, spcz [2] - spcz [1] - 1);
-                        Keyx3 = Strings.Mid (KeyxA, spcz [2] + 1, spcz [3] - spcz [2] - 1);
-                        Keyx4 = Strings.Mid (KeyxA, spcz [3] + 1);
+                        Keyx1 = Strings.Left (KeyxA, spcz[1] - 1);
+                        Keyx2 = Strings.Mid (KeyxA, spcz[1] + 1, spcz[2] - spcz[1] - 1);
+                        Keyx3 = Strings.Mid (KeyxA, spcz[2] + 1, spcz[3] - spcz[2] - 1);
+                        Keyx4 = Strings.Mid (KeyxA, spcz[3] + 1);
                         Fltr1 = "(Notes.Note Like '%" + Keyx1 + "%') AND ";
                         Fltr1 = Fltr1 + "(Notes.Note Like '%" + Keyx2 + "%') AND ";
                         Fltr1 = Fltr1 + "(Notes.Note Like '%" + Keyx3 + "%') AND ";
@@ -2688,7 +2686,7 @@ namespace eLib
                         }
                 }
             //notes.parentTypes: 1:SubProject 2:Link 3:Ref 4:AllTypes
-            Db.DS.Tables ["tblNotesCount"].Clear ();
+            Db.DS.Tables["tblNotesCount"].Clear ();
             //0 sqlString for FNotes
             //ParentType (search): {0:SubProjectForFNotes 1:SubProjectForSNotes 2:LinkForLNotes 3:RefForRNotes 4:AllNoteTypes(SLR)}
             string sqlFNotes = "SELECT ProjectName, SubProjectName, NoteDatum, Note, Projects.ID, SubProjects.ID, Notes.ID, Done, Rtl FROM Notes INNER JOIN SubProjects ON Parent_ID = SubProjects.ID INNER JOIN Projects ON Project_ID = Projects.ID";
@@ -2739,8 +2737,8 @@ namespace eLib
             //Do Query
             try
                 {
-                Db.DS.Tables ["tblNotesCount"].Clear ();
-                Db.DS.Tables ["tblRNotes"].Clear ();
+                Db.DS.Tables["tblNotesCount"].Clear ();
+                Db.DS.Tables["tblRNotes"].Clear ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
@@ -2750,25 +2748,25 @@ namespace eLib
                         case 0:
                                 {
                                 //f-notes
-                                Db.DS.Tables ["tblNotesCount"].Clear ();
+                                Db.DS.Tables["tblNotesCount"].Clear ();
                                 Db.DASS.Fill (Db.DS, "tblNotesCount");
                                 break;
                                 }
                         case 1:
                                 {
-                                Db.DS.Tables ["tblSNotes"].Clear ();
+                                Db.DS.Tables["tblSNotes"].Clear ();
                                 Db.DASS.Fill (Db.DS, "tblSNotes");
                                 break;
                                 }
                         case 2:
                                 {
-                                Db.DS.Tables ["tblLNotes"].Clear ();
+                                Db.DS.Tables["tblLNotes"].Clear ();
                                 Db.DASS.Fill (Db.DS, "tblLNotes");
                                 break;
                                 }
                         case 3:
                                 {
-                                Db.DS.Tables ["tblRNotes"].Clear ();
+                                Db.DS.Tables["tblRNotes"].Clear ();
                                 Db.DASS.Fill (Db.DS, "tblRNotes");
                                 break;
                                 }
@@ -2776,7 +2774,7 @@ namespace eLib
                                 {
                                 //all other note types (s,l,r)
                                 //notice: we use r-notes for this mode (allTypes)
-                                Db.DS.Tables ["tblRNotes"].Clear ();
+                                Db.DS.Tables["tblRNotes"].Clear ();
                                 Db.DASS.Fill (Db.DS, "tblRNotes");
                                 break;
                                 }
@@ -3001,15 +2999,13 @@ namespace eLib
         {
         public static int Id;
         public static int Index;
+        public static int TopicId;
         public static string Text;
         public static int Type;
-        public static int TopicId;
-        public static bool TestRTL;
-        public static bool OptionsRTL;
-        public static bool ForceLast;
         public static int Level;
+        public static bool TestTags;
         }
-    public static class Participant
+    public static class Student
         {
         public static int Id;
         public static int Index;
@@ -3033,8 +3029,8 @@ namespace eLib
         //COURSES and TOPICS
         public static void GetCourses (int userid)
             {
-            Db.DS.Tables ["tblCourses"].Clear ();
-            Db.strSQL = "Select ID, CourseName, CourseUnits, user_ID, RTL FROM Courses WHERE user_ID = " + userid.ToString () + " Order By CourseName";
+            Db.DS.Tables["tblCourses"].Clear ();
+            Db.strSQL = "Select CourseID, CourseName, CourseUnits, CourseRtl FROM Courses WHERE userId = " + userid.ToString () + " Order By CourseName";
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3045,8 +3041,8 @@ namespace eLib
             }
         public static void GetCourseTopics (int crsid)
             {
-            Db.DS.Tables ["tblCourseTopics"].Clear ();
-            Db.strSQL = "Select ID, Course_ID, Topic FROM CourseTopics WHERE Course_ID = " + crsid.ToString () + " Order By ID";
+            Db.DS.Tables["tblCourseTopics"].Clear ();
+            Db.strSQL = "Select CourseTopicId, CourseId, CourseTopicTitle FROM CourseTopics WHERE CourseId = " + crsid.ToString () + " Order By CourseTopicId";
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3063,7 +3059,7 @@ namespace eLib
                 {
                 try
                     {
-                    Db.strSQL = "SELECT ID FROM CourseTopics WHERE Course_ID = " + courseId.ToString () + " AND Topic = N'" + topicText + "'";
+                    Db.strSQL = "SELECT CourseTopicId FROM CourseTopics WHERE CourseId = " + courseId.ToString () + " AND Topic = N'" + topicText + "'";
                     CnnSS.Open ();
                     var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmdx.CommandType = CommandType.Text;
@@ -3101,7 +3097,7 @@ namespace eLib
                                 cmd1.Parameters.AddWithValue ("@rtl", Course.RTL.ToString ());
                                 Course.Id = (int) cmd1.ExecuteScalar ();
                                 //add default Topic
-                                Db.strSQL = "INSERT INTO CourseTopics (Course_ID, Topic) VALUES (@courseid, @topic)";
+                                Db.strSQL = "INSERT INTO CourseTopics (CourseId, Topic) VALUES (@courseid, @topic)";
                                 var cmd2 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                                 cmd2.CommandType = CommandType.Text;
                                 cmd2.Parameters.AddWithValue ("@courseid", Course.Id);
@@ -3112,7 +3108,7 @@ namespace eLib
                                 }
                         case 0b11: //3:edit
                                 {
-                                Db.strSQL = "UPDATE Courses SET CourseName=@coursename, CourseUnits=@courseunits, RTL=@rtl WHERE ID = " + Course.Id.ToString ();
+                                Db.strSQL = "UPDATE Courses SET CourseName=@coursename, CourseUnits=@courseunits, CourseRTL=@rtl WHERE CourseId = " + Course.Id.ToString ();
                                 CnnSS.Open ();
                                 var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                                 cmdx.CommandType = CommandType.Text;
@@ -3140,7 +3136,7 @@ namespace eLib
                 {
                 try
                     {
-                    Db.strSQL = "INSERT INTO CourseTopics (Course_ID, Topic) VALUES (@courseid, @topic); SELECT CAST (scope_identity() AS int)";
+                    Db.strSQL = "INSERT INTO CourseTopics (CourseId, Topic) VALUES (@courseid, @topic); SELECT CAST (scope_identity() AS int)";
                     CnnSS.Open ();
                     var cmd2 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd2.CommandType = CommandType.Text;
@@ -3185,49 +3181,49 @@ namespace eLib
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     //1: delete exam-tests
-                    Db.strSQL = "DELETE FROM ExamTests WHERE Exam_ID IN (SELECT ID FROM Exams WHERE Course_ID =" + courseid.ToString () + ")";
+                    Db.strSQL = "DELETE FROM ExamTests WHERE ExamId IN (SELECT ExamId FROM Exams WHERE CourseId =" + courseid.ToString () + ")";
                     CnnSS.Open ();
                     var cmd1 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd1.CommandType = CommandType.Text;
                     int i1 = cmd1.ExecuteNonQuery ();
                     CnnSS.Close ();
                     //2: delete test-options
-                    Db.strSQL = "DELETE FROM TestOptions WHERE Test_ID IN (SELECT ID FROM Tests WHERE Course_ID =" + courseid.ToString () + ")";
+                    Db.strSQL = "DELETE FROM TestOptions WHERE TestId IN (SELECT TestId FROM Tests WHERE CourseId =" + courseid.ToString () + ")";
                     CnnSS.Open ();
                     var cmd2 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd2.CommandType = CommandType.Text;
                     int i2 = cmd2.ExecuteNonQuery ();
                     CnnSS.Close ();
                     //3: delete tests
-                    Db.strSQL = "DELETE FROM Tests WHERE Course_ID =" + courseid.ToString ();
+                    Db.strSQL = "DELETE FROM Tests WHERE CourseId =" + courseid.ToString ();
                     CnnSS.Open ();
                     var cmd3 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd3.CommandType = CommandType.Text;
                     int i3 = cmd3.ExecuteNonQuery ();
                     CnnSS.Close ();
                     //4: delete exam-composition
-                    Db.strSQL = "DELETE FROM ExamComposition WHERE Exam_ID IN (SELECT ID FROM Exams WHERE Course_ID =" + courseid.ToString () + ")";
+                    Db.strSQL = "DELETE FROM ExamComposition WHERE ExamId IN (SELECT ExamId FROM Exams WHERE CourseId =" + courseid.ToString () + ")";
                     CnnSS.Open ();
                     var cmd4 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd4.CommandType = CommandType.Text;
                     int i4 = cmd4.ExecuteNonQuery ();
                     CnnSS.Close ();
                     //5: delete exams
-                    Db.strSQL = "DELETE FROM Exams WHERE Course_ID =" + courseid.ToString ();
+                    Db.strSQL = "DELETE FROM Exams WHERE CourseId =" + courseid.ToString ();
                     CnnSS.Open ();
                     var cmd5 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd5.CommandType = CommandType.Text;
                     int i5 = cmd5.ExecuteNonQuery ();
                     CnnSS.Close ();
                     //6: delete topics
-                    Db.strSQL = "DELETE FROM CourseTopics WHERE Course_ID =" + courseid.ToString ();
+                    Db.strSQL = "DELETE FROM CourseTopics WHERE CourseId =" + courseid.ToString ();
                     CnnSS.Open ();
                     var cmd6 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd6.CommandType = CommandType.Text;
                     int i6 = cmd6.ExecuteNonQuery ();
                     CnnSS.Close ();
                     //7: course the itself
-                    Db.strSQL = "DELETE FROM Courses WHERE ID = @id";
+                    Db.strSQL = "DELETE FROM Courses WHERE CourseId = @id";
                     CnnSS.Open ();
                     var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmdx.CommandType = CommandType.Text;
@@ -3246,8 +3242,8 @@ namespace eLib
         //EXAMS
         public static void GetExams (int crsid)
             {
-            Db.DS.Tables ["tblExams"].Clear ();
-            Db.strSQL = "Select ID, Course_ID, ExamTitle, ExamDateTime, ExamDuration, ExamNTests, ExamShuffleOptions, IsActive, Training FROM Exams WHERE Course_ID = " + crsid.ToString () + " Order By ExamTitle";
+            Db.DS.Tables["tblExams"].Clear ();
+            Db.strSQL = "Select ExamId, CourseId, ExamTitle, ExamDateTime, ExamDuration, ExamNTests, ExamTags FROM Exams WHERE CourseId = " + crsid.ToString () + " Order By ExamTitle";
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3258,8 +3254,8 @@ namespace eLib
             }
         public static void GetExamById (int examid)
             {
-            Db.DS.Tables ["tblExams"].Clear ();
-            Db.strSQL = "Select ID, Course_ID, ExamTitle, ExamDateTime, ExamDuration, ExamNTests, ExamShuffleOptions, IsActive, Training FROM Exams WHERE ID = " + examid.ToString ();
+            Db.DS.Tables["tblExams"].Clear ();
+            Db.strSQL = "Select ExamId, CourseId, ExamTitle, ExamDateTime, ExamDuration, ExamNTests, ExamTags FROM Exams WHERE ExamId = " + examid.ToString ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3270,8 +3266,8 @@ namespace eLib
             }
         public static void GetExamComposition (int examid)
             {
-            Db.DS.Tables ["tblExamComposition"].Clear ();
-            Db.strSQL = "Select ExamComposition.ID, Exam_ID, Topic_ID, Topic, TopicNTests, TestsLevel FROM ExamComposition INNER JOIN CourseTopics ON ExamComposition.Topic_ID = CourseTopics.ID WHERE Exam_ID = " + examid.ToString () + " Order By Topic";
+            Db.DS.Tables["tblExamComposition"].Clear ();
+            Db.strSQL = "Select ExamComposition.ID, Exam_ID, TopicId, Topic, TopicNTests, TestsLevel FROM ExamComposition INNER JOIN CourseTopics ON ExamComposition.TopicId = CourseTopics.ID WHERE Exam_ID = " + examid.ToString () + " Order By Topic";
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3289,7 +3285,7 @@ namespace eLib
                     {
                     using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                         {
-                        Db.strSQL = "INSERT INTO Exams (Course_ID, ExamTitle) VALUES (@courseid, @examtitle); SELECT CAST (scope_identity() AS int)";
+                        Db.strSQL = "INSERT INTO Exams (CourseId, ExamTitle) VALUES (@courseid, @examtitle); SELECT CAST (scope_identity() AS int)";
                         CnnSS.Open ();
                         var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                         cmdx.CommandType = CommandType.Text;
@@ -3315,7 +3311,7 @@ namespace eLib
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "INSERT INTO ExamComposition (Exam_ID, Topic_ID, TopicNTests, TestsLevel) VALUES (@examid, @topicid, @topicntests, @testslevel)";
+                    Db.strSQL = "INSERT INTO ExamComposition (Exam_ID, TopicId, TopicNTests, TestsLevel) VALUES (@examid, @topicid, @topicntests, @testslevel)";
                     CnnSS.Open ();
                     var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmdx.CommandType = CommandType.Text;
@@ -3372,7 +3368,7 @@ namespace eLib
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "UPDATE ExamComposition SET Topic_ID=@topicid, TopicNTests=@topicntests, TestsLevel=@testslevel WHERE ID = @id";
+                    Db.strSQL = "UPDATE ExamComposition SET TopicId=@topicid, TopicNTests=@topicntests, TestsLevel=@testslevel WHERE ExamCompositionId = @id";
                     CnnSS.Open ();
                     var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmdx.CommandType = CommandType.Text;
@@ -3410,21 +3406,21 @@ namespace eLib
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     //1: delete exam-tests
-                    Db.strSQL = "DELETE FROM ExamTests WHERE Exam_ID =" + examid.ToString ();
+                    Db.strSQL = "DELETE FROM ExamTests WHERE ExamId =" + examid.ToString ();
                     CnnSS.Open ();
                     var cmd1 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd1.CommandType = CommandType.Text;
                     int i1 = cmd1.ExecuteNonQuery ();
                     CnnSS.Close ();
                     //4: delete exam-composition
-                    Db.strSQL = "DELETE FROM ExamComposition WHERE Exam_ID=" + examid.ToString ();
+                    Db.strSQL = "DELETE FROM ExamComposition WHERE ExamId=" + examid.ToString ();
                     CnnSS.Open ();
                     var cmd4 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd4.CommandType = CommandType.Text;
                     int i4 = cmd4.ExecuteNonQuery ();
                     CnnSS.Close ();
                     //5: delete exams
-                    Db.strSQL = "DELETE FROM Exams WHERE ID =" + examid.ToString ();
+                    Db.strSQL = "DELETE FROM Exams WHERE ExamId =" + examid.ToString ();
                     CnnSS.Open ();
                     var cmd5 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd5.CommandType = CommandType.Text;
@@ -3445,7 +3441,7 @@ namespace eLib
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "DELETE FROM ExamComposition WHERE ID=@id";
+                    Db.strSQL = "DELETE FROM ExamCompositions WHERE ExamCompositionId=@id";
                     CnnSS.Open ();
                     var cmd = new SqlCommand (Db.strSQL, CnnSS);
                     cmd.Parameters.AddWithValue ("@id", compId.ToString ());
@@ -3470,7 +3466,7 @@ namespace eLib
                 CnnSS.Open ();
                 for (int i = 0; i < nTests; i++)
                     {
-                    strSQL = "INSERT INTO ExamTests (Exam_ID, Test_ID) SELECT TOP 1 '" + examId.ToString () + "', ID FROM Tests WHERE Topic_ID = " + topicId.ToString () + " AND (TestLevel & " + testlevel.ToString () + ") > 0 ORDER BY NEWID ()";
+                    strSQL = "INSERT INTO ExamTests (ExamId, TestId) SELECT TOP 1 '" + examId.ToString () + "', TestId FROM Tests WHERE TopicId = " + topicId.ToString () + " AND (TestLevel & " + testlevel.ToString () + ") > 0 ORDER BY NEWID ()";
                     var cmd = new Microsoft.Data.SqlClient.SqlCommand (strSQL, CnnSS);
                     cmd.CommandType = CommandType.Text;
                     int x = cmd.ExecuteNonQuery ();
@@ -3485,9 +3481,9 @@ namespace eLib
                 {
                 case "course":
                         {
-                        Db.DS.Tables ["tblTests"].Clear ();
-                        string strSQL1 = "Select ID, TestText, TestType, Course_ID, Topic_ID, TestRTL, OptionsRTL, TestLevel FROM Tests WHERE Course_ID = " + parentId.ToString () + " Order By ID";
-                        string strSQL2 = "Select ID, TestText, TestType, Course_ID, Topic_ID, TestRTL, OptionsRTL, TestLevel FROM Tests WHERE Course_ID = " + parentId.ToString () + " AND Topic_ID = " + topicId.ToString () + " Order By ID";
+                        Db.DS.Tables["tblTests"].Clear ();
+                        string strSQL1 = "Select TestId, TestTitle, TestType, CourseId, TopicId, TestTags, TestLevel FROM Tests WHERE CourseId = " + parentId.ToString () + " Order By TestId";
+                        string strSQL2 = "Select TestId, TestTitle, TestType, CourseId, TopicId, TestTags, TestLevel FROM Tests WHERE CourseId = " + parentId.ToString () + " AND TopicId = " + topicId.ToString () + " Order By TestId";
                         Db.strSQL = (topicId == 0) ? strSQL1 : strSQL2;
                         using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                             {
@@ -3500,9 +3496,9 @@ namespace eLib
                         }
                 case "exam":
                         {
-                        Db.DS.Tables ["tblExamTests"].Clear ();
-                        string strSQL1 = "Select Tests.ID, ExamTests.ID, TestText, TestType, Course_ID, Topic_ID, TestRTL, OptionsRTL, TestLevel FROM ExamTests INNER JOIN Tests ON ExamTests.Test_Id = Tests.ID WHERE Exam_ID = " + parentId.ToString () + " Order By ExamTests.ID";
-                        string strSQL2 = "Select Tests.ID, ExamTests.ID, TestText, TestType, Course_ID, Topic_ID, TestRTL, OptionsRTL, TestLevel FROM ExamTests INNER JOIN Tests ON ExamTests.Test_Id = Tests.ID WHERE Exam_ID = " + parentId.ToString () + " AND Topic_ID = " + topicId.ToString () + " Order By ExamTests.ID";
+                        Db.DS.Tables["tblExamTests"].Clear ();
+                        string strSQL1 = "Select Tests.TestId, ExamTests.ExamTestId, TestTitle, TestType, CourseId, TopicId, TestTags, TestLevel FROM ExamTests INNER JOIN Tests ON ExamTests.TestId = Tests.TestId WHERE ExamId = " + parentId.ToString () + " Order By ExamTests.ExamTestId";
+                        string strSQL2 = "Select Tests.TestId, ExamTests.ExamTestId, TestTitle, TestType, CourseId, TopicId, TestTags, TestLevel FROM ExamTests INNER JOIN Tests ON ExamTests.TestId = Tests.TestId WHERE ExamId = " + parentId.ToString () + " AND TopicId = " + topicId.ToString () + " Order By ExamTests.ExamTestId";
                         Db.strSQL = (topicId == 0) ? strSQL1 : strSQL2;
                         using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                             {
@@ -3517,9 +3513,9 @@ namespace eLib
             }
         public static void GetTestById (int testid)
             {
-            //[tblTest1]: 0ID, 1TestText, 2TestType, 3Course_ID, 4Topic_ID, 5TestRTL, 6OptionsRTL, 7ForceLast, 8TestLevel
-            Db.DS.Tables ["tblTest1"].Clear ();
-            Db.strSQL = "Select ID, TestText, TestType, Course_ID, Topic_ID, TestRTL, OptionsRTL, TestLevel FROM Tests WHERE ID = " + testid.ToString ();
+            //[tblTest1]: 0ID, 1TestTitle, 2TestType, 3CourseId, 4TopicID, 5TestRTL, 6OptionsRTL, 7ForceLast, 8TestLevel
+            Db.DS.Tables["tblTest1"].Clear ();
+            Db.strSQL = "Select TestId, TestTitle, TestType, CourseId, TopicId, TestTags, TestLevel FROM Tests WHERE TestId = " + testid.ToString ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3530,7 +3526,7 @@ namespace eLib
             }
         public static void GetTestOptions (int testid)
             {
-            Db.DS.Tables ["tblTestOptions"].Clear ();
+            Db.DS.Tables["tblTestOptions"].Clear ();
             Db.strSQL = "Select ID, Test_ID, OptionText, ISAnswer, ForceLast FROM TestOptions WHERE Test_ID = " + testid.ToString () + " Order By ID";
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
@@ -3542,8 +3538,8 @@ namespace eLib
             }
         public static void GetTestOptionById (int optionid)
             {
-            Db.DS.Tables ["tblTestOptions"].Clear ();
-            Db.strSQL = "Select ID, Test_ID, OptionText, ISAnswer, ForceLast FROM TestOptions WHERE ID = " + optionid.ToString ();
+            Db.DS.Tables["tblTestOptions"].Clear ();
+            Db.strSQL = "Select TestOptionId, TestId, TestOptionTitle, TestOptionTags FROM TestOptions WHERE TestOptionId = " + optionid.ToString ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3559,16 +3555,15 @@ namespace eLib
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "INSERT INTO Tests (TestText, TestType, Course_ID, Topic_ID, TestRTL, OptionsRTL, TestLevel) VALUES  (@testtext, @testtype, @courseid, @topicid, @testrtl, @optionsrtl, 4); SELECT CAST (scope_identity() AS int)";
+                    Db.strSQL = "INSERT INTO Tests (TestTitle, TestType, CourseId, TopicId, TestTags, TestLevel) VALUES  (@TestTitle, @testtype, @courseid, @topicid, @testtags, 4); SELECT CAST (scope_identity() AS int)";
                     CnnSS.Open ();
                     var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue ("@testtext", Test.Text);
+                    cmd.Parameters.AddWithValue ("@TestTitle", Test.Text);
                     cmd.Parameters.AddWithValue ("@testtype", Test.Type.ToString ());
                     cmd.Parameters.AddWithValue ("@courseid", courseId.ToString ());
                     cmd.Parameters.AddWithValue ("@topicid", Test.TopicId.ToString ());
-                    cmd.Parameters.AddWithValue ("@testrtl", Test.TestRTL.ToString ());
-                    cmd.Parameters.AddWithValue ("@optionsrtl", Test.OptionsRTL.ToString ());
+                    cmd.Parameters.AddWithValue ("@testtags", Test.TestTags.ToString ());
                     Test.Id = (int) cmd.ExecuteScalar ();
                     CnnSS.Close ();
                     }
@@ -3630,22 +3625,21 @@ namespace eLib
                 }
             return success;
             }
-        public static void ImportTest (int courseId, string testText, int testType, int topicId, bool testRTL, bool optionsRTL, int testLevel)
+        public static void ImportTest (int courseId, string TestTitle, int testType, int topicId, bool testRTL, bool optionsRTL, int testLevel)
             {
             try
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "INSERT INTO Tests (TestText, TestType, Course_ID, Topic_ID, TestRTL, OptionsRTL, TestLevel) VALUES  (@testtext, @testtype, @courseid, @topicid, @testrtl, @optionsrtl, @testlevel); SELECT CAST (scope_identity() AS int)";
+                    Db.strSQL = "INSERT INTO Tests (TestTitle, TestType, CourseId, TopicId, TestTags, TestLevel) VALUES  (@TestTitle, @testtype, @courseid, @topicid, @testrtl, @optionsrtl, @testlevel); SELECT CAST (scope_identity() AS int)";
                     CnnSS.Open ();
                     var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue ("@testtext", testText);
+                    cmd.Parameters.AddWithValue ("@TestTitle", TestTitle);
                     cmd.Parameters.AddWithValue ("@testtype", testType.ToString ());
                     cmd.Parameters.AddWithValue ("@courseid", courseId.ToString ());
                     cmd.Parameters.AddWithValue ("@topicid", topicId.ToString ());
-                    cmd.Parameters.AddWithValue ("@testrtl", testRTL.ToString ());
-                    cmd.Parameters.AddWithValue ("@optionsrtl", optionsRTL.ToString ());
+                    cmd.Parameters.AddWithValue ("@testtags", testRTL.ToString ());
                     cmd.Parameters.AddWithValue ("@testlevel", testLevel.ToString ());
                     Test.Id = (int) cmd.ExecuteScalar ();
                     CnnSS.Close ();
@@ -3666,15 +3660,14 @@ namespace eLib
                             {
                             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                                 {
-                                Db.strSQL = "UPDATE Tests SET TestText=@testtext, TestType=@testtype, Topic_ID=@topicid, TestRTL=@testrtl, OptionsRTL=@optionsrtl, TestLevel=@testlevel WHERE ID = " + id.ToString ();
+                                Db.strSQL = "UPDATE Tests SET TestTitle=@TestTitle, TestType=@testtype, TopicId=@topicid, TestTags=@testtags TestLevel=@testlevel WHERE TestId = " + id.ToString ();
                                 CnnSS.Open ();
                                 var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                                 cmd.CommandType = CommandType.Text;
-                                cmd.Parameters.AddWithValue ("@testtext", Test.Text);
+                                cmd.Parameters.AddWithValue ("@TestTitle", Test.Text);
                                 cmd.Parameters.AddWithValue ("@testtype", Test.Type.ToString ());
                                 cmd.Parameters.AddWithValue ("@topicid", Test.TopicId.ToString ());
-                                cmd.Parameters.AddWithValue ("@testrtl", Test.TestRTL.ToString ());
-                                cmd.Parameters.AddWithValue ("@optionsrtl", Test.OptionsRTL.ToString ());
+                                cmd.Parameters.AddWithValue ("@testtags", Test.TestTags.ToString ());
                                 cmd.Parameters.AddWithValue ("@testlevel", Test.Level.ToString ());
                                 int i = cmd.ExecuteNonQuery ();
                                 CnnSS.Close ();
@@ -3716,13 +3709,12 @@ namespace eLib
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "UPDATE TestOptions SET OptionText = @optiontext, IsAnswer = @isanswer, ForceLast = @forcelast WHERE ID = @id";
+                    Db.strSQL = "UPDATE TestOptions SET OptionText=@optiontext, TestOptionTags=@tags WHERE TestOptionId=@id";
                     CnnSS.Open ();
                     var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmdx.CommandType = CommandType.Text;
                     cmdx.Parameters.AddWithValue ("@optiontext", optText);
-                    cmdx.Parameters.AddWithValue ("@isanswer", optIsAns.ToString ());
-                    cmdx.Parameters.AddWithValue ("@forcelast", optForce.ToString ());
+                    cmdx.Parameters.AddWithValue ("@tags", optIsAns.ToString ());
                     cmdx.Parameters.AddWithValue ("@id", optId.ToString ());
                     int ix = cmdx.ExecuteNonQuery ();
                     CnnSS.Close ();
@@ -3744,7 +3736,7 @@ namespace eLib
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "DELETE FROM TestOptions WHERE ID = @id";
+                    Db.strSQL = "DELETE FROM TestOptions WHERE TestOptionId = @id";
                     CnnSS.Open ();
                     var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmdx.CommandType = CommandType.Text;
@@ -3765,7 +3757,7 @@ namespace eLib
             {
             try
                 {
-                Db.DS.Tables ["tblEntries"].Clear ();
+                Db.DS.Tables["tblEntries"].Clear ();
                 Db.strSQL = "SELECT ID, EntryName, User_ID FROM Entries WHERE User_ID=" + userId.ToString ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
@@ -3832,18 +3824,18 @@ namespace eLib
                 }
             return success;
             }
-        //PARTICIPANTS and EXAMSHEETS
-        public static void GetEntryParticipants (int entryId)
+        //StudentS and EXAMSHEETS
+        public static void GetEntryStudents (int entryId)
             {
             try
                 {
-                Db.DS.Tables ["tblEntryParticipants"].Clear ();
-                Db.strSQL = "SELECT ID, Entry_ID, ParticipantName, ParticipantPass FROM Participants WHERE Entry_ID=" + entryId.ToString () + " ORDER BY ParticipantName";
+                Db.DS.Tables["tblEntryStudents"].Clear ();
+                Db.strSQL = "SELECT ID, Entry_ID, StudentName, StudentPass FROM Students WHERE Entry_ID=" + entryId.ToString () + " ORDER BY StudentName";
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
                     Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter (Db.strSQL, CnnSS);
-                    Db.DASS.Fill (Db.DS, "tblEntryParticipants");
+                    Db.DASS.Fill (Db.DS, "tblEntryStudents");
                     CnnSS.Close ();
                     }
                 }
@@ -3852,17 +3844,17 @@ namespace eLib
                 MessageBox.Show (ex.ToString ());
                 }
             }
-        public static void GetParticipantById (int participantId)
+        public static void GetStudentById (int StudentId)
             {
             try
                 {
-                Db.DS.Tables ["tblEntryParticipants"].Clear ();
-                Db.strSQL = "SELECT ID, Entry_ID, ParticipantName, ParticipantPass FROM Participants WHERE ID=" + participantId.ToString ();
+                Db.DS.Tables["tblEntryStudents"].Clear ();
+                Db.strSQL = "SELECT StudentId, GroupId, StudentName, StudentPass FROM Students WHERE StudentId=" + StudentId.ToString ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
                     Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter (Db.strSQL, CnnSS);
-                    Db.DASS.Fill (Db.DS, "tblEntryParticipants");
+                    Db.DASS.Fill (Db.DS, "tblEntryStudents");
                     CnnSS.Close ();
                     }
                 }
@@ -3871,17 +3863,17 @@ namespace eLib
                 MessageBox.Show (ex.ToString ());
                 }
             }
-        public static void GetExamParticipants (int examId)
+        public static void GetExamStudents (int examId)
             {
             try
                 {
-                Db.DS.Tables ["tblExamParticipants"].Clear ();
-                Db.strSQL = "SELECT ExamParticipants.ID, Participant_ID, Exam_ID, ParticipantName, ParticipantPass, Started, DateTime, Finished FROM ExamParticipants INNER JOIN Participants ON ExamParticipants. Participant_ID = Participants.ID WHERE Exam_ID =" + examId.ToString () + " ORDER BY ParticipantName";
+                Db.DS.Tables["tblExamStudents"].Clear ();
+                Db.strSQL = "SELECT ExamStudents.ID, Student_ID, Exam_ID, StudentName, StudentPass, Started, DateTime, Finished FROM ExamStudents INNER JOIN Students ON ExamStudents. Student_ID = Students.ID WHERE Exam_ID =" + examId.ToString () + " ORDER BY StudentName";
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
                     Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter (Db.strSQL, CnnSS);
-                    Db.DASS.Fill (Db.DS, "tblExamParticipants");
+                    Db.DASS.Fill (Db.DS, "tblExamStudents");
                     CnnSS.Close ();
                     }
                 }
@@ -3890,24 +3882,24 @@ namespace eLib
                 MessageBox.Show (ex.ToString ());
                 }
             }
-        public static int GetAllParticipantExams (int participantId)
+        public static int GetAllStudentExams (int StudentId)
             {
-            Db.DS.Tables ["tblParticipantExams"].Clear ();
+            Db.DS.Tables["tblStudentExams"].Clear ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
-                Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter ("SELECT CourseName, Exams.ID, ExamTitle, ExamDuration, IsActive, Training, Started, ExamParticipants.DateTime, Finished FROM Exams INNER JOIN ExamParticipants ON Exams.ID = ExamParticipants.Exam_ID INNER JOIN Courses ON Exams.Course_ID = Courses.ID WHERE Participant_ID =" + participantId.ToString (), CnnSS);
-                Db.DASS.Fill (Db.DS, "tblParticipantExams");
+                Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter ("SELECT CourseName, Exams.ExamId, ExamTitle, ExamDuration, ExamTags, Started, ExamStudents.DateTime, Finished FROM Exams INNER JOIN ExamStudents ON Exams.ExamId = ExamStudents.ExamId INNER JOIN Courses ON Exams.CourseId = Courses.CourseId WHERE StudentId =" + StudentId.ToString (), CnnSS);
+                Db.DASS.Fill (Db.DS, "tblStudentExams");
                 CnnSS.Close ();
                 }
-            return Db.DS.Tables ["tblParticipantExams"].Rows.Count;
+            return Db.DS.Tables["tblStudentExams"].Rows.Count;
             }
-        public static bool GetParticipantExamSheet (int examId, int participantId)
+        public static bool GetStudentExamSheet (int examId, int StudentId)
             {
             try
                 {
-                Db.DS.Tables ["tblExamSheets"].Clear ();
-                Db.strSQL = "SELECT Exam_ID, Participant_ID, Test_ID, Opt1_ID, Opt2_ID, Opt3_ID, Opt4_ID, Opt5_ID, Keyx, Ans, Tags FROM ExamSheets WHERE Exam_ID = " + examId.ToString () + " AND Participant_ID = " + participantId.ToString ();
+                Db.DS.Tables["tblExamSheets"].Clear ();
+                Db.strSQL = "SELECT ExamId, StudentId, TestId, Opt1Id, Opt2Id, Opt3Id, Opt4Id, Opt5Id, ExamSheetTestKey, ExamSheetTestAns, ExamSheetTestTags FROM ExamSheets WHERE Exam_ID = " + examId.ToString () + " AND Student_ID = " + StudentId.ToString ();
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     CnnSS.Open ();
@@ -3925,8 +3917,8 @@ namespace eLib
             }
         public static void GetTestOptionsText (int examTestId)
             {
-            Db.DS.Tables ["tblTestOptions"].Clear ();
-            Db.strSQL = "SELECT ID, Test_ID, OptionText, ISAnswer, ForceLast FROM TestOptions WHERE Test_ID = " + examTestId.ToString () + " Order By ID";
+            Db.DS.Tables["tblTestOptions"].Clear ();
+            Db.strSQL = "SELECT TestOptionsId, TestId, OptionText, TestOptionsTags FROM TestOptions WHERE TestId = " + examTestId.ToString () + " Order By TestOptionsId";
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3937,8 +3929,8 @@ namespace eLib
             }
         public static void GetExamTestById (int examtestId)
             {
-            Db.DS.Tables ["tblTests"].Clear ();
-            Db.strSQL = "SELECT ID, TestText, TestType, Course_ID, Topic_ID, TestRTL, OptionsRTL, TestLevel FROM Tests WHERE ID = " + examtestId.ToString ();
+            Db.DS.Tables["tblTests"].Clear ();
+            Db.strSQL = "SELECT TestId, TestTitle, TestType, CourseId, TopicId, TestTags, TestLevel FROM Tests WHERE TestId = " + examtestId.ToString ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
@@ -3947,40 +3939,40 @@ namespace eLib
                 CnnSS.Close ();
                 }
             }
-        public static void AddNewParticipant2Entry (int entryId, string participantName, string participantPass)
+        public static void AddNewStudent2Entry (int entryId, string StudentName, string StudentPass)
             {
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
-                Db.strSQL = "INSERT INTO Participants (Entry_ID, ParticipantName, ParticipantPass) VALUES (@entryid, @participantname, @participantpass)";
+                Db.strSQL = "INSERT INTO Students (GroupId, StudentName, StudentPass) VALUES (@groupid, @Studentname, @Studentpass)";
                 CnnSS.Open ();
                 var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue ("@entryid", entryId.ToString ());
-                cmd.Parameters.AddWithValue ("@participantname", participantName);
-                cmd.Parameters.AddWithValue ("@participantpass", participantPass);
+                cmd.Parameters.AddWithValue ("@groupid", entryId.ToString ());
+                cmd.Parameters.AddWithValue ("@Studentname", StudentName);
+                cmd.Parameters.AddWithValue ("@Studentpass", StudentPass);
                 int i = cmd.ExecuteNonQuery ();
                 CnnSS.Close ();
                 }
             }
-        public static void AddOneParticipant2Exam (int participantId, int examId)
+        public static void AddOneStudent2Exam (int StudentId, int examId)
             {
             try
                 {
-                //STEP1: add the participant to exam
+                //STEP1: add the Student to exam
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "INSERT INTO ExamParticipants (Participant_ID, Exam_ID) VALUES (@participantid, @examid)";
+                    Db.strSQL = "INSERT INTO ExamStudents (StudentId, ExamId) VALUES (@Studentid, @examid)";
                     CnnSS.Open ();
                     var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmd.CommandType = CommandType.Text;
-                    cmd.Parameters.AddWithValue ("@participantid", participantId.ToString ());
+                    cmd.Parameters.AddWithValue ("@Studentid", StudentId.ToString ());
                     cmd.Parameters.AddWithValue ("@examid", examId.ToString ());
                     int i = cmd.ExecuteNonQuery ();
                     CnnSS.Close ();
                     }
                 //STEP2: add n tests to examsheets
-                GetTests (examId, "exam", 0); //refill DS.[tblExamTests]: 0Tests.ID, 1ExamTests.ID, 2TestText, 3TestType, 4Course_ID, 5Topic_ID, 6TestRTL, 7OptionsRTL
-                Exam.nTests = Db.DS.Tables ["tblExamTests"].Rows.Count;
+                GetTests (examId, "exam", 0); //refill DS.[tblExamTests]: 0Tests.ID, 1ExamTests.ID, 2TestTitle, 3TestType, 4Course_ID, 5TopicId, 6TestRTL, 7OptionsRTL
+                Exam.nTests = Db.DS.Tables["tblExamTests"].Rows.Count;
                 //2_a: shuffle rows of [tblExamTests]
                 Random rnd = new Random ();
                 int r = 0;
@@ -3988,33 +3980,33 @@ namespace eLib
                 for (int z = 0; z < (Exam.nTests - 1); z++)
                     {
                     r = rnd.Next (z + 1, Exam.nTests - 1);
-                    tmpVar = Convert.ToInt32 (Db.DS.Tables ["tblExamTests"].Rows [r] [0]);
-                    Db.DS.Tables ["tblExamTests"].Rows [r] [0] = Convert.ToInt32 (Db.DS.Tables ["tblExamTests"].Rows [z] [0]);
-                    Db.DS.Tables ["tblExamTests"].Rows [z] [0] = tmpVar;
+                    tmpVar = Convert.ToInt32 (Db.DS.Tables["tblExamTests"].Rows[r][0]);
+                    Db.DS.Tables["tblExamTests"].Rows[r][0] = Convert.ToInt32 (Db.DS.Tables["tblExamTests"].Rows[z][0]);
+                    Db.DS.Tables["tblExamTests"].Rows[z][0] = tmpVar;
                     }
-                //2_b: for each test in shuffled list in [tblExamTests]: 0Tests.ID, 1ExamTests.ID, 2TestText, 3TestType, 4Course_ID, 5Topic_ID, 6TestRTL, 7OptionsRTL
+                //2_b: for each test in shuffled list in [tblExamTests]: 0Tests.ID, 1ExamTests.ID, 2TestTitle, 3TestType, 4Course_ID, 5TopicId, 6TestRTL, 7OptionsRTL
                 for (int i = 0; i < Exam.nTests; i++)
                     {
-                    Test.Id = Convert.ToInt32 (Db.DS.Tables ["tblExamTests"].Rows [i] [0]);
+                    Test.Id = Convert.ToInt32 (Db.DS.Tables["tblExamTests"].Rows[i][0]);
                     GetTestOptions (Test.Id);
                     //[tblTestOptions]: 0ID, 1Test_ID, 2OptionText, 3ISAnswer, 4ForceLast
-                    int [] intOpts = new int [5] { 0, 0, 0, 0, 0 };
+                    int[] intOpts = new int[5] { 0, 0, 0, 0, 0 };
                     int intAnswr = 0;
                     int intForce = 0;
-                    int intNOpts = Db.DS.Tables ["tblTestOptions"].Rows.Count;
+                    int intNOpts = Db.DS.Tables["tblTestOptions"].Rows.Count;
                     for (int p = 0; p < intNOpts; p++)
                         {
                         //Option-IDs
-                        intOpts [p] = Convert.ToInt32 (Db.DS.Tables ["tblTestOptions"].Rows [p] [0]);
+                        intOpts[p] = Convert.ToInt32 (Db.DS.Tables["tblTestOptions"].Rows[p][0]);
                         //find answer
-                        if (Convert.ToBoolean (Db.DS.Tables ["tblTestOptions"].Rows [p] [3]))
+                        if (Convert.ToBoolean (Db.DS.Tables["tblTestOptions"].Rows[p][3]))
                             {
-                            intAnswr = Convert.ToInt32 (Db.DS.Tables ["tblTestOptions"].Rows [p] [0]);
+                            intAnswr = Convert.ToInt32 (Db.DS.Tables["tblTestOptions"].Rows[p][0]);
                             }
                         //find forceLast
-                        if (Convert.ToBoolean (Db.DS.Tables ["tblTestOptions"].Rows [p] [4]))
+                        if (Convert.ToBoolean (Db.DS.Tables["tblTestOptions"].Rows[p][4]))
                             {
-                            intForce = Convert.ToInt32 (Db.DS.Tables ["tblTestOptions"].Rows [p] [0]);
+                            intForce = Convert.ToInt32 (Db.DS.Tables["tblTestOptions"].Rows[p][0]);
                             }
                         }
                     int intNshuffle = 0;
@@ -4026,7 +4018,7 @@ namespace eLib
                     else if (intForce > 0)
                         {
                         //1=true: there is forceLast
-                        intOpts [intNOpts - 1] = intForce; //Option-ID of the forceLast 
+                        intOpts[intNOpts - 1] = intForce; //Option-ID of the forceLast 
                         intNshuffle = (intNOpts - 1); //shuffle options (1 to nOpts)
                         }
                     //do shuffle cols
@@ -4034,26 +4026,26 @@ namespace eLib
                         {
                         r = rnd.Next (0, (intNshuffle - 1));
                         //swap!
-                        tmpVar = intOpts [r];
-                        intOpts [r] = intOpts [s];
-                        intOpts [s] = tmpVar;
+                        tmpVar = intOpts[r];
+                        intOpts[r] = intOpts[s];
+                        intOpts[s] = tmpVar;
                         }
                     //insert into table ExamSheets
                     using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                         {
-                        Db.strSQL = "INSERT INTO ExamSheets (Exam_ID, Participant_ID, Test_ID, Opt1_ID, Opt2_ID, Opt3_ID, Opt4_ID, Opt5_ID, Keyx, Ans, Tags) VALUES (@examid, @participantid, @testid, @opt1id, @opt2id, @opt3id, @opt4id, @opt5id, @keyx, 0, 0)";
+                        Db.strSQL = "INSERT INTO ExamSheets (ExamId, StudentId, TestId, Opt1Id, Opt2Id, Opt3Id, Opt4Id, Opt5Id, ExamSheetTestKey, ExamSheetTestAns, ExamSheetTestTags) VALUES (@examid, @Studentid, @testid, @opt1id, @opt2id, @opt3id, @opt4id, @opt5id, @key, 0, 0)";
                         CnnSS.Open ();
                         var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                         cmd.CommandType = CommandType.Text;
                         cmd.Parameters.AddWithValue ("@examid", examId.ToString ());
-                        cmd.Parameters.AddWithValue ("@participantid", participantId.ToString ());
+                        cmd.Parameters.AddWithValue ("@Studentid", StudentId.ToString ());
                         cmd.Parameters.AddWithValue ("@testid", Test.Id.ToString ());
-                        cmd.Parameters.AddWithValue ("@opt1id", intOpts [0].ToString ());
-                        cmd.Parameters.AddWithValue ("@opt2id", intOpts [1].ToString ());
-                        cmd.Parameters.AddWithValue ("@opt3id", intOpts [2].ToString ());
-                        cmd.Parameters.AddWithValue ("@opt4id", intOpts [3].ToString ());
-                        cmd.Parameters.AddWithValue ("@opt5id", intOpts [4].ToString ());
-                        cmd.Parameters.AddWithValue ("@keyx", intAnswr.ToString ());
+                        cmd.Parameters.AddWithValue ("@opt1id", intOpts[0].ToString ());
+                        cmd.Parameters.AddWithValue ("@opt2id", intOpts[1].ToString ());
+                        cmd.Parameters.AddWithValue ("@opt3id", intOpts[2].ToString ());
+                        cmd.Parameters.AddWithValue ("@opt4id", intOpts[3].ToString ());
+                        cmd.Parameters.AddWithValue ("@opt5id", intOpts[4].ToString ());
+                        cmd.Parameters.AddWithValue ("@key", intAnswr.ToString ());
                         int x = cmd.ExecuteNonQuery ();
                         CnnSS.Close ();
                         }
@@ -4064,20 +4056,20 @@ namespace eLib
                 MessageBox.Show (ex.ToString ());
                 }
             }
-        public static bool UpdateParticipant (int participantId, string participantName, string participantPass)
+        public static bool UpdateStudent (int StudentId, string StudentName, string StudentPass)
             {
             bool success = default;
             try
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
-                    Db.strSQL = "UPDATE Participants SET ParticipantName=@participantname, ParticipantPass=@participantpass WHERE ID = @id";
+                    Db.strSQL = "UPDATE Students SET StudentName=@Studentname, StudentPass=@Studentpass WHERE StudentId = @id";
                     CnnSS.Open ();
                     var cmdx = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                     cmdx.CommandType = CommandType.Text;
-                    cmdx.Parameters.AddWithValue ("@participantname", participantName);
-                    cmdx.Parameters.AddWithValue ("@participantpass", participantPass);
-                    cmdx.Parameters.AddWithValue ("@id", participantId.ToString ());
+                    cmdx.Parameters.AddWithValue ("@Studentname", StudentName);
+                    cmdx.Parameters.AddWithValue ("@Studentpass", StudentPass);
+                    cmdx.Parameters.AddWithValue ("@id", StudentId.ToString ());
                     int ix = cmdx.ExecuteNonQuery ();
                     CnnSS.Close ();
                     }
@@ -4091,10 +4083,10 @@ namespace eLib
                 }
             return success;
             }
-        public static bool RemoveAllParticipantsFromExam (int examId)
+        public static bool RemoveAllStudentsFromExam (int examId)
             {
             //confirm!
-            DialogResult myansw = MessageBox.Show ("Are you sure?\nAll participants and their sheets will be deleted!\n\nContinue?", "eLib", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+            DialogResult myansw = MessageBox.Show ("Are you sure?\nAll Students and their sheets will be deleted!\n\nContinue?", "eLib", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
             if (myansw == DialogResult.No)
                 {
                 return false;
@@ -4105,7 +4097,7 @@ namespace eLib
                     {
                     using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                         {
-                        Db.strSQL = "DELETE FROM ExamParticipants WHERE Exam_ID=@examid; DELETE FROM ExamSheets WHERE Exam_ID=@examid";
+                        Db.strSQL = "DELETE FROM ExamStudents WHERE ExamId=@examid; DELETE FROM ExamSheets WHERE ExamId=@examid";
                         CnnSS.Open ();
                         var cmd = new SqlCommand (Db.strSQL, CnnSS);
                         cmd.Parameters.AddWithValue ("@examid", examId.ToString ());
@@ -4121,18 +4113,18 @@ namespace eLib
                     }
                 }
             }
-        public static bool RemoveOneParticipantFromExam (int examId, int participantId)
+        public static bool RemoveOneStudentFromExam (int examId, int StudentId)
             {
             try
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     //delete from 2 tables
-                    Db.strSQL = "DELETE FROM ExamParticipants WHERE Exam_ID=@examid AND Participant_ID=@participantid; DELETE FROM ExamSheets WHERE Exam_ID=@examid AND Participant_ID=@participantid";
+                    Db.strSQL = "DELETE FROM ExamStudents WHERE ExamId=@examid AND StudentId=@Studentid; DELETE FROM ExamSheets WHERE ExamId=@examid AND StudentId=@Studentid";
                     CnnSS.Open ();
                     var cmd = new SqlCommand (Db.strSQL, CnnSS);
                     cmd.Parameters.AddWithValue ("@examid", examId.ToString ());
-                    cmd.Parameters.AddWithValue ("@participantid", participantId.ToString ());
+                    cmd.Parameters.AddWithValue ("@Studentid", StudentId.ToString ());
                     int i = cmd.ExecuteNonQuery ();
                     CnnSS.Close ();
                     }
@@ -4144,17 +4136,17 @@ namespace eLib
                 return false;
                 }
             }
-        public static bool DeleteOneParticipantFromEntry (int participantId)
+        public static bool DeleteOneStudentFromEntry (int StudentId)
             {
             try
                 {
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     //delete from 3 tables
-                    Db.strSQL = "DELETE FROM Participants WHERE ID=@participantid; DELETE FROM ExamParticipants WHERE Participant_ID=@participantid; DELETE FROM ExamSheets WHERE Participant_ID=@participantid";
+                    Db.strSQL = "DELETE FROM Students WHERE StudentId=@Studentid; DELETE FROM ExamStudents WHERE StudentId=@Studentid; DELETE FROM ExamSheets WHERE StudentId=@Studentid";
                     CnnSS.Open ();
                     var cmd = new SqlCommand (Db.strSQL, CnnSS);
-                    cmd.Parameters.AddWithValue ("@participantid", participantId.ToString ());
+                    cmd.Parameters.AddWithValue ("@Studentid", StudentId.ToString ());
                     int i = cmd.ExecuteNonQuery ();
                     CnnSS.Close ();
                     }
@@ -4168,18 +4160,18 @@ namespace eLib
             }
         public static void DeleteAnEntry (int entryId)
             {
-            GetEntryParticipants (entryId); //[tblEntryParticipants]
-            int participantId = 0;
-            for (int r = 0; r < Db.DS.Tables ["tblEntryParticipants"].Rows.Count; r++)
+            GetEntryStudents (entryId); //[tblEntryStudents]
+            int StudentId = 0;
+            for (int r = 0; r < Db.DS.Tables["tblEntryStudents"].Rows.Count; r++)
                 {
-                participantId = Convert.ToInt32 (Db.DS.Tables ["tblEntryParticipants"].Rows [r] [0].ToString ());
+                StudentId = Convert.ToInt32 (Db.DS.Tables["tblEntryStudents"].Rows[r][0].ToString ());
                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                     {
                     //delete from 3 tables
-                    Db.strSQL = "DELETE FROM Participants WHERE ID=@participantid; DELETE FROM ExamParticipants WHERE Participant_ID=@participantid; DELETE FROM ExamSheets WHERE Participant_ID=@participantid";
+                    Db.strSQL = "DELETE FROM Students WHERE StudentId=@Studentid; DELETE FROM ExamStudents WHERE StudentId=@Studentid; DELETE FROM ExamSheets WHERE StudentId=@Studentid";
                     CnnSS.Open ();
                     var cmd = new SqlCommand (Db.strSQL, CnnSS);
-                    cmd.Parameters.AddWithValue ("@participantid", participantId.ToString ());
+                    cmd.Parameters.AddWithValue ("@Studentid", StudentId.ToString ());
                     int i = cmd.ExecuteNonQuery ();
                     CnnSS.Close ();
                     }
@@ -4187,38 +4179,38 @@ namespace eLib
             //delete from Entry
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
-                Db.strSQL = "DELETE FROM Entries WHERE ID=@entryid;";
+                Db.strSQL = "DELETE FROM Groups WHERE GroupId=@groupid;";
                 CnnSS.Open ();
                 var cmd = new SqlCommand (Db.strSQL, CnnSS);
-                cmd.Parameters.AddWithValue ("@entryid", entryId.ToString ());
+                cmd.Parameters.AddWithValue ("@groupid", entryId.ToString ());
                 int i = cmd.ExecuteNonQuery ();
                 CnnSS.Close ();
                 }
             }
         //Printout-HTML
-        public static void PrintoutExamParticipantsUserPass ()
+        public static void PrintoutExamStudentsUserPass ()
             {
             //Report User-Pass
-            string strHeader = "Exam Participants UserName - Password.  CBT administrator: ";
+            string strHeader = "Exam Students UserName - Password.  CBT administrator: ";
             try
                 {
-                FileSystem.FileOpen (1, Application.StartupPath + "elibExam_Participants.html", OpenMode.Output);
+                FileSystem.FileOpen (1, Application.StartupPath + "elibExam_Students.html", OpenMode.Output);
                 //header
                 Assign.AddHeader2Report (strHeader);
-                var cnt = Db.DS.Tables ["tblExamParticipants"].Rows.Count;
-                //0ID, 1Participant_ID, 2Exam_ID, 3ParticipantName, 4ParticipantPass, 5Started, 6DateTime, 7Finished
+                var cnt = Db.DS.Tables["tblExamStudents"].Rows.Count;
+                //0ID, 1Student_ID, 2Exam_ID, 3StudentName, 4StudentPass, 5Started, 6DateTime, 7Finished
                 for (int i = 0; i < cnt; i++)
                     {
                     FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:18px'>", "Exam : " + Exam.Title), " "));
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Username: ", Db.DS.Tables ["tblExamParticipants"].Rows [i] [3]), " "));
-                    //FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Black; font-family:tahoma; font-size:16px'> --- Password: ", Db.DS.Tables ["tblExamParticipants"].Rows [i] [4]), "</span>"), "<br>");
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>Password: ", Db.DS.Tables ["tblExamParticipants"].Rows [i] [4]), " "));
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Username: ", Db.DS.Tables["tblExamStudents"].Rows[i][3]), " "));
+                    //FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<span style='color:Black; font-family:tahoma; font-size:16px'> --- Password: ", Db.DS.Tables ["tblExamStudents"].Rows [i] [4]), "</span>"), "<br>");
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>Password: ", Db.DS.Tables["tblExamStudents"].Rows[i][4]), " "));
                     FileSystem.PrintLine (1, "<hr>");
                     }
                 //footer
                 Assign.AddFooter2Report ();
                 FileSystem.FileClose (1);
-                Interaction.Shell ("explorer.exe " + Application.StartupPath + "elibExam_Participants.html");
+                Interaction.Shell ("explorer.exe " + Application.StartupPath + "elibExam_Students.html");
                 }
             catch (Exception ex)
                 {
@@ -4227,27 +4219,27 @@ namespace eLib
                 return;
                 }
             }
-        public static void PrintoutEntryParticipantsUserPass (int entryid)
+        public static void PrintoutEntryStudentsUserPass (int entryid)
             {
             //Report User-Pass
-            string strHeader = "Entry Participants UserName - Password.  CBT administrator: ";
+            string strHeader = "Entry Students UserName - Password.  CBT administrator: ";
             try
                 {
-                FileSystem.FileOpen (1, Application.StartupPath + "elibEntry_Participants.html", OpenMode.Output);
+                FileSystem.FileOpen (1, Application.StartupPath + "elibEntry_Students.html", OpenMode.Output);
                 //header
                 Assign.AddHeader2Report (strHeader);
-                var cnt = Db.DS.Tables ["tblEntryParticipants"].Rows.Count;
-                //0ID, 1Entry_ID, 2ParticipantName, 3ParticipantPass
+                var cnt = Db.DS.Tables["tblEntryStudents"].Rows.Count;
+                //0ID, 1Entry_ID, 2StudentName, 3StudentPass
                 for (int i = 0; i < cnt; i++)
                     {
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Username: ", Db.DS.Tables ["tblEntryParticipants"].Rows [i] [2]), " "));
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>Password: ", Db.DS.Tables ["tblEntryParticipants"].Rows [i] [3]), " "));
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>Username: ", Db.DS.Tables["tblEntryStudents"].Rows[i][2]), " "));
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>Password: ", Db.DS.Tables["tblEntryStudents"].Rows[i][3]), " "));
                     FileSystem.PrintLine (1, "<hr>");
                     }
                 //footer
                 Assign.AddFooter2Report ();
                 FileSystem.FileClose (1);
-                Interaction.Shell ("explorer.exe " + Application.StartupPath + "elibEntry_Participants.html");
+                Interaction.Shell ("explorer.exe " + Application.StartupPath + "elibEntry_Students.html");
                 }
             catch (Exception ex)
                 {
@@ -4256,37 +4248,37 @@ namespace eLib
                 return;
                 }
             }
-        public static void PrintoutRawExamSheets (int examId, int participantId)
+        public static void PrintoutRawExamSheets (int examId, int StudentId)
             {
             //Report RawExamSheet
             string strHeader = "Exam Sheet- ";
             try
                 {
-                string rawSheetName = "elibExamSheet_" + examId.ToString ().Trim () + "_" + participantId.ToString ().Trim () + ".html";
+                string rawSheetName = "elibExamSheet_" + examId.ToString ().Trim () + "_" + StudentId.ToString ().Trim () + ".html";
                 FileSystem.FileOpen (1, Application.StartupPath + rawSheetName, OpenMode.Output);
                 //header
                 Assign.AddHeader2Report (strHeader); //adds userName to string
                 FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:18px'>", "Exam name: " + Exam.Title), " "));
-                GetParticipantById (participantId);
-                //[tblEntryParticipants]: 0ID, 1Entry_ID, 2ParticipantName, 3ParticipantPass
-                Participant.Name = Db.DS.Tables ["tblEntryParticipants"].Rows [0] [2].ToString ();
-                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:18px'>", "Participant name: " + Participant.Name), " "));
+                GetStudentById (StudentId);
+                //[tblEntryStudents]: 0ID, 1Entry_ID, 2StudentName, 3StudentPass
+                Student.Name = Db.DS.Tables["tblEntryStudents"].Rows[0][2].ToString ();
+                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:18px'>", "Student name: " + Student.Name), " "));
                 FileSystem.PrintLine (1, "<hr>");
-                GetParticipantExamSheet (examId, Participant.Id);
+                GetStudentExamSheet (examId, Student.Id);
                 int cntTest = 0;
-                cntTest = Db.DS.Tables ["tblExamSheets"].Rows.Count;
-                //0Exam_ID, 1Participant_ID, 2Test_ID, 3Opt1_ID, 4Opt2_ID, 5Opt3_ID, 6Opt4_ID, 7Opt5_ID, 8Keyx, 9Ans, 10Tags
+                cntTest = Db.DS.Tables["tblExamSheets"].Rows.Count;
+                //0Exam_ID, 1Student_ID, 2Test_ID, 3Opt1_ID, 4Opt2_ID, 5Opt3_ID, 6Opt4_ID, 7Opt5_ID, 8Keyx, 9Ans, 10Tags
                 for (int j = 0; j < cntTest; j++)
                     {
-                    Test.Id = Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [j] [2]);
+                    Test.Id = Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[j][2]);
                     GetExamTestById (Test.Id);
-                    //[tblTests]: 0ID, 1TestText, 2TestType, 3Course_ID, 4Topic_ID, 5TestRTL, 6OptionsRTL
+                    //[tblTests]: 0ID, 1TestTitle, 2TestType, 3Course_ID, 4TopicID, 5TestRTL, 6OptionsRTL
                     GetTestOptionsText (Test.Id);
                     //[tblTestOptions]: 0ID, 1Test_ID, 2OptionText, 3ISAnswer, 4ForceLast
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", (j + 1).ToString () + "- " + Db.DS.Tables ["tblTests"].Rows [0] [1]), " "));
-                    for (int opt = 0; opt < Db.DS.Tables ["tblTestOptions"].Rows.Count; opt++)
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", (j + 1).ToString () + "- " + Db.DS.Tables["tblTests"].Rows[0][1]), " "));
+                    for (int opt = 0; opt < Db.DS.Tables["tblTestOptions"].Rows.Count; opt++)
                         {
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", " -- ( " + (opt + 1).ToString () + " ) " + Db.DS.Tables ["tblTestOptions"].Rows [opt] [2]), " "));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", " -- ( " + (opt + 1).ToString () + " ) " + Db.DS.Tables["tblTestOptions"].Rows[opt][2]), " "));
                         }
                     FileSystem.PrintLine (1, "<hr>");
                     }
@@ -4306,7 +4298,7 @@ namespace eLib
         public static void PrintoutExamMarks (int examId)
             {
             //Report User-Pass
-            //GetExamById (examId); //tblExams: 0ID, 1Course_ID, 2ExamTitle, 3ExamDateTime, 4ExamDuration, 5ExamNTests, 6ExamShuffleOptions, 7IsActive, 8Training
+            //GetExamById (examId); //tblExams: 0ID, 1CourseId, 2ExamTitle, 3ExamDateTime, 4ExamDuration, 5ExamNTests, 6ExamShuffleOptions, 7IsActive, 8Training
             string strHeader = "Exam Marks.  CBT administrator: ";
             try
                 {
@@ -4319,34 +4311,34 @@ namespace eLib
                 int cntAns = 0;
                 double mark = 0.0;
                 double mean = 0.0;
-                int nParticipants = 0;
-                Testbank.GetExamParticipants (examId);
-                //0ExamParticipants.ID, 1Participant_ID, 2Exam_ID, 3ParticipantName, 4ParticipantPass, 5Started, 6DateTime, 7Finished
-                for (int i = 0; i < Db.DS.Tables ["tblExamParticipants"].Rows.Count; i++)
+                int nStudents = 0;
+                Testbank.GetExamStudents (examId);
+                //0ExamStudents.ID, 1Student_ID, 2Exam_ID, 3StudentName, 4StudentPass, 5Started, 6DateTime, 7Finished
+                for (int i = 0; i < Db.DS.Tables["tblExamStudents"].Rows.Count; i++)
                     {
-                    Participant.Id = Convert.ToInt32 (Db.DS.Tables ["tblExamParticipants"].Rows [i] [1]);
-                    Participant.Name = Db.DS.Tables ["tblExamParticipants"].Rows [i] [3].ToString ();
-                    Participant.DateTime = Db.DS.Tables ["tblExamParticipants"].Rows [i] [6].ToString ();
-                    Testbank.GetParticipantExamSheet (examId, Participant.Id);
-                    //[tblExamSheets]: 0:Exam_ID, 1:Participant_ID, 2:Test_ID, 3-7:Optx_ID, 8:Keyx, 9:Ans, 10:Tags
-                    cntTest = Db.DS.Tables ["tblExamSheets"].Rows.Count;
+                    Student.Id = Convert.ToInt32 (Db.DS.Tables["tblExamStudents"].Rows[i][1]);
+                    Student.Name = Db.DS.Tables["tblExamStudents"].Rows[i][3].ToString ();
+                    Student.DateTime = Db.DS.Tables["tblExamStudents"].Rows[i][6].ToString ();
+                    Testbank.GetStudentExamSheet (examId, Student.Id);
+                    //[tblExamSheets]: 0:Exam_ID, 1:Student_ID, 2:Test_ID, 3-7:Optx_ID, 8:Keyx, 9:Ans, 10:Tags
+                    cntTest = Db.DS.Tables["tblExamSheets"].Rows.Count;
                     cntAns = 0;
                     for (int j = 0; j < cntTest; j++)
                         {
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [j] [8]) == Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [j] [9]))
+                        if (Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[j][8]) == Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[j][9]))
                             {
                             cntAns++;
                             }
                         }
                     mark = Convert.ToDouble (Convert.ToDouble (cntAns) * 20.0 / Convert.ToDouble (cntTest));
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", "Participant# " + Participant.Id.ToString ("00000") + " -- Name: " + Participant.Name), " "));
-                    if (Convert.ToBoolean (Db.DS.Tables ["tblExamParticipants"].Rows [i] [5]))
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", "Student# " + Student.Id.ToString ("00000") + " -- Name: " + Student.Name), " "));
+                    if (Convert.ToBoolean (Db.DS.Tables["tblExamStudents"].Rows[i][5]))
                         {
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", "Starts exam at: " + Participant.DateTime), " "));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", "Starts exam at: " + Student.DateTime), " "));
                         FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>", "Answers: " + cntAns.ToString ("000")) + " / ", cntTest.ToString ("000")), " ");
                         FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Blue; font-family:tahoma; font-size:16px'>", "Mark: " + mark.ToString ("00.000")), " "));
                         mean += mark;
-                        nParticipants++;
+                        nStudents++;
                         }
                     else
                         {
@@ -4354,7 +4346,7 @@ namespace eLib
                         }
                     FileSystem.PrintLine (1, "<hr>");
                     }
-                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:20px'>", "Mean: " + Convert.ToDouble (mean / Convert.ToDouble (nParticipants)).ToString ("00.000") + " (for " + nParticipants.ToString () + " marks)"), " "));
+                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:20px'>", "Mean: " + Convert.ToDouble (mean / Convert.ToDouble (nStudents)).ToString ("00.000") + " (for " + nStudents.ToString () + " marks)"), " "));
                 FileSystem.PrintLine (1, "<hr>");
                 //footer
                 Assign.AddFooter2Report ();
@@ -4368,7 +4360,7 @@ namespace eLib
                 return;
                 }
             }
-        public static void PrintoutExamRecords (int examId, int participantId)
+        public static void PrintoutExamRecords (int examId, int StudentId)
             {
             //Report RawExamSheet
             string strHeader = "Exam Sheet- ";
@@ -4377,24 +4369,24 @@ namespace eLib
             double mark = 0.0;
             try
                 {
-                string filledSheetName = "elibExamSheet_" + examId.ToString ().Trim () + "_" + participantId.ToString ().Trim () + ".html";
-                //[tblEntryParticipants]: 0ID, 1Entry_ID, 2ParticipantName, 3ParticipantPass
-                GetParticipantById (participantId);
+                string filledSheetName = "elibExamSheet_" + examId.ToString ().Trim () + "_" + StudentId.ToString ().Trim () + ".html";
+                //[tblEntryStudents]: 0ID, 1Entry_ID, 2StudentName, 3StudentPass
+                GetStudentById (StudentId);
                 FileSystem.FileOpen (1, Application.StartupPath + filledSheetName, OpenMode.Output);
                 //header
                 Assign.AddHeader2Report (strHeader); //adds userName to string
-                Participant.Name = Db.DS.Tables ["tblEntryParticipants"].Rows [0] [2].ToString ();
+                Student.Name = Db.DS.Tables["tblEntryStudents"].Rows[0][2].ToString ();
                 FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:18px'>", "Exam name: " + Exam.Title), " "));
-                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:18px'>", "Participant name: " + Participant.Name), " "));
+                FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:18px'>", "Student name: " + Student.Name), " "));
                 FileSystem.PrintLine (1, "<hr>");
-                GetParticipantExamSheet (examId, participantId);
-                //[tblExamSheets]: 0:Exam_ID, 1:Participant_ID, 2:Test_ID, 3-7:Optx_ID, 8:Keyx, 9:Ans, 10:Tags
-                cntTest = Db.DS.Tables ["tblExamSheets"].Rows.Count;
+                GetStudentExamSheet (examId, StudentId);
+                //[tblExamSheets]: 0:Exam_ID, 1:Student_ID, 2:Test_ID, 3-7:Optx_ID, 8:Keyx, 9:Ans, 10:Tags
+                cntTest = Db.DS.Tables["tblExamSheets"].Rows.Count;
                 //Calculate Test Mark
                 cntAns = 0;
                 for (int j = 0; j < cntTest; j++)
                     {
-                    if (Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [j] [8]) == Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [j] [9]))
+                    if (Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[j][8]) == Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[j][9]))
                         {
                         cntAns++;
                         }
@@ -4404,26 +4396,26 @@ namespace eLib
                 string printColor = "";
                 for (int i = 0; i < cntTest; i++)
                     {
-                    Test.Id = Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [i] [2]);
+                    Test.Id = Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[i][2]);
                     GetExamTestById (Test.Id);
-                    //[tblTests]: 0ID, 1TestText, 2TestType, 3Course_ID, 4Topic_ID, 5TestRTL, 6OptionsRTL, 7TestLevel
-                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", (i + 1).ToString () + "- " + Db.DS.Tables ["tblTests"].Rows [0] [1] + " (level:" + Db.DS.Tables ["tblTests"].Rows [0] [7] + ")"), " "));
-                    Test.Type = Convert.ToInt32 (Db.DS.Tables ["tblTests"].Rows [0] [2]);
+                    //[tblTests]: 0ID, 1TestTitle, 2TestType, 3Course_ID, 4TopicId, 5TestRTL, 6OptionsRTL, 7TestLevel
+                    FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:Black; font-family:tahoma; font-size:16px'>", (i + 1).ToString () + "- " + Db.DS.Tables["tblTests"].Rows[0][1] + " (level:" + Db.DS.Tables["tblTests"].Rows[0][7] + ")"), " "));
+                    Test.Type = Convert.ToInt32 (Db.DS.Tables["tblTests"].Rows[0][2]);
                     for (int p = 0; p < Test.Type; p++)
                         {
                         //MessageBox.Show ("Test " + (i + 1).ToString () + "  -Get Option: " + (p + 1).ToString ());
-                        GetTestOptionById (Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [i] [p + 3].ToString ()));
+                        GetTestOptionById (Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[i][p + 3].ToString ()));
                         //[tblTestOptions]: 0ID, 1Test_ID, 2OptionText, 3ISAnswer, 4ForceLast
                         printColor = "Black"; //default
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [i] [9]) == Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [i] [p + 3])) //[p+3]-> Optx_ID
+                        if (Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[i][9]) == Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[i][p + 3])) //[p+3]-> Optx_ID
                             {
                             printColor = "Red";
                             }
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [i] [8]) == Convert.ToInt32 (Db.DS.Tables ["tblExamSheets"].Rows [i] [p + 3])) //[p+3]-> Optx_ID
+                        if (Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[i][8]) == Convert.ToInt32 (Db.DS.Tables["tblExamSheets"].Rows[i][p + 3])) //[p+3]-> Optx_ID
                             {
                             printColor = "Blue";
                             }
-                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:" + printColor + "; font-family:tahoma; font-size:16px'>", " -- ( " + (p + 1).ToString () + " ) " + Db.DS.Tables ["tblTestOptions"].Rows [0] [2]), " "));
+                        FileSystem.PrintLine (1, Operators.ConcatenateObject (Operators.ConcatenateObject ("<p style='color:" + printColor + "; font-family:tahoma; font-size:16px'>", " -- ( " + (p + 1).ToString () + " ) " + Db.DS.Tables["tblTestOptions"].Rows[0][2]), " "));
                         }
                     FileSystem.PrintLine (1, "<hr>");
                     }
@@ -4670,12 +4662,12 @@ namespace eLib
                         break;
                         }
                 }
-            Db.DS.Tables ["tblNotesCount"].Clear ();
+            Db.DS.Tables["tblNotesCount"].Clear ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
                 Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter (Db.strSQL, CnnSS);
-                Db.DASS.Fill (Db.DS.Tables ["tblNotesCount"]);
+                Db.DASS.Fill (Db.DS.Tables["tblNotesCount"]);
                 CnnSS.Close ();
                 //MessageBox.Show ("Rows: " + Db.DS.Tables ["tblNotesCount"].Rows.Count.ToString ());
                 }
@@ -4687,34 +4679,34 @@ namespace eLib
             User.NotesDay4 = 0;
             User.NotesDay5 = 0;
             User.NotesDay6 = 0;
-            foreach (DataRow r in Db.DS.Tables ["tblNotesCount"].Rows)
+            foreach (DataRow r in Db.DS.Tables["tblNotesCount"].Rows)
                 {
-                if (Strings.Left (r ["NoteDatum"].ToString (), 10) == System.DateTime.Now.ToString ("yyyy-MM-dd"))
+                if (Strings.Left (r["NoteDatum"].ToString (), 10) == System.DateTime.Now.ToString ("yyyy-MM-dd"))
                     User.NotesDay0++;
-                if (Strings.Left (r ["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+1).ToString ("yyyy-MM-dd"))
+                if (Strings.Left (r["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+1).ToString ("yyyy-MM-dd"))
                     User.NotesDay1++;
-                if (Strings.Left (r ["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+2).ToString ("yyyy-MM-dd"))
+                if (Strings.Left (r["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+2).ToString ("yyyy-MM-dd"))
                     User.NotesDay2++;
-                if (Strings.Left (r ["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+3).ToString ("yyyy-MM-dd"))
+                if (Strings.Left (r["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+3).ToString ("yyyy-MM-dd"))
                     User.NotesDay3++;
-                if (Strings.Left (r ["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+4).ToString ("yyyy-MM-dd"))
+                if (Strings.Left (r["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+4).ToString ("yyyy-MM-dd"))
                     User.NotesDay4++;
-                if (Strings.Left (r ["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+5).ToString ("yyyy-MM-dd"))
+                if (Strings.Left (r["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+5).ToString ("yyyy-MM-dd"))
                     User.NotesDay5++;
-                if (Strings.Left (r ["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+6).ToString ("yyyy-MM-dd"))
+                if (Strings.Left (r["NoteDatum"].ToString (), 10) == System.DateTime.Today.AddDays (+6).ToString ("yyyy-MM-dd"))
                     User.NotesDay6++;
                 }
             }
         public static void GetThisNote (int id)
             {
-            Db.DS.Tables ["tblNotesCount"].Clear ();
+            Db.DS.Tables["tblNotesCount"].Clear ();
             Db.strSQL = "SELECT ProjectName, SubProjectName, NoteDatum, Note, Projects.ID, SubProjects.ID, Notes.ID, Done, Rtl FROM Notes INNER JOIN SubProjects ON Parent_ID = SubProjects.ID INNER JOIN Projects ON Project_ID = Projects.ID";
             Db.strSQL += " WHERE Notes.ID = " + id.ToString ();
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                 {
                 CnnSS.Open ();
                 Db.DASS = new Microsoft.Data.SqlClient.SqlDataAdapter (Db.strSQL, CnnSS);
-                Db.DASS.Fill (Db.DS.Tables ["tblNotesCount"]);
+                Db.DASS.Fill (Db.DS.Tables["tblNotesCount"]);
                 CnnSS.Close ();
                 }
             }
@@ -4832,9 +4824,9 @@ namespace eLib
                 Addn = Rndx.Next (32, 127); //results[32-126] //Addn = Rndx.Next (60, 123); //results[60-122]
                 for (int x = 32; x < 127; x++)
                     {
-                    if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == Addn)
+                    if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == Addn)
                         {
-                        Coeff = Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [6]); //[tblSecurityCodes]: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                        Coeff = Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][6]); //[tblSecurityCodes]: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                         returnCode += Strings.Chr (Addn).ToString (); //.Trim()
                         break;
                         }
@@ -4858,9 +4850,9 @@ namespace eLib
                     returnCode += Strings.Chr (Addn).ToString (); //.Trim();
                     for (int x = 32; x < 127; x++)
                         {
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == Addn)
+                        if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == Addn)
                             {
-                            Coeff = Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [6]); //[tblSecurityCodes]: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                            Coeff = Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][6]); //[tblSecurityCodes]: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             break;
                             }
                         }
@@ -4876,7 +4868,7 @@ namespace eLib
                         tableId -= 5;
                         }
                     //data
-                    strHH = Conversion.Hex (Db.DS.Tables ["tblSecurityCodes"].Rows [Strings.Asc (Strings.Mid (strString, j + 1, 1)) - 32] [tableId]).ToString ().Trim ();
+                    strHH = Conversion.Hex (Db.DS.Tables["tblSecurityCodes"].Rows[Strings.Asc (Strings.Mid (strString, j + 1, 1)) - 32][tableId]).ToString ().Trim ();
                     if (tableId % 2 != 0) // tableId is odd
                         {
                         strHH = (Strings.Mid (strHH, 2, 1) + Strings.Mid (strHH, 1, 1)).Trim ();
@@ -4923,9 +4915,9 @@ namespace eLib
                 Addn = Strings.Asc (Strings.Mid (R_Code, 2, 1));
                 for (int x = 32; x <= 126; x++)
                     {
-                    if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == Addn) // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                    if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == Addn) // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                         {
-                        Coeff = Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [6]); // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                        Coeff = Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][6]); // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                         break;
                         }
                     }
@@ -4943,9 +4935,9 @@ namespace eLib
                     Addn = Strings.Asc (Strings.Mid (R_Code, 2, 1));
                     for (int x = 32; x <= 126; x++)
                         {
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == Addn) // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                        if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == Addn) // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             {
-                            Coeff = Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [6]); // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                            Coeff = Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][6]); // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             break;
                             }
                         }
@@ -4964,9 +4956,9 @@ namespace eLib
                     decData = Convert.ToInt32 (hexData, 16); //decData = Conversions.ToInteger ("&H" + hexData);
                     for (int x = 32; x <= 126; x++)
                         {
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == decData) //items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                        if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == decData) //items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             {
-                            strSN = strSN + Strings.Chr (Conversions.ToInteger (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [0])); //items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                            strSN = strSN + Strings.Chr (Conversions.ToInteger (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][0])); //items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             break;
                             }
                         }
@@ -5002,9 +4994,9 @@ namespace eLib
                 Addn = Rndx.Next (32, 127);
                 for (int x = 32; x < 127; x++)
                     {
-                    if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == Addn)
+                    if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == Addn)
                         {
-                        Coeff = Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [6]); //[tblSecurityCodes]: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                        Coeff = Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][6]); //[tblSecurityCodes]: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                         returnCode += Strings.Chr (Addn).ToString (); //
                         break;
                         }
@@ -5029,9 +5021,9 @@ namespace eLib
                     returnCode += Strings.Chr (Addn).ToString (); //.Trim();
                     for (int x = 32; x < 127; x++)
                         {
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == Addn)
+                        if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == Addn)
                             {
-                            Coeff = Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [6]); //[tblSecurityCodes]: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                            Coeff = Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][6]); //[tblSecurityCodes]: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             break;
                             }
                         }
@@ -5048,7 +5040,7 @@ namespace eLib
                         tableId -= 5;
                         }
                     //data
-                    strHH = Conversion.Hex (Db.DS.Tables ["tblSecurityCodes"].Rows [Strings.Asc (Strings.Mid (strString, j + 1, 1)) - 32] [tableId]).ToString ().Trim ();
+                    strHH = Conversion.Hex (Db.DS.Tables["tblSecurityCodes"].Rows[Strings.Asc (Strings.Mid (strString, j + 1, 1)) - 32][tableId]).ToString ().Trim ();
                     if (tableId % 2 != 0) // tableId is odd
                         {
                         strHH = (Strings.Mid (strHH, 2, 1) + Strings.Mid (strHH, 1, 1)).Trim ();
@@ -5096,9 +5088,9 @@ namespace eLib
                 Addn = Strings.Asc (Strings.Mid (R_Code, 2, 1));
                 for (int x = 32; x <= 126; x++)
                     {
-                    if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [Convert.ToInt32 (tableId.ToString (), 16)]) == Addn) // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                    if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][Convert.ToInt32 (tableId.ToString (), 16)]) == Addn) // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                         {
-                        Coeff = Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [6]); // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                        Coeff = Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][6]); // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                         break;
                         }
                     }
@@ -5116,9 +5108,9 @@ namespace eLib
                     Addn = Strings.Asc (Strings.Mid (R_Code, 2, 1));
                     for (int x = 32; x <= 126; x++)
                         {
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == Addn) // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                        if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == Addn) // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             {
-                            Coeff = Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [6]); // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                            Coeff = Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][6]); // items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             break;
                             }
                         }
@@ -5137,9 +5129,9 @@ namespace eLib
                     decData = Convert.ToInt32 (hexData, 16); //decData = Conversions.ToInteger ("&H" + hexData);
                     for (int x = 32; x <= 126; x++)
                         {
-                        if (Convert.ToInt32 (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [tableId]) == decData) //items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                        if (Convert.ToInt32 (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][tableId]) == decData) //items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             {
-                            strSN = strSN + Strings.Chr (Conversions.ToInteger (Db.DS.Tables ["tblSecurityCodes"].Rows [x - 32] [0])); //items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
+                            strSN = strSN + Strings.Chr (Conversions.ToInteger (Db.DS.Tables["tblSecurityCodes"].Rows[x - 32][0])); //items: 0:Ascii, 1-5:Tab1-5, 6:Coeff
                             break;
                             }
                         }

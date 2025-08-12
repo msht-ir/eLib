@@ -22,7 +22,7 @@ namespace eLib.Forms
             TopLevel = true;
             Activate (); //ok, this was the solution to bring the form on top and activated!
             Testbank.GetCourses (User.Id);
-            if (Db.DS.Tables ["tblCourses"].Rows.Count == 0)
+            if (Db.DS.Tables["tblCourses"].Rows.Count == 0)
                 {
                 //add first course and exam
                 Testbank.regTestBank = 0b10; //2:addNewCourse
@@ -113,7 +113,7 @@ namespace eLib.Forms
                             {
                             //export courseTests
                             string strflnm = System.Windows.Forms.Application.StartupPath + @"\Course_Tests.xml";
-                            Db.DS.Tables ["tblTests"].WriteXml (strflnm);
+                            Db.DS.Tables["tblTests"].WriteXml (strflnm);
                             txtCmd.Text = "Course:    " + lblTree.Text + "       / Tests exported to:     " + strflnm;
                             txtCmd.SelectionStart = 0;
                             txtCmd.SelectionLength = txtCmd.TextLength;
@@ -122,7 +122,7 @@ namespace eLib.Forms
                             {
                             //export examTests
                             string strflnm = System.Windows.Forms.Application.StartupPath + @"\Exam_Tests.xml";
-                            Db.DS.Tables ["tblExamTests"].WriteXml (strflnm);
+                            Db.DS.Tables["tblExamTests"].WriteXml (strflnm);
                             txtCmd.Text = "Exam:    " + lblTree.Text + "       / Tests exported to:     " + strflnm;
                             txtCmd.SelectionStart = 0;
                             txtCmd.SelectionLength = txtCmd.TextLength;
@@ -326,7 +326,7 @@ namespace eLib.Forms
                 case "-go":
                         {
                         string strcmd1 = "Goto   ";
-                        string strcmd2 = "Exam-Sheets   |   Participant-Exams";
+                        string strcmd2 = "Exam-Sheets   |   Student-Exams";
                         txtCmd.Text = strcmd1 + strcmd2;
                         txtCmd.SelectionStart = strcmd1.Length;
                         txtCmd.SelectionLength = strcmd2.Length;
@@ -341,7 +341,7 @@ namespace eLib.Forms
                         }
                 case "goto   p":
                         {
-                        Menu1_Participants_Click (null, null);
+                        Menu1_Students_Click (null, null);
                         txtCmd.Focus ();
                         txtCmd.Text = "";
                         break;
@@ -480,9 +480,9 @@ namespace eLib.Forms
             {
             if (TreeA.SelectedNode.Level == 0)
                 {
-                string [] strFiles = (string []) e.Data.GetData (DataFormats.FileDrop, false);
-                eLib.eLibFile.strFilex = strFiles [0];
-                FileInfo MyFile = new FileInfo (strFiles [0]);
+                string[] strFiles = (string[]) e.Data.GetData (DataFormats.FileDrop, false);
+                eLib.eLibFile.strFilex = strFiles[0];
+                FileInfo MyFile = new FileInfo (strFiles[0]);
                 if (MyFile.Extension.ToLower () != ".xlsx")
                     {
                     return;
@@ -544,7 +544,7 @@ namespace eLib.Forms
             }
         private void GridOptions_CellDoubleClick (object sender, DataGridViewCellEventArgs e)
             {
-            if (GridOptions.SelectedCells [0].RowIndex >= 0)
+            if (GridOptions.SelectedCells[0].RowIndex >= 0)
                 {
                 lstTests_DoubleClick (null, null);
                 }
@@ -552,18 +552,18 @@ namespace eLib.Forms
         private void GridTopics_CellClick (object sender, DataGridViewCellEventArgs e)
             {
             //filter: show only test of this topic
-            int r = GridTopics.SelectedCells [0].RowIndex;
+            int r = GridTopics.SelectedCells[0].RowIndex;
             switch ((int) TreeA.SelectedNode.Level)
                 {
                 case 0:
                         {
-                        int intTopicId = Convert.ToInt32 (GridTopics.Rows [r].Cells [0].Value); //col0=topicID
+                        int intTopicId = Convert.ToInt32 (GridTopics.Rows[r].Cells[0].Value); //col0=topicID
                         RefreshTestsList (Convert.ToInt32 (Course.Id), "course", intTopicId);
                         break;
                         }
                 case 1:
                         {
-                        int intTopicId = Convert.ToInt32 (GridTopics.Rows [r].Cells [2].Value); //col2=topicID
+                        int intTopicId = Convert.ToInt32 (GridTopics.Rows[r].Cells[2].Value); //col2=topicID
                         RefreshTestsList (Convert.ToInt32 (Exam.Id), "Exam", intTopicId);
                         break;
                         }
@@ -621,13 +621,13 @@ namespace eLib.Forms
                     bool result = Testbank.AddExam (Course.Id);
                     //get info about newly added exam
                     Testbank.GetExamById (Exam.Id);
-                    Exam.Title = Db.DS.Tables ["tblExams"].Rows [0] [2].ToString ();
-                    Exam.DateTime = Db.DS.Tables ["tblExams"].Rows [0] [3].ToString ();
-                    Exam.Duration = Convert.ToInt32 (Db.DS.Tables ["tblExams"].Rows [0] [4].ToString ());
-                    Exam.nTests = Convert.ToInt32 (Db.DS.Tables ["tblExams"].Rows [0] [5].ToString ());
-                    Exam.ShuffleOptions = Convert.ToBoolean (Db.DS.Tables ["tblExams"].Rows [0] [6].ToString ());
-                    Exam.IsActive = Convert.ToBoolean (Db.DS.Tables ["tblExams"].Rows [0] [7].ToString ());
-                    Exam.Training = Convert.ToBoolean (Db.DS.Tables ["tblExams"].Rows [0] [8].ToString ());
+                    Exam.Title = Db.DS.Tables["tblExams"].Rows[0][2].ToString ();
+                    Exam.DateTime = Db.DS.Tables["tblExams"].Rows[0][3].ToString ();
+                    Exam.Duration = Convert.ToInt32 (Db.DS.Tables["tblExams"].Rows[0][4].ToString ());
+                    Exam.nTests = Convert.ToInt32 (Db.DS.Tables["tblExams"].Rows[0][5].ToString ());
+                    Exam.ShuffleOptions = Convert.ToBoolean (Db.DS.Tables["tblExams"].Rows[0][6].ToString ());
+                    Exam.IsActive = Convert.ToBoolean (Db.DS.Tables["tblExams"].Rows[0][7].ToString ());
+                    Exam.Training = Convert.ToBoolean (Db.DS.Tables["tblExams"].Rows[0][8].ToString ());
                     Testbank.regTestBank = 0b101; //5:editExam
                     System.Windows.Forms.Form frm_Exam = new frmExam ();
                     frm_Exam.ShowDialog ();
@@ -666,8 +666,8 @@ namespace eLib.Forms
                             //level0:course
                             Course.Id = Convert.ToInt32 (TreeA.SelectedNode.Tag);
                             Course.Name = (string) TreeA.SelectedNode.Text;
-                            Course.Units = Convert.ToInt32 (Db.DS.Tables ["tblCourses"].Rows [TreeA.SelectedNode.Index] [2].ToString ());
-                            Course.RTL = Convert.ToBoolean (Db.DS.Tables ["tblCourses"].Rows [TreeA.SelectedNode.Index] [4].ToString ());
+                            Course.Units = Convert.ToInt32 (Db.DS.Tables["tblCourses"].Rows[TreeA.SelectedNode.Index][2].ToString ());
+                            Course.RTL = Convert.ToBoolean (Db.DS.Tables["tblCourses"].Rows[TreeA.SelectedNode.Index][4].ToString ());
                             Testbank.regTestBank = 0b11; //3:editCourse
                             System.Windows.Forms.Form frm_Course = new frmCourse ();
                             frm_Course.ShowDialog ();
@@ -681,17 +681,17 @@ namespace eLib.Forms
                             }
                     case 1:
                             {
-                            //level1:exam {0ID, 1Course_ID, 2ExamTitle, 3ExamDateTime, 4ExamDuration, 5ExamNTests, 6ExamShuffleOptions, 7IsActive}
+                            //level1:exam {0ID, 1CourseId, 2ExamTitle, 3ExamDateTime, 4ExamDuration, 5ExamNTests, 6ExamShuffleOptions, 7IsActive}
                             Course.Id = Convert.ToInt32 (TreeA.SelectedNode.Parent.Tag);
                             Exam.Id = Convert.ToInt32 (TreeA.SelectedNode.Tag);
                             Testbank.GetExamById (Exam.Id);
-                            Exam.Title = Db.DS.Tables ["tblExams"].Rows [0] [2].ToString ();
-                            Exam.DateTime = Db.DS.Tables ["tblExams"].Rows [0] [3].ToString ();
-                            Exam.Duration = Convert.ToInt32 (Db.DS.Tables ["tblExams"].Rows [0] [4].ToString ());
-                            Exam.nTests = Convert.ToInt32 (Db.DS.Tables ["tblExams"].Rows [0] [5].ToString ());
-                            Exam.ShuffleOptions = Convert.ToBoolean (Db.DS.Tables ["tblExams"].Rows [0] [6].ToString ());
-                            Exam.IsActive = Convert.ToBoolean (Db.DS.Tables ["tblExams"].Rows [0] [7].ToString ());
-                            Exam.Training = Convert.ToBoolean (Db.DS.Tables ["tblExams"].Rows [0] [8].ToString ());
+                            Exam.Title = Db.DS.Tables["tblExams"].Rows[0][2].ToString ();
+                            Exam.DateTime = Db.DS.Tables["tblExams"].Rows[0][3].ToString ();
+                            Exam.Duration = Convert.ToInt32 (Db.DS.Tables["tblExams"].Rows[0][4].ToString ());
+                            Exam.nTests = Convert.ToInt32 (Db.DS.Tables["tblExams"].Rows[0][5].ToString ());
+                            Exam.ShuffleOptions = Convert.ToBoolean (Db.DS.Tables["tblExams"].Rows[0][6].ToString ());
+                            Exam.IsActive = Convert.ToBoolean (Db.DS.Tables["tblExams"].Rows[0][7].ToString ());
+                            Exam.Training = Convert.ToBoolean (Db.DS.Tables["tblExams"].Rows[0][8].ToString ());
                             Test.Id = Convert.ToInt32 (lstTests.SelectedValue);
                             Testbank.regTestBank = 0b101; //5:editExam
                             System.Windows.Forms.Form frm_Exam = new frmExam ();
@@ -734,7 +734,7 @@ namespace eLib.Forms
             if ((TreeA.SelectedNode != null) && (TreeA.SelectedNode.Level == 1))
                 {
                 Exam.Title = TreeA.SelectedNode.Text;
-                System.Windows.Forms.Form frm_Partics = new frmSelectParticipants ();
+                System.Windows.Forms.Form frm_Partics = new frmSelectStudents ();
                 frm_Partics.ShowDialog ();
                 }
             else
@@ -744,12 +744,12 @@ namespace eLib.Forms
                 txtCmd.SelectionLength = txtCmd.TextLength;
                 }
             }
-        private void Menu1_Participants_Click (object sender, EventArgs e)
+        private void Menu1_Students_Click (object sender, EventArgs e)
             {
             if (TreeA.Nodes.Count > 0)
                 {
-                Participant.Id = 0;
-                var frmParticExams = new frmParticipantExams ();
+                Student.Id = 0;
+                var frmParticExams = new frmStudentExams ();
                 frmParticExams.ShowDialog ();
                 }
             }
@@ -774,8 +774,7 @@ namespace eLib.Forms
                             Testbank.regTestBank = 0b1000; //8:newTest
                             Course.Id = Convert.ToInt32 (TreeA.SelectedNode.Tag);
                             Test.Text = "new test [edit]";
-                            Test.TestRTL = chkTestsRTL.Checked;
-                            Test.OptionsRTL = chkTestsRTL.Checked;
+                            Test.TestTags = chkTestsRTL.Checked;
                             Testbank.AddNewCourseTest (Course.Id, 2);
                             RefreshTestsList (Course.Id, "course", 0);
                             lstTests.SelectedValue = Test.Id;
@@ -841,8 +840,8 @@ namespace eLib.Forms
                                     {
                                     using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                                         {
-                                        //ExamTest: {0Tests.ID, 1ExamTests.ID, 2TestText, 3TestType, 4Course_ID, 5Topic_ID, 6TestRTL, 7OptionsRTL}
-                                        Db.strSQL = "UPDATE ExamTests SET Test_ID = @testid WHERE ID =" + examTestId.ToString ();
+                                        //ExamTest: {0Tests.ID, 1ExamTests.ID, 2TestTitle, 3TestType, 4Course_ID, 5TopicId, 6TestRTL, 7OptionsRTL}
+                                        Db.strSQL = "UPDATE ExamTests SET TestId = @testid WHERE ExamTestId =" + examTestId.ToString ();
                                         CnnSS.Open ();
                                         var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                                         cmd.CommandType = CommandType.Text;
@@ -922,12 +921,12 @@ namespace eLib.Forms
                                     cmd1.CommandType = CommandType.Text;
                                     int i1 = cmd1.ExecuteNonQuery ();
                                     //Delete TestOptions
-                                    Db.strSQL = "DELETE FROM TestOptions WHERE Test_ID =" + Test.Id.ToString ();
+                                    Db.strSQL = "DELETE FROM TestOptions WHERE TestId =" + Test.Id.ToString ();
                                     var cmd3 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                                     cmd3.CommandType = CommandType.Text;
                                     int i3 = cmd3.ExecuteNonQuery ();
                                     //Dekele the Test itself
-                                    Db.strSQL = "DELETE FROM Tests WHERE ID =" + Test.Id.ToString ();
+                                    Db.strSQL = "DELETE FROM Tests WHERE TestId =" + Test.Id.ToString ();
                                     var cmd2 = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                                     cmd2.CommandType = CommandType.Text;
                                     int i2 = cmd2.ExecuteNonQuery ();
@@ -954,9 +953,9 @@ namespace eLib.Forms
                                 {
                                 using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
                                     {
-                                    //ExamTest: {0Tests.ID, 1ExamTests.ID, 2TestText, 3TestType, 4Course_ID, 5Topic_ID, 6TestRTL, 7OptionsRTL}
-                                    int examTestId = Convert.ToInt32 (Db.DS.Tables ["tblExamTests"].Rows [Convert.ToInt32 (lstTests.SelectedIndex)] [1]);
-                                    Db.strSQL = "DELETE FROM ExamTests WHERE ID =" + examTestId.ToString ();
+                                    //ExamTest: {0Tests.ID, 1ExamTests.ID, 2TestTitle, 3TestType, 4Course_ID, 5TopicId, 6TestRTL, 7OptionsRTL}
+                                    int examTestId = Convert.ToInt32 (Db.DS.Tables["tblExamTests"].Rows[Convert.ToInt32 (lstTests.SelectedIndex)][1]);
+                                    Db.strSQL = "DELETE FROM ExamTests WHERE ExamTestId =" + examTestId.ToString ();
                                     CnnSS.Open ();
                                     var cmd = new Microsoft.Data.SqlClient.SqlCommand (Db.strSQL, CnnSS);
                                     cmd.CommandType = CommandType.Text;
@@ -1081,12 +1080,12 @@ namespace eLib.Forms
                 {
                 case 0:
                         {
-                        Course.RTL = Convert.ToBoolean (Db.DS.Tables ["tblCourses"].Rows [Convert.ToInt32 (TreeA.SelectedNode.Index.ToString ())] [4]);
+                        Course.RTL = Convert.ToBoolean (Db.DS.Tables["tblCourses"].Rows[Convert.ToInt32 (TreeA.SelectedNode.Index.ToString ())][4]);
                         break;
                         }
                 case 1:
                         {
-                        Course.RTL = Convert.ToBoolean (Db.DS.Tables ["tblCourses"].Rows [Convert.ToInt32 (TreeA.SelectedNode.Parent.Index.ToString ())] [4]);
+                        Course.RTL = Convert.ToBoolean (Db.DS.Tables["tblCourses"].Rows[Convert.ToInt32 (TreeA.SelectedNode.Parent.Index.ToString ())][4]);
                         break;
                         }
                 }
@@ -1132,20 +1131,20 @@ namespace eLib.Forms
                             //2:rtl
                             if (WS0.Cell (iRow, 2).Value.ToString ().ToLower () == "y")
                                 {
-                                Test.TestRTL = true;
+                                Test.TestTags = true;
                                 }
                             else
                                 {
-                                Test.TestRTL = false;
+                                Test.TestTags = false;
                                 }
                             //3:rtl
                             if (WS0.Cell (iRow, 3).Value.ToString ().ToLower () == "y")
                                 {
-                                Test.OptionsRTL = true;
+                                Test.TestTags = true;
                                 }
                             else
                                 {
-                                Test.OptionsRTL = false;
+                                Test.TestTags = false;
                                 }
                             //4:nOpts
                             Test.Type = Convert.ToInt32 (WS0.Cell (iRow, 4).Value.ToString ());
@@ -1155,7 +1154,7 @@ namespace eLib.Forms
                             TopicText = Strings.Left (WS0.Cell (iRow, 13).Value.ToString (), 30).Trim ();
                             Test.TopicId = Testbank.GetIdOfThisTopic (Course.Id, TopicText);
                             //do Import
-                            Testbank.ImportTest (Course.Id, Test.Text, Test.Type, Test.TopicId, Test.TestRTL, Test.OptionsRTL, Test.Level);
+                            //Testbank.ImportTest (Course.Id, Test.Text, Test.Type, Test.TopicId, Test.TestTags, Test.Level);
                             //--- OPTIONS---
                             Option1Text = WS0.Cell (iRow, 5).Value.ToString ();
                             Option2Text = WS0.Cell (iRow, 6).Value.ToString ();
@@ -1167,11 +1166,11 @@ namespace eLib.Forms
                             //11:ForceLast
                             if (WS0.Cell (iRow, 11).Value.ToString ().ToLower () == "y")
                                 {
-                                Test.ForceLast = true;
+                                Test.TestTags = true;
                                 }
                             else
                                 {
-                                Test.ForceLast = false;
+                                Test.TestTags = false;
                                 }
                             //initialize opts to false
                             AnsOpt1 = false;
@@ -1222,20 +1221,20 @@ namespace eLib.Forms
                                 {
                                 case 1:
                                         {
-                                        Testbank.AddTestOption (Test.Id, Option1Text, AnsOpt1, Test.ForceLast);
+                                        Testbank.AddTestOption (Test.Id, Option1Text, AnsOpt1, Test.TestTags);
                                         break;
                                         }
                                 case 2:
                                         {
                                         Testbank.AddTestOption (Test.Id, Option1Text, AnsOpt1, false);
-                                        Testbank.AddTestOption (Test.Id, Option2Text, AnsOpt2, Test.ForceLast);//if col11=y : Force=TRUE
+                                        Testbank.AddTestOption (Test.Id, Option2Text, AnsOpt2, Test.TestTags);//if col11=y : Force=TRUE
                                         break;
                                         }
                                 case 3:
                                         {
                                         Testbank.AddTestOption (Test.Id, Option1Text, AnsOpt1, false);
                                         Testbank.AddTestOption (Test.Id, Option2Text, AnsOpt2, false);
-                                        Testbank.AddTestOption (Test.Id, Option3Text, AnsOpt3, Test.ForceLast);//if col11=y : Force=TRUE
+                                        Testbank.AddTestOption (Test.Id, Option3Text, AnsOpt3, Test.TestTags);//if col11=y : Force=TRUE
                                         break;
                                         }
                                 case 4:
@@ -1243,7 +1242,7 @@ namespace eLib.Forms
                                         Testbank.AddTestOption (Test.Id, Option1Text, AnsOpt1, false);
                                         Testbank.AddTestOption (Test.Id, Option2Text, AnsOpt2, false);
                                         Testbank.AddTestOption (Test.Id, Option3Text, AnsOpt3, false);
-                                        Testbank.AddTestOption (Test.Id, Option4Text, AnsOpt4, Test.ForceLast);//if col11=y : Force=TRUE
+                                        Testbank.AddTestOption (Test.Id, Option4Text, AnsOpt4, Test.TestTags);//if col11=y : Force=TRUE
                                         break;
                                         }
                                 case 5:
@@ -1252,7 +1251,7 @@ namespace eLib.Forms
                                         Testbank.AddTestOption (Test.Id, Option2Text, AnsOpt2, false);
                                         Testbank.AddTestOption (Test.Id, Option3Text, AnsOpt3, false);
                                         Testbank.AddTestOption (Test.Id, Option4Text, AnsOpt4, false);
-                                        Testbank.AddTestOption (Test.Id, Option5Text, AnsOpt5, Test.ForceLast); //if col11=y : Force=TRUE
+                                        Testbank.AddTestOption (Test.Id, Option5Text, AnsOpt5, Test.TestTags); //if col11=y : Force=TRUE
                                         break;
                                         }
                                 }
@@ -1278,23 +1277,23 @@ namespace eLib.Forms
                 TreeA.Nodes.Clear ();
                 //Level1: [tblCourses] {0ID, 1CourseName, 2CourseUnits, 3user_ID, 4RTL}
                 Testbank.GetCourses (User.Id);
-                for (int i = 0; i < Db.DS.Tables ["tblCourses"].Rows.Count; i++)
+                for (int i = 0; i < Db.DS.Tables["tblCourses"].Rows.Count; i++)
                     {
                     TreeNode nd1 = new TreeNode { Text = "", Tag = "" };
-                    nd1.Text = Db.DS.Tables ["tblCourses"].Rows [i] [1].ToString ();
-                    nd1.Tag = Db.DS.Tables ["tblCourses"].Rows [i] [0].ToString ();
+                    nd1.Text = Db.DS.Tables["tblCourses"].Rows[i][1].ToString ();
+                    nd1.Tag = Db.DS.Tables["tblCourses"].Rows[i][0].ToString ();
                     TreeA.Nodes.Add (nd1);
-                    //Level2: [tblExams] {0ID, 1Course_ID, 2ExamTitle, 3ExamDateTime, 4ExamDuration, 5ExamNTests, 6ShuffleOptions, 7IsActive}
-                    Course.Id = Convert.ToInt32 (Db.DS.Tables ["tblCourses"].Rows [i] [0]);
+                    //Level2: [tblExams] {0ID, 1CourseId, 2ExamTitle, 3ExamDateTime, 4ExamDuration, 5ExamNTests, 6ShuffleOptions, 7IsActive}
+                    Course.Id = Convert.ToInt32 (Db.DS.Tables["tblCourses"].Rows[i][0]);
                     Testbank.GetExams (Course.Id);
-                    if (Db.DS.Tables ["tblExams"].Rows.Count > 0)
+                    if (Db.DS.Tables["tblExams"].Rows.Count > 0)
                         {
-                        for (int j = 0; j < Db.DS.Tables ["tblExams"].Rows.Count; j++)
+                        for (int j = 0; j < Db.DS.Tables["tblExams"].Rows.Count; j++)
                             {
                             TreeNode nd2 = new TreeNode { Text = "", Tag = "" };
-                            nd2.Text = Db.DS.Tables ["tblExams"].Rows [j] [2].ToString ();
-                            nd2.Tag = Db.DS.Tables ["tblExams"].Rows [j] [0].ToString ();
-                            TreeA.Nodes [i].Nodes.Add (nd2);
+                            nd2.Text = Db.DS.Tables["tblExams"].Rows[j][2].ToString ();
+                            nd2.Tag = Db.DS.Tables["tblExams"].Rows[j][0].ToString ();
+                            TreeA.Nodes[i].Nodes.Add (nd2);
                             }
                         }
                     }
@@ -1311,31 +1310,31 @@ namespace eLib.Forms
         private void RefreshCourseTopicsList (int courseid)
             {
             Testbank.GetCourseTopics (courseid);
-            GridTopics.DataSource = Db.DS.Tables ["tblCourseTopics"];
+            GridTopics.DataSource = Db.DS.Tables["tblCourseTopics"];
             for (int i = 0, loopTo = GridTopics.Columns.Count - 1; i <= loopTo; i++) //disable sort for column_haeders
                 {
-                GridTopics.Columns [i].SortMode = DataGridViewColumnSortMode.Programmatic;
+                GridTopics.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
                 }
-            //ID, Course_ID, Topic
-            GridTopics.Columns [0].Visible = false;   //ID
-            GridTopics.Columns [1].Visible = false;   //Exam_ID
-            GridTopics.Columns [2].Width = 800;       //Topic
+            //ID, CourseId, Topic
+            GridTopics.Columns[0].Visible = false;   //ID
+            GridTopics.Columns[1].Visible = false;   //ExamId
+            GridTopics.Columns[2].Width = 800;       //Topic
             }
         private void RefreshExamCompositionList (int examid)
             {
             Testbank.GetExamComposition (examid);
-            GridTopics.DataSource = Db.DS.Tables ["tblExamComposition"];
+            GridTopics.DataSource = Db.DS.Tables["tblExamComposition"];
             for (int i = 0, loopTo = GridTopics.Columns.Count - 1; i <= loopTo; i++) //disable sort for column_haeders
                 {
-                GridTopics.Columns [i].SortMode = DataGridViewColumnSortMode.Programmatic;
+                GridTopics.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
                 }
-            //[ExamComposition]: ExamComposition.ID, Exam_ID, Topic_ID, Topic, TopicNTests, TestsLevel
-            GridTopics.Columns [0].Visible = false;   //ID
-            GridTopics.Columns [1].Visible = false;   //Exam_ID
-            GridTopics.Columns [2].Visible = false;   //Topic_ID
-            GridTopics.Columns [3].Width = 750;       //Topic
-            GridTopics.Columns [4].Width = 80;        //TopicNTests
-            GridTopics.Columns [5].Width = 80;        //TestsLevel
+            //[ExamComposition]: ExamComposition.ID, Exam_ID, TopicId, Topic, TopicNTests, TestsLevel
+            GridTopics.Columns[0].Visible = false;   //ID
+            GridTopics.Columns[1].Visible = false;   //Exam_ID
+            GridTopics.Columns[2].Visible = false;   //TopicId
+            GridTopics.Columns[3].Width = 750;       //Topic
+            GridTopics.Columns[4].Width = 80;        //TopicNTests
+            GridTopics.Columns[5].Width = 80;        //TestsLevel
             }
         private void RefreshTestsList (int parentid, string mode, int topicId)
             {
@@ -1345,8 +1344,8 @@ namespace eLib.Forms
                 case "course":
                         {
                         Testbank.GetTests (parentid, mode, topicId);
-                        lstTests.DataSource = Db.DS.Tables ["tblTests"];
-                        lstTests.DisplayMember = "TestText";
+                        lstTests.DataSource = Db.DS.Tables["tblTests"];
+                        lstTests.DisplayMember = "TestTitle";
                         lstTests.ValueMember = "ID";
                         lstTests.SelectedIndex = -1;
                         lblTrainingExam.Visible = false;
@@ -1355,17 +1354,17 @@ namespace eLib.Forms
                 case "exam":
                         {
                         Testbank.GetExamById (Exam.Id);
-                        Exam.Title = Db.DS.Tables ["tblExams"].Rows [0] [2].ToString ();
-                        Exam.DateTime = Db.DS.Tables ["tblExams"].Rows [0] [3].ToString ();
-                        Exam.Duration = Convert.ToInt32 (Db.DS.Tables ["tblExams"].Rows [0] [4].ToString ());
-                        Exam.nTests = Convert.ToInt32 (Db.DS.Tables ["tblExams"].Rows [0] [5].ToString ());
-                        Exam.IsActive = Convert.ToBoolean (Db.DS.Tables ["tblExams"].Rows [0] [8].ToString ());
-                        Exam.Training = Convert.ToBoolean (Db.DS.Tables ["tblExams"].Rows [0] [8].ToString ());
+                        Exam.Title = Db.DS.Tables["tblExams"].Rows[0][2].ToString ();
+                        Exam.DateTime = Db.DS.Tables["tblExams"].Rows[0][3].ToString ();
+                        Exam.Duration = Convert.ToInt32 (Db.DS.Tables["tblExams"].Rows[0][4].ToString ());
+                        Exam.nTests = Convert.ToInt32 (Db.DS.Tables["tblExams"].Rows[0][5].ToString ());
+                        Exam.IsActive = Convert.ToBoolean (Db.DS.Tables["tblExams"].Rows[0][8].ToString ());
+                        Exam.Training = Convert.ToBoolean (Db.DS.Tables["tblExams"].Rows[0][8].ToString ());
                         lblTrainingExam.Visible = (Exam.Training) ? true : false;
                         //get tests
                         Testbank.GetTests (parentid, mode, topicId);
-                        lstTests.DataSource = Db.DS.Tables ["tblExamTests"];
-                        lstTests.DisplayMember = "TestText";
+                        lstTests.DataSource = Db.DS.Tables["tblExamTests"];
+                        lstTests.DisplayMember = "TestTitle";
                         lstTests.ValueMember = "Tests.ID";
                         lstTests.SelectedIndex = -1;
                         break;
@@ -1375,22 +1374,22 @@ namespace eLib.Forms
         private void RefreshTestOptionsGrid (int testid)
             {
             Testbank.GetTestOptions (testid);
-            GridOptions.DataSource = Db.DS.Tables ["tblTestOptions"];
+            GridOptions.DataSource = Db.DS.Tables["tblTestOptions"];
             for (int i = 0, loopTo = GridOptions.Columns.Count - 1; i <= loopTo; i++) //disable sort for column_haeders
                 {
-                GridOptions.Columns [i].SortMode = DataGridViewColumnSortMode.Programmatic;
+                GridOptions.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
                 }
             //ID, Test_ID, OptionText, IsAnswer, ForceLast
-            GridOptions.Columns [0].Visible = false;   //ID
-            GridOptions.Columns [1].Visible = false;   //Test_ID
-            GridOptions.Columns [2].Width = 830;       //OptionText
-            GridOptions.Columns [3].Width = 70;        //IsAnswer
-            GridOptions.Columns [4].Visible = false;   //ForceLast
+            GridOptions.Columns[0].Visible = false;   //ID
+            GridOptions.Columns[1].Visible = false;   //Test_ID
+            GridOptions.Columns[2].Width = 830;       //OptionText
+            GridOptions.Columns[3].Width = 70;        //IsAnswer
+            GridOptions.Columns[4].Visible = false;   //ForceLast
             try
                 {
-                //RTL/LTR: ["tblTests"]: {0ID, 1TestText, 2TestType, 3Course_ID, 4Topic_ID, 5TestRTL, 6OptionsRTL, 7ForceLast, 8TestLevel}            
-                Test.OptionsRTL = Convert.ToBoolean (Db.DS.Tables ["tblTests"].Rows [lstTests.SelectedIndex] [6]);
-                if (Test.OptionsRTL)
+                //RTL/LTR: ["tblTests"]: {0ID, 1TestTitle, 2TestType, 3CourseId, 4TopicId, 5TestRtl, 6OptionsRtl, 7ForceLast, 8TestLevel}            
+                Test.TestTags = Convert.ToBoolean (Db.DS.Tables["tblTests"].Rows[lstTests.SelectedIndex][6]);
+                if (Test.TestTags)
                     {
                     GridOptions.RightToLeft = RightToLeft.Yes;
                     }
@@ -1403,13 +1402,13 @@ namespace eLib.Forms
             }
         private void AuoSelectTests (int examid)
             {
-            //ExamComposition: 0ID, 1Exam_ID, 2Topic_ID, 3Topic, 4TopicNTests, 5TestsLevel
+            //ExamComposition: 0ID, 1Exam_ID, 2TopicId, 3Topic, 4TopicNTests, 5TestsLevel
             Testbank.GetExamComposition (Exam.Id);
             int cnt = 0;
             //count composition
-            for (int i = 0; i < Db.DS.Tables ["tblExamComposition"].Rows.Count; i++)
+            for (int i = 0; i < Db.DS.Tables["tblExamComposition"].Rows.Count; i++)
                 {
-                cnt += Convert.ToInt32 (Db.DS.Tables ["tblExamComposition"].Rows [i] [4]);
+                cnt += Convert.ToInt32 (Db.DS.Tables["tblExamComposition"].Rows[i][4]);
                 }
             //check composition
             if (cnt < Exam.nTests)
@@ -1441,11 +1440,11 @@ namespace eLib.Forms
                 else
                     {
                     //its ok to add more tests
-                    for (int i = 0; i < Db.DS.Tables ["tblExamComposition"].Rows.Count; i++)
+                    for (int i = 0; i < Db.DS.Tables["tblExamComposition"].Rows.Count; i++)
                         {
-                        ExamComposition.TopicId = Convert.ToInt32 (Db.DS.Tables ["tblExamComposition"].Rows [i] [2]);
-                        ExamComposition.nTests = Convert.ToInt32 (Db.DS.Tables ["tblExamComposition"].Rows [i] [4]);
-                        ExamComposition.TestsLevel = Convert.ToInt32 (Db.DS.Tables ["tblExamComposition"].Rows [i] [5]);
+                        ExamComposition.TopicId = Convert.ToInt32 (Db.DS.Tables["tblExamComposition"].Rows[i][2]);
+                        ExamComposition.nTests = Convert.ToInt32 (Db.DS.Tables["tblExamComposition"].Rows[i][4]);
+                        ExamComposition.TestsLevel = Convert.ToInt32 (Db.DS.Tables["tblExamComposition"].Rows[i][5]);
                         Testbank.AddRandomTestsToExam (Exam.Id, ExamComposition.TopicId, ExamComposition.nTests, ExamComposition.TestsLevel);
                         }
                     RefreshTestsList (Exam.Id, "exam", 0);
@@ -1454,11 +1453,11 @@ namespace eLib.Forms
             else
                 {
                 //add tests
-                for (int i = 0; i < Db.DS.Tables ["tblExamComposition"].Rows.Count; i++)
+                for (int i = 0; i < Db.DS.Tables["tblExamComposition"].Rows.Count; i++)
                     {
-                    ExamComposition.TopicId = Convert.ToInt32 (Db.DS.Tables ["tblExamComposition"].Rows [i] [2]);
-                    ExamComposition.nTests = Convert.ToInt32 (Db.DS.Tables ["tblExamComposition"].Rows [i] [4]);
-                    ExamComposition.TestsLevel = Convert.ToInt32 (Db.DS.Tables ["tblExamComposition"].Rows [i] [5]);
+                    ExamComposition.TopicId = Convert.ToInt32 (Db.DS.Tables["tblExamComposition"].Rows[i][2]);
+                    ExamComposition.nTests = Convert.ToInt32 (Db.DS.Tables["tblExamComposition"].Rows[i][4]);
+                    ExamComposition.TestsLevel = Convert.ToInt32 (Db.DS.Tables["tblExamComposition"].Rows[i][5]);
                     Testbank.AddRandomTestsToExam (Exam.Id, ExamComposition.TopicId, ExamComposition.nTests, ExamComposition.TestsLevel);
                     }
                 RefreshTestsList (Exam.Id, "exam", 0);
@@ -1476,9 +1475,9 @@ namespace eLib.Forms
                 {
                 case 0:
                         {
-                        for (int i = tmpStartIndex + 1; i < Db.DS.Tables ["tblTests"].Rows.Count; i++)
+                        for (int i = tmpStartIndex + 1; i < Db.DS.Tables["tblTests"].Rows.Count; i++)
                             {
-                            if (Strings.InStr (1, Db.DS.Tables ["tblTests"].Rows [i] [1].ToString ().ToLower (), strSearchtext) > 0)//col1:TestText
+                            if (Strings.InStr (1, Db.DS.Tables["tblTests"].Rows[i][1].ToString ().ToLower (), strSearchtext) > 0)//col1:TestTitle
                                 {
                                 lstTests.SelectedIndex = i;
                                 return;
@@ -1489,9 +1488,9 @@ namespace eLib.Forms
                         }
                 case 1:
                         {
-                        for (int i = tmpStartIndex + 1; i < Db.DS.Tables ["tblExamTests"].Rows.Count; i++)
+                        for (int i = tmpStartIndex + 1; i < Db.DS.Tables["tblExamTests"].Rows.Count; i++)
                             {
-                            if (Strings.InStr (1, Db.DS.Tables ["tblExamTests"].Rows [i] [2].ToString (), strSearchtext) > 0) //col2:TestText
+                            if (Strings.InStr (1, Db.DS.Tables["tblExamTests"].Rows[i][2].ToString (), strSearchtext) > 0) //col2:TestTitle
                                 {
                                 lstTests.SelectedIndex = i;
                                 return;

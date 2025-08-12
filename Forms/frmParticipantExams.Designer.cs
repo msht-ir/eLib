@@ -1,6 +1,6 @@
 ﻿namespace eLib.Forms
     {
-    partial class frmParticipantExams
+    partial class frmStudentExams
         {
         /// <summary>
         /// Required designer variable.
@@ -33,31 +33,31 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle ();
             panel1 = new System.Windows.Forms.Panel ();
             lblExit = new System.Windows.Forms.Label ();
-            GridParticipants = new System.Windows.Forms.DataGridView ();
+            GridStudents = new System.Windows.Forms.DataGridView ();
             MenuStrip1 = new System.Windows.Forms.ContextMenuStrip (components);
             Menu1_Passwords = new System.Windows.Forms.ToolStripMenuItem ();
             toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator ();
             Menu1_Exit = new System.Windows.Forms.ToolStripMenuItem ();
             cboEntries = new System.Windows.Forms.ComboBox ();
-            GridParticipantExams = new System.Windows.Forms.DataGridView ();
+            GridStudentExams = new System.Windows.Forms.DataGridView ();
             MenuStrip2 = new System.Windows.Forms.ContextMenuStrip (components);
             Menu2_PrintoutExamSheet = new System.Windows.Forms.ToolStripMenuItem ();
             Menu2_PrintoutExamRecord = new System.Windows.Forms.ToolStripMenuItem ();
             toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator ();
             Menu2_Exit = new System.Windows.Forms.ToolStripMenuItem ();
             btnEditEntry = new System.Windows.Forms.Button ();
-            btn_EditParticipant = new System.Windows.Forms.Button ();
-            btn_AddNewParticipant = new System.Windows.Forms.Button ();
+            btn_EditStudent = new System.Windows.Forms.Button ();
+            btn_AddNewStudent = new System.Windows.Forms.Button ();
             btnAddNewEntry = new System.Windows.Forms.Button ();
-            btn_DeleteParticipant = new System.Windows.Forms.Button ();
+            btn_DeleteStudent = new System.Windows.Forms.Button ();
             btnDeleteEntry = new System.Windows.Forms.Button ();
-            btnAddExamToParticipant = new System.Windows.Forms.Button ();
+            btnAddExamToStudent = new System.Windows.Forms.Button ();
             btnDeleteExam = new System.Windows.Forms.Button ();
             chkDoubleClickToDelete = new System.Windows.Forms.CheckBox ();
             panel1.SuspendLayout ();
-            ((System.ComponentModel.ISupportInitialize) GridParticipants).BeginInit ();
+            ((System.ComponentModel.ISupportInitialize) GridStudents).BeginInit ();
             MenuStrip1.SuspendLayout ();
-            ((System.ComponentModel.ISupportInitialize) GridParticipantExams).BeginInit ();
+            ((System.ComponentModel.ISupportInitialize) GridStudentExams).BeginInit ();
             MenuStrip2.SuspendLayout ();
             SuspendLayout ();
             // 
@@ -84,18 +84,18 @@
             lblExit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             lblExit.Click += lblExit_Click;
             // 
-            // GridParticipants
+            // GridStudents
             // 
-            GridParticipants.AllowUserToAddRows = false;
-            GridParticipants.AllowUserToDeleteRows = false;
-            GridParticipants.AllowUserToOrderColumns = true;
-            GridParticipants.AllowUserToResizeColumns = false;
-            GridParticipants.AllowUserToResizeRows = false;
-            GridParticipants.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            GridParticipants.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            GridParticipants.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            GridParticipants.ColumnHeadersVisible = false;
-            GridParticipants.ContextMenuStrip = MenuStrip1;
+            GridStudents.AllowUserToAddRows = false;
+            GridStudents.AllowUserToDeleteRows = false;
+            GridStudents.AllowUserToOrderColumns = true;
+            GridStudents.AllowUserToResizeColumns = false;
+            GridStudents.AllowUserToResizeRows = false;
+            GridStudents.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            GridStudents.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            GridStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            GridStudents.ColumnHeadersVisible = false;
+            GridStudents.ContextMenuStrip = MenuStrip1;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.WhiteSmoke;
             dataGridViewCellStyle1.Font = new System.Drawing.Font ("Segoe UI", 9F);
@@ -103,15 +103,15 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.WhiteSmoke;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.IndianRed;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            GridParticipants.DefaultCellStyle = dataGridViewCellStyle1;
-            GridParticipants.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            GridParticipants.GridColor = System.Drawing.Color.WhiteSmoke;
-            GridParticipants.Location = new System.Drawing.Point (52, 44);
-            GridParticipants.Name = "GridParticipants";
-            GridParticipants.RowHeadersVisible = false;
-            GridParticipants.Size = new System.Drawing.Size (283, 451);
-            GridParticipants.TabIndex = 29;
-            GridParticipants.CellClick += GridParticipants_CellClick;
+            GridStudents.DefaultCellStyle = dataGridViewCellStyle1;
+            GridStudents.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            GridStudents.GridColor = System.Drawing.Color.WhiteSmoke;
+            GridStudents.Location = new System.Drawing.Point (52, 44);
+            GridStudents.Name = "GridStudents";
+            GridStudents.RowHeadersVisible = false;
+            GridStudents.Size = new System.Drawing.Size (283, 451);
+            GridStudents.TabIndex = 29;
+            GridStudents.CellClick += GridStudents_CellClick;
             // 
             // MenuStrip1
             // 
@@ -149,17 +149,17 @@
             cboEntries.TabIndex = 28;
             cboEntries.SelectedIndexChanged += cboEntries_SelectedIndexChanged;
             // 
-            // GridParticipantExams
+            // GridStudentExams
             // 
-            GridParticipantExams.AllowUserToAddRows = false;
-            GridParticipantExams.AllowUserToDeleteRows = false;
-            GridParticipantExams.AllowUserToOrderColumns = true;
-            GridParticipantExams.AllowUserToResizeColumns = false;
-            GridParticipantExams.AllowUserToResizeRows = false;
-            GridParticipantExams.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            GridParticipantExams.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            GridParticipantExams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            GridParticipantExams.ContextMenuStrip = MenuStrip2;
+            GridStudentExams.AllowUserToAddRows = false;
+            GridStudentExams.AllowUserToDeleteRows = false;
+            GridStudentExams.AllowUserToOrderColumns = true;
+            GridStudentExams.AllowUserToResizeColumns = false;
+            GridStudentExams.AllowUserToResizeRows = false;
+            GridStudentExams.BackgroundColor = System.Drawing.Color.WhiteSmoke;
+            GridStudentExams.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            GridStudentExams.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            GridStudentExams.ContextMenuStrip = MenuStrip2;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.WhiteSmoke;
             dataGridViewCellStyle2.Font = new System.Drawing.Font ("Segoe UI", 9F);
@@ -167,15 +167,15 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.WhiteSmoke;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.IndianRed;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            GridParticipantExams.DefaultCellStyle = dataGridViewCellStyle2;
-            GridParticipantExams.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            GridParticipantExams.GridColor = System.Drawing.Color.WhiteSmoke;
-            GridParticipantExams.Location = new System.Drawing.Point (341, 44);
-            GridParticipantExams.Name = "GridParticipantExams";
-            GridParticipantExams.RowHeadersVisible = false;
-            GridParticipantExams.Size = new System.Drawing.Size (780, 451);
-            GridParticipantExams.TabIndex = 30;
-            GridParticipantExams.CellContentDoubleClick += GridParticipantExams_CellContentDoubleClick;
+            GridStudentExams.DefaultCellStyle = dataGridViewCellStyle2;
+            GridStudentExams.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            GridStudentExams.GridColor = System.Drawing.Color.WhiteSmoke;
+            GridStudentExams.Location = new System.Drawing.Point (341, 44);
+            GridStudentExams.Name = "GridStudentExams";
+            GridStudentExams.RowHeadersVisible = false;
+            GridStudentExams.Size = new System.Drawing.Size (780, 451);
+            GridStudentExams.TabIndex = 30;
+            GridStudentExams.CellContentDoubleClick += GridStudentExams_CellContentDoubleClick;
             // 
             // MenuStrip2
             // 
@@ -221,27 +221,27 @@
             btnEditEntry.UseVisualStyleBackColor = true;
             btnEditEntry.Click += btnEditEntry_Click;
             // 
-            // btn_EditParticipant
+            // btn_EditStudent
             // 
-            btn_EditParticipant.Font = new System.Drawing.Font ("Courier New", 11F);
-            btn_EditParticipant.Location = new System.Drawing.Point (5, 142);
-            btn_EditParticipant.Name = "btn_EditParticipant";
-            btn_EditParticipant.Size = new System.Drawing.Size (41, 24);
-            btn_EditParticipant.TabIndex = 34;
-            btn_EditParticipant.Text = "I";
-            btn_EditParticipant.UseVisualStyleBackColor = true;
-            btn_EditParticipant.Click += btn_EditParticipant_Click;
+            btn_EditStudent.Font = new System.Drawing.Font ("Courier New", 11F);
+            btn_EditStudent.Location = new System.Drawing.Point (5, 142);
+            btn_EditStudent.Name = "btn_EditStudent";
+            btn_EditStudent.Size = new System.Drawing.Size (41, 24);
+            btn_EditStudent.TabIndex = 34;
+            btn_EditStudent.Text = "I";
+            btn_EditStudent.UseVisualStyleBackColor = true;
+            btn_EditStudent.Click += btn_EditStudent_Click;
             // 
-            // btn_AddNewParticipant
+            // btn_AddNewStudent
             // 
-            btn_AddNewParticipant.Font = new System.Drawing.Font ("Courier New", 11F);
-            btn_AddNewParticipant.Location = new System.Drawing.Point (5, 82);
-            btn_AddNewParticipant.Name = "btn_AddNewParticipant";
-            btn_AddNewParticipant.Size = new System.Drawing.Size (41, 24);
-            btn_AddNewParticipant.TabIndex = 33;
-            btn_AddNewParticipant.Text = "+";
-            btn_AddNewParticipant.UseVisualStyleBackColor = true;
-            btn_AddNewParticipant.Click += btn_AddNewParticipant_Click;
+            btn_AddNewStudent.Font = new System.Drawing.Font ("Courier New", 11F);
+            btn_AddNewStudent.Location = new System.Drawing.Point (5, 82);
+            btn_AddNewStudent.Name = "btn_AddNewStudent";
+            btn_AddNewStudent.Size = new System.Drawing.Size (41, 24);
+            btn_AddNewStudent.TabIndex = 33;
+            btn_AddNewStudent.Text = "+";
+            btn_AddNewStudent.UseVisualStyleBackColor = true;
+            btn_AddNewStudent.Click += btn_AddNewStudent_Click;
             // 
             // btnAddNewEntry
             // 
@@ -254,16 +254,16 @@
             btnAddNewEntry.UseVisualStyleBackColor = true;
             btnAddNewEntry.Click += btnAddNewEntry_Click;
             // 
-            // btn_DeleteParticipant
+            // btn_DeleteStudent
             // 
-            btn_DeleteParticipant.Font = new System.Drawing.Font ("Courier New", 9.75F);
-            btn_DeleteParticipant.Location = new System.Drawing.Point (5, 112);
-            btn_DeleteParticipant.Name = "btn_DeleteParticipant";
-            btn_DeleteParticipant.Size = new System.Drawing.Size (41, 24);
-            btn_DeleteParticipant.TabIndex = 37;
-            btn_DeleteParticipant.Text = "-";
-            btn_DeleteParticipant.UseVisualStyleBackColor = true;
-            btn_DeleteParticipant.Click += btn_DeleteParticipant_Click;
+            btn_DeleteStudent.Font = new System.Drawing.Font ("Courier New", 9.75F);
+            btn_DeleteStudent.Location = new System.Drawing.Point (5, 112);
+            btn_DeleteStudent.Name = "btn_DeleteStudent";
+            btn_DeleteStudent.Size = new System.Drawing.Size (41, 24);
+            btn_DeleteStudent.TabIndex = 37;
+            btn_DeleteStudent.Text = "-";
+            btn_DeleteStudent.UseVisualStyleBackColor = true;
+            btn_DeleteStudent.Click += btn_DeleteStudent_Click;
             // 
             // btnDeleteEntry
             // 
@@ -276,16 +276,16 @@
             btnDeleteEntry.UseVisualStyleBackColor = true;
             btnDeleteEntry.Click += btnDeleteEntry_Click;
             // 
-            // btnAddExamToParticipant
+            // btnAddExamToStudent
             // 
-            btnAddExamToParticipant.Font = new System.Drawing.Font ("Courier New", 11F);
-            btnAddExamToParticipant.Location = new System.Drawing.Point (976, 12);
-            btnAddExamToParticipant.Name = "btnAddExamToParticipant";
-            btnAddExamToParticipant.Size = new System.Drawing.Size (108, 24);
-            btnAddExamToParticipant.TabIndex = 38;
-            btnAddExamToParticipant.Text = "+ Exam";
-            btnAddExamToParticipant.UseVisualStyleBackColor = true;
-            btnAddExamToParticipant.Click += btnAddExamToParticipant_Click;
+            btnAddExamToStudent.Font = new System.Drawing.Font ("Courier New", 11F);
+            btnAddExamToStudent.Location = new System.Drawing.Point (976, 12);
+            btnAddExamToStudent.Name = "btnAddExamToStudent";
+            btnAddExamToStudent.Size = new System.Drawing.Size (108, 24);
+            btnAddExamToStudent.TabIndex = 38;
+            btnAddExamToStudent.Text = "+ Exam";
+            btnAddExamToStudent.UseVisualStyleBackColor = true;
+            btnAddExamToStudent.Click += btnAddExamToStudent_Click;
             // 
             // btnDeleteExam
             // 
@@ -309,7 +309,7 @@
             chkDoubleClickToDelete.Text = "DoubleClick: Del";
             chkDoubleClickToDelete.UseVisualStyleBackColor = true;
             // 
-            // frmParticipantExams
+            // frmStudentExams
             // 
             AutoScaleDimensions = new System.Drawing.SizeF (7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -318,30 +318,30 @@
             ControlBox = false;
             Controls.Add (chkDoubleClickToDelete);
             Controls.Add (btnDeleteExam);
-            Controls.Add (btnAddExamToParticipant);
-            Controls.Add (btn_DeleteParticipant);
+            Controls.Add (btnAddExamToStudent);
+            Controls.Add (btn_DeleteStudent);
             Controls.Add (btnDeleteEntry);
             Controls.Add (btnEditEntry);
-            Controls.Add (btn_EditParticipant);
-            Controls.Add (btn_AddNewParticipant);
+            Controls.Add (btn_EditStudent);
+            Controls.Add (btn_AddNewStudent);
             Controls.Add (btnAddNewEntry);
-            Controls.Add (GridParticipantExams);
-            Controls.Add (GridParticipants);
+            Controls.Add (GridStudentExams);
+            Controls.Add (GridStudents);
             Controls.Add (cboEntries);
             Controls.Add (panel1);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "frmParticipantExams";
+            Name = "frmStudentExams";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "Participant Exams";
-            Load += frmParticipantExams_Load;
+            Text = "Student Exams";
+            Load += frmStudentExams_Load;
             panel1.ResumeLayout (false);
-            ((System.ComponentModel.ISupportInitialize) GridParticipants).EndInit ();
+            ((System.ComponentModel.ISupportInitialize) GridStudents).EndInit ();
             MenuStrip1.ResumeLayout (false);
-            ((System.ComponentModel.ISupportInitialize) GridParticipantExams).EndInit ();
+            ((System.ComponentModel.ISupportInitialize) GridStudentExams).EndInit ();
             MenuStrip2.ResumeLayout (false);
             ResumeLayout (false);
             PerformLayout ();
@@ -351,21 +351,21 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label lblExit;
-        private System.Windows.Forms.DataGridView GridParticipants;
+        private System.Windows.Forms.DataGridView GridStudents;
         private System.Windows.Forms.ComboBox cboEntries;
-        private System.Windows.Forms.DataGridView GridParticipantExams;
+        private System.Windows.Forms.DataGridView GridStudentExams;
         private System.Windows.Forms.Button btnEditEntry;
-        private System.Windows.Forms.Button btn_EditParticipant;
-        private System.Windows.Forms.Button btn_AddNewParticipant;
+        private System.Windows.Forms.Button btn_EditStudent;
+        private System.Windows.Forms.Button btn_AddNewStudent;
         private System.Windows.Forms.Button btnAddNewEntry;
         private System.Windows.Forms.ContextMenuStrip MenuStrip2;
         private System.Windows.Forms.ToolStripMenuItem Menu2_PrintoutExamSheet;
         private System.Windows.Forms.ToolStripMenuItem Menu2_PrintoutExamRecord;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem Menu2_Exit;
-        private System.Windows.Forms.Button btn_DeleteParticipant;
+        private System.Windows.Forms.Button btn_DeleteStudent;
         private System.Windows.Forms.Button btnDeleteEntry;
-        private System.Windows.Forms.Button btnAddExamToParticipant;
+        private System.Windows.Forms.Button btnAddExamToStudent;
         private System.Windows.Forms.Button btnDeleteExam;
         private System.Windows.Forms.CheckBox chkDoubleClickToDelete;
         private System.Windows.Forms.ContextMenuStrip MenuStrip1;

@@ -1,6 +1,6 @@
 ﻿namespace eLib.Forms
     {
-    partial class frmSelectParticipants
+    partial class frmSelectStudents
         {
         /// <summary>
         /// Required designer variable.
@@ -36,33 +36,33 @@
             cboEntries = new System.Windows.Forms.ComboBox ();
             Grid1 = new System.Windows.Forms.DataGridView ();
             contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip (components);
-            Menu1_AddNewParticipant = new System.Windows.Forms.ToolStripMenuItem ();
-            Menu1_EditParticipant = new System.Windows.Forms.ToolStripMenuItem ();
+            Menu1_AddNewStudent = new System.Windows.Forms.ToolStripMenuItem ();
+            Menu1_EditStudent = new System.Windows.Forms.ToolStripMenuItem ();
             Menu1_SelectAll = new System.Windows.Forms.ToolStripMenuItem ();
             toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator ();
-            Menu1_ParticipantExams = new System.Windows.Forms.ToolStripMenuItem ();
+            Menu1_StudentExams = new System.Windows.Forms.ToolStripMenuItem ();
             toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator ();
             Menu1_Exit = new System.Windows.Forms.ToolStripMenuItem ();
             Grid2 = new System.Windows.Forms.DataGridView ();
             contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip (components);
-            Menu2_RemoveAllParticipants = new System.Windows.Forms.ToolStripMenuItem ();
+            Menu2_RemoveAllStudents = new System.Windows.Forms.ToolStripMenuItem ();
             toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator ();
             Menu2_PrintoutPasswords = new System.Windows.Forms.ToolStripMenuItem ();
-            Menu2_PrintoutParticipantRecord = new System.Windows.Forms.ToolStripMenuItem ();
+            Menu2_PrintoutStudentRecord = new System.Windows.Forms.ToolStripMenuItem ();
             Menu2_PrintoutExamsheets = new System.Windows.Forms.ToolStripMenuItem ();
             Menu2_PrintoutMarks = new System.Windows.Forms.ToolStripMenuItem ();
             toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator ();
             Menu2_Exit = new System.Windows.Forms.ToolStripMenuItem ();
             btnAddNewEntry = new System.Windows.Forms.Button ();
-            btn_EditParticipant = new System.Windows.Forms.Button ();
-            btn_AddNewParticipant = new System.Windows.Forms.Button ();
+            btn_EditStudent = new System.Windows.Forms.Button ();
+            btn_AddNewStudent = new System.Windows.Forms.Button ();
             lblExamName = new System.Windows.Forms.Label ();
             btnEditEntry = new System.Windows.Forms.Button ();
             lblTrainingExam = new System.Windows.Forms.Label ();
             chkEnableDoubleClick = new System.Windows.Forms.CheckBox ();
             btnDeleteEntry = new System.Windows.Forms.Button ();
-            btn_DeleteParticipant = new System.Windows.Forms.Button ();
-            btnAddParticipantToExam = new System.Windows.Forms.Button ();
+            btn_DeleteStudent = new System.Windows.Forms.Button ();
+            btnAddStudentToExam = new System.Windows.Forms.Button ();
             chkDoubleClickToDelete = new System.Windows.Forms.CheckBox ();
             label1 = new System.Windows.Forms.Label ();
             progressBar1 = new System.Windows.Forms.ProgressBar ();
@@ -137,23 +137,23 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange (new System.Windows.Forms.ToolStripItem [] { Menu1_AddNewParticipant, Menu1_EditParticipant, Menu1_SelectAll, toolStripMenuItem1, Menu1_ParticipantExams, toolStripMenuItem5, Menu1_Exit });
+            contextMenuStrip1.Items.AddRange (new System.Windows.Forms.ToolStripItem [] { Menu1_AddNewStudent, Menu1_EditStudent, Menu1_SelectAll, toolStripMenuItem1, Menu1_StudentExams, toolStripMenuItem5, Menu1_Exit });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new System.Drawing.Size (178, 126);
             // 
-            // Menu1_AddNewParticipant
+            // Menu1_AddNewStudent
             // 
-            Menu1_AddNewParticipant.Name = "Menu1_AddNewParticipant";
-            Menu1_AddNewParticipant.Size = new System.Drawing.Size (177, 22);
-            Menu1_AddNewParticipant.Text = "New Participant...";
-            Menu1_AddNewParticipant.Click += Menu1_AddNewParticipant_Click;
+            Menu1_AddNewStudent.Name = "Menu1_AddNewStudent";
+            Menu1_AddNewStudent.Size = new System.Drawing.Size (177, 22);
+            Menu1_AddNewStudent.Text = "New Student...";
+            Menu1_AddNewStudent.Click += Menu1_AddNewStudent_Click;
             // 
-            // Menu1_EditParticipant
+            // Menu1_EditStudent
             // 
-            Menu1_EditParticipant.Name = "Menu1_EditParticipant";
-            Menu1_EditParticipant.Size = new System.Drawing.Size (177, 22);
-            Menu1_EditParticipant.Text = "Edit...";
-            Menu1_EditParticipant.Click += Menu1_EditParticipant_Click;
+            Menu1_EditStudent.Name = "Menu1_EditStudent";
+            Menu1_EditStudent.Size = new System.Drawing.Size (177, 22);
+            Menu1_EditStudent.Text = "Edit...";
+            Menu1_EditStudent.Click += Menu1_EditStudent_Click;
             // 
             // Menu1_SelectAll
             // 
@@ -167,12 +167,12 @@
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Size = new System.Drawing.Size (174, 6);
             // 
-            // Menu1_ParticipantExams
+            // Menu1_StudentExams
             // 
-            Menu1_ParticipantExams.Name = "Menu1_ParticipantExams";
-            Menu1_ParticipantExams.Size = new System.Drawing.Size (177, 22);
-            Menu1_ParticipantExams.Text = "Participant Exams...";
-            Menu1_ParticipantExams.Click += Menu1_ParticipantExams_Click;
+            Menu1_StudentExams.Name = "Menu1_StudentExams";
+            Menu1_StudentExams.Size = new System.Drawing.Size (177, 22);
+            Menu1_StudentExams.Text = "Student Exams...";
+            Menu1_StudentExams.Click += Menu1_StudentExams_Click;
             // 
             // toolStripMenuItem5
             // 
@@ -218,16 +218,16 @@
             // 
             // contextMenuStrip2
             // 
-            contextMenuStrip2.Items.AddRange (new System.Windows.Forms.ToolStripItem [] { Menu2_RemoveAllParticipants, toolStripMenuItem2, Menu2_PrintoutPasswords, Menu2_PrintoutParticipantRecord, Menu2_PrintoutExamsheets, Menu2_PrintoutMarks, toolStripMenuItem3, Menu2_Exit });
+            contextMenuStrip2.Items.AddRange (new System.Windows.Forms.ToolStripItem [] { Menu2_RemoveAllStudents, toolStripMenuItem2, Menu2_PrintoutPasswords, Menu2_PrintoutStudentRecord, Menu2_PrintoutExamsheets, Menu2_PrintoutMarks, toolStripMenuItem3, Menu2_Exit });
             contextMenuStrip2.Name = "contextMenuStrip2";
             contextMenuStrip2.Size = new System.Drawing.Size (161, 148);
             // 
-            // Menu2_RemoveAllParticipants
+            // Menu2_RemoveAllStudents
             // 
-            Menu2_RemoveAllParticipants.Name = "Menu2_RemoveAllParticipants";
-            Menu2_RemoveAllParticipants.Size = new System.Drawing.Size (160, 22);
-            Menu2_RemoveAllParticipants.Text = "Remove All";
-            Menu2_RemoveAllParticipants.Click += Menu2_RemoveAllParticipants_Click;
+            Menu2_RemoveAllStudents.Name = "Menu2_RemoveAllStudents";
+            Menu2_RemoveAllStudents.Size = new System.Drawing.Size (160, 22);
+            Menu2_RemoveAllStudents.Text = "Remove All";
+            Menu2_RemoveAllStudents.Click += Menu2_RemoveAllStudents_Click;
             // 
             // toolStripMenuItem2
             // 
@@ -241,12 +241,12 @@
             Menu2_PrintoutPasswords.Text = "Passwords";
             Menu2_PrintoutPasswords.Click += Menu2_PrintoutPasswords_Click;
             // 
-            // Menu2_PrintoutParticipantRecord
+            // Menu2_PrintoutStudentRecord
             // 
-            Menu2_PrintoutParticipantRecord.Name = "Menu2_PrintoutParticipantRecord";
-            Menu2_PrintoutParticipantRecord.Size = new System.Drawing.Size (160, 22);
-            Menu2_PrintoutParticipantRecord.Text = "Exam Record";
-            Menu2_PrintoutParticipantRecord.Click += Menu2_PrintoutParticipantRecord_Click;
+            Menu2_PrintoutStudentRecord.Name = "Menu2_PrintoutStudentRecord";
+            Menu2_PrintoutStudentRecord.Size = new System.Drawing.Size (160, 22);
+            Menu2_PrintoutStudentRecord.Text = "Exam Record";
+            Menu2_PrintoutStudentRecord.Click += Menu2_PrintoutStudentRecord_Click;
             // 
             // Menu2_PrintoutExamsheets
             // 
@@ -286,27 +286,27 @@
             btnAddNewEntry.UseVisualStyleBackColor = true;
             btnAddNewEntry.Click += btnAddNewEntry_Click;
             // 
-            // btn_EditParticipant
+            // btn_EditStudent
             // 
-            btn_EditParticipant.Font = new System.Drawing.Font ("Courier New", 9.75F);
-            btn_EditParticipant.Location = new System.Drawing.Point (6, 159);
-            btn_EditParticipant.Name = "btn_EditParticipant";
-            btn_EditParticipant.Size = new System.Drawing.Size (26, 32);
-            btn_EditParticipant.TabIndex = 28;
-            btn_EditParticipant.Text = "I";
-            btn_EditParticipant.UseVisualStyleBackColor = true;
-            btn_EditParticipant.Click += btn_EditParticipant_Click;
+            btn_EditStudent.Font = new System.Drawing.Font ("Courier New", 9.75F);
+            btn_EditStudent.Location = new System.Drawing.Point (6, 159);
+            btn_EditStudent.Name = "btn_EditStudent";
+            btn_EditStudent.Size = new System.Drawing.Size (26, 32);
+            btn_EditStudent.TabIndex = 28;
+            btn_EditStudent.Text = "I";
+            btn_EditStudent.UseVisualStyleBackColor = true;
+            btn_EditStudent.Click += btn_EditStudent_Click;
             // 
-            // btn_AddNewParticipant
+            // btn_AddNewStudent
             // 
-            btn_AddNewParticipant.Font = new System.Drawing.Font ("Courier New", 9.75F);
-            btn_AddNewParticipant.Location = new System.Drawing.Point (6, 83);
-            btn_AddNewParticipant.Name = "btn_AddNewParticipant";
-            btn_AddNewParticipant.Size = new System.Drawing.Size (26, 32);
-            btn_AddNewParticipant.TabIndex = 27;
-            btn_AddNewParticipant.Text = "+";
-            btn_AddNewParticipant.UseVisualStyleBackColor = true;
-            btn_AddNewParticipant.Click += btn_AddNewParticipant_Click;
+            btn_AddNewStudent.Font = new System.Drawing.Font ("Courier New", 9.75F);
+            btn_AddNewStudent.Location = new System.Drawing.Point (6, 83);
+            btn_AddNewStudent.Name = "btn_AddNewStudent";
+            btn_AddNewStudent.Size = new System.Drawing.Size (26, 32);
+            btn_AddNewStudent.TabIndex = 27;
+            btn_AddNewStudent.Text = "+";
+            btn_AddNewStudent.UseVisualStyleBackColor = true;
+            btn_AddNewStudent.Click += btn_AddNewStudent_Click;
             // 
             // lblExamName
             // 
@@ -369,27 +369,27 @@
             btnDeleteEntry.UseVisualStyleBackColor = true;
             btnDeleteEntry.Click += btnDeleteEntry_Click;
             // 
-            // btn_DeleteParticipant
+            // btn_DeleteStudent
             // 
-            btn_DeleteParticipant.Font = new System.Drawing.Font ("Courier New", 9.75F);
-            btn_DeleteParticipant.Location = new System.Drawing.Point (6, 121);
-            btn_DeleteParticipant.Name = "btn_DeleteParticipant";
-            btn_DeleteParticipant.Size = new System.Drawing.Size (26, 32);
-            btn_DeleteParticipant.TabIndex = 34;
-            btn_DeleteParticipant.Text = "-";
-            btn_DeleteParticipant.UseVisualStyleBackColor = true;
-            btn_DeleteParticipant.Click += btn_DeleteParticipant_Click;
+            btn_DeleteStudent.Font = new System.Drawing.Font ("Courier New", 9.75F);
+            btn_DeleteStudent.Location = new System.Drawing.Point (6, 121);
+            btn_DeleteStudent.Name = "btn_DeleteStudent";
+            btn_DeleteStudent.Size = new System.Drawing.Size (26, 32);
+            btn_DeleteStudent.TabIndex = 34;
+            btn_DeleteStudent.Text = "-";
+            btn_DeleteStudent.UseVisualStyleBackColor = true;
+            btn_DeleteStudent.Click += btn_DeleteStudent_Click;
             // 
-            // btnAddParticipantToExam
+            // btnAddStudentToExam
             // 
-            btnAddParticipantToExam.Font = new System.Drawing.Font ("Courier New", 9.75F, System.Drawing.FontStyle.Bold);
-            btnAddParticipantToExam.Location = new System.Drawing.Point (395, 193);
-            btnAddParticipantToExam.Name = "btnAddParticipantToExam";
-            btnAddParticipantToExam.Size = new System.Drawing.Size (26, 72);
-            btnAddParticipantToExam.TabIndex = 35;
-            btnAddParticipantToExam.Text = ">";
-            btnAddParticipantToExam.UseVisualStyleBackColor = true;
-            btnAddParticipantToExam.Click += btnAddParticipantToExam_Click;
+            btnAddStudentToExam.Font = new System.Drawing.Font ("Courier New", 9.75F, System.Drawing.FontStyle.Bold);
+            btnAddStudentToExam.Location = new System.Drawing.Point (395, 193);
+            btnAddStudentToExam.Name = "btnAddStudentToExam";
+            btnAddStudentToExam.Size = new System.Drawing.Size (26, 72);
+            btnAddStudentToExam.TabIndex = 35;
+            btnAddStudentToExam.Text = ">";
+            btnAddStudentToExam.UseVisualStyleBackColor = true;
+            btnAddStudentToExam.Click += btnAddStudentToExam_Click;
             // 
             // chkDoubleClickToDelete
             // 
@@ -423,7 +423,7 @@
             progressBar1.TabIndex = 38;
             progressBar1.Visible = false;
             // 
-            // frmSelectParticipants
+            // frmSelectStudents
             // 
             AutoScaleDimensions = new System.Drawing.SizeF (6F, 13F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -432,13 +432,13 @@
             ControlBox = false;
             Controls.Add (progressBar1);
             Controls.Add (chkDoubleClickToDelete);
-            Controls.Add (btnAddParticipantToExam);
-            Controls.Add (btn_DeleteParticipant);
+            Controls.Add (btnAddStudentToExam);
+            Controls.Add (btn_DeleteStudent);
             Controls.Add (btnDeleteEntry);
             Controls.Add (btnEditEntry);
             Controls.Add (lblExamName);
-            Controls.Add (btn_EditParticipant);
-            Controls.Add (btn_AddNewParticipant);
+            Controls.Add (btn_EditStudent);
+            Controls.Add (btn_AddNewStudent);
             Controls.Add (btnAddNewEntry);
             Controls.Add (Grid2);
             Controls.Add (Grid1);
@@ -451,12 +451,12 @@
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
-            Name = "frmSelectParticipants";
+            Name = "frmSelectStudents";
             ShowIcon = false;
             ShowInTaskbar = false;
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            Text = "Select Participants";
-            Load += frmSelectParticipants_Load;
+            Text = "Select Students";
+            Load += frmSelectStudents_Load;
             panel1.ResumeLayout (false);
             ((System.ComponentModel.ISupportInitialize) Grid1).EndInit ();
             contextMenuStrip1.ResumeLayout (false);
@@ -475,16 +475,16 @@
         private System.Windows.Forms.DataGridView Grid2;
         private System.Windows.Forms.Label lblAddEntry;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem Menu1_AddNewParticipant;
-        private System.Windows.Forms.ToolStripMenuItem Menu1_EditParticipant;
+        private System.Windows.Forms.ToolStripMenuItem Menu1_AddNewStudent;
+        private System.Windows.Forms.ToolStripMenuItem Menu1_EditStudent;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem Menu1_SelectAll;
         private System.Windows.Forms.ToolStripMenuItem Menu1_Exit;
         private System.Windows.Forms.Button btnAddNewEntry;
-        private System.Windows.Forms.Button btn_EditParticipant;
-        private System.Windows.Forms.Button btn_AddNewParticipant;
+        private System.Windows.Forms.Button btn_EditStudent;
+        private System.Windows.Forms.Button btn_AddNewStudent;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
-        private System.Windows.Forms.ToolStripMenuItem Menu2_RemoveAllParticipants;
+        private System.Windows.Forms.ToolStripMenuItem Menu2_RemoveAllStudents;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem Menu2_Exit;
         private System.Windows.Forms.Label lblExamName;
@@ -493,13 +493,13 @@
         private System.Windows.Forms.ToolStripMenuItem Menu2_PrintoutExamsheets;
         private System.Windows.Forms.ToolStripMenuItem Menu2_PrintoutMarks;
         private System.Windows.Forms.Button btnEditEntry;
-        private System.Windows.Forms.ToolStripMenuItem Menu2_PrintoutParticipantRecord;
+        private System.Windows.Forms.ToolStripMenuItem Menu2_PrintoutStudentRecord;
         private System.Windows.Forms.Label lblTrainingExam;
-        private System.Windows.Forms.ToolStripMenuItem Menu1_ParticipantExams;
+        private System.Windows.Forms.ToolStripMenuItem Menu1_StudentExams;
         private System.Windows.Forms.CheckBox chkEnableDoubleClick;
         private System.Windows.Forms.Button btnDeleteEntry;
-        private System.Windows.Forms.Button btn_DeleteParticipant;
-        private System.Windows.Forms.Button btnAddParticipantToExam;
+        private System.Windows.Forms.Button btn_DeleteStudent;
+        private System.Windows.Forms.Button btnAddStudentToExam;
         private System.Windows.Forms.CheckBox chkDoubleClickToDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.Label label1;

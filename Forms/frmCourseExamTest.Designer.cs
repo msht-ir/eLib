@@ -41,7 +41,7 @@
             Menu1_Delete = new System.Windows.Forms.ToolStripMenuItem ();
             toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator ();
             Menu1_MakeExamSheet = new System.Windows.Forms.ToolStripMenuItem ();
-            Menu1_Participants = new System.Windows.Forms.ToolStripMenuItem ();
+            Menu1_Students = new System.Windows.Forms.ToolStripMenuItem ();
             toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator ();
             Menu1_Exit = new System.Windows.Forms.ToolStripMenuItem ();
             lstTests = new System.Windows.Forms.ListBox ();
@@ -82,7 +82,7 @@
             // 
             // contextMenu1
             // 
-            contextMenu1.Items.AddRange (new System.Windows.Forms.ToolStripItem [] { Menu1_NewCourse, Menu1_NewExam, toolStripMenuItem3, Menu1_Edit, Menu1_Delete, toolStripMenuItem1, Menu1_MakeExamSheet, Menu1_Participants, toolStripMenuItem5, Menu1_Exit });
+            contextMenu1.Items.AddRange (new System.Windows.Forms.ToolStripItem [] { Menu1_NewCourse, Menu1_NewExam, toolStripMenuItem3, Menu1_Edit, Menu1_Delete, toolStripMenuItem1, Menu1_MakeExamSheet, Menu1_Students, toolStripMenuItem5, Menu1_Exit });
             contextMenu1.Name = "contextMenu1";
             contextMenu1.Size = new System.Drawing.Size (169, 176);
             // 
@@ -131,15 +131,15 @@
             Menu1_MakeExamSheet.Font = new System.Drawing.Font ("Segoe UI", 9F);
             Menu1_MakeExamSheet.Name = "Menu1_MakeExamSheet";
             Menu1_MakeExamSheet.Size = new System.Drawing.Size (168, 22);
-            Menu1_MakeExamSheet.Text = "Exam Participants";
+            Menu1_MakeExamSheet.Text = "Exam Students";
             Menu1_MakeExamSheet.Click += Menu1_MakeExamSheet_Click;
             // 
-            // Menu1_Participants
+            // Menu1_Students
             // 
-            Menu1_Participants.Name = "Menu1_Participants";
-            Menu1_Participants.Size = new System.Drawing.Size (168, 22);
-            Menu1_Participants.Text = "Participant Exams";
-            Menu1_Participants.Click += Menu1_Participants_Click;
+            Menu1_Students.Name = "Menu1_Students";
+            Menu1_Students.Size = new System.Drawing.Size (168, 22);
+            Menu1_Students.Text = "Student Exams";
+            Menu1_Students.Click += Menu1_Students_Click;
             // 
             // toolStripMenuItem5
             // 
@@ -321,7 +321,7 @@
             lblExamSheets.Name = "lblExamSheets";
             lblExamSheets.Size = new System.Drawing.Size (158, 18);
             lblExamSheets.TabIndex = 11;
-            lblExamSheets.Text = "Participants";
+            lblExamSheets.Text = "Students";
             lblExamSheets.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             lblExamSheets.Visible = false;
             lblExamSheets.Click += lblExamSheets_Click;
@@ -575,7 +575,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu2_AuoSelectTests;
         private System.Windows.Forms.Label lblTrainingExam;
         private System.Windows.Forms.Label lblExamSheets;
-        private System.Windows.Forms.ToolStripMenuItem Menu1_Participants;
+        private System.Windows.Forms.ToolStripMenuItem Menu1_Students;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
         private System.Windows.Forms.ToolStripMenuItem Menu2_DeleteAllTests;
         private System.Windows.Forms.CheckBox chkShowOptions;

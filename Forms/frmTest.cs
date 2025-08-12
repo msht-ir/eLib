@@ -23,8 +23,8 @@ namespace eLib.Forms
                 {
                 MessageBox.Show (ex.ToString ());
                 }
-            cboTests.DataSource = Db.DS.Tables ["tblTests"];
-            cboTests.DisplayMember = "TestText";
+            cboTests.DataSource = Db.DS.Tables["tblTests"];
+            cboTests.DisplayMember = "TestTitle";
             cboTests.ValueMember = "ID";
             cboTests.SelectedValue = Test.Id;
             ShowTest ();
@@ -67,20 +67,20 @@ namespace eLib.Forms
             }
         private void gridOptions_CellDoubleClick (object sender, DataGridViewCellEventArgs e)
             {
-            if ((gridOptions.Rows.Count == 0) || (gridOptions.SelectedCells [0].RowIndex == -1))
+            if ((gridOptions.Rows.Count == 0) || (gridOptions.SelectedCells[0].RowIndex == -1))
                 {
                 return;
                 }
             else
                 {
                 //ID, Test_ID, OptionText, IsAnswer, ForceLast
-                int optID = Convert.ToInt32 (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [0].Value);
-                int optTestID = Convert.ToInt32 (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [1].Value);
-                string currentOptText = gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [2].Value.ToString () ?? "-";
+                int optID = Convert.ToInt32 (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[0].Value);
+                int optTestID = Convert.ToInt32 (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[1].Value);
+                string currentOptText = gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[2].Value.ToString () ?? "-";
                 string newOptText = currentOptText; //just an initial/temporary value
-                bool optIsAns = Convert.ToBoolean (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [3].Value);
-                bool optForce = Convert.ToBoolean (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [4].Value);
-                switch (gridOptions.SelectedCells [0].ColumnIndex)
+                bool optIsAns = Convert.ToBoolean (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[3].Value);
+                bool optForce = Convert.ToBoolean (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[4].Value);
+                switch (gridOptions.SelectedCells[0].ColumnIndex)
                     {
                     case 2:
                             {
@@ -226,13 +226,13 @@ namespace eLib.Forms
             else
                 {
                 //[tblTestOptions]: ID, Test_ID, OptionText, IsAnswer, ForceLast
-                if (gridOptions.SelectedCells [0].ColumnIndex == 2)
+                if (gridOptions.SelectedCells[0].ColumnIndex == 2)
                     {
-                    int optID = Convert.ToInt32 (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [0].Value);
-                    int optTestID = Convert.ToInt32 (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [1].Value);
-                    string optText = gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [2].Value.ToString ();
-                    bool optIsAns = Convert.ToBoolean (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [3].Value);
-                    bool optForce = Convert.ToBoolean (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [4].Value);
+                    int optID = Convert.ToInt32 (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[0].Value);
+                    int optTestID = Convert.ToInt32 (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[1].Value);
+                    string optText = gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[2].Value.ToString ();
+                    bool optIsAns = Convert.ToBoolean (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[3].Value);
+                    bool optForce = Convert.ToBoolean (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[4].Value);
                     string strOpt = Interaction.InputBox ("Option:", "eLib", optText);
                     if (strOpt.Trim () != "")
                         {
@@ -249,7 +249,7 @@ namespace eLib.Forms
         private void Menu2_DeleteOption_Click (object sender, EventArgs e)
             {
             //Delete selected option
-            if ((gridOptions.Rows.Count == 0) || (gridOptions.SelectedCells [0].RowIndex == 0))
+            if ((gridOptions.Rows.Count == 0) || (gridOptions.SelectedCells[0].RowIndex == 0))
                 {
                 return;
                 }
@@ -258,8 +258,8 @@ namespace eLib.Forms
                 DialogResult myansw = MessageBox.Show ("Delete?", "eLib", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (myansw == DialogResult.Yes)
                     {
-                    int optID = Convert.ToInt32 (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [0].Value);
-                    int optTestID = Convert.ToInt32 (gridOptions.Rows [gridOptions.SelectedCells [0].RowIndex].Cells [1].Value);
+                    int optID = Convert.ToInt32 (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[0].Value);
+                    int optTestID = Convert.ToInt32 (gridOptions.Rows[gridOptions.SelectedCells[0].RowIndex].Cells[1].Value);
                     bool result = Testbank.DeleteTestOptionById (optID);
                     if (result)
                         {
@@ -272,10 +272,10 @@ namespace eLib.Forms
         private void ShowTest ()
             {
             Testbank.GetTestById (Test.Id);
-            //[tblTest1]: 0ID, 1TestText, 2TestType, 3Course_ID, 4Topic_ID, 5TestRTL, 6OptionsRTL, 7ForceLast, 8TestLevel
-            Test.Text = Db.DS.Tables ["tblTest1"].Rows [0] [1].ToString ();
-            Test.TestRTL = Convert.ToBoolean (Db.DS.Tables ["tblTest1"].Rows [0] [5]);
-            if (Test.TestRTL)
+            //[tblTest1]: 0ID, 1TestTitle, 2TestType, 3Course_ID, 4TopicId, 5TestRTL, 6OptionsRTL, 7ForceLast, 8TestLevel
+            Test.Text = Db.DS.Tables["tblTest1"].Rows[0][1].ToString ();
+            Test.TestTags = Convert.ToBoolean (Db.DS.Tables["tblTest1"].Rows[0][5]);
+            if (Test.TestTags)
                 {
                 txtTest.RightToLeft = RightToLeft.Yes;
                 chkTestRTL.Checked = true;
@@ -285,8 +285,8 @@ namespace eLib.Forms
                 txtTest.RightToLeft = RightToLeft.No;
                 chkTestRTL.Checked = false;
                 }
-            Test.OptionsRTL = Convert.ToBoolean (Db.DS.Tables ["tblTest1"].Rows [0] [6]);
-            if (Test.OptionsRTL)
+            Test.TestTags = Convert.ToBoolean (Db.DS.Tables["tblTest1"].Rows[0][6]);
+            if (Test.TestTags)
                 {
                 gridOptions.RightToLeft = RightToLeft.Yes;
                 chkOptionsRTL.Checked = true;
@@ -296,8 +296,8 @@ namespace eLib.Forms
                 gridOptions.RightToLeft = RightToLeft.No;
                 chkOptionsRTL.Checked = false;
                 }
-            Test.Type = Convert.ToInt32 (Db.DS.Tables ["tblTest1"].Rows [0] [2]);
-            Test.TopicId = Convert.ToInt32 (Db.DS.Tables ["tblTest1"].Rows [0] [4]);
+            Test.Type = Convert.ToInt32 (Db.DS.Tables["tblTest1"].Rows[0][2]);
+            Test.TopicId = Convert.ToInt32 (Db.DS.Tables["tblTest1"].Rows[0][4]);
             txtTest.Text = Test.Text;
             switch (Test.Type)
                 {
@@ -328,7 +328,7 @@ namespace eLib.Forms
                         }
                 }
             //show level
-            Test.Level = Convert.ToInt32 (Db.DS.Tables ["tblTest1"].Rows [0] [7]);
+            Test.Level = Convert.ToInt32 (Db.DS.Tables["tblTest1"].Rows[0][7]);
             for (int i = 4; i >= 0; i--)
                 {
                 if (((long) Test.Level & (long) Math.Pow (2, i)) != 0)
@@ -346,7 +346,7 @@ namespace eLib.Forms
             //show topic
             Testbank.GetCourseTopics (Course.Id);
             //[tblCourseTopics]: ID, Course_ID, Topic
-            lstTopics.DataSource = Db.DS.Tables ["tblCourseTopics"];
+            lstTopics.DataSource = Db.DS.Tables["tblCourseTopics"];
             lstTopics.DisplayMember = "Topic";
             lstTopics.ValueMember = "ID";
             lstTopics.SelectedValue = Test.TopicId;
@@ -362,17 +362,17 @@ namespace eLib.Forms
         private void RefreshTestOptionsList (int testid)
             {
             Testbank.GetTestOptions (testid);
-            gridOptions.DataSource = Db.DS.Tables ["tblTestOptions"];
+            gridOptions.DataSource = Db.DS.Tables["tblTestOptions"];
             for (int i = 0, loopTo = gridOptions.Columns.Count - 1; i <= loopTo; i++) //disable sort for column_haeders
                 {
-                gridOptions.Columns [i].SortMode = DataGridViewColumnSortMode.Programmatic;
+                gridOptions.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
                 }
             //ID, Test_ID, OptionText, IsAnswer, ForceLast
-            gridOptions.Columns [0].Visible = false;   //ID
-            gridOptions.Columns [1].Visible = false;   //Test_ID
-            gridOptions.Columns [2].Width = 750;       //OptionText
-            gridOptions.Columns [3].Width = 70;        //IsAnswer
-            gridOptions.Columns [4].Width = 90;        //ForceLast
+            gridOptions.Columns[0].Visible = false;   //ID
+            gridOptions.Columns[1].Visible = false;   //Test_ID
+            gridOptions.Columns[2].Width = 750;       //OptionText
+            gridOptions.Columns[3].Width = 70;        //IsAnswer
+            gridOptions.Columns[4].Width = 90;        //ForceLast
             }
         private void DoSave ()
             {
@@ -451,8 +451,8 @@ namespace eLib.Forms
                     }
                 }
             //rtl
-            Test.TestRTL = chkTestRTL.Checked;
-            Test.OptionsRTL = chkOptionsRTL.Checked;
+            Test.TestTags = chkTestRTL.Checked;
+            Test.TestTags = chkOptionsRTL.Checked;
             //level
             Test.Level = 0; //initialize to 0
             if (lvl1.Value > lvl2.Value)
@@ -474,7 +474,7 @@ namespace eLib.Forms
                     int tmp_nAns = 0;
                     for (int i = 0; i < gridOptions.Rows.Count; i++)
                         {
-                        if (Convert.ToBoolean (gridOptions.Rows [i].Cells [3].Value) == true)
+                        if (Convert.ToBoolean (gridOptions.Rows[i].Cells[3].Value) == true)
                             {
                             tmp_nAns++;
                             }
@@ -496,7 +496,7 @@ namespace eLib.Forms
             //save
             Testbank.UpdateTest (Test.Id, "course");
             Testbank.regTestBank |= 0b010000;
-            Db.DS.Tables ["tbltests"].Rows [cboTests.SelectedIndex] [1] = Test.Text;
+            Db.DS.Tables["tbltests"].Rows[cboTests.SelectedIndex][1] = Test.Text;
             //Dispose ();
             MessageBox.Show ("Saved", "eLib.ExamTests");
             }
