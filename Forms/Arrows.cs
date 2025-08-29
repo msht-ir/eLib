@@ -32,7 +32,7 @@ namespace eLib
         public void ReadProjectData ()
             {
             //tblArrows: Species Cluster Gene Spacer Size Dir Description Dye Sel
-            Db.DS.Tables ["tblArrows"].Clear ();
+            Db.DS.Tables["tblArrows"].Clear ();
             Db.strSQL = "SELECT Species.SciName AS Species, Clusters.ClusterName AS Cluster, Transcripts.TranscriptName AS Gene, Transcripts.SpacerLength AS Spacer, Transcripts.GeneSize AS Size, Transcripts.Direction AS Dir, Transcripts.Description FROM Species INNER JOIN Clusters ON (Clusters.Species_ID = Species.ID) INNER JOIN Transcripts ON (Transcripts.Cluster_ID = Clusters.ID) WHERE Transcripts.Sel = 1 AND Species.Project_ID = " + Project.Id.ToString ();
             //, Transcripts.Sel
             using (var CnnSS = new Microsoft.Data.SqlClient.SqlConnection (Db.CnnString))
@@ -46,7 +46,7 @@ namespace eLib
             FeedGrid ();
             for (int i = 0; i < Grid1.Rows.Count; i++)
                 {
-                Grid1.Rows [i].Cells [7].Value = "1";
+                Grid1.Rows[i].Cells[7].Value = "1";
                 }
             }
         private void Menu_ReadExcelData_Click (object sender, EventArgs e)
@@ -78,7 +78,7 @@ namespace eLib
                 }
             try
                 {
-                Db.DS.Tables ["tblArrows"].Clear ();
+                Db.DS.Tables["tblArrows"].Clear ();
                 using (IXLWorkbook WB = new XLWorkbook (Filename))
                     {
                     var WS0 = WB.Worksheets.ElementAtOrDefault (0);
@@ -97,7 +97,7 @@ namespace eLib
                             Description = WS0.Cell (iRow, 7).Value.ToString ();
                             Dye = WS0.Cell (iRow, 8).Value.ToString ();
                             Sel = "+";
-                            Db.DS.Tables ["tblArrows"].Rows.Add (Species, Cluster, Gene, Spacer, Size, Dir, Description, Dye, Sel);
+                            Db.DS.Tables["tblArrows"].Rows.Add (Species, Cluster, Gene, Spacer, Size, Dir, Description, Dye, Sel);
                             }
                         }
                     }
@@ -112,40 +112,40 @@ namespace eLib
         public void FeedGrid ()
             {
             Grid1.DataSource = null;
-            Grid1.DataSource = Db.DS.Tables ["tblArrows"];
+            Grid1.DataSource = Db.DS.Tables["tblArrows"];
             //grid format w=1034
-            Grid1.Columns [0].Width = 150; //0Species
-            Grid1.Columns [1].Width = 150; //1Cluster
-            Grid1.Columns [2].Width = 80;  //2Gene
-            Grid1.Columns [3].Width = 60;  //3Spacer
-            Grid1.Columns [4].Width = 60;  //4Size
-            Grid1.Columns [5].Width = 40;  //5Dir
-            Grid1.Columns [6].Width = 400; //6Description
-            Grid1.Columns [7].Width = 30;  //7Dye
-            Grid1.Columns [8].Width = 30;  //8Sel
+            Grid1.Columns[0].Width = 150; //0Species
+            Grid1.Columns[1].Width = 150; //1Cluster
+            Grid1.Columns[2].Width = 80;  //2Gene
+            Grid1.Columns[3].Width = 60;  //3Spacer
+            Grid1.Columns[4].Width = 60;  //4Size
+            Grid1.Columns[5].Width = 40;  //5Dir
+            Grid1.Columns[6].Width = 400; //6Description
+            Grid1.Columns[7].Width = 30;  //7Dye
+            Grid1.Columns[8].Width = 30;  //8Sel
             for (int i = 0; i < Grid1.Columns.Count; i++)
                 {
-                Grid1.Columns [i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                Grid1.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
             }
         private void Menu_SelectAll_Click (object sender, EventArgs e)
             {
             for (int i = 0; i < Grid1.Rows.Count; i++)
                 {
-                Grid1.Rows [i].Cells [8].Value = "+";
+                Grid1.Rows[i].Cells[8].Value = "+";
                 }
             }
         private void Menu_InvertSelection_Click (object sender, EventArgs e)
             {
             for (int i = 0; i < Grid1.Rows.Count; i++)
                 {
-                if (Grid1.Rows [i].Cells [8].Value.ToString () == "+")
+                if (Grid1.Rows[i].Cells[8].Value.ToString () == "+")
                     {
-                    Grid1.Rows [i].Cells [8].Value = "";
+                    Grid1.Rows[i].Cells[8].Value = "";
                     }
                 else
                     {
-                    Grid1.Rows [i].Cells [8].Value = "+";
+                    Grid1.Rows[i].Cells[8].Value = "+";
                     }
                 }
             }
@@ -155,7 +155,7 @@ namespace eLib
             for (int i = 0; i < Grid1.Rows.Count; i++)
                 {
                 int clrx = color.Next (20) + 1;
-                Grid1.Rows [i].Cells [7].Value = clrx.ToString ();
+                Grid1.Rows[i].Cells[7].Value = clrx.ToString ();
                 }
             }
         private void Grid1_CellDoubleClick (object sender, DataGridViewCellEventArgs e)
@@ -166,13 +166,13 @@ namespace eLib
             int r = e.RowIndex;
             if (c == 8)
                 {
-                if (Grid1.Rows [r].Cells [c].Value.ToString () == "+")
+                if (Grid1.Rows[r].Cells[c].Value.ToString () == "+")
                     {
-                    Grid1.Rows [r].Cells [c].Value = "";
+                    Grid1.Rows[r].Cells[c].Value = "";
                     }
                 else
                     {
-                    Grid1.Rows [r].Cells [c].Value = "+";
+                    Grid1.Rows[r].Cells[c].Value = "+";
                     }
                 }
             }
@@ -190,9 +190,9 @@ namespace eLib
             //check colors column
             for (int i = 0; i < Grid1.Rows.Count; i++)
                 {
-                if (Grid1.Rows [i].Cells [7].Value.ToString () == "")
+                if (Grid1.Rows[i].Cells[7].Value.ToString () == "")
                     {
-                    Grid1.Rows [i].Cells [8].Value = "1";//###8?
+                    Grid1.Rows[i].Cells[8].Value = "1";//###8?
                     }
                 }
             //0Species 1Cluster 2Gene 3Spacer 4Size 5Dir 6Description 7Dye 8Sel
@@ -216,7 +216,7 @@ namespace eLib
             Microsoft.Office.Interop.PowerPoint.TextRange objText;
             //create the presentation file
             Presentation pptPres = pptApp.Presentations.Add (Microsoft.Office.Core.MsoTriState.msoTrue);
-            Microsoft.Office.Interop.PowerPoint.CustomLayout customLayout = pptPres.SlideMaster.CustomLayouts [Microsoft.Office.Interop.PowerPoint.PpSlideLayout.ppLayoutText];
+            Microsoft.Office.Interop.PowerPoint.CustomLayout customLayout = pptPres.SlideMaster.CustomLayouts[Microsoft.Office.Interop.PowerPoint.PpSlideLayout.ppLayoutText];
             //slides Size
             pptPres.PageSetup.SlideWidth = slideWidth;
             pptPres.PageSetup.SlideHeight = slideHeight;
@@ -226,10 +226,10 @@ namespace eLib
             //start drawing
             for (int i = 0; i < Grid1.Rows.Count; i++)
                 {
-                if (Grid1.Rows [i].Cells [8].Value.ToString ().Trim () == "+") //check if row is selected by '+' tag
+                if (Grid1.Rows[i].Cells[8].Value.ToString ().Trim () == "+") //check if row is selected by '+' tag
                     {
                     //new slide|first slide
-                    if ((Grid1.Rows [i].Cells [0].Value.ToString () + Grid1.Rows [i].Cells [1].Value.ToString ()) != currentClusterName)
+                    if ((Grid1.Rows[i].Cells[0].Value.ToString () + Grid1.Rows[i].Cells[1].Value.ToString ()) != currentClusterName)
                         {
                         //new cluster | first cluster
                         if (currentClusterName != "")
@@ -242,11 +242,11 @@ namespace eLib
                             legendText4Cluster.TextEffect.FontSize = 28;
                             }
                         //add a new slide (for the new|first cluster)
-                        currentClusterName = (Grid1.Rows [i].Cells [0].Value.ToString () + Grid1.Rows [i].Cells [1].Value.ToString ());
+                        currentClusterName = (Grid1.Rows[i].Cells[0].Value.ToString () + Grid1.Rows[i].Cells[1].Value.ToString ());
                         slideNumber += 1;
                         slide = slides.AddSlide (slideNumber, customLayout);
-                        slide.Shapes [2].Delete (); //remove auto place holders on the new slide
-                        slide.Shapes [1].Delete (); //remove auto place holders on the new slide
+                        slide.Shapes[2].Delete (); //remove auto place holders on the new slide
+                        slide.Shapes[1].Delete (); //remove auto place holders on the new slide
                         intPointer = 5; //add padding at left
                         shapeTotalLength = 0;
                         geneIdThisCluster = 0;
@@ -267,15 +267,15 @@ namespace eLib
                         shp_ScalebarSpacer.TextEffect.FontSize = 20;
                         //add slide title
                         var shp_title = slide.Shapes.AddTextbox (MsoTextOrientation.msoTextOrientationHorizontal, Left: 30, Top: 5, Width: 2000, Height: 120);
-                        shp_title.TextFrame.TextRange.Text = "Cluster:    " + Grid1.Rows [i].Cells [0].Value.ToString () + "  /  " + Grid1.Rows [i].Cells [1].Value.ToString ();
+                        shp_title.TextFrame.TextRange.Text = "Cluster:    " + Grid1.Rows[i].Cells[0].Value.ToString () + "  /  " + Grid1.Rows[i].Cells[1].Value.ToString ();
                         shp_title.TextEffect.FontName = "Arial";
                         shp_title.TextEffect.FontSize = 32;
                         }
                     //add one arrow on current slide
-                    spacerLength = Convert.ToInt32 (Grid1.Rows [i].Cells [3].Value);
-                    arrowLength = Convert.ToInt32 (Grid1.Rows [i].Cells [4].Value);
-                    GetColor (Convert.ToInt32 (Grid1.Rows [i].Cells [7].Value));
-                    switch (Grid1.Rows [i].Cells [5].Value.ToString ())
+                    spacerLength = Convert.ToInt32 (Grid1.Rows[i].Cells[3].Value);
+                    arrowLength = Convert.ToInt32 (Grid1.Rows[i].Cells[4].Value);
+                    GetColor (Convert.ToInt32 (Grid1.Rows[i].Cells[7].Value));
+                    switch (Grid1.Rows[i].Cells[5].Value.ToString ())
                         {
                         case "P":
                                 {
@@ -287,7 +287,7 @@ namespace eLib
                                 legend.TextFrame.TextRange.Text = "t." + geneIdThisCluster.ToString ();
                                 legend.TextEffect.FontName = "Tahoma";//Tahoma, Palatino, Courier New, 
                                 legend.TextEffect.FontSize = 28;
-                                legendThisCluster += "t." + geneIdThisCluster.ToString () + ": (" + Grid1.Rows [i].Cells [2].Value.ToString ().Trim () + ") " + Grid1.Rows [i].Cells [6].Value.ToString ().Trim () + ";  ";
+                                legendThisCluster += "t." + geneIdThisCluster.ToString () + ": (" + Grid1.Rows[i].Cells[2].Value.ToString ().Trim () + ") " + Grid1.Rows[i].Cells[6].Value.ToString ().Trim () + ";  ";
                                 break;
                                 }
                         case "N":
@@ -300,7 +300,7 @@ namespace eLib
                                 legend.TextFrame.TextRange.Text = "t." + geneIdThisCluster.ToString ();
                                 legend.TextEffect.FontName = "Tahoma";
                                 legend.TextEffect.FontSize = 28;
-                                legendThisCluster += "t." + geneIdThisCluster.ToString () + ": (" + Grid1.Rows [i].Cells [2].Value.ToString ().Trim () + ") " + Grid1.Rows [i].Cells [6].Value.ToString ().Trim () + ";  ";
+                                legendThisCluster += "t." + geneIdThisCluster.ToString () + ": (" + Grid1.Rows[i].Cells[2].Value.ToString ().Trim () + ") " + Grid1.Rows[i].Cells[6].Value.ToString ().Trim () + ";  ";
                                 break;
                                 }
                         }
@@ -338,9 +338,9 @@ namespace eLib
         private void GetColor (int ColorID)
             {
             ColorID--;
-            Palette.Rcolor = (int) Db.DS.Tables ["tblPalette"].Rows [ColorID] [1];
-            Palette.Gcolor = (int) Db.DS.Tables ["tblPalette"].Rows [ColorID] [2];
-            Palette.Bcolor = (int) Db.DS.Tables ["tblPalette"].Rows [ColorID] [3];
+            Palette.Rcolor = (int) Db.DS.Tables["tblPalette"].Rows[ColorID][1];
+            Palette.Gcolor = (int) Db.DS.Tables["tblPalette"].Rows[ColorID][2];
+            Palette.Bcolor = (int) Db.DS.Tables["tblPalette"].Rows[ColorID][3];
             }
         private void trackBar1_Scroll (object sender, EventArgs e)
             {
